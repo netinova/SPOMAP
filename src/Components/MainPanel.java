@@ -1,15 +1,19 @@
+package Components;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
 import javax.swing.JPanel;
+
+import View.NavigationView;
+import View.ShopView;
 
 public class MainPanel extends JPanel {
 
     public MainPanel() {
         this.setLayout(new GridBagLayout());
 
-        NavigationPanel navigationPanel = new NavigationPanel();
-        ShopPanel shopPanel = new ShopPanel();
+        NavigationView navigationPanel = new NavigationView();
+        ShopView shopPanel = new ShopView();
 
         GridBagConstraints gbc = new GridBagConstraints();
 

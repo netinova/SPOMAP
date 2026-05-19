@@ -3,6 +3,9 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import javax.swing.JFrame;
 
+import Components.MainPanel;
+import View.SidebarView;
+
 public class MainFrame extends JFrame {
 
     public MainFrame() {
@@ -12,7 +15,7 @@ public class MainFrame extends JFrame {
         this.setLayout(new GridBagLayout());
         this.setMinimumSize(new Dimension(500, 300));
 
-        SidebarPanel sidebarPanel = new SidebarPanel();
+        SidebarView sidebarView = new SidebarView();
         MainPanel mainPanel = new MainPanel();
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -23,7 +26,7 @@ public class MainFrame extends JFrame {
         gbc.weightx = 0;
         gbc.weighty = 1;
 
-        this.add(sidebarPanel, gbc);
+        this.add(sidebarView, gbc);
 
         gbc.gridx = 1;
         gbc.gridy = 0;

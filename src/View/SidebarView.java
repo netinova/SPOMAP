@@ -1,10 +1,11 @@
+package View;
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JPanel;
 
-public class SidebarPanel extends JPanel {
+public class SidebarView extends JPanel {
 
-    public SidebarPanel() {
+    public SidebarView() {
         this.setBackground(Color.RED);
         this.setPreferredSize(new Dimension(100, 0));
     }
