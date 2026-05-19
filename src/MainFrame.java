@@ -4,6 +4,7 @@ import java.awt.GridBagLayout;
 import javax.swing.JFrame;
 
 import Components.MainPanel;
+import Components.SideNavbarPanel;
 import View.SidebarView;
 
 public class MainFrame extends JFrame {
@@ -35,6 +36,5 @@ public class MainFrame extends JFrame {
 
         this.add(mainPanel, gbc);
 
-        this.setVisible(true);
     }
 }

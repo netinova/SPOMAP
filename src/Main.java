@@ -1,5 +1,8 @@
 public class Main {
     public static void main(String[] args) {
-        new MainFrame();
+
+        MainFrame mainFrame = new MainFrame();
+
+        mainFrame.setVisible(true);
     }
 }
