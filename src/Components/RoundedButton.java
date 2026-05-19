@@ -1,6 +1,5 @@
 package Components;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -8,25 +7,21 @@ import java.awt.RenderingHints;
 import javax.swing.JButton;
 import javax.swing.border.EmptyBorder;
 
-public class FlatButton extends JButton {
+import Util.ColorPalette;
 
-    private int cornerRadius = 20; // Adjust for more/less rounding
+public class RoundedButton extends JButton {
 
-    public FlatButton(String text) {
+    private int cornerRadius;
 
-        // super(text);
-        // this.setText(text);
-        // this.setBackground(Color.PINK);
-        // this.setBorder(BorderFactory.createLineBorder(Color.BLUE));
-        // this.setPreferredSize(new Dimension(100, 30));
-        // this.setFocusable(false);
-
-        super(text);
+    public RoundedButton(String text, int cornerRadius) {
+        super(text == null ? "" : text);
+        this.cornerRadius = cornerRadius;
         this.setContentAreaFilled(false); // Make background transparent
         this.setFocusPainted(false);
         this.setBorder(new EmptyBorder(10, 20, 10, 20));
         this.setPreferredSize(new Dimension(100, 40));
-        this.setBackground(Color.RED);
+        this.setForeground(ColorPalette.TEXT_PRIMARY);
+        this.setBackground(ColorPalette.BG_TERTIARY);
     }
 
     @Override
@@ -36,9 +31,9 @@ public class FlatButton extends JButton {
 
         // Draw rounded background
         if (getModel().isPressed()) {
-            g2.setColor(Color.PINK.darker());
+            g2.setColor(ColorPalette.BUTTON_PRESSED);
         } else if (getModel().isRollover()) {
-            g2.setColor(Color.PINK.brighter());
+            g2.setColor(ColorPalette.BUTTON_HOVER);
         } else {
             g2.setColor(getBackground());
         }
@@ -46,7 +41,7 @@ public class FlatButton extends JButton {
         g2.fillRoundRect(0, 0, getWidth(), getHeight(), cornerRadius, cornerRadius);
 
         // Draw border
-        g2.setColor(Color.BLUE);
+        g2.setColor(ColorPalette.ACCENT_PRIMARY);
         g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, cornerRadius, cornerRadius);
 
         g2.dispose();
