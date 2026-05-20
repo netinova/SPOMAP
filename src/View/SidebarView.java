@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import Components.LogoPanel;
 import Components.LogoutPanel;
 import Components.SideNavbarPanel;
+import Controller.SidebarController;
 
 public class SidebarView extends JPanel {
 
@@ -16,8 +17,15 @@ public class SidebarView extends JPanel {
     private SideNavbarPanel sideNavbarPanel = new SideNavbarPanel();
     private LogoutPanel logoutPanel = new LogoutPanel();
 
+    private SidebarController controller;
+
     public SidebarView() {
         setupUI();
+        attachEvents();
+    }
+
+    private void attachEvents() {
+
     }
 
     private void setupUI() {
