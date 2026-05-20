@@ -17,6 +17,7 @@ public final class ColorPalette {
     // Foreground
     public static final Color TEXT_PRIMARY = new Color(0xE0E0E0); // #E0E0E0
     public static final Color TEXT_MUTED = new Color(0xA0A0A0); // #A0A0A0
+    public static final Color TEXT_PLACEHOLDER = new Color(0x616161); // #A0A0A0
 
     // Accents
     public static final Color ACCENT_PRIMARY = new Color(0x4F9EFF); // #4F9EFF
