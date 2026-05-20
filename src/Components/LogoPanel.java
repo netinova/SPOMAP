@@ -11,17 +11,20 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import Util.ColorPalette;
+
 public class LogoPanel extends JPanel {
 
     private JLabel logoLabel;
 
     public LogoPanel() {
-        this.setBackground(Color.ORANGE);
+        this.setBackground(ColorPalette.BG_SECONDARY);
         this.setPreferredSize(new Dimension(0, 50));
         this.setLayout(new BorderLayout());
 
         logoLabel = new JLabel("SPOMAP", SwingConstants.CENTER);
         logoLabel.setFont(new Font("Arial", Font.BOLD, 18));
+        logoLabel.setForeground(ColorPalette.TEXT_PRIMARY);
 
         // importing and scaling icon
         ImageIcon logoIcon = new ImageIcon("icons/shopping_cart.png");

@@ -5,12 +5,14 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JPanel;
 
+import Util.ColorPalette;
+
 public class SideNavbarPanel extends JPanel {
 
     RoundedButton userPanelButton = new RoundedButton("user", 40);
 
     public SideNavbarPanel() {
-        this.setBackground(Color.red);
+        this.setBackground(ColorPalette.BG_SECONDARY);
         this.add(userPanelButton);
     }
 
