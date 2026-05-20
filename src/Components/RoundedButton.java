@@ -41,7 +41,7 @@ public class RoundedButton extends JButton {
         g2.fillRoundRect(0, 0, getWidth(), getHeight(), cornerRadius, cornerRadius);
 
         // Draw border
-        g2.setColor(ColorPalette.ACCENT_PRIMARY);
+        g2.setColor(ColorPalette.BORDER);
         g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, cornerRadius, cornerRadius);
 
         g2.dispose();

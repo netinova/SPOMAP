@@ -20,7 +20,7 @@ public final class ColorPalette {
 
     // Accents
     public static final Color ACCENT_PRIMARY = new Color(0x4F9EFF); // #4F9EFF
-    public static final Color ACCENT_SUCCESS = new Color(0x6FCF97); // #6FCF97
+    public static final Color ACCENT_SUCCESS = new Color(0x6FCF97); // #6fcf97
     public static final Color ACCENT_WARNING = new Color(0xF2994A); // #F2994A
 
     // Selection

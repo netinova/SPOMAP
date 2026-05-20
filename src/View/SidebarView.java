@@ -4,11 +4,15 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 
 import Components.LogoPanel;
 import Components.LogoutPanel;
 import Components.SideNavbarPanel;
+import Controller.SidebarController;
+import Util.ColorPalette;
 
 public class SidebarView extends JPanel {
 
@@ -16,13 +20,26 @@ public class SidebarView extends JPanel {
     private SideNavbarPanel sideNavbarPanel = new SideNavbarPanel();
     private LogoutPanel logoutPanel = new LogoutPanel();
 
+    private SidebarController controller;
+
     public SidebarView() {
         setupUI();
+        attachEvents();
+    }
+
+    private void attachEvents() {
+
     }
 
     private void setupUI() {
         this.setPreferredSize(new Dimension(150, 0));
         this.setLayout(new GridBagLayout());
+        this.setBackground(ColorPalette.BG_SECONDARY);
+
+        // border
+        Border line = BorderFactory.createLineBorder(ColorPalette.BORDER);
+        Border etched = BorderFactory.createEtchedBorder();
+        this.setBorder(BorderFactory.createCompoundBorder(line, etched));
 
         GridBagConstraints gbc = new GridBagConstraints();
 
