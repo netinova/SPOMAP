@@ -15,6 +15,8 @@ public class MainFrame extends JFrame {
         this.setLayout(new GridBagLayout());
         this.setMinimumSize(new Dimension(500, 300));
 
+        
+
         SidebarView sidebarView = new SidebarView();
         MainPanel mainPanel = new MainPanel();
 

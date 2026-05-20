@@ -6,6 +6,7 @@ import java.awt.GridBagLayout;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 
 import Components.LogoPanel;
 import Components.LogoutPanel;
@@ -33,7 +34,12 @@ public class SidebarView extends JPanel {
     private void setupUI() {
         this.setPreferredSize(new Dimension(150, 0));
         this.setLayout(new GridBagLayout());
-        this.setBorder(BorderFactory.createLineBorder(ColorPalette.BORDER));
+        this.setBackground(ColorPalette.BG_SECONDARY);
+
+        // border
+        Border line = BorderFactory.createLineBorder(ColorPalette.BORDER);
+        Border etched = BorderFactory.createEtchedBorder();
+        this.setBorder(BorderFactory.createCompoundBorder(line, etched));
 
         GridBagConstraints gbc = new GridBagConstraints();
 
