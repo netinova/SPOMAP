@@ -1,10 +1,8 @@
 package Components;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Image;
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -29,6 +27,32 @@ public class LogoPanel extends JPanel {
         logoIcon = new ImageIcon(scaledIcon);
 
         logoLabel.setIcon(logoIcon);
+
+
+        this.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        this.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                System.out.println("2");// Redirect to Home page
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+            }
+        });
 
         this.add(logoLabel);
     }
