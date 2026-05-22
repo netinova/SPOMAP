@@ -7,6 +7,9 @@ import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -18,12 +21,19 @@ import javax.swing.border.Border;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 
 import Components.ProductCard;
+import Model.Product;
+import Model.ProductCatalog;
 import Util.ColorPalette;
 
-public class ShopView extends JPanel {
-    public ShopView() {
+public class ShopView extends JPanel implements PropertyChangeListener {
+
+    private JPanel productGrid;
+
+    public ShopView(ProductCatalog model) {
         setupUI();
         attachEvents();
+
+        model.addListener(this); // subscribing to model
     }
 
     private void attachEvents() {
@@ -40,14 +50,10 @@ public class ShopView extends JPanel {
         this.setBorder(BorderFactory.createCompoundBorder(line, etched));
 
         // productGrid
-        JPanel productGrid = new JPanel();
+        productGrid = new JPanel();
         productGrid.setLayout(new GridLayout(0, 3, 10, 10));
         productGrid.setBackground(ColorPalette.BG_MAIN);
         productGrid.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
-        for (int i = 0; i < 10; i++) {
-            productGrid.add(new ProductCard("", "name", 0.0));
-        }
 
         // wrapping the grid in a scroll pane
         JScrollPane scrollPane = new JScrollPane(productGrid);
@@ -113,5 +119,22 @@ public class ShopView extends JPanel {
         verticalBar.setUnitIncrement(16);
 
         this.add(scrollPane, BorderLayout.CENTER);
+    }
+
+    public void displayProducts(ArrayList<Product> products) {
+        productGrid.removeAll();
+
+        for (Product product : products) {
+            productGrid.add(new ProductCard(product));
+        }
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals(ProductCatalog.PROP_PRODUCTS)) {
+            ArrayList<Product> newProducts = (ArrayList<Product>) evt.getNewValue();
+
+            displayProducts(newProducts);
+        }
     }
 }

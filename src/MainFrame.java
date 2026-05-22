@@ -4,19 +4,28 @@ import java.awt.GridBagLayout;
 import javax.swing.JFrame;
 
 import Components.MainPanel;
+import Model.ProductCatalog;
 import View.SidebarView;
 
 public class MainFrame extends JFrame {
 
-    public MainFrame() {
+    private SidebarView sidebarView;
+    private MainPanel mainPanel;
+
+    public MainFrame(ProductCatalog productCatalog) {
+
+        sidebarView = new SidebarView();
+        mainPanel = new MainPanel(productCatalog);
+
+        setupUI();
+    }
+
+    private void setupUI() {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(new Dimension(500, 300));
         this.setLocationRelativeTo(null);
         this.setLayout(new GridBagLayout());
         this.setMinimumSize(new Dimension(1000, 600));
-
-        SidebarView sidebarView = new SidebarView();
-        MainPanel mainPanel = new MainPanel();
 
         GridBagConstraints gbc = new GridBagConstraints();
 

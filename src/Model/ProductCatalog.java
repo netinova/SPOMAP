@@ -41,4 +41,11 @@ public class ProductCatalog {
         return selectedProduct;
     }
 
+    // searching logic
+    public List<Product> searchByName(String keyword) {
+        return products.stream()
+                .filter(p -> p.getName().toLowerCase().contains(keyword.toLowerCase()))
+                .toList();
+    }
+
 }

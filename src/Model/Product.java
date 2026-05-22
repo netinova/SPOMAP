@@ -1,21 +1,19 @@
 package Model;
 
-import javax.swing.ImageIcon;
-
 public class Product {
-    private String productName;
-    private String productId;
-    private ImageIcon productImage;
-    private String productDescription;
+    private String name;
+    private String id;
+    private String imageLoc;
+    private String description;
     private double price;
     private int stockQuantity;
 
-    public Product(String productName, String productId, ImageIcon productImage, String productDescription,
+    public Product(String name, String id, String imageLoc, String description,
             double price) {
-        this.productName = productName;
-        this.productId = productId;
-        this.productImage = productImage;
-        this.productDescription = productDescription;
+        this.name = name;
+        this.id = id;
+        this.imageLoc = imageLoc;
+        this.description = description;
         this.price = price;
     }
 
@@ -33,20 +31,20 @@ public class Product {
         return stockQuantity;
     }
 
-    public String getProductName() {
-        return productName;
+    public String getName() {
+        return name;
     }
 
-    public String getProductId() {
-        return productId;
+    public String getId() {
+        return id;
     }
 
-    public ImageIcon getProductImage() {
-        return productImage;
+    public String getImageLoc() {
+        return imageLoc;
     }
 
-    public String getProductDescription() {
-        return productDescription;
+    public String getDescription() {
+        return description;
     }
 
     public double getPrice() {

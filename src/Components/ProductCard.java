@@ -16,6 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import Model.Product;
 import Util.ColorPalette;
 
 public class ProductCard extends JPanel {
@@ -25,7 +26,7 @@ public class ProductCard extends JPanel {
     private JPanel imagePanel;
     private JPanel detailsPanel;
 
-    public ProductCard(String productImageLoc, String productName, double productPrice) {
+    public ProductCard(Product product) {
         this.setLayout(new BorderLayout());
         this.setBackground(ColorPalette.BG_SECONDARY);
         this.setBorder(BorderFactory.createCompoundBorder(
@@ -54,10 +55,12 @@ public class ProductCard extends JPanel {
         imagePanel.setBackground(ColorPalette.BG_SECONDARY);
         imagePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
+        String location = product.getImageLoc();
+
         // Load and scale image
-        String imagePath = (productImageLoc == null || productImageLoc.isEmpty())
+        String imagePath = (location == null || location.isEmpty())
                 ? "icons/Product_placeholder.png"
-                : productImageLoc;
+                : location;
 
         productImage = new ImageIcon(imagePath);
         Image scaledImage = productImage.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
@@ -82,7 +85,7 @@ public class ProductCard extends JPanel {
         gbc.insets = new Insets(5, 0, 5, 0);
 
         // Product Name
-        this.productName = new JLabel(productName);
+        this.productName = new JLabel(product.getName());
         this.productName.setFont(new Font("Segoe UI", Font.BOLD, 14));
         this.productName.setForeground(ColorPalette.TEXT_PRIMARY);
         this.productName.setHorizontalAlignment(SwingConstants.CENTER);
@@ -91,7 +94,7 @@ public class ProductCard extends JPanel {
         gbc.gridy = 1;
 
         // Product Price
-        this.productPrice = new JLabel(String.format("$%.2f", productPrice));
+        this.productPrice = new JLabel(String.format("$%.2f", product.getPrice()));
         this.productPrice.setFont(new Font("Segoe UI", Font.BOLD, 16));
         this.productPrice.setForeground(ColorPalette.ACCENT_PRIMARY);
         this.productPrice.setHorizontalAlignment(SwingConstants.CENTER);
