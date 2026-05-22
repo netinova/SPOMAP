@@ -13,10 +13,10 @@ public class Main {
         Random random = new Random();
 
         for (int i = 0; i < 10; i++) {
-            products.addProduct(new Product("", "", "", "", 0.0, random.nextDouble(0.0, 10.0)));
+            products.addProduct(new Product("name", "", "", "", 0.0, random.nextDouble(0.0, 10.0)));
         }
 
-        products.addProduct(new Product("", "", "", "", 0.0, 0.0));
+        products.addProduct(new Product("name", "", "", "", 0.0, 0.0));
 
         mainFrame.setVisible(true);
     }
