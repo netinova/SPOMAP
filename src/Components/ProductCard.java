@@ -23,8 +23,10 @@ public class ProductCard extends JPanel {
     private ImageIcon productImage;
     private JLabel productName;
     private JLabel productPrice;
+    private JLabel productDiscount;
     private JPanel imagePanel;
     private JPanel detailsPanel;
+    private JPanel pricePanel;
 
     public ProductCard(Product product) {
         this.setLayout(new BorderLayout());
@@ -93,12 +95,27 @@ public class ProductCard extends JPanel {
 
         gbc.gridy = 1;
 
+        this.pricePanel = new JPanel();
+        this.pricePanel.setBackground(ColorPalette.BG_SECONDARY);
+        this.pricePanel.setLayout(new BorderLayout());
+        detailsPanel.add(this.pricePanel, gbc);
+
         // Product Price
         this.productPrice = new JLabel(String.format("$%.2f", product.getPrice()));
         this.productPrice.setFont(new Font("Segoe UI", Font.BOLD, 16));
         this.productPrice.setForeground(ColorPalette.ACCENT_PRIMARY);
         this.productPrice.setHorizontalAlignment(SwingConstants.CENTER);
-        detailsPanel.add(this.productPrice, gbc);
+        this.pricePanel.add(productPrice, BorderLayout.CENTER);
+
+        // Product Discount
+        this.productDiscount = new JLabel(String.format("%%%.2f", product.getDiscount()));
+        this.productDiscount.setFont(new Font("Segoe UI", Font.ITALIC, 16));
+        this.productDiscount.setForeground(ColorPalette.ACCENT_SUCCESS);
+        this.productDiscount.setHorizontalAlignment(SwingConstants.CENTER);
+        if (product.getDiscount() == 0.0) {
+            this.productDiscount.setVisible(false);
+        }
+        this.pricePanel.add(productDiscount, BorderLayout.EAST);
 
         add(detailsPanel, BorderLayout.SOUTH);
     }

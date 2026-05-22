@@ -5,16 +5,18 @@ public class Product {
     private String id;
     private String imageLoc;
     private String description;
+    private double discount;
     private double price;
     private int stockQuantity;
 
     public Product(String name, String id, String imageLoc, String description,
-            double price) {
+            double price, double discount) {
         this.name = name;
         this.id = id;
         this.imageLoc = imageLoc;
         this.description = description;
         this.price = price;
+        this.discount = discount;
     }
 
     public boolean isInStock() {
@@ -25,6 +27,10 @@ public class Product {
         if (quantity <= stockQuantity) {
             stockQuantity -= quantity;
         }
+    }
+
+    public double getDiscount() {
+        return discount;
     }
 
     public int getStockQuantity() {
