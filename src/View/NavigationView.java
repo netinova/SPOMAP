@@ -12,6 +12,7 @@ public class NavigationView extends JPanel {
     public NavigationView() {
         this.setBackground(ColorPalette.BG_SECONDARY);
         this.setPreferredSize(new Dimension(0, 50));
+        this.setMinimumSize(new Dimension(0, 50));
 
         // border
         Border line = BorderFactory.createLineBorder(ColorPalette.BORDER);
