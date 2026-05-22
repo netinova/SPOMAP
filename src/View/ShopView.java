@@ -21,6 +21,7 @@ import javax.swing.border.Border;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 
 import Components.ProductCard;
+import Controller.ShopController;
 import Model.Product;
 import Model.ProductCatalog;
 import Util.ColorPalette;
@@ -29,7 +30,12 @@ public class ShopView extends JPanel implements PropertyChangeListener {
 
     private JPanel productGrid;
 
-    public ShopView(ProductCatalog model) {
+    private ShopController controller;
+
+    public ShopView(ShopController controller, ProductCatalog model) {
+
+        this.controller = controller;
+
         setupUI();
         attachEvents();
 
@@ -125,7 +131,14 @@ public class ShopView extends JPanel implements PropertyChangeListener {
         productGrid.removeAll();
 
         for (Product product : products) {
-            productGrid.add(new ProductCard(product));
+            ProductCard card = new ProductCard(product);
+            card.setOnProductClickListener(new ProductCard.OnProductClickListener() {
+                @Override
+                public void onProductClick(Product product) {
+                    controller.handleProductClick(product);
+                }
+            });
+            productGrid.add(card);
         }
     }
 

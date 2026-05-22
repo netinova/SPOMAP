@@ -1,5 +1,6 @@
 import java.util.Random;
 
+import Controller.ShopController;
 import Model.Product;
 import Model.ProductCatalog;
 
@@ -7,8 +8,9 @@ public class Main {
     public static void main(String[] args) {
 
         ProductCatalog products = new ProductCatalog();
+        ShopController shopController = new ShopController();
 
-        MainFrame mainFrame = new MainFrame(products);
+        MainFrame mainFrame = new MainFrame(shopController, products);
 
         Random random = new Random();
 

@@ -28,6 +28,16 @@ public class ProductCard extends JPanel {
     private JPanel detailsPanel;
     private JPanel pricePanel;
 
+    public interface OnProductClickListener {
+        void onProductClick(Product product);
+    }
+
+    private OnProductClickListener listener;
+
+    public void setOnProductClickListener(OnProductClickListener listener) {
+        this.listener = listener;
+    }
+
     public ProductCard(Product product) {
         this.setLayout(new BorderLayout());
         this.setBackground(ColorPalette.BG_SECONDARY);
@@ -49,6 +59,12 @@ public class ProductCard extends JPanel {
                 setBorder(BorderFactory.createCompoundBorder(
                         BorderFactory.createLineBorder(ColorPalette.BORDER, 1),
                         BorderFactory.createEmptyBorder(0, 0, 0, 0)));
+            }
+
+            public void mouseClicked(MouseEvent evt) {
+                if (listener != null) {
+                    listener.onProductClick(product);
+                }
             }
         });
 
