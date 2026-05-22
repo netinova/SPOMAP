@@ -1,11 +1,20 @@
 package Components;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.Image;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import Util.ColorPalette;
 
@@ -13,11 +22,81 @@ public class ProductCard extends JPanel {
     private ImageIcon productImage;
     private JLabel productName;
     private JLabel productPrice;
+    private JPanel imagePanel;
+    private JPanel detailsPanel;
 
     public ProductCard(String productImageLoc, String productName, double productPrice) {
-
+        this.setLayout(new BorderLayout());
         this.setBackground(ColorPalette.BG_SECONDARY);
-        this.setBorder(BorderFactory.createLineBorder(ColorPalette.BORDER));
-        this.setPreferredSize(new Dimension(200, 230));
+        this.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(ColorPalette.BORDER, 1),
+                BorderFactory.createEmptyBorder(0, 0, 0, 0)));
+        this.setPreferredSize(new Dimension(220, 320));
+        this.setMaximumSize(new Dimension(220, 320));
+
+        // Add hover effect
+        addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent evt) {
+                setBorder(BorderFactory.createCompoundBorder(
+                        BorderFactory.createLineBorder(ColorPalette.ACCENT_PRIMARY, 2),
+                        BorderFactory.createEmptyBorder(0, 0, 0, 0)));
+            }
+
+            public void mouseExited(MouseEvent evt) {
+                setBorder(BorderFactory.createCompoundBorder(
+                        BorderFactory.createLineBorder(ColorPalette.BORDER, 1),
+                        BorderFactory.createEmptyBorder(0, 0, 0, 0)));
+            }
+        });
+
+        // Image Panel
+        imagePanel = new JPanel(new BorderLayout());
+        imagePanel.setBackground(ColorPalette.BG_SECONDARY);
+        imagePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        // Load and scale image
+        String imagePath = (productImageLoc == null || productImageLoc.isEmpty())
+                ? "icons/Product_placeholder.png"
+                : productImageLoc;
+
+        productImage = new ImageIcon(imagePath);
+        Image scaledImage = productImage.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+        productImage = new ImageIcon(scaledImage);
+
+        JLabel imageLabel = new JLabel(productImage, SwingConstants.CENTER);
+        imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        imagePanel.add(imageLabel, BorderLayout.CENTER);
+
+        add(imagePanel, BorderLayout.CENTER);
+
+        // Details Panel
+        detailsPanel = new JPanel(new GridBagLayout());
+        detailsPanel.setBackground(ColorPalette.BG_SECONDARY);
+        detailsPanel.setBorder(BorderFactory.createEmptyBorder(5, 12, 15, 12));
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 1.0;
+        gbc.insets = new Insets(5, 0, 5, 0);
+
+        // Product Name
+        this.productName = new JLabel(productName);
+        this.productName.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        this.productName.setForeground(ColorPalette.TEXT_PRIMARY);
+        this.productName.setHorizontalAlignment(SwingConstants.CENTER);
+        detailsPanel.add(this.productName, gbc);
+
+        gbc.gridy = 1;
+
+        // Product Price
+        this.productPrice = new JLabel(String.format("$%.2f", productPrice));
+        this.productPrice.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        this.productPrice.setForeground(ColorPalette.ACCENT_PRIMARY);
+        this.productPrice.setHorizontalAlignment(SwingConstants.CENTER);
+        detailsPanel.add(this.productPrice, gbc);
+
+        add(detailsPanel, BorderLayout.SOUTH);
     }
 }

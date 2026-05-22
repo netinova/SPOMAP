@@ -46,7 +46,7 @@ public class ShopView extends JPanel {
         productGrid.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         for (int i = 0; i < 10; i++) {
-            productGrid.add(new ProductCard("", "", 0.0));
+            productGrid.add(new ProductCard("", "name", 0.0));
         }
 
         // wrapping the grid in a scroll pane
