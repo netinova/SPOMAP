@@ -17,7 +17,7 @@ public class SearchBarTextInput extends JTextField {
     public SearchBarTextInput(String placeHolder ,int size) {
         this.setFont(new Font("Arial",Font.PLAIN,3*size));
         this.setCaretColor(ColorPalette.TEXT_PRIMARY);
-        super.setPreferredSize(new Dimension(40*size,5*size));
+        super.setPreferredSize(new Dimension(80*size,5*size));
         this.setOpaque(false);
         this.cornerRadius = size*5;
         this.placeHolder=placeHolder;

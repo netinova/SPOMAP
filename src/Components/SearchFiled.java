@@ -13,7 +13,7 @@ import java.awt.geom.RoundRectangle2D;
 
 public class SearchFiled extends JPanel {
 
-    private int cornerRadius=45;
+    private int cornerRadius=40;
 
     public SearchFiled(){
         setOpaque(false);
