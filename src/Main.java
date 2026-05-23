@@ -3,9 +3,11 @@ import java.util.Random;
 import Controller.ShopController;
 import Model.Product;
 import Model.ProductCatalog;
+import java.util.Locale;
 
 public class Main {
     public static void main(String[] args) {
+        Locale.setDefault(Locale.US) ;
 
         ProductCatalog products = new ProductCatalog();
         ShopController shopController = new ShopController();

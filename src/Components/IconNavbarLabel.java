@@ -47,6 +47,7 @@ public class IconNavbarLabel extends JPanel {
     }
     private void showPopup(JComponent component)
     {
+        int maxWidth=0;
         JPopupMenu popupMenu = new JPopupMenu();
         popupMenu.setBackground(ColorPalette.BG_TERTIARY);
         popupMenu.setForeground(ColorPalette.TEXT_PRIMARY);
@@ -60,7 +61,9 @@ public class IconNavbarLabel extends JPanel {
                 System.out.println("clicked notification");
             });
             popupMenu.add(item);
+            int itemWidth = item.getPreferredSize().width;
+            maxWidth = Math.max(maxWidth, itemWidth);
         }
-        popupMenu.show(component, 0, component.getHeight());
+        popupMenu.show(component, component.getWidth()-maxWidth, component.getHeight());
     }
 }
