@@ -7,6 +7,8 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 public class SearchBarTextInput extends JTextField {
     private boolean activePlaceHolder;
@@ -22,7 +24,18 @@ public class SearchBarTextInput extends JTextField {
         this.setText(placeHolder);
         activePlaceHolder = true;
         this.setForeground(ColorPalette.TEXT_PLACEHOLDER);
+        this.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {}
+            @Override
+            public void keyPressed(KeyEvent e) {}
 
+            @Override
+            public void keyReleased(KeyEvent e) {
+                String search = SearchBarTextInput.super.getText();
+                System.out.println("search: "+search);// will return for search
+            }
+        });
         this.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -41,6 +54,7 @@ public class SearchBarTextInput extends JTextField {
                     setForeground(ColorPalette.TEXT_PLACEHOLDER);
                 }
             }
+
         });
     }
 

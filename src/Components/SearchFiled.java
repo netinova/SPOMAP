@@ -21,6 +21,10 @@ public class SearchFiled extends JPanel {
 
         // search input
         SearchBarTextInput searchInput = new SearchBarTextInput("Search", 5);
+        searchInput.addActionListener(e->{
+            loseFocus();
+            transferFocus();
+        });
 
         // search Icon
         JLabel IconJLabel = new JLabel();
@@ -79,6 +83,10 @@ public class SearchFiled extends JPanel {
         this.add(IconJLabel);
         this.add(searchInput);
         this.add(searchType);
+    }
+
+    private void loseFocus(){
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().clearGlobalFocusOwner();
     }
     @Override
     protected void paintComponent(Graphics g) {
