@@ -3,7 +3,6 @@ package Components;
 import Util.ColorPalette;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.FocusEvent;
@@ -13,7 +12,6 @@ import java.awt.geom.RoundRectangle2D;
 public class RoundedInputText extends JTextField {
 
     private int cornerRadius;
-    private String placeHolder;
     private boolean activePlaceHolder;
 
     public RoundedInputText(String placeHolder ,int size) {
@@ -22,7 +20,6 @@ public class RoundedInputText extends JTextField {
         super.setPreferredSize(new Dimension(40*size,5*size));
         this.setOpaque(false);
         this.cornerRadius = size*5;
-        this.placeHolder=placeHolder;
         this.setBorder(new EmptyBorder(5,10,5,5));
         this.setMargin(new Insets(5, 10, 5, 5));
         this.setBackground(ColorPalette.BG_SECONDARY);
