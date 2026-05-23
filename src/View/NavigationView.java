@@ -1,15 +1,12 @@
 package View;
 
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
 import Components.IconNavbarLabel;
-import Components.RoundedInputText;
 import Components.SearchFiled;
 import Util.ColorPalette;
 
@@ -37,6 +34,12 @@ public class NavigationView extends JPanel {
         gbc.weightx = 0;
         gbc.anchor = GridBagConstraints.EAST;
         this.add(new IconNavbarLabel(), gbc);
+        this.setMinimumSize(new Dimension(0, 50));
+
+        // border
+        Border line = BorderFactory.createLineBorder(ColorPalette.BORDER);
+        Border etched = BorderFactory.createEtchedBorder();
+        this.setBorder(BorderFactory.createCompoundBorder(line, etched));
     }
 }
 

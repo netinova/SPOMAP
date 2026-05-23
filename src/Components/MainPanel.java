@@ -5,16 +5,27 @@ import java.awt.GridBagLayout;
 
 import javax.swing.JPanel;
 
+import Controller.ShopController;
+import Model.ProductCatalog;
 import View.NavigationView;
 import View.ShopView;
 
 public class MainPanel extends JPanel {
 
-    public MainPanel() {
-        this.setLayout(new GridBagLayout());
+    private NavigationView navigationView;
+    private ShopView shopView;
 
-        NavigationView navigationPanel = new NavigationView();
-        ShopView shopPanel = new ShopView();
+    public MainPanel(ShopController shopController, ProductCatalog productCatalog) {
+
+        shopView = new ShopView(shopController, productCatalog);
+
+        navigationView = new NavigationView();
+
+        setupUI();
+    }
+
+    private void setupUI() {
+        this.setLayout(new GridBagLayout());
 
         GridBagConstraints gbc = new GridBagConstraints();
 
@@ -24,14 +35,14 @@ public class MainPanel extends JPanel {
         gbc.weightx = 1;
         gbc.weighty = 0;
 
-        this.add(navigationPanel, gbc);
+        this.add(navigationView, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.weightx = 1;
         gbc.weighty = 1;
 
-        this.add(shopPanel, gbc);
+        this.add(shopView, gbc);
     }
 
 }

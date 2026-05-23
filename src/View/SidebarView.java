@@ -11,7 +11,6 @@ import javax.swing.border.Border;
 import Components.LogoPanel;
 import Components.LogoutPanel;
 import Components.SideNavbarPanel;
-import Controller.SidebarController;
 import Util.ColorPalette;
 
 public class SidebarView extends JPanel {
@@ -19,8 +18,6 @@ public class SidebarView extends JPanel {
     private LogoPanel logoPanel = new LogoPanel();
     private SideNavbarPanel sideNavbarPanel = new SideNavbarPanel();
     private LogoutPanel logoutPanel = new LogoutPanel();
-
-    private SidebarController controller;
 
     public SidebarView() {
         setupUI();
