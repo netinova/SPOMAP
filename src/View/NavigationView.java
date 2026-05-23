@@ -11,10 +11,21 @@ import Components.SearchFiled;
 import Util.ColorPalette;
 
 public class NavigationView extends JPanel {
+
+    private SearchFiled searchFiled;
+    private IconNavbarLabel iconNavbarLabel;
+
     public NavigationView() {
         this.setLayout(new GridBagLayout());
         this.setBackground(ColorPalette.BG_SECONDARY);
-        this.setPreferredSize(new Dimension(0, 50));
+        this.setPreferredSize(new Dimension(0, 60));
+        this.setMinimumSize(new Dimension(0, 60));
+
+        // border
+        Border line = BorderFactory.createLineBorder(ColorPalette.BORDER);
+        Border etched = BorderFactory.createEtchedBorder();
+        this.setBorder(BorderFactory.createCompoundBorder(line, etched));
+
         this.setBorder(new EmptyBorder(5, 10, 5, 10));
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -25,21 +36,16 @@ public class NavigationView extends JPanel {
 
         gbc.weightx = 0;
         gbc.fill = GridBagConstraints.NONE;
-        this.add(new SearchFiled(), gbc);
-
+        this.searchFiled = new SearchFiled();
+        this.add(searchFiled, gbc);
 
         gbc.weightx = 1.0;
         this.add(Box.createHorizontalGlue(), gbc);
 
         gbc.weightx = 0;
         gbc.anchor = GridBagConstraints.EAST;
-        this.add(new IconNavbarLabel(), gbc);
-        this.setMinimumSize(new Dimension(0, 50));
+        this.iconNavbarLabel = new IconNavbarLabel();
+        this.add(iconNavbarLabel, gbc);
 
-        // border
-        Border line = BorderFactory.createLineBorder(ColorPalette.BORDER);
-        Border etched = BorderFactory.createEtchedBorder();
-        this.setBorder(BorderFactory.createCompoundBorder(line, etched));
     }
 }
-
