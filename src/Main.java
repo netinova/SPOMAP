@@ -7,7 +7,7 @@ import java.util.Locale;
 
 public class Main {
     public static void main(String[] args) {
-        Locale.setDefault(Locale.US) ;
+        Locale.setDefault(Locale.US);
 
         ProductCatalog products = new ProductCatalog();
         ShopController shopController = new ShopController();
