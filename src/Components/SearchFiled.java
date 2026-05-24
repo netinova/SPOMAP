@@ -4,9 +4,14 @@ import Util.ColorPalette;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import java.awt.*;
+
+import java.awt.Cursor;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.RenderingHints;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.geom.RoundRectangle2D;
 
 public class SearchFiled extends JPanel {
@@ -14,6 +19,7 @@ public class SearchFiled extends JPanel {
     private int cornerRadius = 40;
     private RoundedComboBox<String> comboBox;
     private SearchBarTextInput searchInput;
+    private JLabel iconLabel;
 
     public SearchFiled() {
         setOpaque(false);
@@ -29,36 +35,18 @@ public class SearchFiled extends JPanel {
         });
 
         // search Icon
-        JLabel IconJLabel = new JLabel();
+        iconLabel = new JLabel();
         ImageIcon searchLogo = new ImageIcon("icons/search.png");
         Image scaledIcon = searchLogo.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
         searchLogo = new ImageIcon(scaledIcon);
-        IconJLabel.setIcon(searchLogo);
-        IconJLabel.setBorder(new EmptyBorder(0, 0, 0, 0));
-
-        IconJLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        IconJLabel.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
+        iconLabel.setIcon(searchLogo);
+        iconLabel.setBorder(new EmptyBorder(0, 0, 0, 0));
+        iconLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        iconLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
                 if (searchInput.getText().isEmpty() && !searchInput.getText().equals("Search"))
                     System.out.println(searchInput.getText()); // Redirect to Shop item
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
             }
         });
 
@@ -66,7 +54,7 @@ public class SearchFiled extends JPanel {
         String[] searchOptions = { "Free Search", "Color", "Creator Name" };
         comboBox = new RoundedComboBox<String>(searchOptions);
 
-        this.add(IconJLabel);
+        this.add(iconLabel);
         this.add(searchInput);
         this.add(comboBox);
     }

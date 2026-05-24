@@ -189,6 +189,7 @@ public class RoundedComboBox<T> extends JComboBox<T> {
                     JList<Object> list = super.createList();
                     list.setOpaque(false);
                     list.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+                    list.setCursor(new Cursor(Cursor.HAND_CURSOR));
                     return list;
                 }
 
