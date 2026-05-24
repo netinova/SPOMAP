@@ -4,6 +4,7 @@ import java.awt.GridBagLayout;
 import javax.swing.JFrame;
 
 import Components.MainPanel;
+import Controller.NavigationController;
 import Controller.ShopController;
 import Model.ProductCatalog;
 import View.SidebarView;
@@ -13,10 +14,11 @@ public class MainFrame extends JFrame {
     private SidebarView sidebarView;
     private MainPanel mainPanel;
 
-    public MainFrame(ShopController shopController, ProductCatalog productCatalog) {
+    public MainFrame(ShopController shopController, ProductCatalog productCatalog,
+            NavigationController navigationController) {
 
         sidebarView = new SidebarView();
-        mainPanel = new MainPanel(shopController, productCatalog);
+        mainPanel = new MainPanel(shopController, productCatalog, navigationController);
 
         setupUI();
     }

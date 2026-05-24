@@ -8,6 +8,7 @@ import javax.swing.border.EmptyBorder;
 
 import Components.IconNavbarLabel;
 import Components.SearchFiled;
+import Controller.NavigationController;
 import Util.ColorPalette;
 
 public class NavigationView extends JPanel {
@@ -15,7 +16,11 @@ public class NavigationView extends JPanel {
     private SearchFiled searchFiled;
     private IconNavbarLabel iconNavbarLabel;
 
-    public NavigationView() {
+    private NavigationController controller;
+
+    public NavigationView(NavigationController controller) {
+        this.controller = controller;
+
         this.setLayout(new GridBagLayout());
         this.setBackground(ColorPalette.BG_SECONDARY);
         this.setPreferredSize(new Dimension(0, 60));
@@ -47,5 +52,13 @@ public class NavigationView extends JPanel {
         this.iconNavbarLabel = new IconNavbarLabel();
         this.add(iconNavbarLabel, gbc);
 
+        this.searchFiled.setDelegate(new SearchFiled.SearchFieldDelegate() {
+
+            @Override
+            public void onSearchTextChanged(String searchText) {
+                controller.searchProducts(searchText);
+            }
+
+        });
     }
 }

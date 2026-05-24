@@ -22,6 +22,16 @@ public class SearchFiled extends JPanel {
     private SearchBarTextInput searchInput;
     private JLabel iconLabel;
 
+    public interface SearchFieldDelegate {
+        void onSearchTextChanged(String searchText);
+    }
+
+    private SearchFieldDelegate delegate;
+
+    public void setDelegate(SearchFieldDelegate delegate) {
+        this.delegate = delegate;
+    }
+
     public SearchFiled() {
         setOpaque(false);
 
@@ -30,6 +40,14 @@ public class SearchFiled extends JPanel {
 
         // search input
         searchInput = new SearchBarTextInput("Search", 5);
+
+        searchInput.setOnTextChangeListener(new SearchBarTextInput.onTextChangeListener() {
+            @Override
+            public void onTextChange(String searchText) {
+                delegate.onSearchTextChanged(searchText);
+            }
+        });
+
         searchInput.addActionListener(e -> {
             loseFocus();
             transferFocus();
