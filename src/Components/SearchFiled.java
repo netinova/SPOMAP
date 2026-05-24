@@ -9,6 +9,7 @@ import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.KeyboardFocusManager;
 import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -28,8 +29,8 @@ public class SearchFiled extends JPanel {
         this.setBorder(new EmptyBorder(0, 10, 0, 10));
 
         // search input
-        SearchBarTextInput searchInput = new SearchBarTextInput("Search", 5);
-        searchInput.addActionListener(e->{
+        searchInput = new SearchBarTextInput("Search", 5);
+        searchInput.addActionListener(e -> {
             loseFocus();
             transferFocus();
         });
@@ -59,9 +60,10 @@ public class SearchFiled extends JPanel {
         this.add(comboBox);
     }
 
-    private void loseFocus(){
+    private void loseFocus() {
         KeyboardFocusManager.getCurrentKeyboardFocusManager().clearGlobalFocusOwner();
     }
+
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g.create();
