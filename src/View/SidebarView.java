@@ -29,7 +29,8 @@ public class SidebarView extends JPanel {
     }
 
     private void setupUI() {
-        this.setPreferredSize(new Dimension(150, 0));
+        this.setPreferredSize(new Dimension(250, 0));
+        this.setMinimumSize(new Dimension(250, 0));
         this.setLayout(new GridBagLayout());
         this.setBackground(ColorPalette.BG_SECONDARY);
 
@@ -39,6 +40,7 @@ public class SidebarView extends JPanel {
         this.setBorder(BorderFactory.createCompoundBorder(line, etched));
 
         GridBagConstraints gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.NORTH;
 
         gbc.gridx = 0;
         gbc.gridy = 0;
