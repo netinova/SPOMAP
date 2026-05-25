@@ -15,7 +15,7 @@ public class Main {
 
         NavigationController navigationController = new NavigationController();
 
-        MainFrame mainFrame = new MainFrame(shopController, products ,navigationController);
+        MainFrame mainFrame = new MainFrame(shopController, products, navigationController);
 
         Random random = new Random();
 

@@ -52,13 +52,17 @@ public class NavigationView extends JPanel {
         this.iconNavbarLabel = new IconNavbarLabel();
         this.add(iconNavbarLabel, gbc);
 
-        this.searchFiled.setDelegate(new SearchFiled.SearchFieldDelegate() {
+        // this.searchFiled.setDelegate(new SearchFiled.SearchFieldDelegate() {
 
-            @Override
-            public void onSearchTextChanged(String searchText) {
-                controller.searchProducts(searchText);
-            }
+        // @Override
+        // public void onSearchTextChanged(String searchText) {
 
+        // }
+
+        // });
+
+        this.searchFiled.setDelegate(text -> {
+            this.controller.searchProducts(text);
         });
     }
 }

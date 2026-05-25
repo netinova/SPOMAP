@@ -9,19 +9,18 @@ import Controller.NavigationController;
 import Controller.ShopController;
 import Model.ProductCatalog;
 import View.NavigationView;
-import View.ShopView;
 
 public class MainPanel extends JPanel {
 
     private NavigationView navigationView;
-    private ShopView shopView;
+    private MultiViewPanel multiViewPanel;
 
     public MainPanel(ShopController shopController, ProductCatalog productCatalog,
             NavigationController navigationController) {
 
-        shopView = new ShopView(shopController, productCatalog);
-
         navigationView = new NavigationView(navigationController);
+
+        multiViewPanel = new MultiViewPanel(shopController, productCatalog);
 
         setupUI();
     }
@@ -44,7 +43,6 @@ public class MainPanel extends JPanel {
         gbc.weightx = 1;
         gbc.weighty = 1;
 
-        this.add(shopView, gbc);
+        this.add(multiViewPanel, gbc);
     }
-
 }
