@@ -9,40 +9,68 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class IconNavbarLabel extends JPanel {
-    public IconNavbarLabel() {
-        this.setOpaque(false);
-        this.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 0));
 
-        // add notification logo icon
-        JLabel notificationLabel = new JLabel();
-        ImageIcon notificationLogo = new ImageIcon("icons/notification.png");
-        Image scaledNotificationIcon = notificationLogo.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-        notificationLogo = new ImageIcon(scaledNotificationIcon);
-        notificationLabel.setIcon(notificationLogo);
-        notificationLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        notificationLabel.setBorder(new EmptyBorder(0, 0, 0, 12));
+    private JLabel notificationLabel;
+    private ImageIcon notificationLogo;
+    private JLabel userLabel;
+
+    public interface OnIconClickListener {
+
+        void onUserIconClick();
+
+        void onNotificationClick();
+    }
+
+    private OnIconClickListener listener;
+
+    public void setOnIconClickListenerListener(OnIconClickListener listener) {
+        this.listener = listener;
+    }
+
+    public IconNavbarLabel() {
+
+        setupUI();
+        attachEvents();
+    }
+
+    private void attachEvents() {
         notificationLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 showPopup(notificationLabel);
             }
         });
+
+        userLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                listener.onUserIconClick();
+            }
+        });
+    }
+
+    private void setupUI() {
+        this.setOpaque(false);
+        this.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 0));
+
+        // add notification logo icon
+        notificationLabel = new JLabel();
+        notificationLogo = new ImageIcon("icons/notification.png");
+        Image scaledNotificationIcon = notificationLogo.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+        notificationLogo = new ImageIcon(scaledNotificationIcon);
+        notificationLabel.setIcon(notificationLogo);
+        notificationLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        notificationLabel.setBorder(new EmptyBorder(0, 0, 0, 12));
         this.add(notificationLabel);
 
         // add user logo icon
-        JLabel userLabel = new JLabel();
+        userLabel = new JLabel();
         ImageIcon userLogo = new ImageIcon("icons/male_user.png");
         Image scaledUserIcon = userLogo.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
         notificationLogo = new ImageIcon(scaledUserIcon);
         userLabel.setIcon(notificationLogo);
         userLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
         userLabel.setBorder(new EmptyBorder(0, 0, 0, 12));
-        userLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                System.out.println("clicked on Icon user");
-            }
-        });
         this.add(userLabel);
     }
 

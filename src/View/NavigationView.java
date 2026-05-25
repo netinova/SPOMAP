@@ -15,12 +15,47 @@ public class NavigationView extends JPanel {
 
     private SearchFiled searchFiled;
     private IconNavbarLabel iconNavbarLabel;
-
     private NavigationController controller;
 
     public NavigationView(NavigationController controller) {
         this.controller = controller;
 
+        setupUI();
+        attachEvents();
+
+    }
+
+    private void attachEvents() {
+
+        // this.searchFiled.setDelegate(new SearchFiled.SearchFieldDelegate() {
+
+        // @Override
+        // public void onSearchTextChanged(String searchText) {
+
+        // }
+
+        // });
+
+        this.iconNavbarLabel.setOnIconClickListenerListener(new IconNavbarLabel.OnIconClickListener() {
+
+            @Override
+            public void onUserIconClick() {
+                controller.onUserIconClick();
+            }
+
+            @Override
+            public void onNotificationClick() {
+
+            }
+
+        });
+
+        this.searchFiled.setDelegate(text -> {
+            controller.searchProducts(text);
+        });
+    }
+
+    private void setupUI() {
         this.setLayout(new GridBagLayout());
         this.setBackground(ColorPalette.BG_SECONDARY);
         this.setPreferredSize(new Dimension(0, 60));
@@ -51,18 +86,5 @@ public class NavigationView extends JPanel {
         gbc.anchor = GridBagConstraints.EAST;
         this.iconNavbarLabel = new IconNavbarLabel();
         this.add(iconNavbarLabel, gbc);
-
-        // this.searchFiled.setDelegate(new SearchFiled.SearchFieldDelegate() {
-
-        // @Override
-        // public void onSearchTextChanged(String searchText) {
-
-        // }
-
-        // });
-
-        this.searchFiled.setDelegate(text -> {
-            this.controller.searchProducts(text);
-        });
     }
 }

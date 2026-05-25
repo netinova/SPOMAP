@@ -20,7 +20,7 @@ public class MainPanel extends JPanel {
 
         navigationView = new NavigationView(navigationController);
 
-        multiViewPanel = new MultiViewPanel(shopController, productCatalog);
+        multiViewPanel = new MultiViewPanel(shopController, productCatalog, navigationController);
 
         setupUI();
     }
