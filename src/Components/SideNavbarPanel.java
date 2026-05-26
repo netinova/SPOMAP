@@ -5,13 +5,19 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+import Controller.SidebarController;
 import Util.ColorPalette;
 
 public class SideNavbarPanel extends JPanel {
 
     RoundedButton userPanelButton = new RoundedButton("user", 0);
 
-    public SideNavbarPanel() {
+    private SidebarController controller;
+
+    public SideNavbarPanel(SidebarController controller) {
+
+        this.controller=controller;
+
         setupUI();
         createComponents();
     }
@@ -26,6 +32,22 @@ public class SideNavbarPanel extends JPanel {
 //        this.add(Box.createVerticalStrut(5));
         // button factors
         SidebarOptionsPanel sidebarOptionsPanel = new SidebarOptionsPanel();
+        sidebarOptionsPanel.setListener(new SidebarOptionsPanel.SidebarButtonListener() {
+            @Override
+            public void onButtonFactorsClick() {
+                controller.HandelButtonOptionalClick(0);
+            }
+
+            @Override
+            public void onPrimeUserClick() {
+
+            }
+
+            @Override
+            public void onSettingsClick() {
+                controller.HandelButtonOptionalClick(2);
+            }
+        });
         sidebarOptionsPanel.setAlignmentX(CENTER_ALIGNMENT);
         this.add(sidebarOptionsPanel);
 

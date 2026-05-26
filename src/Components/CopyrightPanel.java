@@ -1,0 +1,30 @@
+package Components;
+
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Font;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+
+import Util.ColorPalette;
+
+public class CopyrightPanel extends JPanel {
+
+    private JLabel logoutLabel;
+
+    public CopyrightPanel() {
+        this.setBackground(ColorPalette.BG_SECONDARY);
+        this.setPreferredSize(new Dimension(0, 50));
+        this.setLayout(new BorderLayout());
+
+        logoutLabel = new JLabel("Copyright© 2026 SPOMAP", SwingConstants.CENTER);
+        logoutLabel.setFont(new Font("Arial", Font.BOLD, 10));
+        logoutLabel.setBorder(new EmptyBorder(0,0,-20,0));
+        logoutLabel.setForeground(ColorPalette.TEXT_MUTED);
+
+        this.add(logoutLabel);
+    }
+}

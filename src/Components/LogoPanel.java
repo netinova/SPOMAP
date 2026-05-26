@@ -3,17 +3,23 @@ package Components;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Image;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 
 import Util.ColorPalette;
 
 public class LogoPanel extends JPanel {
+
+    public interface LogoListener{
+        void onClickLogo();
+    }
+    private LogoListener listener;
+
+    public void setListener(LogoListener listener) {
+        this.listener = listener;
+    }
 
     private JLabel logoLabel;
     RoundedButton buttonTimer = new RoundedButton("",15);
@@ -62,7 +68,9 @@ public class LogoPanel extends JPanel {
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                System.out.println("2");// Redirect to Home page
+                if(listener!=null)
+                    listener.onClickLogo();
+                // Redirect to Home page
             }
 
             @Override
@@ -76,7 +84,7 @@ public class LogoPanel extends JPanel {
 
         this.add(iconLabel);
 
-        this.add(Box.createVerticalStrut(10));
+        this.add(Box.createVerticalStrut(60));
 
 //        this.add(logoLabel);
     }

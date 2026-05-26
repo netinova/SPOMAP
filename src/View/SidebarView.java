@@ -9,23 +9,32 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 import Components.LogoPanel;
-import Components.LogoutPanel;
+import Components.CopyrightPanel;
 import Components.SideNavbarPanel;
+import Controller.SidebarController;
 import Util.ColorPalette;
 
 public class SidebarView extends JPanel {
 
+    private SidebarController controller;
     private LogoPanel logoPanel = new LogoPanel();
-    private SideNavbarPanel sideNavbarPanel = new SideNavbarPanel();
-    private LogoutPanel logoutPanel = new LogoutPanel();
+    private SideNavbarPanel sideNavbarPanel;
+    private CopyrightPanel copyrightPanel = new CopyrightPanel();
 
-    public SidebarView() {
+    public SidebarView(SidebarController controller) {
+        this.controller = controller;
+        this.sideNavbarPanel=new SideNavbarPanel(this.controller);
         setupUI();
         attachEvents();
     }
 
     private void attachEvents() {
-
+        logoPanel.setListener(new LogoPanel.LogoListener() {
+            @Override
+            public void onClickLogo() {
+                controller.HandelLogoSidebar();
+            }
+        });
     }
 
     private void setupUI() {
@@ -59,7 +68,7 @@ public class SidebarView extends JPanel {
         gbc.gridy = 2;
         gbc.weightx = 1;
         gbc.weighty = 0;
-        this.add(logoutPanel, gbc);
+        this.add(copyrightPanel, gbc);
     }
 
 }

@@ -5,6 +5,7 @@ import javax.swing.*;
 
 import Components.MainPanel;
 import Controller.ShopController;
+import Controller.SidebarController;
 import Model.ProductCatalog;
 import View.SidebarView;
 
@@ -12,11 +13,11 @@ public class MainFrame extends JFrame {
 
     private SidebarView sidebarView;
     private MainPanel mainPanel;
-    ImageIcon iconProgram = new ImageIcon("icons/SPOMAP_BG_White.png");
+    ImageIcon iconProgram = new ImageIcon("icons/SPOMAP_BGblack_LogoWhite1000x1000.png");
 
     public MainFrame(ShopController shopController, ProductCatalog productCatalog) {
 
-        sidebarView = new SidebarView();
+        sidebarView = new SidebarView(new SidebarController());
         mainPanel = new MainPanel(shopController, productCatalog);
 
         setupUI();
