@@ -2,6 +2,7 @@ import java.util.Random;
 
 import Controller.NavigationController;
 import Controller.ShopController;
+import Controller.SidebarController;
 import Model.Product;
 import Model.ProductCatalog;
 import java.util.Locale;
@@ -14,8 +15,9 @@ public class Main {
         ShopController shopController = new ShopController();
 
         NavigationController navigationController = new NavigationController();
+        SidebarController sidebarController = new SidebarController();
 
-        MainFrame mainFrame = new MainFrame(shopController, products, navigationController);
+        MainFrame mainFrame = new MainFrame(shopController, products, navigationController, sidebarController);
 
         Random random = new Random();
 

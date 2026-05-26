@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 
 import Controller.NavigationController;
 import Controller.ShopController;
+import Controller.SidebarController;
 import Model.ProductCatalog;
 import View.NavigationView;
 
@@ -16,11 +17,11 @@ public class MainPanel extends JPanel {
     private MultiViewPanel multiViewPanel;
 
     public MainPanel(ShopController shopController, ProductCatalog productCatalog,
-            NavigationController navigationController) {
+            NavigationController navigationController, SidebarController sidebarController) {
 
         navigationView = new NavigationView(navigationController);
 
-        multiViewPanel = new MultiViewPanel(shopController, productCatalog, navigationController);
+        multiViewPanel = new MultiViewPanel(shopController, productCatalog, navigationController, sidebarController);
 
         setupUI();
     }

@@ -17,10 +17,10 @@ public class MainFrame extends JFrame {
     ImageIcon iconProgram = new ImageIcon("icons/SPOMAP_BGblack_LogoWhite1000x1000.png");
 
     public MainFrame(ShopController shopController, ProductCatalog productCatalog,
-            NavigationController navigationController) {
+            NavigationController navigationController, SidebarController sidebarController) {
 
-        sidebarView = new SidebarView(new SidebarController());
-        mainPanel = new MainPanel(shopController, productCatalog, navigationController);
+        sidebarView = new SidebarView(sidebarController);
+        mainPanel = new MainPanel(shopController, productCatalog, navigationController, sidebarController);
 
         setupUI();
     }

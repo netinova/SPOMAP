@@ -23,7 +23,7 @@ public class NavigationController {
         System.out.println("clicked on Icon user");
 
         if (listener != null) {
-            listener.changeView(MultiViewPanel.USER_VIEW_PROPERTY);
+            listener.changeView(MultiViewPanel.USER_VIEW);
         }
     }
 }

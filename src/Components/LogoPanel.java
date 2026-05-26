@@ -12,18 +12,17 @@ import Util.ColorPalette;
 
 public class LogoPanel extends JPanel {
 
-    public interface LogoListener{
+    public interface LogoListener {
         void onClickLogo();
     }
+
     private LogoListener listener;
 
     public void setListener(LogoListener listener) {
         this.listener = listener;
     }
 
-    private JLabel logoLabel;
-    RoundedButton buttonTimer = new RoundedButton("",15);
-
+    RoundedButton buttonTimer = new RoundedButton("", 15);
 
     public LogoPanel() {
         setupUI();
@@ -32,7 +31,7 @@ public class LogoPanel extends JPanel {
 
     private void setupUI() {
         this.setBackground(ColorPalette.BG_SECONDARY);
-        this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     }
 
     private void createComponents() {
@@ -43,7 +42,7 @@ public class LogoPanel extends JPanel {
         buttonTimer.setEnabled(false);
         buttonTimer.add(new LiveClockSidebar());
         buttonTimer.setAlignmentX(CENTER_ALIGNMENT);
-        buttonTimer.setPreferredSize(new Dimension(200 , 40));
+        buttonTimer.setPreferredSize(new Dimension(200, 40));
         this.add(buttonTimer);
 
         this.add(Box.createVerticalStrut(5));
@@ -68,7 +67,7 @@ public class LogoPanel extends JPanel {
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                if(listener!=null)
+                if (listener != null)
                     listener.onClickLogo();
                 // Redirect to Home page
             }
@@ -86,6 +85,6 @@ public class LogoPanel extends JPanel {
 
         this.add(Box.createVerticalStrut(60));
 
-//        this.add(logoLabel);
+        // this.add(logoLabel);
     }
 }

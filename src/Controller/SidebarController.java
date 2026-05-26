@@ -1,15 +1,22 @@
 package Controller;
 
-import View.SidebarView;
+import Components.MultiViewPanel;
 
 public class SidebarController {
-    private SidebarView view;
-    public SidebarController() {
-        this.view = new SidebarView(this);
+
+    public interface onChangeViewListener {
+
+        void changeView(String viewId);
     }
 
-    public void HandelButtonOptionalClick(int status){
-        switch (status){
+    private onChangeViewListener listener;
+
+    public void setOnChangeViewListener(onChangeViewListener listener) {
+        this.listener = listener;
+    }
+
+    public void HandelButtonOptionalClick(int status) {
+        switch (status) {
             case 0:
                 System.out.println("clicked on Factors");
                 break;
@@ -21,7 +28,8 @@ public class SidebarController {
         }
     }
 
-    public void HandelLogoSidebar(){
+    public void HandelLogoSidebar() {
         System.out.println("clicked on logo sidebar");
+        listener.changeView(MultiViewPanel.SHOP_VIEW);
     }
 }
