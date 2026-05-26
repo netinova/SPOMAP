@@ -9,27 +9,37 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 import Components.LogoPanel;
-import Components.LogoutPanel;
+import Components.CopyrightPanel;
 import Components.SideNavbarPanel;
+import Controller.SidebarController;
 import Util.ColorPalette;
 
 public class SidebarView extends JPanel {
 
+    private SidebarController controller;
     private LogoPanel logoPanel = new LogoPanel();
-    private SideNavbarPanel sideNavbarPanel = new SideNavbarPanel();
-    private LogoutPanel logoutPanel = new LogoutPanel();
+    private SideNavbarPanel sideNavbarPanel;
+    private CopyrightPanel copyrightPanel = new CopyrightPanel();
 
-    public SidebarView() {
+    public SidebarView(SidebarController controller) {
+        this.controller = controller;
+        this.sideNavbarPanel=new SideNavbarPanel(this.controller);
         setupUI();
         attachEvents();
     }
 
     private void attachEvents() {
-
+        logoPanel.setListener(new LogoPanel.LogoListener() {
+            @Override
+            public void onClickLogo() {
+                controller.HandelLogoSidebar();
+            }
+        });
     }
 
     private void setupUI() {
-        this.setPreferredSize(new Dimension(150, 0));
+        this.setPreferredSize(new Dimension(250, 0));
+        this.setMinimumSize(new Dimension(250, 0));
         this.setLayout(new GridBagLayout());
         this.setBackground(ColorPalette.BG_SECONDARY);
 
@@ -39,6 +49,7 @@ public class SidebarView extends JPanel {
         this.setBorder(BorderFactory.createCompoundBorder(line, etched));
 
         GridBagConstraints gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.NORTH;
 
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -57,7 +68,7 @@ public class SidebarView extends JPanel {
         gbc.gridy = 2;
         gbc.weightx = 1;
         gbc.weighty = 0;
-        this.add(logoutPanel, gbc);
+        this.add(copyrightPanel, gbc);
     }
 
 }
