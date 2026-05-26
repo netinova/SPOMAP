@@ -20,8 +20,6 @@ public class MainFrame extends JFrame {
             NavigationController navigationController) {
 
         sidebarView = new SidebarView(new SidebarController());
-        mainPanel = new MainPanel(shopController, productCatalog);
-        sidebarView = new SidebarView();
         mainPanel = new MainPanel(shopController, productCatalog, navigationController);
 
         setupUI();
