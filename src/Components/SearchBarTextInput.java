@@ -24,6 +24,13 @@ public class SearchBarTextInput extends JTextField {
 
     private boolean activePlaceHolder;
     private EventListenerList listenerList = new EventListenerList();
+    private boolean isUpdatingPlaceholder = false;
+
+    public interface EnterKeyListener {
+        void onEnterPressed(String text);
+    }
+
+    private EnterKeyListener enterKeyListener;
 
     public SearchBarTextInput(String placeHolder, int size) {
 
@@ -38,21 +45,26 @@ public class SearchBarTextInput extends JTextField {
         activePlaceHolder = true;
         this.setForeground(ColorPalette.TEXT_PLACEHOLDER);
 
-        // Use DocumentListener for text changes
         this.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
-                fireSearchEvent();
+                if (!isUpdatingPlaceholder) {
+                    fireSearchEvent();
+                }
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-                fireSearchEvent();
+                if (!isUpdatingPlaceholder) {
+                    fireSearchEvent();
+                }
             }
 
             @Override
             public void changedUpdate(DocumentEvent e) {
-                fireSearchEvent();
+                if (!isUpdatingPlaceholder) {
+                    fireSearchEvent();
+                }
             }
         });
 
@@ -60,7 +72,9 @@ public class SearchBarTextInput extends JTextField {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    fireActionEvent();
+                    if (enterKeyListener != null) {
+                        enterKeyListener.onEnterPressed(getText());
+                    }
                 }
             }
         });
@@ -69,7 +83,9 @@ public class SearchBarTextInput extends JTextField {
             @Override
             public void focusGained(FocusEvent e) {
                 if (activePlaceHolder) {
+                    isUpdatingPlaceholder = true;
                     setText("");
+                    isUpdatingPlaceholder = false;
                     activePlaceHolder = false;
                     setForeground(ColorPalette.TEXT_PRIMARY);
                 }
@@ -78,7 +94,9 @@ public class SearchBarTextInput extends JTextField {
             @Override
             public void focusLost(FocusEvent e) {
                 if (getText().isEmpty()) {
+                    isUpdatingPlaceholder = true;
                     setText(placeHolder);
+                    isUpdatingPlaceholder = false;
                     activePlaceHolder = true;
                     setForeground(ColorPalette.TEXT_PLACEHOLDER);
                 }
@@ -87,13 +105,16 @@ public class SearchBarTextInput extends JTextField {
         });
     }
 
-    // Standard ActionListener support
     public void addActionListener(ActionListener listener) {
         listenerList.add(ActionListener.class, listener);
     }
 
     public void removeActionListener(ActionListener listener) {
         listenerList.remove(ActionListener.class, listener);
+    }
+
+    public void setEnterKeyListener(EnterKeyListener listener) {
+        this.enterKeyListener = listener;
     }
 
     private void fireActionEvent() {

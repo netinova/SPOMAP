@@ -34,9 +34,14 @@ public class SearchFiled extends JPanel {
         // search input
         searchInput = new SearchBarTextInput("Search", 5);
 
-        // Add ActionListener to search input (standard way)
+        // Add ActionListener for live search (every character)
         searchInput.addActionListener(e -> {
             fireSearchEvent(searchInput.getText());
+        });
+        
+        // Add EnterKeyListener for explicit Enter key (can trigger loseFocus)
+        searchInput.setEnterKeyListener(text -> {
+            fireSearchEvent(text);
             loseFocus();
             transferFocus();
         });
