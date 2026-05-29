@@ -4,25 +4,26 @@ import Util.ColorPalette;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import java.awt.*;
+import javax.swing.event.DocumentListener;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.EventListenerList;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Insets;
+import java.awt.RenderingHints;
 
 public class SearchBarTextInput extends JTextField {
 
     private boolean activePlaceHolder;
-
-    public interface onTextChangeListener {
-        void onTextChange(String searchText);
-    }
-
-    private onTextChangeListener listener;
-
-    public void setOnTextChangeListener(onTextChangeListener listener) {
-        this.listener = listener;
-    }
+    private EventListenerList listenerList = new EventListenerList();
 
     public SearchBarTextInput(String placeHolder, int size) {
 
@@ -36,18 +37,34 @@ public class SearchBarTextInput extends JTextField {
         this.setText(placeHolder);
         activePlaceHolder = true;
         this.setForeground(ColorPalette.TEXT_PLACEHOLDER);
+
+        // Use DocumentListener for text changes
+        this.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                fireSearchEvent();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                fireSearchEvent();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                fireSearchEvent();
+            }
+        });
+
         this.addKeyListener(new KeyAdapter() {
             @Override
-            public void keyReleased(KeyEvent e) {
-
-                // System.out.println("search: " + search);// will return for search
-
-                if (listener != null) {
-                    String searchText = SearchBarTextInput.super.getText();
-                    listener.onTextChange(searchText);
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    fireActionEvent();
                 }
             }
         });
+
         this.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -68,6 +85,29 @@ public class SearchBarTextInput extends JTextField {
             }
 
         });
+    }
+
+    // Standard ActionListener support
+    public void addActionListener(ActionListener listener) {
+        listenerList.add(ActionListener.class, listener);
+    }
+
+    public void removeActionListener(ActionListener listener) {
+        listenerList.remove(ActionListener.class, listener);
+    }
+
+    private void fireActionEvent() {
+        ActionListener[] listeners = listenerList.getListeners(ActionListener.class);
+        if (listeners.length > 0) {
+            ActionEvent event = new ActionEvent(this, ActionEvent.ACTION_PERFORMED, getText());
+            for (ActionListener listener : listeners) {
+                listener.actionPerformed(event);
+            }
+        }
+    }
+
+    private void fireSearchEvent() {
+        fireActionEvent();
     }
 
     @Override

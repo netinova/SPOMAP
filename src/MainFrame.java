@@ -4,10 +4,9 @@ import java.awt.GridBagLayout;
 import javax.swing.*;
 
 import Components.MainPanel;
-import Controller.NavigationController;
-import Controller.ShopController;
-import Controller.SidebarController;
-import Model.ProductCatalog;
+import Components.MultiViewPanel;
+import Controller.AppController;
+import View.NavigationView;
 import View.SidebarView;
 
 public class MainFrame extends JFrame {
@@ -16,11 +15,11 @@ public class MainFrame extends JFrame {
     private MainPanel mainPanel;
     ImageIcon iconProgram = new ImageIcon("icons/SPOMAP_BGblack_LogoWhite1000x1000.png");
 
-    public MainFrame(ShopController shopController, ProductCatalog productCatalog,
-            NavigationController navigationController, SidebarController sidebarController) {
+    public MainFrame(AppController appController, SidebarView sidebarView, 
+                     NavigationView navigationView, MultiViewPanel multiViewPanel) {
 
-        sidebarView = new SidebarView(sidebarController);
-        mainPanel = new MainPanel(shopController, productCatalog, navigationController, sidebarController);
+        this.sidebarView = sidebarView;
+        this.mainPanel = new MainPanel(appController, navigationView, multiViewPanel);
 
         setupUI();
     }

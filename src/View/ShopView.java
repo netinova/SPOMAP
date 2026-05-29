@@ -132,14 +132,15 @@ public class ShopView extends JPanel implements PropertyChangeListener {
 
         for (Product product : products) {
             ProductCard card = new ProductCard(product);
-            card.setOnProductClickListener(new ProductCard.OnProductClickListener() {
-                @Override
-                public void onProductClick(Product product) {
-                    controller.handleProductClick(product);
-                }
+            // Use standard ActionListener instead of custom callback
+            card.addActionListener(e -> {
+                controller.handleProductClick(product);
             });
             productGrid.add(card);
         }
+
+        productGrid.revalidate();
+        productGrid.repaint();
     }
 
     @Override

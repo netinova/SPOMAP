@@ -9,6 +9,9 @@ import java.awt.Insets;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.event.EventListenerList;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -27,18 +30,11 @@ public class ProductCard extends JPanel {
     private JPanel imagePanel;
     private JPanel detailsPanel;
     private JPanel pricePanel;
-
-    public interface OnProductClickListener {
-        void onProductClick(Product product);
-    }
-
-    private OnProductClickListener listener;
-
-    public void setOnProductClickListener(OnProductClickListener listener) {
-        this.listener = listener;
-    }
+    private Product product;
+    private EventListenerList listenerList = new EventListenerList();
 
     public ProductCard(Product product) {
+        this.product = product;
         this.setLayout(new BorderLayout());
         this.setBackground(ColorPalette.BG_SECONDARY);
         this.setBorder(BorderFactory.createCompoundBorder(
@@ -62,9 +58,7 @@ public class ProductCard extends JPanel {
             }
 
             public void mouseClicked(MouseEvent evt) {
-                if (listener != null) {
-                    listener.onProductClick(product);
-                }
+                fireActionEvent();
             }
         });
 
@@ -134,5 +128,29 @@ public class ProductCard extends JPanel {
         this.pricePanel.add(productDiscount, BorderLayout.EAST);
 
         add(detailsPanel, BorderLayout.SOUTH);
+    }
+
+    // Add standard ActionListener support
+    public void addActionListener(ActionListener listener) {
+        listenerList.add(ActionListener.class, listener);
+    }
+
+    public void removeActionListener(ActionListener listener) {
+        listenerList.remove(ActionListener.class, listener);
+    }
+
+    private void fireActionEvent() {
+        ActionListener[] listeners = listenerList.getListeners(ActionListener.class);
+        if (listeners.length > 0) {
+            ActionEvent event = new ActionEvent(this, ActionEvent.ACTION_PERFORMED, 
+                    product.getId() != null ? product.getId() : "");
+            for (ActionListener listener : listeners) {
+                listener.actionPerformed(event);
+            }
+        }
+    }
+
+    public Product getProduct() {
+        return product;
     }
 }

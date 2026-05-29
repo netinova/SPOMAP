@@ -5,10 +5,7 @@ import java.awt.GridBagLayout;
 
 import javax.swing.JPanel;
 
-import Controller.NavigationController;
-import Controller.ShopController;
-import Controller.SidebarController;
-import Model.ProductCatalog;
+import Controller.AppController;
 import View.NavigationView;
 
 public class MainPanel extends JPanel {
@@ -16,12 +13,9 @@ public class MainPanel extends JPanel {
     private NavigationView navigationView;
     private MultiViewPanel multiViewPanel;
 
-    public MainPanel(ShopController shopController, ProductCatalog productCatalog,
-            NavigationController navigationController, SidebarController sidebarController) {
-
-        navigationView = new NavigationView(navigationController);
-
-        multiViewPanel = new MultiViewPanel(shopController, productCatalog, navigationController, sidebarController);
+    public MainPanel(AppController appController, NavigationView navigationView, MultiViewPanel multiViewPanel) {
+        this.navigationView = navigationView;
+        this.multiViewPanel = multiViewPanel;
 
         setupUI();
     }

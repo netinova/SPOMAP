@@ -4,7 +4,7 @@ import Util.ColorPalette;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-
+import javax.swing.event.EventListenerList;
 import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -13,6 +13,8 @@ import java.awt.KeyboardFocusManager;
 import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import java.awt.geom.RoundRectangle2D;
 
 public class SearchFiled extends JPanel {
@@ -21,16 +23,7 @@ public class SearchFiled extends JPanel {
     private RoundedComboBox<String> comboBox;
     private SearchBarTextInput searchInput;
     private JLabel iconLabel;
-
-    public interface SearchFieldDelegate {
-        void onSearchTextChanged(String searchText);
-    }
-
-    private SearchFieldDelegate delegate;
-
-    public void setDelegate(SearchFieldDelegate delegate) {
-        this.delegate = delegate;
-    }
+    private EventListenerList listenerList = new EventListenerList();
 
     public SearchFiled() {
         setOpaque(false);
@@ -41,14 +34,9 @@ public class SearchFiled extends JPanel {
         // search input
         searchInput = new SearchBarTextInput("Search", 5);
 
-        searchInput.setOnTextChangeListener(new SearchBarTextInput.onTextChangeListener() {
-            @Override
-            public void onTextChange(String searchText) {
-                delegate.onSearchTextChanged(searchText);
-            }
-        });
-
+        // Add ActionListener to search input (standard way)
         searchInput.addActionListener(e -> {
+            fireSearchEvent(searchInput.getText());
             loseFocus();
             transferFocus();
         });
@@ -76,6 +64,25 @@ public class SearchFiled extends JPanel {
         this.add(iconLabel);
         this.add(searchInput);
         this.add(comboBox);
+    }
+
+    // Standard ActionListener support
+    public void addActionListener(ActionListener listener) {
+        listenerList.add(ActionListener.class, listener);
+    }
+
+    public void removeActionListener(ActionListener listener) {
+        listenerList.remove(ActionListener.class, listener);
+    }
+
+    private void fireSearchEvent(String searchText) {
+        ActionListener[] listeners = listenerList.getListeners(ActionListener.class);
+        if (listeners.length > 0) {
+            ActionEvent event = new ActionEvent(this, ActionEvent.ACTION_PERFORMED, searchText);
+            for (ActionListener listener : listeners) {
+                listener.actionPerformed(event);
+            }
+        }
     }
 
     private void loseFocus() {

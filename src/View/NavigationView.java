@@ -27,15 +27,6 @@ public class NavigationView extends JPanel {
 
     private void attachEvents() {
 
-        // this.searchFiled.setDelegate(new SearchFiled.SearchFieldDelegate() {
-
-        // @Override
-        // public void onSearchTextChanged(String searchText) {
-
-        // }
-
-        // });
-
         this.iconNavbarLabel.setOnIconClickListenerListener(new IconNavbarLabel.OnIconClickListener() {
 
             @Override
@@ -50,8 +41,10 @@ public class NavigationView extends JPanel {
 
         });
 
-        this.searchFiled.setDelegate(text -> {
-            controller.searchProducts(text);
+        // Use standard ActionListener for search field
+        this.searchFiled.addActionListener(e -> {
+            String searchText = e.getActionCommand();
+            controller.searchProducts(searchText);
         });
     }
 
