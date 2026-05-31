@@ -11,7 +11,7 @@ public class LiveClockSidebar extends JLabel {
     public LiveClockSidebar() {
 
         this.setOpaque(false);
-
+        this.setText("-- : -- : --");
         setFont(new Font("Arial",Font.BOLD,15));
         setForeground(ColorPalette.TEXT_MUTED);
 

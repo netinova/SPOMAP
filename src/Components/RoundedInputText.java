@@ -11,7 +11,7 @@ import java.awt.geom.RoundRectangle2D;
 
 public class RoundedInputText extends JTextField {
 
-    private int cornerRadius;
+    public int cornerRadius;
     private boolean activePlaceHolder;
 
     public RoundedInputText(String placeHolder, int size) {
@@ -45,6 +45,10 @@ public class RoundedInputText extends JTextField {
                 }
             }
         });
+    }
+
+    public void setCornerRadius(int cornerRadius) {
+        this.cornerRadius = cornerRadius;
     }
 
     @Override
