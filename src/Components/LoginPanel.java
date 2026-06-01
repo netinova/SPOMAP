@@ -24,13 +24,15 @@ public class LoginPanel extends JPanel {
         gbc.gridx = 0;
         gbc.weightx = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(5, 20, 10, 20);
+        gbc.insets = new Insets(5, 20, 5, 20);
 
         //logo Image
         ImageIcon logo = new ImageIcon("icons/SPOMAP_Default_White color.png");
         Image resizeLogo = logo.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
         logo = new ImageIcon(resizeLogo);
-        JLabel logoLabel = new JLabel();
+        JLabel logoLabel = new JLabel("Log In");
+        logoLabel.setForeground(ColorPalette.TEXT_PRIMARY);
+        logoLabel.setFont(new Font("Calibri (Body)",Font.BOLD,50));
         logoLabel.setIcon(logo);
         logoLabel.setHorizontalAlignment(JLabel.CENTER);
 
