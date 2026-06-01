@@ -134,11 +134,7 @@ public class ProductCard extends JPanel {
     public void addActionListener(ActionListener listener) {
         listenerList.add(ActionListener.class, listener);
     }
-
-    public void removeActionListener(ActionListener listener) {
-        listenerList.remove(ActionListener.class, listener);
-    }
-
+    
     private void fireActionEvent() {
         ActionListener[] listeners = listenerList.getListeners(ActionListener.class);
         if (listeners.length > 0) {

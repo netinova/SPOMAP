@@ -2,6 +2,7 @@ package Controller;
 
 import Model.ProductCatalog;
 import View.ShopView;
+import View.AuthenticationView;
 import View.NavigationView;
 import View.SidebarView;
 import Components.MultiViewPanel;
@@ -16,6 +17,7 @@ public class AppController {
     private ShopController shopController;
     private NavigationController navigationController;
     private SidebarController sidebarController;
+    private AuthenticationController authenticationController;
 
     private MultiViewPanel multiViewPanel;
 
@@ -25,15 +27,18 @@ public class AppController {
         this.shopController = new ShopController(model);
         this.navigationController = new NavigationController(model);
         this.sidebarController = new SidebarController();
+        this.authenticationController = new AuthenticationController();
     }
 
     public void setViews(ShopView shopView, NavigationView navigationView,
-            SidebarView sidebarView, MultiViewPanel multiViewPanel) {
+            SidebarView sidebarView, MultiViewPanel multiViewPanel,
+            AuthenticationView authenticationView) {
         this.multiViewPanel = multiViewPanel;
 
         // Set views in controllers so they can update them
         shopController.setView(shopView);
         navigationController.setShopView(shopView);
+        authenticationController.setView(authenticationView);
 
         // Set up view switching listeners
         navigationController.setOnChangeViewListener(viewId -> {
@@ -56,6 +61,10 @@ public class AppController {
 
     public SidebarController getSidebarController() {
         return sidebarController;
+    }
+
+    public AuthenticationController getAuthenticationController() {
+        return authenticationController;
     }
 
     public ProductCatalog getModel() {
