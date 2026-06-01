@@ -83,7 +83,9 @@ public class RoundedInputText extends JTextField {
             @Override
             public void focusGained(FocusEvent e) {
                 if (activePlaceHolder) {
+                    isUpdatingPlaceholder = true;
                     setText("");
+                    isUpdatingPlaceholder = false;
                     activePlaceHolder = false;
                     setForeground(ColorPalette.TEXT_PRIMARY);
                 }
@@ -92,11 +94,14 @@ public class RoundedInputText extends JTextField {
             @Override
             public void focusLost(FocusEvent e) {
                 if (getText().isEmpty()) {
+                    isUpdatingPlaceholder = true;
                     setText(placeHolder);
+                    isUpdatingPlaceholder = false;
                     activePlaceHolder = true;
                     setForeground(ColorPalette.TEXT_PLACEHOLDER);
                 }
             }
+
         });
     }
 

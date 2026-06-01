@@ -1,7 +1,5 @@
 package Controller;
 
-import java.awt.event.ActionEvent;
-
 import View.AuthenticationView;
 
 public class AuthenticationController {

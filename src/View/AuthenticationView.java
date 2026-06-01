@@ -25,8 +25,12 @@ public class AuthenticationView extends JPanel {
     }
 
     private void attachEvents() {
-        this.singUpPanel.addPhoneNumberChangeListener(value -> {
-            controller.usernameValueChange(value);
+        this.singUpPanel.addPropertyChangeListener(e -> {
+
+            if (e.getPropertyName().equals(SingUpPanel.PHONE_NUMBER_PROP)) {
+                controller.usernameValueChange((String) e.getNewValue());
+            }
+
         });
 
     }

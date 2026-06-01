@@ -9,6 +9,8 @@ import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.RenderingHints;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -31,16 +33,13 @@ public class SingUpPanel extends JPanel {
     private RoundedButton singInButton;
     public int cornerRadius = 20;
 
-    public interface PhoneNumberChangeListener {
+    private PropertyChangeSupport support = new PropertyChangeSupport(this);
 
-        void onPhoneNumberValueChange(String value);
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        support.addPropertyChangeListener(listener);
     }
 
-    private PhoneNumberChangeListener phoneNumberChangeListener;
-
-    public void addPhoneNumberChangeListener(PhoneNumberChangeListener listener) {
-        this.phoneNumberChangeListener = listener;
-    }
+    public static final String PHONE_NUMBER_PROP = "phoneNumber";
 
     public SingUpPanel() {
         setupUI();
@@ -86,7 +85,7 @@ public class SingUpPanel extends JPanel {
         phoneNumber = new RoundedInputText("Phone Number", 5);
         phoneNumber.setMinimumSize(new Dimension(300, 40));
         phoneNumber.addActionListener(e -> {
-            phoneNumberChangeListener.onPhoneNumberValueChange(phoneNumber.getText());
+            support.firePropertyChange(PHONE_NUMBER_PROP, null, phoneNumber.getText());
         });
         this.add(new FormTextFiledPanel("Username", phoneNumber), gbc);
 
