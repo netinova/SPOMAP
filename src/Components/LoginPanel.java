@@ -53,7 +53,7 @@ public class LoginPanel extends JPanel {
         usernameLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         //user Input Filed
-        RoundedInputText usernameInput = new RoundedInputText("username", 5);
+        RoundedInputText usernameInput = new RoundedInputText("Username", 5);
         usernameInput.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         userPanel.add(usernameLabel);
@@ -78,7 +78,7 @@ public class LoginPanel extends JPanel {
         passwordLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         //user Input Filed
-        RoundedInputText passwordInput = new RoundedInputText("Password", 5);
+        RoundedInputPassword passwordInput = new RoundedInputPassword("Password", 5);
         passwordInput.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         passwordPanel.add(Box.createVerticalStrut(5));
