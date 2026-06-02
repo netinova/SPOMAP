@@ -1,17 +1,22 @@
 package Controller;
 
+import Components.MultiViewPanel;
+import Model.OnChangeViewListener;
 import Model.Product;
 import Model.ProductCatalog;
-import Model.ProductService;
 import View.ShopView;
 
 public class ShopController {
     private ProductCatalog model;
-    private ProductService service;
+
+    private OnChangeViewListener listener;
+
+    public void setOnChangeViewListener(OnChangeViewListener listener) {
+        this.listener = listener;
+    }
 
     public ShopController(ProductCatalog model) {
         this.model = model;
-        this.service = new ProductService(model);
     }
 
     public void setView(ShopView view) {
@@ -19,16 +24,12 @@ public class ShopController {
     }
 
     public void handleProductClick(Product product) {
-        // Business logic: select the product in the model
+
         model.setSelectedProduct(product);
-        System.out.println("Product selected: " + product.getName() + " - Discount: " + product.getDiscount());
-    }
 
-    public ProductService getService() {
-        return service;
-    }
+        if (listener != null) {
+            listener.changeView(MultiViewPanel.PRODUCT_VIEW);
+        }
 
-    public ProductCatalog getModel() {
-        return model;
     }
 }

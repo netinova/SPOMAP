@@ -4,6 +4,7 @@ import Controller.AppController;
 import Model.Product;
 import Model.ProductCatalog;
 import View.NavigationView;
+import View.ProductView;
 import View.ShopView;
 import View.SidebarView;
 import View.UserView;
@@ -21,8 +22,9 @@ public class Main {
         NavigationView navigationView = new NavigationView(appController.getNavigationController());
         SidebarView sidebarView = new SidebarView(appController.getSidebarController());
         UserView userView = new UserView();
+        ProductView productView = new ProductView(products);
 
-        MultiViewPanel multiViewPanel = new MultiViewPanel(shopView, userView);
+        MultiViewPanel multiViewPanel = new MultiViewPanel(shopView, userView, productView);
 
         appController.setViews(shopView, navigationView, sidebarView, multiViewPanel);
 

@@ -1,17 +1,13 @@
 package Controller;
 
 import Components.MultiViewPanel;
+import Model.OnChangeViewListener;
 
 public class SidebarController {
 
-    public interface onChangeViewListener {
+    private OnChangeViewListener listener;
 
-        void changeView(String viewId);
-    }
-
-    private onChangeViewListener listener;
-
-    public void setOnChangeViewListener(onChangeViewListener listener) {
+    public void setOnChangeViewListener(OnChangeViewListener listener) {
         this.listener = listener;
     }
 

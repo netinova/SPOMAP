@@ -43,6 +43,10 @@ public class AppController {
         sidebarController.setOnChangeViewListener(viewId -> {
             this.multiViewPanel.switchView(viewId);
         });
+
+        shopController.setOnChangeViewListener(viewId -> {
+            this.multiViewPanel.switchView(viewId);
+        });
     }
 
     // Getters for controllers (so other components can access them)
