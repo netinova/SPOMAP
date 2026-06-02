@@ -28,19 +28,17 @@ public class AuthenticationView extends JPanel {
         this.singUpPanel.addPropertyChangeListener(e -> {
 
             if (e.getPropertyName().equals(SingUpPanel.PHONE_NUMBER_PROP)) {
-                controller.usernameValueChange((String) e.getNewValue());
+                controller.onPhoneNumberChange((String) e.getNewValue());
             } else if (e.getPropertyName().equals(SingUpPanel.PASSWORD_PROP)) {
-                controller.passwordValueChange((String) e.getNewValue());
+                controller.onPasswordChange((String) e.getNewValue());
             } else if (e.getPropertyName().equals(SingUpPanel.PASSWORD_CONFIRM_PROP)) {
-                controller.passwordConfirmValueChange((String) e.getNewValue());
+                controller.onConfirmPasswordChange((String) e.getNewValue());
             } else if (e.getPropertyName().equals(SingUpPanel.L_NAME_PROP)) {
-                controller.LNameValueChange((String) e.getNewValue());
+                controller.onLastNameChange((String) e.getNewValue());
             } else if (e.getPropertyName().equals(SingUpPanel.F_NAME_PROP)) {
-                controller.FNameValueChange((String) e.getNewValue());
+                controller.onFirstNameChange((String) e.getNewValue());
             } else if (e.getPropertyName().equals(SingUpPanel.FOUND_US_PROP)) {
-                controller.FoundUSValueChange((String) e.getNewValue());
-            } else if (e.getPropertyName().equals(SingUpPanel.PASSWORD_CONFIRM_PROP)) {
-                controller.passwordConfirmValueChange((String) e.getNewValue());
+                controller.onFoundUsChange((String) e.getNewValue());
             }
 
         });
@@ -51,6 +49,7 @@ public class AuthenticationView extends JPanel {
         this.setBackground(ColorPalette.BG_MAIN);
         this.setLayout(new GridBagLayout());
         singUpPanel = new SingUpPanel();
+        singUpPanel.setAuthenticationController(controller);  // Connect controller to View
         this.add(singUpPanel);
         // loginPanel = new LoginPanel();
         // this.add(loginPanel);

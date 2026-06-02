@@ -25,8 +25,7 @@ public class FormTextFiledPanel extends JPanel {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setPreferredSize(new Dimension(300, 90));
 
-
-        //Label
+        // Label
         label = new JLabel(title);
         label.setFont(new Font("Arial", Font.PLAIN, 14));
         label.setForeground(ColorPalette.TEXT_MUTED);
@@ -36,9 +35,8 @@ public class FormTextFiledPanel extends JPanel {
 
         errorLabel = new JLabel(" ");
         errorLabel.setFont(new Font("Arial", Font.PLAIN, 10));
-        errorLabel.setForeground(ColorPalette.TEXT_ERROR);
+        errorLabel.setForeground(ColorPalette.ACCENT_WARNING);
         errorLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-
 
         this.add(Box.createVerticalStrut(5));
         this.add(label);

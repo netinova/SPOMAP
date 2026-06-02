@@ -10,9 +10,6 @@ public class Validator {
     public static final String NAME_REGEX = "^[a-zA-Z\\s]{3,50}$";
     public static final String PASSWORD_REGEX = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
 
-    private static final Pattern PHONE_PATTERN = Pattern.compile(PHONE_REGEX);
-    private static final Pattern NAME_PATTERN = Pattern.compile(NAME_REGEX);
-    private static final Pattern PASSWORD_PATTERN = Pattern.compile(PASSWORD_REGEX);
 
     public static class ValidationResult {
         private final boolean valid;

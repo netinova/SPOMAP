@@ -21,7 +21,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import Util.ColorPalette;
-import Util.Validator;
+import Controller.AuthenticationController;
 
 public class SingUpPanel extends JPanel {
 
@@ -42,12 +42,19 @@ public class SingUpPanel extends JPanel {
     private FormTextFiledPanel confirmPasswordPanel;
     private FormTextFiledPanel foundUsPanel;
 
+    // Controller for validation
+    private AuthenticationController authController;
+
     public int cornerRadius = 20;
 
     private PropertyChangeSupport support = new PropertyChangeSupport(this);
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         support.addPropertyChangeListener(listener);
+    }
+
+    public void setAuthenticationController(AuthenticationController controller) {
+        this.authController = controller;
     }
 
     public static final String PHONE_NUMBER_PROP = "phoneNumber";
@@ -103,12 +110,14 @@ public class SingUpPanel extends JPanel {
         phoneNumber.setMinimumSize(new Dimension(300, 40));
         phonePanel = new FormTextFiledPanel("Username(Phone number)", phoneNumber,"phoneNumber");
         phoneNumber.addActionListener(e -> {
-            Validator.ValidationResult validator = Validator.validatePhone(phoneNumber.getText());
-            if(validator.isValid())
-                phonePanel.clearError();
-            else
-                phonePanel.setError(validator.getErrorMessage());
-
+            // View is dumb: just pass to controller for validation
+            if (authController != null) {
+                var result = authController.validatePhoneNumber(phoneNumber.getText());
+                if(result.isValid())
+                    phonePanel.clearError();
+                else
+                    phonePanel.setError(result.getErrorMessage());
+            }
             support.firePropertyChange(PHONE_NUMBER_PROP, null, phoneNumber.getText());
         });
         this.add(phonePanel, gbc);
@@ -119,12 +128,14 @@ public class SingUpPanel extends JPanel {
         firstName.setMinimumSize(new Dimension(300, 40));
         firstNamePanel = new FormTextFiledPanel("First name", firstName,"firstName");
         firstName.addActionListener(e -> {
-            Validator.ValidationResult validator = Validator.validateFirstName(firstName.getText());
-            if(validator.isValid())
-                firstNamePanel.clearError();
-            else
-                firstNamePanel.setError(validator.getErrorMessage());
-
+            // View is dumb: just pass to controller for validation
+            if (authController != null) {
+                var result = authController.validateFirstName(firstName.getText());
+                if(result.isValid())
+                    firstNamePanel.clearError();
+                else
+                    firstNamePanel.setError(result.getErrorMessage());
+            }
             support.firePropertyChange(F_NAME_PROP, null, firstName.getText());
         });
         this.add(firstNamePanel, gbc);
@@ -137,13 +148,15 @@ public class SingUpPanel extends JPanel {
         passwordPanel = new FormTextFiledPanel("Password", passwordFiled,"password");
         passwordFiled.addActionListener(e -> {
             String password = new String(passwordFiled.getPassword());
-            Validator.ValidationResult validator = Validator.validatePassword(password);
-            if(validator.isValid())
-                passwordPanel.clearError();
-            else
-                passwordPanel.setError(validator.getErrorMessage());
-
-            support.firePropertyChange(PASSWORD_PROP, null,password);
+            // View is dumb: just pass to controller for validation
+            if (authController != null) {
+                var result = authController.validatePassword(password);
+                if(result.isValid())
+                    passwordPanel.clearError();
+                else
+                    passwordPanel.setError(result.getErrorMessage());
+            }
+            support.firePropertyChange(PASSWORD_PROP, null, password);
         });
         this.add(passwordPanel, gbc);
 
@@ -152,12 +165,14 @@ public class SingUpPanel extends JPanel {
         lastName.setMinimumSize(new Dimension(300, 40));
         lastNamePanel = new FormTextFiledPanel("Last Name", lastName,"lastName");
         lastName.addActionListener(e -> {
-            Validator.ValidationResult validator = Validator.validateLastName(lastName.getText());
-            if(validator.isValid())
-                lastNamePanel.clearError();
-            else
-                lastNamePanel.setError(validator.getErrorMessage());
-
+            // View is dumb: just pass to controller for validation
+            if (authController != null) {
+                var result = authController.validateLastName(lastName.getText());
+                if(result.isValid())
+                    lastNamePanel.clearError();
+                else
+                    lastNamePanel.setError(result.getErrorMessage());
+            }
             support.firePropertyChange(L_NAME_PROP, null, lastName.getText());
         });
         this.add(lastNamePanel, gbc);
@@ -170,12 +185,14 @@ public class SingUpPanel extends JPanel {
         confirmPasswordPanel = new FormTextFiledPanel("Confirm Password", confirmPasswordFiled,"confirmPassword");
         confirmPasswordFiled.addActionListener(e -> {
             String password = new String(confirmPasswordFiled.getPassword());
-            Validator.ValidationResult validator = Validator.validatePassword(password);
-            if(validator.isValid())
-                passwordPanel.clearError();
-            else
-                passwordPanel.setError(validator.getErrorMessage());
-
+            // View is dumb: just pass to controller for validation
+            if (authController != null) {
+                var result = authController.validatePassword(password);
+                if(result.isValid())
+                    passwordPanel.clearError();
+                else
+                    passwordPanel.setError(result.getErrorMessage());
+            }
             support.firePropertyChange(PASSWORD_CONFIRM_PROP, null, password);
         });
         this.add(confirmPasswordPanel, gbc);
@@ -187,12 +204,14 @@ public class SingUpPanel extends JPanel {
         foundUsPanel = new FormTextFiledPanel("How did you find us?", foundUSComboBox, "findUs");
         foundUSComboBox.addActionListener(e -> {
             String findUs = (String) foundUSComboBox.getSelectedItem();
-            Validator.ValidationResult validator = Validator.validateFindUs(findUs);
-            if(validator.isValid())
-                foundUsPanel.clearError();
-            else
-                foundUsPanel.setError(validator.getErrorMessage());
-
+            // View is dumb: just pass to controller for validation
+            if (authController != null) {
+                var result = authController.validateFoundUs(findUs);
+                if(result.isValid())
+                    foundUsPanel.clearError();
+                else
+                    foundUsPanel.setError(result.getErrorMessage());
+            }
             support.firePropertyChange(FOUND_US_PROP, null, findUs);
         });
         this.add(foundUsPanel, gbc);

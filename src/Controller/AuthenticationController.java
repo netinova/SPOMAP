@@ -1,6 +1,8 @@
 package Controller;
 
 import View.AuthenticationView;
+import Util.Validator;
+import Util.Validator.ValidationResult;
 
 public class AuthenticationController {
 
@@ -11,27 +13,56 @@ public class AuthenticationController {
         this.view = view;
     }
 
-    public void usernameValueChange(String value) {
-        System.out.println(value);
+    // validation methods
+    // View sends user input to controller, controller validates and returns result
+
+    public ValidationResult validatePhoneNumber(String phone) {
+        return Validator.validatePhone(phone);
     }
 
-    public void passwordValueChange(String newValue) {
-        System.out.println(newValue);
+    public ValidationResult validateFirstName(String firstName) {
+        return Validator.validateFirstName(firstName);
     }
 
-    public void passwordConfirmValueChange(String newValue) {
-        System.out.println(newValue);
+    public ValidationResult validateLastName(String lastName) {
+        return Validator.validateLastName(lastName);
     }
 
-    public void LNameValueChange(String newValue) {
-        System.out.println(newValue);
+    public ValidationResult validatePassword(String password) {
+        return Validator.validatePassword(password);
     }
 
-    public void FoundUSValueChange(String newValue) {
-        System.out.println(newValue);
+    public ValidationResult validateConfirmPassword(String password, String confirmPassword) {
+        return Validator.validateConfirmPassword(password, confirmPassword);
     }
 
-    public void FNameValueChange(String newValue) {
-        System.out.println(newValue);
+    public ValidationResult validateFoundUs(String foundUs) {
+        return Validator.validateFindUs(foundUs);
+    }
+
+    // input change handlers
+
+    public void onPhoneNumberChange(String value) {
+        System.out.println("Phone changed: " + value);
+    }
+
+    public void onFirstNameChange(String value) {
+        System.out.println("First name changed: " + value);
+    }
+
+    public void onLastNameChange(String value) {
+        System.out.println("Last name changed: " + value);
+    }
+
+    public void onPasswordChange(String value) {
+        System.out.println("Password changed");
+    }
+
+    public void onConfirmPasswordChange(String value) {
+        System.out.println("Confirm password changed");
+    }
+
+    public void onFoundUsChange(String value) {
+        System.out.println("Found us changed: " + value);
     }
 }
