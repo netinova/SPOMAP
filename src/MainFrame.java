@@ -31,7 +31,7 @@ public class MainFrame extends JFrame {
         this.setSize(new Dimension(500, 300));
         this.setLocationRelativeTo(null);
         this.setLayout(new GridBagLayout());
-        this.setMinimumSize(new Dimension(1000, 600));
+        this.setMinimumSize(new Dimension(1100, 700));
 
         GridBagConstraints gbc = new GridBagConstraints();
 

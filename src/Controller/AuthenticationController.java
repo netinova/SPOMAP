@@ -15,4 +15,23 @@ public class AuthenticationController {
         System.out.println(value);
     }
 
+    public void passwordValueChange(String newValue) {
+        System.out.println(newValue);
+    }
+
+    public void passwordConfirmValueChange(String newValue) {
+        System.out.println(newValue);
+    }
+
+    public void LNameValueChange(String newValue) {
+        System.out.println(newValue);
+    }
+
+    public void FoundUSValueChange(String newValue) {
+        System.out.println(newValue);
+    }
+
+    public void FNameValueChange(String newValue) {
+        System.out.println(newValue);
+    }
 }

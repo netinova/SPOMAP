@@ -97,7 +97,7 @@ public class LoginPanel extends JPanel {
         this.add(Box.createVerticalStrut(5), gbc);
 
         //submit Button
-        RoundedButton submitButton = new RoundedButton("Sing in", 25);
+        RoundedButton submitButton = new RoundedButton("Log in", 25);
         submitButton.setPreferredSize(new Dimension(280, 45));
 
         gbc.gridy = 5;

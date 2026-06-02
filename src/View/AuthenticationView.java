@@ -29,6 +29,18 @@ public class AuthenticationView extends JPanel {
 
             if (e.getPropertyName().equals(SingUpPanel.PHONE_NUMBER_PROP)) {
                 controller.usernameValueChange((String) e.getNewValue());
+            } else if (e.getPropertyName().equals(SingUpPanel.PASSWORD_PROP)) {
+                controller.passwordValueChange((String) e.getNewValue());
+            } else if (e.getPropertyName().equals(SingUpPanel.PASSWORD_CONFIRM_PROP)) {
+                controller.passwordConfirmValueChange((String) e.getNewValue());
+            } else if (e.getPropertyName().equals(SingUpPanel.L_NAME_PROP)) {
+                controller.LNameValueChange((String) e.getNewValue());
+            } else if (e.getPropertyName().equals(SingUpPanel.F_NAME_PROP)) {
+                controller.FNameValueChange((String) e.getNewValue());
+            } else if (e.getPropertyName().equals(SingUpPanel.FOUND_US_PROP)) {
+                controller.FoundUSValueChange((String) e.getNewValue());
+            } else if (e.getPropertyName().equals(SingUpPanel.PASSWORD_CONFIRM_PROP)) {
+                controller.passwordConfirmValueChange((String) e.getNewValue());
             }
 
         });
