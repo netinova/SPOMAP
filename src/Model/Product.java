@@ -1,5 +1,7 @@
 package Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class Product {
     private String name;
     private String id;
@@ -19,6 +21,11 @@ public class Product {
         this.discount = discount;
     }
 
+    public Product() {
+
+    }
+
+    @JsonIgnore
     public boolean isInStock() {
         return stockQuantity > 0;
     }
