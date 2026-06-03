@@ -1,7 +1,6 @@
 package Controller;
 
 import Components.MultiViewPanel;
-import Model.OnChangeViewListener;
 import Model.Product;
 import Model.ProductCatalog;
 import View.ShopView;

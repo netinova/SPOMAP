@@ -2,8 +2,11 @@ package Components;
 
 import java.awt.CardLayout;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 
+import Util.ColorPalette;
 import View.ProductView;
 import View.ShopView;
 import View.UserView;
@@ -29,6 +32,12 @@ public class MultiViewPanel extends JPanel {
     private void setupUI() {
         cardLayout = new CardLayout();
         this.setLayout(cardLayout);
+        this.setBackground(ColorPalette.BG_MAIN);
+
+        // border
+        Border line = BorderFactory.createLineBorder(ColorPalette.BORDER);
+        Border etched = BorderFactory.createEtchedBorder();
+        this.setBorder(BorderFactory.createCompoundBorder(line, etched));
 
         this.add(shopView, SHOP_VIEW);
         this.add(userView, USER_VIEW);

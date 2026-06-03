@@ -49,11 +49,7 @@ public class ShopView extends JPanel implements PropertyChangeListener {
     private void setupUI() {
         this.setBackground(ColorPalette.BG_MAIN);
         this.setLayout(new BorderLayout());
-
-        // border
-        Border line = BorderFactory.createLineBorder(ColorPalette.BORDER);
-        Border etched = BorderFactory.createEtchedBorder();
-        this.setBorder(BorderFactory.createCompoundBorder(line, etched));
+;
 
         // productGrid
         productGrid = new JPanel();
@@ -120,7 +116,6 @@ public class ShopView extends JPanel implements PropertyChangeListener {
                 g2.dispose();
             }
         });
-
         verticalBar.setPreferredSize(new Dimension(8, 0));
         verticalBar.setUnitIncrement(16);
 

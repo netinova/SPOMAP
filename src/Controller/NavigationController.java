@@ -1,7 +1,6 @@
 package Controller;
 
 import Components.MultiViewPanel;
-import Model.OnChangeViewListener;
 import Model.ProductCatalog;
 import View.ShopView;
 import java.util.List;
@@ -15,7 +14,6 @@ public class NavigationController {
         this.listener = listener;
     }
 
-    @SuppressWarnings("unused")
     private ProductCatalog model;
 
     private ShopView shopView;

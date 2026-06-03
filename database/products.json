@@ -1,0 +1,103 @@
+{
+  "products": [
+    {
+      "name": "Headphones",
+      "id": "0",
+      "thumbnailLoc": "database/pictures/headphones_thumb.png",
+      "productImages": [
+        "database/pictures/headphones_thumb.png",
+        "database/pictures/headphones_black.png",
+        "database/pictures/headphones_gray.png"
+      ],
+      "description": "a nice headphones to listen to music with!",
+      "discount": 5.0,
+      "price": 30,
+      "technicalSpecs": {
+        "Mass": "250g",
+        "Color": "White",
+        "Frequency": "20Hz - 20kHz",
+        "Manufacturer": "AudioTech"
+      }
+    },
+    {
+      "name": "Product 2",
+      "id": "id_1",
+      "thumbnailLoc": "",
+      "description": "",
+      "discount": 7.354443303122658,
+      "price": 0.0
+    },
+    {
+      "name": "Product 3",
+      "id": "id_2",
+      "thumbnailLoc": "",
+      "description": "",
+      "discount": 9.354293299529626,
+      "price": 0.0
+    },
+    {
+      "name": "Product 4",
+      "id": "id_3",
+      "thumbnailLoc": "",
+      "description": "",
+      "discount": 0.0631904560556007,
+      "price": 0.0
+    },
+    {
+      "name": "Product 5",
+      "id": "id_4",
+      "thumbnailLoc": "",
+      "description": "",
+      "discount": 2.9678605884592866,
+      "price": 0.0
+    },
+    {
+      "name": "Product 6",
+      "id": "id_5",
+      "thumbnailLoc": "",
+      "description": "",
+      "discount": 9.170220474402615,
+      "price": 0.0
+    },
+    {
+      "name": "Product 7",
+      "id": "id_6",
+      "thumbnailLoc": "",
+      "description": "",
+      "discount": 0.5159255458974266,
+      "price": 0.0
+    },
+    {
+      "name": "Product 8",
+      "id": "id_7",
+      "thumbnailLoc": "",
+      "description": "",
+      "discount": 5.428208156797264,
+      "price": 0.0
+    },
+    {
+      "name": "Product 9",
+      "id": "id_8",
+      "thumbnailLoc": "",
+      "description": "",
+      "discount": 5.911011589915106,
+      "price": 0.0
+    },
+    {
+      "name": "Product 10",
+      "id": "id_9",
+      "thumbnailLoc": "",
+      "description": "",
+      "discount": 3.8331102949232942,
+      "price": 0.0
+    },
+    {
+      "name": "name",
+      "id": "",
+      "thumbnailLoc": "",
+      "description": "",
+      "discount": 0.0,
+      "price": 0.0
+    }
+  ]
+}
