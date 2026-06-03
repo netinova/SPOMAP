@@ -79,6 +79,10 @@ public class ImageGallery extends JPanel {
 
         imagePanel.add(leftArrow);
         imagePanel.add(rightArrow);
+        
+        // Bring buttons to front so they're above the imageLabel
+        imagePanel.setComponentZOrder(leftArrow, 0);
+        imagePanel.setComponentZOrder(rightArrow, 0);
 
         add(imagePanel, BorderLayout.CENTER);
 

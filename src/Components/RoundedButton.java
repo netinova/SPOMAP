@@ -1,5 +1,6 @@
 package Components;
 
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -22,6 +23,7 @@ public class RoundedButton extends JButton {
         this.setPreferredSize(new Dimension(100, 40));
         this.setForeground(ColorPalette.TEXT_PRIMARY);
         this.setBackground(ColorPalette.BG_TERTIARY);
+        this.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
 
     @Override

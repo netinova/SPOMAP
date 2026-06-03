@@ -67,7 +67,7 @@ public class ProductCard extends JPanel {
         imagePanel.setBackground(ColorPalette.BG_SECONDARY);
         imagePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        String location = product.getThumbnailLoc();
+        String location = product.getThumbnail();
 
         // Load and scale image
         String imagePath = (location == null || location.isEmpty())

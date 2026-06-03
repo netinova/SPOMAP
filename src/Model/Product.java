@@ -10,7 +10,7 @@ public class Product {
     private String name;
     private String id;
 
-    private String thumbnailLoc;
+    private String thumbnail;
     private String[] productImages;
 
     private String description;
@@ -21,11 +21,11 @@ public class Product {
     @JsonIgnore
     private int stockQuantity;
 
-    public Product(String name, String id, String thumbnailLoc, String description,
+    public Product(String name, String id, String thumbnail, String description,
             double price, double discount, String[] productImages) {
         this.name = name;
         this.id = id;
-        this.thumbnailLoc = thumbnailLoc;
+        this.thumbnail = thumbnail;
         this.description = description;
         this.price = price;
         this.discount = discount;
@@ -77,8 +77,8 @@ public class Product {
         return id;
     }
 
-    public String getThumbnailLoc() {
-        return thumbnailLoc;
+    public String getThumbnail() {
+        return thumbnail;
     }
 
     public String getDescription() {
