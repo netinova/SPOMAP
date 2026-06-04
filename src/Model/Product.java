@@ -16,6 +16,10 @@ public class Product {
     private String description;
     private double discount;
     private double price;
+
+    private ProductColor[] colors;
+    private String manufacturer;
+
     private Map<String, String> technicalSpecs; // {"Mass": "250g", "Color": "Black", "Size": "M"}
 
     @JsonIgnore
@@ -36,6 +40,14 @@ public class Product {
     public Product() {
         this.technicalSpecs = new HashMap<>();
         this.productImages = new String[0];
+    }
+
+    public ProductColor[] getColors() {
+        return colors;
+    }
+
+    public String getManufacturer() {
+        return manufacturer;
     }
 
     public void setStockQuantity(int stockQuantity) {

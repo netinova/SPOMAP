@@ -44,7 +44,6 @@ public class Main {
         for (Product product : temp.getProducts()) {
             product.setStockQuantity(random.nextInt(1, 50));
             products.addProduct(product);
-
         }
 
         mainFrame.setVisible(true);

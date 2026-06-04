@@ -12,11 +12,11 @@
       "description": "a nice headphones to listen to music with!",
       "discount": 5.0,
       "price": 30,
+      "colors": ["White", "Black", "Gray"],
+      "manufacturer": "AudioTech",
       "technicalSpecs": {
         "Mass": "250g",
-        "Color": "White",
-        "Frequency": "20Hz - 20kHz",
-        "Manufacturer": "AudioTech"
+        "Frequency": "20Hz - 20kHz"
       }
     },
     {

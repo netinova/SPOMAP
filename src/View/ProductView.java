@@ -1,6 +1,7 @@
 package View;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -12,6 +13,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -26,6 +28,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import Components.ImageGallery;
+import Components.ProductInfoPanel;
+import Components.TechnicalSpecsPanel;
 import Model.Product;
 import Model.ProductCatalog;
 import Util.ColorPalette;
@@ -34,6 +38,8 @@ public class ProductView extends JPanel implements PropertyChangeListener {
 
     private JPanel contentPanel;
     private ImageGallery imageGallery;
+    private ProductInfoPanel productInfoPanel;
+    private TechnicalSpecsPanel specsPanel;
 
     public ProductView(ProductCatalog model) {
 
@@ -49,10 +55,19 @@ public class ProductView extends JPanel implements PropertyChangeListener {
         contentPanel = new JPanel();
         contentPanel.setBackground(ColorPalette.BG_MAIN);
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
-        contentPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
+        contentPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
         imageGallery = new ImageGallery();
+        imageGallery.setAlignmentX(Component.LEFT_ALIGNMENT);
         contentPanel.add(imageGallery);
+
+        productInfoPanel = new ProductInfoPanel();
+        productInfoPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        contentPanel.add(productInfoPanel);
+
+        specsPanel = new TechnicalSpecsPanel();
+        specsPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        contentPanel.add(specsPanel);
 
         // wrapping the grid in a scroll pane
         JScrollPane scrollPane = new JScrollPane(contentPanel);
@@ -132,6 +147,8 @@ public class ProductView extends JPanel implements PropertyChangeListener {
         if (evt.getPropertyName().equals(ProductCatalog.PROP_SELECTED)) {
             Product product = (Product) evt.getNewValue();
             imageGallery.setImages(product.getProductImages());
+            productInfoPanel.updateInfo(product.getName(), product.getDescription());
+            specsPanel.setProduct(product);
         }
     }
 }
