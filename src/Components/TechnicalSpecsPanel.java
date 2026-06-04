@@ -56,6 +56,14 @@ public class TechnicalSpecsPanel extends JPanel {
         specsInnerPanel.setBackground(ColorPalette.BG_SECONDARY);
         specsInnerPanel.setBorder(BorderFactory.createLineBorder(ColorPalette.BORDER, 1));
         this.add(specsInnerPanel, BorderLayout.CENTER);
+
+    }
+
+    @Override
+    public Dimension getMaximumSize() {
+        // Limit maximum size to the preferred size (no extra vertical growth)
+        Dimension pref = getPreferredSize();
+        return new Dimension(super.getMaximumSize().width, pref.height);
     }
 
     public void setProduct(Product product) {
@@ -137,5 +145,6 @@ public class TechnicalSpecsPanel extends JPanel {
         }
 
         setVisible(true);
+
     }
 }
