@@ -12,6 +12,7 @@ import java.awt.geom.RoundRectangle2D;
 public class RoundedInputPassword extends JPasswordField {
     public int cornerRadius;
     private boolean activePlaceHolder;
+    private String placeHolder;
 
     public RoundedInputPassword(String placeHolder, int size) {
         this.setFont(new Font("Arial", Font.PLAIN, 3 * size));
@@ -19,6 +20,7 @@ public class RoundedInputPassword extends JPasswordField {
         this.setCaretColor(ColorPalette.TEXT_PRIMARY);
         super.setPreferredSize(new Dimension(40 * size, 5 * size));
         this.setOpaque(false);
+        this.placeHolder = placeHolder;
         this.cornerRadius = size * 5;
         this.setBorder(new EmptyBorder(5, 10, 5, 5));
         this.setMargin(new Insets(5, 10, 5, 5));
@@ -50,6 +52,14 @@ public class RoundedInputPassword extends JPasswordField {
                 }
             }
         });
+    }
+
+    public void setActivePlaceHolder(boolean activePlaceHolder) {
+        this.activePlaceHolder = activePlaceHolder;
+        setEchoChar((char) 0);
+        setText(placeHolder);
+        activePlaceHolder = true;
+        setForeground(ColorPalette.TEXT_PLACEHOLDER);
     }
 
     public void setCornerRadius(int cornerRadius) {

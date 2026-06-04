@@ -25,6 +25,7 @@ public class RoundedInputText extends JTextField {
     private boolean activePlaceHolder;
     private EventListenerList listenerList = new EventListenerList();
     private boolean isUpdatingPlaceholder = false;
+    private String placeHolder;
 
     public interface EnterKeyListener {
         void onEnterPressed(String text);
@@ -37,6 +38,7 @@ public class RoundedInputText extends JTextField {
         this.setCaretColor(ColorPalette.TEXT_PRIMARY);
         super.setPreferredSize(new Dimension(40 * size, 5 * size));
         this.setOpaque(false);
+        this.placeHolder = placeHolder;
         this.cornerRadius = size * 5;
         this.setBorder(new EmptyBorder(5, 10, 5, 5));
         this.setMargin(new Insets(5, 10, 5, 5));
@@ -121,6 +123,15 @@ public class RoundedInputText extends JTextField {
                 listener.actionPerformed(event);
             }
         }
+    }
+
+    public void setActivePlaceHolder(boolean activePlaceHolder) {
+        this.activePlaceHolder = activePlaceHolder;
+        isUpdatingPlaceholder = true;
+        setText(placeHolder);
+        isUpdatingPlaceholder = false;
+        activePlaceHolder = true;
+        setForeground(ColorPalette.TEXT_PLACEHOLDER);
     }
 
     private void fireSearchEvent() {

@@ -1,16 +1,49 @@
 package Components;
 
+import Controller.AuthenticationController;
 import Util.ColorPalette;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 
 public class LoginPanel extends JPanel {
     private int cornerRadius = 10;
 
+    // Components
+    private RoundedInputText usernameInput;
+    private RoundedInputPassword passwordInput;
+    private RoundedButton loginButton;
+    private RoundedButton signUpButton;
+
+    // Form panels for error display
+    private FormTextFiledPanel usernamePanel;
+    private FormTextFiledPanel passwordPanel;
+
+    // Controller and property support
+    private AuthenticationController authController;
+    private PropertyChangeSupport support = new PropertyChangeSupport(this);
+
+    public static final String LOGIN_PROP = "login";
+    public static final String SHOW_SIGNUP_PROP = "showSignUp";
+    public static final String USERNAME_PROP = "username";
+    public static final String PASSWORD_PROP = "password";
+
+
     public LoginPanel() {
         setupUI();
         createComponents();
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        support.addPropertyChangeListener(listener);
+    }
+
+    public void setAuthenticationController(AuthenticationController controller) {
+        this.authController = controller;
     }
 
     private void setupUI() {
@@ -32,91 +65,120 @@ public class LoginPanel extends JPanel {
         logo = new ImageIcon(resizeLogo);
         JLabel logoLabel = new JLabel("Log In");
         logoLabel.setForeground(ColorPalette.TEXT_PRIMARY);
-        logoLabel.setFont(new Font("Calibri (Body)",Font.BOLD,50));
+        logoLabel.setFont(new Font("Calibri (Body)", Font.BOLD, 50));
         logoLabel.setIcon(logo);
         logoLabel.setHorizontalAlignment(JLabel.CENTER);
 
-        gbc.gridy = 1;
+        gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.CENTER;
 
         this.add(logoLabel, gbc);
 
-        //set panel of filed username
+        // Username Field
+        gbc.gridy = 1;
+        usernameInput = new RoundedInputText("Username / Phone number", 5);
+        usernameInput.setPreferredSize(new Dimension(300, 40));
+        usernamePanel = new FormTextFiledPanel("Username", usernameInput, "username");
+        usernameInput.addActionListener(e -> {
+            String username = usernameInput.getText();
+            if (authController != null) {
+                var result = authController.validatePhoneNumber(username);
+                    if (!result.isValid()) {
+                    usernamePanel.setError(result.getErrorMessage());
+                } else {
+                    usernamePanel.clearError();
+                }
+                support.firePropertyChange(USERNAME_PROP , null , username);
+            }
+        });
+        this.add(usernamePanel, gbc);
 
-        JPanel userPanel = new JPanel();
-        userPanel.setOpaque(false);
-        userPanel.setLayout(new BoxLayout(userPanel, BoxLayout.Y_AXIS));
-        userPanel.setPreferredSize(new Dimension(300, 60));
-
-        //set label of Username
-        JLabel usernameLabel = new JLabel("Username");
-        usernameLabel.setFont(new Font("Arial", Font.PLAIN, 14));
-        usernameLabel.setForeground(ColorPalette.TEXT_MUTED);
-        usernameLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-
-        //user Input Filed
-        RoundedInputText usernameInput = new RoundedInputText("Username", 5);
-        usernameInput.setAlignmentX(Component.LEFT_ALIGNMENT);
-
-        userPanel.add(usernameLabel);
-        userPanel.add(Box.createVerticalStrut(5));
-        userPanel.add(usernameInput);
-
+        // Password Field
         gbc.gridy = 2;
-        gbc.anchor = GridBagConstraints.CENTER;
-        this.add(userPanel, gbc);
+        passwordInput = new RoundedInputPassword("Password", 5);
+        passwordInput.setPreferredSize(new Dimension(300, 40));
+        passwordPanel = new FormTextFiledPanel("Password", passwordInput, "password");
+        passwordInput.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                validPassword();
+            }
 
-        //set panel of filed password
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                validPassword();
+            }
 
-        JPanel passwordPanel = new JPanel();
-        passwordPanel.setOpaque(false);
-        passwordPanel.setLayout(new BoxLayout(passwordPanel, BoxLayout.Y_AXIS));
-        passwordPanel.setPreferredSize(new Dimension(300, 70));
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                validPassword();
+            }
 
-        //set label of Username
-        JLabel passwordLabel = new JLabel("Password");
-        passwordLabel.setFont(new Font("Arial", Font.PLAIN, 14));
-        passwordLabel.setForeground(ColorPalette.TEXT_MUTED);
-        passwordLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-
-        //user Input Filed
-        RoundedInputPassword passwordInput = new RoundedInputPassword("Password", 5);
-        passwordInput.setAlignmentX(Component.LEFT_ALIGNMENT);
-
-        passwordPanel.add(Box.createVerticalStrut(5));
-        passwordPanel.add(passwordLabel);
-        passwordPanel.add(Box.createVerticalStrut(5));
-        passwordPanel.add(passwordInput);
-
-        gbc.gridy = 3;
-        gbc.anchor = GridBagConstraints.CENTER;
+            private void validPassword() {
+                String password = new String(passwordInput.getPassword());
+                if (authController != null) {
+                    var result = authController.validateLoginPassword(password);
+                    if (!result.isValid()) {
+                        passwordPanel.setError(result.getErrorMessage());
+                    } else {
+                        passwordPanel.clearError();
+                    }
+                    support.firePropertyChange(PASSWORD_PROP , null , password);
+                }
+            }
+        });
         this.add(passwordPanel, gbc);
 
+        //submit Button
+        loginButton = new RoundedButton("Log in", 25);
+        loginButton.setPreferredSize(new Dimension(280, 45));
+
+        gbc.gridy = 3;
+        gbc.insets = new Insets(5, 20, 5, 20);
+        this.add(loginButton, gbc);
 
         gbc.gridy = 4;
-        this.add(Box.createVerticalStrut(5), gbc);
-
-        //submit Button
-        RoundedButton submitButton = new RoundedButton("Log in", 25);
-        submitButton.setPreferredSize(new Dimension(280, 45));
+        JLabel orTextLabel = new JLabel("or");
+        orTextLabel.setForeground(ColorPalette.TEXT_MUTED);
+        orTextLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        orTextLabel.setFont(new Font("Arial", Font.PLAIN, 17));
+        this.add(orTextLabel, gbc);
 
         gbc.gridy = 5;
-        gbc.insets =new Insets(5, 20, 5, 20);
-        this.add(submitButton, gbc);
+        signUpButton = new RoundedButton("Sing up", 25);
 
-        gbc.gridy=6;
-        JLabel orTextLabel = new JLabel("                              or");
-        orTextLabel.setForeground(ColorPalette.TEXT_MUTED);
-        orTextLabel.setFont(new Font("Arial", Font.PLAIN, 17));
-        this.add(orTextLabel,gbc);
+        signUpButton.setPreferredSize(new Dimension(280, 45));
+        this.add(signUpButton, gbc);
 
-        gbc.gridy = 7;
-        RoundedButton singupButton = new RoundedButton("Sing up", 25);
+        loginButton.addActionListener(e -> {
+            if (authController != null){
+                String username = usernameInput.getText();
+                String password = new String(passwordInput.getPassword());
 
-        singupButton.setPreferredSize(new Dimension(280, 45));
-        this.add(singupButton, gbc);
+                boolean isValid = authController.validateFullLogin(username, password);
+                if (isValid) {
+                    support.firePropertyChange(LOGIN_PROP, null, null);
+                }
+            }
+        });
 
+        signUpButton.addActionListener(e -> {
+            support.firePropertyChange(SHOW_SIGNUP_PROP, null, null);
+        });
     }
+
+
+    // getters
+
+    public String  getUsernameInput() {
+        return usernameInput.getText();
+    }
+
+    public String getPassword() {
+        return new String(passwordInput.getPassword());
+    }
+
+
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -134,5 +196,21 @@ public class LoginPanel extends JPanel {
 
         // Paint the text
         super.paintComponent(g);
+    }
+
+    // Reset form
+    public void resetForm() {
+        usernameInput.setActivePlaceHolder(true);
+        passwordInput.setActivePlaceHolder(true);
+        usernamePanel.clearError();
+        passwordPanel.clearError();
+    }
+
+
+    public void showUsernameError(String error) {
+        usernamePanel.setError(error);
+    }
+
+    public void showPasswordError(String error) {
     }
 }

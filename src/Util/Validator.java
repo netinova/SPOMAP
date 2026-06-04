@@ -13,19 +13,19 @@ public class Validator {
 
     public static class ValidationResult {
         private final boolean valid;
-        private final String errorMessage;
 
+        private final String errorMessage;
         public ValidationResult(boolean valid, String errorMessage) {
             this.valid = valid;
             this.errorMessage = errorMessage;
         }
 
         public boolean isValid() { return valid; }
+
         public String getErrorMessage() { return errorMessage; }
     }
-
     public static ValidationResult validatePhone(String phone) {
-        if (phone == null || phone.isEmpty()) {
+        if (phone == null || phone.isEmpty() || phone.equals("09xxxxxxxxx") || phone.equals("Username / Phone number")) {
             return new ValidationResult(false, "Phone number is required");
         }
         if (!phone.matches(PHONE_REGEX)) {
@@ -35,7 +35,7 @@ public class Validator {
     }
 
     public static ValidationResult validateFirstName(String name) {
-        if (name == null || name.isEmpty()) {
+        if (name == null || name.isEmpty() || name.equals("First Name")) {
             return new ValidationResult(false, "First name is required");
         }
         if (!name.matches(NAME_REGEX)) {
@@ -45,7 +45,7 @@ public class Validator {
     }
 
     public static ValidationResult validateLastName(String name) {
-        if (name == null || name.isEmpty()) {
+        if (name == null || name.isEmpty() || name.equals("Last Name")) {
             return new ValidationResult(false, "Last name is required");
         }
         if (!name.matches(NAME_REGEX)) {
@@ -55,7 +55,7 @@ public class Validator {
     }
 
     public static ValidationResult validatePassword(String password) {
-        if (password == null || password.isEmpty()) {
+        if (password == null || password.isEmpty() || password.equals("Password")) {
             return new ValidationResult(false, "Password is required");
         }
         if (password.length() < 6) {
@@ -67,8 +67,15 @@ public class Validator {
         return new ValidationResult(true, null);
     }
 
+    public static ValidationResult validateLoginPassword(String password) {
+        if (password == null || password.isEmpty() || password.equals("Password")) {
+            return new ValidationResult(false, "Please confirm your password");
+        }
+        return new ValidationResult(true, null);
+    }
+
     public static ValidationResult validateConfirmPassword(String password, String confirmPassword) {
-        if (confirmPassword == null || confirmPassword.isEmpty()) {
+        if (confirmPassword == null || confirmPassword.isEmpty() || confirmPassword.equals("Repeat Password")) {
             return new ValidationResult(false, "Please confirm your password");
         }
         if (!password.equals(confirmPassword)) {
