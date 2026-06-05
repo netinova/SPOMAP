@@ -76,10 +76,6 @@ public class SearchFiled extends JPanel {
         listenerList.add(ActionListener.class, listener);
     }
 
-    public void removeActionListener(ActionListener listener) {
-        listenerList.remove(ActionListener.class, listener);
-    }
-
     private void fireSearchEvent(String searchText) {
         ActionListener[] listeners = listenerList.getListeners(ActionListener.class);
         if (listeners.length > 0) {

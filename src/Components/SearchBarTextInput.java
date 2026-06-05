@@ -109,10 +109,6 @@ public class SearchBarTextInput extends JTextField {
         listenerList.add(ActionListener.class, listener);
     }
 
-    public void removeActionListener(ActionListener listener) {
-        listenerList.remove(ActionListener.class, listener);
-    }
-
     public void setEnterKeyListener(EnterKeyListener listener) {
         this.enterKeyListener = listener;
     }

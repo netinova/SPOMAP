@@ -6,7 +6,7 @@ import Model.ProductCatalog;
 import View.NavigationView;
 import View.ShopView;
 import View.SidebarView;
-import View.UserView;
+import View.AuthenticationView;
 import Components.MultiViewPanel;
 import java.util.Locale;
 
@@ -20,11 +20,11 @@ public class Main {
         ShopView shopView = new ShopView(appController.getShopController(), products);
         NavigationView navigationView = new NavigationView(appController.getNavigationController());
         SidebarView sidebarView = new SidebarView(appController.getSidebarController());
-        UserView userView = new UserView();
+        AuthenticationView authenticationView = new AuthenticationView(appController.getAuthenticationController());
 
-        MultiViewPanel multiViewPanel = new MultiViewPanel(shopView, userView);
+        MultiViewPanel multiViewPanel = new MultiViewPanel(shopView, authenticationView);
 
-        appController.setViews(shopView, navigationView, sidebarView, multiViewPanel);
+        appController.setViews(shopView, navigationView, sidebarView, multiViewPanel, authenticationView);
 
         MainFrame mainFrame = new MainFrame(appController, sidebarView, navigationView, multiViewPanel);
 

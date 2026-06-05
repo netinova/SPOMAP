@@ -5,18 +5,18 @@ import java.awt.CardLayout;
 import javax.swing.JPanel;
 
 import View.ShopView;
-import View.UserView;
+import View.AuthenticationView;
 
 public class MultiViewPanel extends JPanel {
 
     private ShopView shopView;
     private CardLayout cardLayout;
-    private UserView userView;
+    private AuthenticationView userView;
 
     public static final String USER_VIEW = "userView";
     public static final String SHOP_VIEW = "shopView";
 
-    public MultiViewPanel(ShopView shopView, UserView userView) {
+    public MultiViewPanel(ShopView shopView, AuthenticationView userView) {
         this.shopView = shopView;
         this.userView = userView;
         setupUI();
