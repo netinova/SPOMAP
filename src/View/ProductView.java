@@ -29,6 +29,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import Components.ImageGallery;
 import Components.ProductInfoPanel;
+import Components.QuantityCartPanel;
 import Components.TechnicalSpecsPanel;
 import Model.Product;
 import Model.ProductCatalog;
@@ -40,12 +41,28 @@ public class ProductView extends JPanel implements PropertyChangeListener {
     private ImageGallery imageGallery;
     private ProductInfoPanel productInfoPanel;
     private TechnicalSpecsPanel specsPanel;
+    private QuantityCartPanel quantityCartPanel;
 
     public ProductView(ProductCatalog model) {
 
         model.addListener(this);
 
         setupUI();
+        attachEvents();
+    }
+
+    private void attachEvents() {
+        quantityCartPanel.addCartListener(e -> {
+            System.out.println("Clicked add to cart!");
+        });
+
+        quantityCartPanel.addMinusListener(e -> {
+            System.out.println("Clicked - ! quantity: " + Integer.parseInt(e.getActionCommand()));
+        });
+
+        quantityCartPanel.addPlusListener(e -> {
+            System.out.println("Clicked + ! quantity: " + Integer.parseInt(e.getActionCommand()));
+        });
     }
 
     private void setupUI() {
@@ -55,7 +72,9 @@ public class ProductView extends JPanel implements PropertyChangeListener {
         contentPanel = new JPanel();
         contentPanel.setBackground(ColorPalette.BG_MAIN);
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
-        contentPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        contentPanel.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createEmptyBorder(10, 10, 10, 10),
+                BorderFactory.createLineBorder(ColorPalette.BORDER)));
 
         imageGallery = new ImageGallery();
         imageGallery.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -68,6 +87,10 @@ public class ProductView extends JPanel implements PropertyChangeListener {
         specsPanel = new TechnicalSpecsPanel();
         specsPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         contentPanel.add(specsPanel);
+
+        quantityCartPanel = new QuantityCartPanel();
+        quantityCartPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        contentPanel.add(quantityCartPanel);
 
         // wrapping the grid in a scroll pane
         JScrollPane scrollPane = new JScrollPane(contentPanel);
@@ -149,6 +172,7 @@ public class ProductView extends JPanel implements PropertyChangeListener {
             imageGallery.setImages(product.getProductImages());
             productInfoPanel.updateInfo(product.getName(), product.getDescription());
             specsPanel.setProduct(product);
+            quantityCartPanel.setQuantity(1);
         }
     }
 }
