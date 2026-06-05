@@ -46,7 +46,7 @@ public class QuantityCartPanel extends JPanel {
     private int quantity = 1;
 
     public QuantityCartPanel() {
-        setBackground(ColorPalette.BG_MAIN);
+        setBackground(ColorPalette.BG_SECONDARY);
         setBorder(BorderFactory.createEmptyBorder(20, 15, 20, 15));
 
         setLayout(new GridBagLayout());

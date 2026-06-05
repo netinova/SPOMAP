@@ -28,6 +28,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import Components.ImageGallery;
+import Components.PricePanel;
 import Components.ProductInfoPanel;
 import Components.QuantityCartPanel;
 import Components.TechnicalSpecsPanel;
@@ -42,6 +43,7 @@ public class ProductView extends JPanel implements PropertyChangeListener {
     private ProductInfoPanel productInfoPanel;
     private TechnicalSpecsPanel specsPanel;
     private QuantityCartPanel quantityCartPanel;
+    private PricePanel pricePanel;
 
     public ProductView(ProductCatalog model) {
 
@@ -57,12 +59,17 @@ public class ProductView extends JPanel implements PropertyChangeListener {
         });
 
         quantityCartPanel.addMinusListener(e -> {
-            System.out.println("Clicked - ! quantity: " + Integer.parseInt(e.getActionCommand()));
+            int quantity = Integer.parseInt(e.getActionCommand());
+            System.out.println("Clicked - ! quantity: " + quantity);
+            pricePanel.setQuantity(quantity);
         });
 
         quantityCartPanel.addPlusListener(e -> {
-            System.out.println("Clicked + ! quantity: " + Integer.parseInt(e.getActionCommand()));
+            int quantity = Integer.parseInt(e.getActionCommand());
+            System.out.println("Clicked + ! quantity: " + quantity);
+            pricePanel.setQuantity(quantity);
         });
+
     }
 
     private void setupUI() {
@@ -87,6 +94,10 @@ public class ProductView extends JPanel implements PropertyChangeListener {
         specsPanel = new TechnicalSpecsPanel();
         specsPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         contentPanel.add(specsPanel);
+
+        pricePanel = new PricePanel();
+        pricePanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        contentPanel.add(pricePanel);
 
         quantityCartPanel = new QuantityCartPanel();
         quantityCartPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -172,6 +183,7 @@ public class ProductView extends JPanel implements PropertyChangeListener {
             imageGallery.setImages(product.getProductImages());
             productInfoPanel.updateInfo(product.getName(), product.getDescription());
             specsPanel.setProduct(product);
+            pricePanel.setPrice(product.getPrice(), product.getDiscount());
             quantityCartPanel.setQuantity(1);
         }
     }
