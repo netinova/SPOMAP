@@ -1,5 +1,6 @@
 package Components;
 
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -12,6 +13,11 @@ import Util.ColorPalette;
 public class RoundedButton extends JButton {
 
     private int cornerRadius;
+    private boolean hasBorder = true;
+
+    public void setHasBorder(boolean hasBorder) {
+        this.hasBorder = hasBorder;
+    }
 
     public RoundedButton(String text, int cornerRadius) {
         super(text == null ? "" : text);
@@ -22,6 +28,7 @@ public class RoundedButton extends JButton {
         this.setPreferredSize(new Dimension(100, 40));
         this.setForeground(ColorPalette.TEXT_PRIMARY);
         this.setBackground(ColorPalette.BG_TERTIARY);
+        this.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
 
     @Override
@@ -41,8 +48,11 @@ public class RoundedButton extends JButton {
         g2.fillRoundRect(0, 0, getWidth(), getHeight(), cornerRadius, cornerRadius);
 
         // Draw border
-        g2.setColor(ColorPalette.BORDER);
-        g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, cornerRadius, cornerRadius);
+
+        if (hasBorder) {
+            g2.setColor(ColorPalette.BORDER);
+            g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, cornerRadius, cornerRadius);
+        }
 
         g2.dispose();
 

@@ -5,9 +5,15 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class ProductCatalog {
     private ArrayList<Product> products = new ArrayList<>();
+
+    @JsonIgnore
     private Product selectedProduct;
+
+    @JsonIgnore
     private PropertyChangeSupport support = new PropertyChangeSupport(this);
 
     public static final String PROP_PRODUCTS = "products";

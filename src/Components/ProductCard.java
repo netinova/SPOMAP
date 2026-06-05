@@ -67,7 +67,7 @@ public class ProductCard extends JPanel {
         imagePanel.setBackground(ColorPalette.BG_SECONDARY);
         imagePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        String location = product.getImageLoc();
+        String location = product.getThumbnail();
 
         // Load and scale image
         String imagePath = (location == null || location.isEmpty())
@@ -138,7 +138,7 @@ public class ProductCard extends JPanel {
     private void fireActionEvent() {
         ActionListener[] listeners = listenerList.getListeners(ActionListener.class);
         if (listeners.length > 0) {
-            ActionEvent event = new ActionEvent(this, ActionEvent.ACTION_PERFORMED, 
+            ActionEvent event = new ActionEvent(this, ActionEvent.ACTION_PERFORMED,
                     product.getId() != null ? product.getId() : "");
             for (ActionListener listener : listeners) {
                 listener.actionPerformed(event);

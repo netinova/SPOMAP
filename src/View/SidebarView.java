@@ -23,7 +23,7 @@ public class SidebarView extends JPanel {
 
     public SidebarView(SidebarController controller) {
         this.controller = controller;
-        this.sideNavbarPanel=new SideNavbarPanel(this.controller);
+        this.sideNavbarPanel = new SideNavbarPanel(this.controller);
         setupUI();
         attachEvents();
     }
