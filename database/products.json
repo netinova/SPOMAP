@@ -1,8 +1,111 @@
 {
   "products": [
     {
-      "name": "Headphones",
+      "name": "Game board Koodeta COUP+",
       "id": "0",
+      "thumbnail": "database/pictures/Game_Board_Coodeta_1.png",
+      "productImages": [
+        "database/pictures/Game_Board_Coodeta_1.png",
+        "database/pictures/Game_Board_Coodeta_2.png"
+      ],
+      "description": "A fun and strategic game",
+      "discount": 50.0,
+      "price": 20.0,
+      "colors": [],
+      "manufacturer": "La Mame Game",
+      "technicalSpecs": {
+        "Range age": "+13",
+        "Players": "2-10",
+        "Time Play ": "15 minute"
+      }
+    },
+    {
+      "name": "barbari bread",
+      "id": "1",
+      "thumbnail": "database/pictures/Barbari.png",
+      "productImages": [
+        "database/pictures/Barbari.png"
+      ],
+      "description": "a perfect iranain bread",
+      "discount": 10.0,
+      "price": 1.0,
+      "colors": [],
+      "manufacturer": "",
+      "technicalSpecs": {}
+    },
+    {
+      "name": "Hoody Palangi",
+      "id": "2",
+      "thumbnail": "database/pictures/OG_Hood_1.png",
+      "productImages": [
+        "database/pictures/OG_Hood_1.png",
+        "database/pictures/OG_Hood_2.png"
+      ],
+      "description": "The difference between these two types is only in the fibers of the hoodie fabric, and the three-thread type is recommended.",
+      "discount": 0.1,
+      "price": 8.3,
+      "colors": [
+        "Black"
+      ],
+      "manufacturer": "Tirdad",
+      "technicalSpecs": {
+        "Material": "High-quality fleece lining",
+        "Collar type": "Hooded",
+        "Sleeve type": "Long sleeves, puff sleeves"
+      }
+    },
+    {
+      "name": "B2",
+      "id": "3",
+      "thumbnail": "database/pictures/B2_1.png",
+      "productImages": [
+        "database/pictures/B2_1.png",
+        "database/pictures/B2_2.png"
+      ],
+      "description": "Several terms redirect here. For other uses, see B2",
+      "discount": 0.0,
+      "price": 25487930.0,
+      "colors": [],
+      "manufacturer": "",
+      "technicalSpecs": {}
+    },
+    {
+      "name": "UmBoul",
+      "id": "4",
+      "thumbnail": null,
+      "productImages": [],
+      "description": "saghol for choosing UnBoul - Your product is on its way from cabol",
+      "discount": 98.0,
+      "price": 26.0,
+      "colors": [],
+      "manufacturer": "abol_yamin",
+      "technicalSpecs": {}
+    },
+    {
+      "name": "Karambit knife CS2",
+      "id": "5",
+      "thumbnail": "database/pictures/karambit_1.png",
+      "productImages": [
+        "database/pictures/karambit_1.png",
+        "database/pictures/karambit_2.png",
+        "database/pictures/karambit_3.png",
+        "database/pictures/karambit_4.png"
+      ],
+      "description": "a Knife in Cs2",
+      "discount": 0.0,
+      "price": 7000.0,
+      "colors": [
+        "Red_Doppler",
+        "Blue_Doppler",
+        "Purple_Doppler",
+        "Dark_Purple_Doppler"
+      ],
+      "manufacturer": "Vale",
+      "technicalSpecs": {}
+    },
+    {
+      "name": "Headphones",
+      "id": "6",
       "thumbnail": "database/pictures/headphones_thumb.png",
       "productImages": [
         "database/pictures/headphones_thumb.png",
@@ -20,84 +123,110 @@
       }
     },
     {
-      "name": "Product 2",
-      "id": "id_1",
-      "thumbnail": "",
-      "description": "",
-      "discount": 7.354443303122658,
-      "price": 0.0
+      "name": "Apple Watch Ultra 2",
+      "id": "7",
+      "thumbnail": "database/pictures/appel_watch_black.png",
+      "productImages": [
+        "database/pictures/appel_watch_black.png",
+        "database/pictures/appel_watch_blue.png",
+        "database/pictures/appel_watch_orange.png",
+        "database/pictures/appel_watch_Blue_Alpine_Loop.png",
+        "database/pictures/appel_watch_Olive_Alpine_Loop.png"
+      ],
+      "description": "Apple Watch Ultra 2 [GPS + Cellular, 49mm] Titanium Case with Olive Alpine Loop, Small (Renewed)",
+      "discount": 13.0,
+      "price": 409.0,
+      "colors": ["Black_Band", "Blue_Band", " Orange_Band", "Olive_Loop", "Blue_Loop"],
+      "manufacturer": "Apple Watch",
+      "technicalSpecs": {
+        "Memory Storage Capacity": "1GB",
+        "Special Feature": "Activity Tracker, Cycle Tracking, GPS, Heart Rate Monitor, Voice Control",
+        "Wireless Communication Standard": "802.11bgn, Bluetooth",
+        "Screen Size": "1.77 Inches"
+      }
     },
     {
-      "name": "Product 3",
-      "id": "id_2",
-      "thumbnail": "",
-      "description": "",
-      "discount": 9.354293299529626,
-      "price": 0.0
+      "name": "WD 2TB My Passport",
+      "id": "8",
+      "thumbnail": "database/pictures/WD_HHD_1.png",
+      "productImages": [
+        "database/pictures/WD_HHD_1.png",
+        "database/pictures/WD_HHD_2.png",
+        "database/pictures/WD_HHD_3.png"
+      ],
+      "description": "WD 2TB My Passport, Portable External Hard Drive, backup software with defense against ransomware, password protection, USB 3.1 compatible ",
+      "discount": 3.33,
+      "price": 84.72,
+      "colors": ["Black"],
+      "manufacturer": "western digital(WD)",
+      "technicalSpecs": {
+        "Digital Storage Capacity": "2 TB",
+        "Special Feature": "Activity Tracker, Cycle Tracking, GPS, Heart Rate Monitor, Voice Control",
+        "Wireless Communication Standard": "802.11bgn, Bluetooth",
+        "Hard Disk Form Factor": "Hard Disk Form Factor"
+      }
     },
     {
-      "name": "Product 4",
-      "id": "id_3",
-      "thumbnail": "",
-      "description": "",
-      "discount": 0.0631904560556007,
-      "price": 0.0
-    },
-    {
-      "name": "Product 5",
-      "id": "id_4",
-      "thumbnail": "",
-      "description": "",
-      "discount": 2.9678605884592866,
-      "price": 0.0
-    },
-    {
-      "name": "Product 6",
-      "id": "id_5",
-      "thumbnail": "",
-      "description": "",
-      "discount": 9.170220474402615,
-      "price": 0.0
-    },
-    {
-      "name": "Product 7",
-      "id": "id_6",
-      "thumbnail": "",
-      "description": "",
-      "discount": 0.5159255458974266,
-      "price": 0.0
-    },
-    {
-      "name": "Product 8",
-      "id": "id_7",
-      "thumbnail": "",
-      "description": "",
-      "discount": 5.428208156797264,
-      "price": 0.0
-    },
-    {
-      "name": "Product 9",
-      "id": "id_8",
-      "thumbnail": "",
-      "description": "",
-      "discount": 5.911011589915106,
-      "price": 0.0
-    },
-    {
-      "name": "Product 10",
-      "id": "id_9",
-      "thumbnail": "",
-      "description": "",
-      "discount": 3.8331102949232942,
-      "price": 0.0
-    },
-    {
-      "name": "name",
-      "id": "",
-      "thumbnail": "",
-      "description": "",
+      "name": "CORSAIR Vengeance RGB DDR5 RAM 32GB (2x16GB) 6400MHz",
+      "id": "9",
+      "thumbnail": "database/pictures/Ram_Vengeance_1.png",
+      "productImages": [
+        "database/pictures/Ram_Vengeance_1.png",
+        "database/pictures/Ram_Vengeance_2.png"
+      ],
+      "description": "6400MHz CL36-48-48-104 1.35V Intel XMP 3.0 Desktop Computer Memory - Black (CMH32GX5M2B6400C36)",
       "discount": 0.0,
-      "price": 0.0
+      "price": 499.55,
+      "colors": [
+        "Black"
+      ],
+      "manufacturer": "Corsair",
+      "technicalSpecs": {
+        "RAM Memory Technology": "DDR5",
+        "Memory Speed": "6400 MHz",
+        "Compatible Devices": "Desktop"
+      }
+    },
+    {
+      "name": "ASUS ProArt Display PA278QV 27” WQHD ",
+      "id": "10",
+      "thumbnail": "database/pictures/ASUS_ProArt_Display_1.png",
+      "productImages": [
+        "database/pictures/ASUS_ProArt_Display_1.png",
+        "database/pictures/ASUS_ProArt_Display_2.png",
+        "database/pictures/ASUS_ProArt_Display_3.png",
+        "database/pictures/ASUS_ProArt_Display_4.png",
+        "database/pictures/ASUS_ProArt_Display_5.png"
+      ],
+      "description": "(2560 x 1440), 100% sRGB/Rec. 709 ΔE<2, IPS, DisplayPort HDMI DVI-D Mini DP, Eye Care, Anti-Glare, Tilt Pivot Swivel Height Adjustable",
+      "discount": 10.0,
+      "price": 212.25,
+      "colors": [
+        "Black"
+      ],
+      "manufacturer": "ASUS",
+      "technicalSpecs": {
+        "Resolution": "QHD Wide 1440p",
+        "Aspect Ratio": "16:9",
+        "Screen Surface Description": "Matte"
+      }
+    },
+    {
+      "name": "TAMASHII NATIONS - Naruto Shippuden",
+      "id": "11",
+      "thumbnail": "database/pictures/TAMASHII_NATIONS_Naruto_Shippuden_1.png",
+      "productImages": [
+        "database/pictures/TAMASHII_NATIONS_Naruto_Shippuden_1.png",
+        "database/pictures/TAMASHII_NATIONS_Naruto_Shippuden_2.jpg",
+        "database/pictures/TAMASHII_NATIONS_Naruto_Shippuden_3.jpg",
+        "database/pictures/TAMASHII_NATIONS_Naruto_Shippuden_4.jpg"
+      ],
+      "description": "Naruto Shippuden - Naruto Uzumaki -The Jinchuriki Entrusted with Hope, Bandai Spirits S.H.Figuarts Action Figure",
+      "discount": 26.26,
+      "price": 32.89,
+      "colors": [],
+      "manufacturer": "Spirits S.H.Figuarts",
+      "technicalSpecs": {}
     }
   ]
 }
