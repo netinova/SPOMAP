@@ -17,13 +17,11 @@ public class PricePanel extends JPanel {
     private JLabel originalPriceLabel;
     private JLabel discountLabel;
 
-    private int quantity = 1;
     private double price;
     private double discount;
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-        setPrice(price, discount);
+    public void updateQuantity(int quantity) {
+        setPrice(price, discount, quantity);
     }
 
     private static final Font FINAL_PRICE_FONT = new Font("Segoe UI", Font.BOLD, 24);
@@ -64,7 +62,7 @@ public class PricePanel extends JPanel {
         add(discountRow);
     }
 
-    public void setPrice(double basePrice, double discount) {
+    public void setPrice(double basePrice, double discount, int quantity) {
 
         this.price = basePrice;
         this.discount = discount;

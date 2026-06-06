@@ -61,13 +61,13 @@ public class ProductView extends JPanel implements PropertyChangeListener {
         quantityCartPanel.addMinusListener(e -> {
             int quantity = Integer.parseInt(e.getActionCommand());
             System.out.println("Clicked - ! quantity: " + quantity);
-            pricePanel.setQuantity(quantity);
+            pricePanel.updateQuantity(quantity);
         });
 
         quantityCartPanel.addPlusListener(e -> {
             int quantity = Integer.parseInt(e.getActionCommand());
             System.out.println("Clicked + ! quantity: " + quantity);
-            pricePanel.setQuantity(quantity);
+            pricePanel.updateQuantity(quantity);
         });
 
     }
@@ -183,7 +183,7 @@ public class ProductView extends JPanel implements PropertyChangeListener {
             imageGallery.setImages(product.getProductImages());
             productInfoPanel.updateInfo(product.getName(), product.getDescription());
             specsPanel.setProduct(product);
-            pricePanel.setPrice(product.getPrice(), product.getDiscount());
+            pricePanel.setPrice(product.getPrice(), product.getDiscount(), 1);
             quantityCartPanel.setQuantity(1);
         }
     }
