@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonAppend.Prop;
 
 import java.util.Map;
+import java.util.Random;
 import java.util.HashMap;
 
 public class Product {
@@ -35,11 +36,15 @@ public class Product {
         this.discount = discount;
         this.technicalSpecs = new HashMap<>();
         this.productImages = productImages != null ? productImages.clone() : new String[0];
+
+        generateRandomStockQuantity();
     }
 
     public Product() {
         this.technicalSpecs = new HashMap<>();
         this.productImages = new String[0];
+
+        generateRandomStockQuantity();
     }
 
     public ProductColor[] getColors() {
@@ -50,8 +55,9 @@ public class Product {
         return manufacturer;
     }
 
-    public void setStockQuantity(int stockQuantity) {
-        this.stockQuantity = stockQuantity;
+    private void generateRandomStockQuantity() {
+        Random random = new Random();
+        this.stockQuantity = random.nextInt(1, 50);
     }
 
     public String[] getProductImages() {

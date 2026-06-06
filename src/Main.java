@@ -40,9 +40,7 @@ public class Main {
         ObjectMapper objectMapper = new ObjectMapper();
 
         ProductCatalog temp = objectMapper.readValue(new File("database/products.json"), ProductCatalog.class);
-        Random random = new Random();
         for (Product product : temp.getProducts()) {
-            product.setStockQuantity(random.nextInt(1, 50));
             products.addProduct(product);
         }
 
