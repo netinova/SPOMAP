@@ -32,6 +32,7 @@ import Components.ImageGallery;
 import Components.PricePanel;
 import Components.ProductInfoPanel;
 import Components.QuantityCartPanel;
+import Components.StockLabel;
 import Components.TechnicalSpecsPanel;
 import Model.Product;
 import Model.ProductCatalog;
@@ -46,6 +47,7 @@ public class ProductView extends JPanel implements PropertyChangeListener {
     private QuantityCartPanel quantityCartPanel;
     private PricePanel pricePanel;
     private ColorSelectorPanel colorSelectorPanel;
+    private StockLabel stockLabel;
 
     public ProductView(ProductCatalog model) {
 
@@ -104,6 +106,10 @@ public class ProductView extends JPanel implements PropertyChangeListener {
         colorSelectorPanel = new ColorSelectorPanel();
         colorSelectorPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         contentPanel.add(colorSelectorPanel);
+
+        stockLabel = new StockLabel();
+        stockLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        contentPanel.add(stockLabel);
 
         pricePanel = new PricePanel();
         pricePanel.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -195,7 +201,9 @@ public class ProductView extends JPanel implements PropertyChangeListener {
             specsPanel.setProduct(product);
             pricePanel.setPrice(product.getPrice(), product.getDiscount(), 1);
             quantityCartPanel.setQuantity(1);
+            quantityCartPanel.setMaxQuantity(product.getStockQuantity());
             colorSelectorPanel.setColors(product.getColors());
+            stockLabel.setStockQuantity(product.getStockQuantity());
         }
     }
 }

@@ -44,6 +44,7 @@ public class QuantityCartPanel extends JPanel {
     private RoundedButton cartButton;
 
     private int quantity = 1;
+    private int maxQuantity = Integer.MAX_VALUE;
 
     public QuantityCartPanel() {
         setBackground(ColorPalette.BG_SECONDARY);
@@ -109,6 +110,18 @@ public class QuantityCartPanel extends JPanel {
         add(cartButton, gbc);
     }
 
+    public void setMaxQuantity(int max) {
+        this.maxQuantity = Math.max(1, max);
+        if (quantity > maxQuantity) {
+            setQuantity(maxQuantity);
+        }
+        updateButtons();
+    }
+
+    private void updateButtons() {
+        plusButton.setEnabled(quantity < maxQuantity);
+    }
+
     public int getQuantity() {
         return quantity;
     }
@@ -116,6 +129,7 @@ public class QuantityCartPanel extends JPanel {
     public void setQuantity(int qty) {
         this.quantity = Math.max(1, qty);
         quantityIndicator.setQuantity(quantity);
+        updateButtons();
     }
 
     public void addMinusListener(ActionListener listener) {
