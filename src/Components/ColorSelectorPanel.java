@@ -118,7 +118,6 @@ public class ColorSelectorPanel extends JPanel {
             setMaximumSize(getPreferredSize());
             setMinimumSize(getPreferredSize());
             setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-            setToolTipText(getColorName());
         }
 
         public void fadeOutImmediately() {
