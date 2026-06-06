@@ -27,6 +27,7 @@ import javax.swing.plaf.basic.BasicScrollBarUI;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import Components.ColorSelectorPanel;
 import Components.ImageGallery;
 import Components.PricePanel;
 import Components.ProductInfoPanel;
@@ -44,6 +45,7 @@ public class ProductView extends JPanel implements PropertyChangeListener {
     private TechnicalSpecsPanel specsPanel;
     private QuantityCartPanel quantityCartPanel;
     private PricePanel pricePanel;
+    private ColorSelectorPanel colorSelectorPanel;
 
     public ProductView(ProductCatalog model) {
 
@@ -70,6 +72,10 @@ public class ProductView extends JPanel implements PropertyChangeListener {
             pricePanel.updateQuantity(quantity);
         });
 
+        colorSelectorPanel.addColorSelectionListener(color -> {
+            System.out.println("Selected color: " + color);
+        });
+
     }
 
     private void setupUI() {
@@ -94,6 +100,10 @@ public class ProductView extends JPanel implements PropertyChangeListener {
         specsPanel = new TechnicalSpecsPanel();
         specsPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         contentPanel.add(specsPanel);
+
+        colorSelectorPanel = new ColorSelectorPanel();
+        colorSelectorPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        contentPanel.add(colorSelectorPanel);
 
         pricePanel = new PricePanel();
         pricePanel.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -185,6 +195,7 @@ public class ProductView extends JPanel implements PropertyChangeListener {
             specsPanel.setProduct(product);
             pricePanel.setPrice(product.getPrice(), product.getDiscount(), 1);
             quantityCartPanel.setQuantity(1);
+            colorSelectorPanel.setColors(product.getColors());
         }
     }
 }
