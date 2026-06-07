@@ -1,5 +1,7 @@
 package Controller;
 
+import Model.PrimeUser;
+import Model.User;
 import View.AuthenticationView;
 import Util.Validator;
 import Util.Validator.ValidationResult;
@@ -35,6 +37,7 @@ public class AuthenticationController {
     public ValidationResult validateConfirmPassword(String password, String confirmPassword) {
         return Validator.validateConfirmPassword(password, confirmPassword);
     }
+
     public ValidationResult validateLoginPassword(String password) {
         return Validator.validateLoginPassword(password);
     }
@@ -82,7 +85,7 @@ public class AuthenticationController {
     // check full input of SingUp panel
     public boolean validateFullSingUpForm(String phone, String fName, String lName, String pass, String passConfirm, String findUs) {
         ValidationResult phoneResult = validatePhoneNumber(phone);
-        int tempNum=0;
+        int tempNum = 0;
         if (!phoneResult.isValid()) {
             if (view != null)
                 view.showPhoneError(phoneResult.getErrorMessage());
@@ -90,7 +93,7 @@ public class AuthenticationController {
         }
 
         ValidationResult firstNameResult = validateFirstName(fName);
-        if (!firstNameResult.isValid()){
+        if (!firstNameResult.isValid()) {
             if (view != null)
                 view.showFirstNameError(firstNameResult.getErrorMessage());
             tempNum++;
@@ -117,12 +120,12 @@ public class AuthenticationController {
         }
 
         ValidationResult findUsResult = validateFoundUs(findUs);
-        if (!findUsResult.isValid()){
+        if (!findUsResult.isValid()) {
             if (view != null)
                 view.showFindUsError(findUsResult.getErrorMessage());
             tempNum++;
         }
-        if (tempNum!=0)
+        if (tempNum != 0)
             return false;
 
         return true;
@@ -131,7 +134,7 @@ public class AuthenticationController {
     // check full input in logIn
     public boolean validateFullLogin(String username, String password) {
         ValidationResult usernameResult = validatePhoneNumber(username);
-        int tempNum=0;
+        int tempNum = 0;
         if (!usernameResult.isValid()) {
             if (view != null)
                 view.showLoginUsernameError(usernameResult.getErrorMessage());
@@ -143,7 +146,7 @@ public class AuthenticationController {
                 view.showLoginPasswordError(passwordResult.getErrorMessage());
             tempNum++;
         }
-        if (tempNum!=0)
+        if (tempNum != 0)
             return false;
 
         return true;
@@ -151,9 +154,9 @@ public class AuthenticationController {
 
     // buttons
 
-    public void onSingUp(){
+    public void onSingUp() {
         System.out.println("request SingUp");
-        if (view != null){
+        if (view != null) {
             boolean isValid = view.validateAndSignUp();
             if (isValid)
                 System.out.println("successfully SingUp");
@@ -168,13 +171,12 @@ public class AuthenticationController {
 
     }
 
-    public void onLogin()
-    {
+    public void onLogin() {
         System.out.println("request Login");
-        if (view != null){
+        if (view != null) {
             String username = view.getLoginUsername();
             String password = view.getLoginPassword();
-            boolean isValid = validateFullLogin(username , password);
+            boolean isValid = validateFullLogin(username, password);
             if (isValid)
                 System.out.println("successfully Login");
 
@@ -186,5 +188,14 @@ public class AuthenticationController {
         if (view != null)
             view.showSingUpPanel();
 
+    }
+
+    // adding user
+
+    public void registerUser(String phoneNumber , String firstName, String lastName, String password, boolean isPrime){
+        User user;
+        if (isPrime){
+
+        }
     }
 }
