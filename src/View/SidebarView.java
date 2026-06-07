@@ -38,8 +38,8 @@ public class SidebarView extends JPanel {
     }
 
     private void setupUI() {
-        this.setPreferredSize(new Dimension(250, 0));
-        this.setMinimumSize(new Dimension(250, 0));
+        this.setPreferredSize(new Dimension(100, 0));
+        this.setMinimumSize(new Dimension(100, 0));
         this.setLayout(new GridBagLayout());
         this.setBackground(ColorPalette.BG_SECONDARY);
 

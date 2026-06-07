@@ -7,12 +7,11 @@ public class SidebarOptionsPanel extends JPanel {
 
     public interface SidebarButtonListener{
         void onButtonFactorsClick();
-        void onPrimeUserClick();
         void onSettingsClick();
     }
 
     private SidebarButtonListener listener;
-    public int rounded = 10;
+    public int rounded = 45;
 
     public void setListener(SidebarButtonListener listener) {
         this.listener = listener;
@@ -35,15 +34,16 @@ public class SidebarOptionsPanel extends JPanel {
         ImageIcon factorIcon = new ImageIcon("icons/factor.png");
         Image factorImage = factorIcon.getImage().getScaledInstance(20,20,Image.SCALE_SMOOTH);
         ImageIcon scaledFactorIcon = new ImageIcon(factorImage);
-        RoundedButton factorButton = new RoundedButton("Factors",rounded);
-        factorButton.setPreferredSize(new Dimension(200, 40));
+        RoundedButton factorButton = new RoundedButton("",rounded);
+        factorButton.setPreferredSize(new Dimension(45, 45));
 
         gbc.gridx=0;
         gbc.gridy=0;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.anchor = GridBagConstraints.CENTER;
         gbc.weightx = 1;
         gbc.weighty = 0;
-        gbc.insets = new Insets(5, 10, 5, 10);
+        gbc.insets = new Insets(10, 10, 10, 10);
 
         factorButton.setIcon(scaledFactorIcon);
         this.add(factorButton , gbc);
@@ -54,39 +54,15 @@ public class SidebarOptionsPanel extends JPanel {
             }
         });
 
-
-//        // add button ======== Prime User
-//        ImageIcon primeUserIcon = new ImageIcon("icons/Prime_user.png");
-//        Image primeUserImage = primeUserIcon.getImage().getScaledInstance(20,20,Image.SCALE_SMOOTH);
-//        ImageIcon scaledPrimeUserIcon = new ImageIcon(primeUserImage);
-//        RoundedButton primeUserButton = new RoundedButton("Prime User",rounded);
-//        primeUserButton.setPreferredSize(new Dimension(200, 40));
-//
-//        primeUserButton.setIcon(scaledPrimeUserIcon);
-//
-//        gbc.gridx=0;
-//        gbc.gridy=1;
-//        gbc.fill = GridBagConstraints.HORIZONTAL;
-//        gbc.weightx = 1;
-//        gbc.weighty = 0;
-//        gbc.insets = new Insets(5, 10, 5, 10);
-//        this.add(primeUserButton , gbc);
-
         // add button ======== Prime User
         ImageIcon settingsIcon = new ImageIcon("icons/settings.png");
         Image settingsImage = settingsIcon.getImage().getScaledInstance(20,20,Image.SCALE_SMOOTH);
         ImageIcon scaledSettingsIcon = new ImageIcon(settingsImage);
-        RoundedButton settingsButton = new RoundedButton("Settings",rounded);
-        settingsButton.setPreferredSize(new Dimension(200, 40));
-
+        RoundedButton settingsButton = new RoundedButton("",rounded);
+        settingsButton.setPreferredSize(new Dimension(45, 45));
         settingsButton.setIcon(scaledSettingsIcon);
 
-        gbc.gridx=0;
         gbc.gridy=1;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.weightx = 1;
-        gbc.weighty = 0;
-        gbc.insets = new Insets(5, 10, 5, 10);
         this.add(settingsButton , gbc);
 
         settingsButton.addActionListener(e->{
@@ -94,14 +70,5 @@ public class SidebarOptionsPanel extends JPanel {
                 listener.onSettingsClick();
             }
         });
-
-        // stick to top
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        gbc.weightx = 1;
-        gbc.weighty = 1;
-        gbc.fill = GridBagConstraints.VERTICAL;
-        this.add(Box.createVerticalGlue(), gbc);
-
     }
 }

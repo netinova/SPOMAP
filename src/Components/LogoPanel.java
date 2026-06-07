@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import java.awt.Image;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 import Util.ColorPalette;
 
@@ -43,12 +44,13 @@ public class LogoPanel extends JPanel {
         buttonTimer.add(new LiveClockSidebar());
         buttonTimer.setAlignmentX(CENTER_ALIGNMENT);
         buttonTimer.setPreferredSize(new Dimension(200, 40));
+        buttonTimer.setBorder(new EmptyBorder(10,10,10,10));
         this.add(buttonTimer);
 
         this.add(Box.createVerticalStrut(5));
         // importing and scaling icon
         ImageIcon logoIcon = new ImageIcon("icons/SPOMAP_Default_White color.png");
-        Image scaledIcon = logoIcon.getImage().getScaledInstance(175, 175, Image.SCALE_SMOOTH);
+        Image scaledIcon = logoIcon.getImage().getScaledInstance(75, 75, Image.SCALE_SMOOTH);
         logoIcon = new ImageIcon(scaledIcon);
         JLabel iconLabel = new JLabel();
         iconLabel.setIcon(logoIcon);
@@ -82,9 +84,5 @@ public class LogoPanel extends JPanel {
         });
 
         this.add(iconLabel);
-
-        this.add(Box.createVerticalStrut(60));
-
-        // this.add(logoLabel);
     }
 }

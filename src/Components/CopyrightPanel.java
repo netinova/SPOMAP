@@ -20,9 +20,9 @@ public class CopyrightPanel extends JPanel {
         this.setPreferredSize(new Dimension(0, 50));
         this.setLayout(new BorderLayout());
 
-        logoutLabel = new JLabel("Copyright© 2026 SPOMAP", SwingConstants.CENTER);
+        logoutLabel = new JLabel("SPOMAP ©", SwingConstants.CENTER);
         logoutLabel.setFont(new Font("Arial", Font.BOLD, 10));
-        logoutLabel.setBorder(new EmptyBorder(0,0,-20,0));
+        logoutLabel.setBorder(new EmptyBorder(0,0,5,0));
         logoutLabel.setForeground(ColorPalette.TEXT_MUTED);
 
         this.add(logoutLabel);

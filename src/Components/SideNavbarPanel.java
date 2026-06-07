@@ -1,7 +1,6 @@
 package Components;
 
 import java.awt.*;
-import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
@@ -15,7 +14,6 @@ public class SideNavbarPanel extends JPanel {
     public SideNavbarPanel(SidebarController controller) {
 
         this.controller = controller;
-
         setupUI();
         createComponents();
     }
@@ -26,18 +24,12 @@ public class SideNavbarPanel extends JPanel {
     }
 
     private void createComponents() {
-        // this.add(Box.createVerticalStrut(5));
         // button factors
         SidebarOptionsPanel sidebarOptionsPanel = new SidebarOptionsPanel();
         sidebarOptionsPanel.setListener(new SidebarOptionsPanel.SidebarButtonListener() {
             @Override
             public void onButtonFactorsClick() {
                 controller.HandelButtonOptionalClick(0);
-            }
-
-            @Override
-            public void onPrimeUserClick() {
-
             }
 
             @Override
