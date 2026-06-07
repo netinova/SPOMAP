@@ -23,9 +23,7 @@
       "name": "barbari bread",
       "id": "1",
       "thumbnail": "database/pictures/Barbari.png",
-      "productImages": [
-        "database/pictures/Barbari.png"
-      ],
+      "productImages": ["database/pictures/Barbari.png"],
       "description": "a perfect iranain bread",
       "discount": 10.0,
       "price": 1.0,
@@ -42,11 +40,9 @@
         "database/pictures/OG_Hood_2.png"
       ],
       "description": "The difference between these two types is only in the fibers of the hoodie fabric, and the three-thread type is recommended.",
-      "discount": 0.1,
+      "discount": 1.0,
       "price": 8.3,
-      "colors": [
-        "Black"
-      ],
+      "colors": ["Black"],
       "manufacturer": "Tirdad",
       "technicalSpecs": {
         "Material": "High-quality fleece lining",
@@ -136,7 +132,13 @@
       "description": "Apple Watch Ultra 2 [GPS + Cellular, 49mm] Titanium Case with Olive Alpine Loop, Small (Renewed)",
       "discount": 13.0,
       "price": 409.0,
-      "colors": ["Black_Band", "Blue_Band", " Orange_Band", "Olive_Loop", "Blue_Loop"],
+      "colors": [
+        "Black_Band",
+        "Blue_Band",
+        " Orange_Band",
+        "Olive_Loop",
+        "Blue_Loop"
+      ],
       "manufacturer": "Apple Watch",
       "technicalSpecs": {
         "Memory Storage Capacity": "1GB",
@@ -177,9 +179,7 @@
       "description": "6400MHz CL36-48-48-104 1.35V Intel XMP 3.0 Desktop Computer Memory - Black (CMH32GX5M2B6400C36)",
       "discount": 0.0,
       "price": 499.55,
-      "colors": [
-        "Black"
-      ],
+      "colors": ["Black"],
       "manufacturer": "Corsair",
       "technicalSpecs": {
         "RAM Memory Technology": "DDR5",
@@ -201,9 +201,7 @@
       "description": "(2560 x 1440), 100% sRGB/Rec. 709 ΔE<2, IPS, DisplayPort HDMI DVI-D Mini DP, Eye Care, Anti-Glare, Tilt Pivot Swivel Height Adjustable",
       "discount": 10.0,
       "price": 212.25,
-      "colors": [
-        "Black"
-      ],
+      "colors": ["Black"],
       "manufacturer": "ASUS",
       "technicalSpecs": {
         "Resolution": "QHD Wide 1440p",
