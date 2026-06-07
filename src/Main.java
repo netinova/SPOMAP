@@ -3,6 +3,7 @@ import java.util.Random;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import Controller.AppController;
+import Model.AppState;
 import Model.Product;
 import Model.ProductCatalog;
 import View.NavigationView;

@@ -7,6 +7,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.EventListenerList;
+
+import Model.AppState;
+
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
