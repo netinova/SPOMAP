@@ -10,7 +10,17 @@ import Util.Validator.ValidationResult;
 
 import static Util.PasswordHasher.hashingPassword;
 
+import javax.swing.plaf.multi.MultiPanelUI;
+
+import Components.MultiViewPanel;
+
 public class AuthenticationController {
+
+    private OnChangeViewListener listener;
+
+    public void setOnChangeViewListener(OnChangeViewListener listener) {
+        this.listener = listener;
+    }
 
     @SuppressWarnings("unused")
     private AuthenticationView view;
@@ -92,7 +102,8 @@ public class AuthenticationController {
     }
 
     // check full input of SingUp panel
-    public boolean validateFullSingUpForm(String phone, String fName, String lName, String pass, String passConfirm, String findUs) {
+    public boolean validateFullSingUpForm(String phone, String fName, String lName, String pass, String passConfirm,
+            String findUs) {
         ValidationResult phoneResult = validatePhoneNumber(phone);
         int tempNum = 0;
         if (!phoneResult.isValid()) {
@@ -170,9 +181,8 @@ public class AuthenticationController {
                     view.getSingUpPanel().getFirstName(),
                     view.getSingUpPanel().getLastName(),
                     view.getSingUpPanel().getPhoneNumber(),
-                    passwordHashed
-            );
-            if(statusSingUp)
+                    passwordHashed);
+            if (statusSingUp)
                 System.out.println("successfully singUp");
         }
 
@@ -192,10 +202,12 @@ public class AuthenticationController {
             System.out.println(PasswordHasher.hashingPassword(password));
             boolean isValid = validateFullLogin(username, password);
             if (isValid) {
-                Object user = userService.login(username,password);
-                if (user != null)
+                User user = userService.login(username, password);
+                if (user != null) {
                     System.out.println("successfully login");
-                else
+                    userService.setLoggedInUser(user);
+                    listener.changeView(MultiViewPanel.SHOP_VIEW);
+                } else
                     System.out.println("Unsuccessfully login");
             }
         }
@@ -208,4 +220,3 @@ public class AuthenticationController {
 
     }
 }
-

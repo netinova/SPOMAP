@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.time.LocalDateTime;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class PrimeUser extends User {
+
     private String  memberShipID;
     private double creditAmount;//bestancari
     private double debitAmount;//bedehcari
@@ -16,7 +16,7 @@ public class PrimeUser extends User {
 
     //add new Prime user
     public PrimeUser(String phoneNumber, String firstName, String lastName, String password, double creditAmount, double debitAmount) {
-        super(phoneNumber, firstName, lastName, password);
+        super(phoneNumber, firstName, lastName, password, null, 0.0);
         this.memberShipID ="";
         this.creditAmount = creditAmount;
         this.debitAmount = debitAmount;

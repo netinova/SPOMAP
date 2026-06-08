@@ -4,23 +4,21 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.time.LocalDateTime;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class NormalUser extends User{
-
-    private double availableBalance=0;
+public class NormalUser extends User {
 
     public NormalUser() {
         super();
     }
 
     // new User
-    public NormalUser(String phoneNumber, String firstName, String lastName , String password) {
-        super(phoneNumber, firstName, lastName, password);
+    public NormalUser(String phoneNumber, String firstName, String lastName, String password) {
+        super(phoneNumber, firstName, lastName, password, null, 0.0);
     }
 
     // read User
-    public NormalUser(String userId, String phoneNumber, String firstName, String lastName, LocalDateTime registerDate, double balance) {
-        super(userId, phoneNumber, firstName, lastName, registerDate,balance);
+    public NormalUser(String userId, String phoneNumber, String firstName, String lastName, LocalDateTime registerDate,
+            double balance) {
+        super(userId, phoneNumber, firstName, lastName, registerDate, balance);
     }
 
     @Override
@@ -30,7 +28,7 @@ public class NormalUser extends User{
 
     @Override
     public boolean canPurchase(double totalAmount) {
-        return totalAmount<=balance;
+        return totalAmount <= balance;
     }
 
     public void depositCash(double amount) {
@@ -47,6 +45,5 @@ public class NormalUser extends User{
         System.out.println("can't do this");
         return false;
     }
-
 
 }

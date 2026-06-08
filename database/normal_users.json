@@ -1,33 +1,34 @@
 {
-  "users" : [ {
-    "userId" : "USR_000001",
-    "phoneNumber" : "09056545974",
-    "firstName" : "asd",
-    "lastName" : "asd",
-    "password" : "2c0968dabe58c67d17a07f066a9e5d9cc0ffe914f12da60aa62acc1f49bfd30c",
-    "registerDate" : [ 2026, 6, 8, 16, 28, 33, 261453000 ],
-    "balance" : 0.0,
-    "typeUser" : "NORMAL",
-    "fullName" : "asd asd"
-  }, {
-    "userId" : "USR_000002",
-    "phoneNumber" : "09121212122",
-    "firstName" : "asd",
-    "lastName" : "asd",
-    "password" : "2c0968dabe58c67d17a07f066a9e5d9cc0ffe914f12da60aa62acc1f49bfd30c",
-    "registerDate" : [ 2026, 6, 8, 17, 5, 15, 179911400 ],
-    "balance" : 0.0,
-    "typeUser" : "NORMAL",
-    "fullName" : "asd asd"
-  }, {
-    "userId" : "USR_000003",
-    "phoneNumber" : "09056545970",
-    "firstName" : "asdasd",
-    "lastName" : "asd",
-    "password" : "2c0968dabe58c67d17a07f066a9e5d9cc0ffe914f12da60aa62acc1f49bfd30c",
-    "registerDate" : [ 2026, 6, 8, 17, 22, 8, 89449600 ],
-    "balance" : 0.0,
-    "typeUser" : "NORMAL",
-    "fullName" : "asdasd asd"
-  } ]
+  "users": [
+    {
+      "userId": "USR_000001",
+      "phoneNumber": "09056545974",
+      "firstName": "asd",
+      "lastName": "asd",
+      "password": "2c0968dabe58c67d17a07f066a9e5d9cc0ffe914f12da60aa62acc1f49bfd30c",
+      "registerDate": "2026-01-01T00:00:00",
+      "balance": 0.0,
+      "typeUser": "NORMAL"
+    },
+    {
+      "userId": "USR_000002",
+      "phoneNumber": "09121212122",
+      "firstName": "asd",
+      "lastName": "asd",
+      "password": "2c0968dabe58c67d17a07f066a9e5d9cc0ffe914f12da60aa62acc1f49bfd30c",
+      "registerDate": "2026-01-01T00:00:00",
+      "balance": 0.0,
+      "typeUser": "NORMAL"
+    },
+    {
+      "userId": "USR_000003",
+      "phoneNumber": "09056545970",
+      "firstName": "asdasd",
+      "lastName": "asd",
+      "password": "2c0968dabe58c67d17a07f066a9e5d9cc0ffe914f12da60aa62acc1f49bfd30c",
+      "registerDate": "2026-01-01T00:00:00",
+      "balance": 0.0,
+      "typeUser": "NORMAL"
+    }
+  ]
 }

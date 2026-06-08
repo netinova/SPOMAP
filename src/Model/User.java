@@ -2,6 +2,8 @@ package Model;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public abstract class User {
     protected String userId;
     protected String phoneNumber;
@@ -14,34 +16,23 @@ public abstract class User {
     protected double balance;
     protected double totalAmount;
 
-    //for add new user
-    public User(String phoneNumber, String firstName, String lastName, String password) {
-//        this.userId = generateId();
-        this.phoneNumber = phoneNumber;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.registerDate = LocalDateTime.now();
-        this.password = password;
-        this.balance = 0;
-        this.totalAmount=0;
-    }
-
-    //for load user
-    public User(String userId, String phoneNumber, String firstName, String lastName, LocalDateTime registerDate, double balance) {
+    // for load user
+    public User(String userId, String phoneNumber, String firstName, String lastName, LocalDateTime registerDate,
+            double balance) {
         this.userId = userId;
         this.phoneNumber = phoneNumber;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.registerDate = registerDate;
-        this.totalAmount=0;
-        this.balance=balance;
+        this.registerDate = (registerDate == null) ? LocalDateTime.now() : registerDate;
+        this.totalAmount = 0;
+        this.balance = (balance == 0.0) ? 0 : balance;
     }
 
-    //for JSOM
+    // for JSON
     public User() {
     }
 
-    //getters
+    // getters
 
     public String getUserId() {
         return userId;
@@ -67,7 +58,8 @@ public abstract class User {
         return password;
     }
 
-    public String getFullName(){
+    @JsonIgnore
+    public String getFullName() {
         return firstName + " " + lastName;
     }
 
@@ -75,44 +67,22 @@ public abstract class User {
         return balance;
     }
 
-    //setter
+    // setter
     public void setUserId(String userId) {
         this.userId = userId;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
     }
 
     public void setRegisterDate(LocalDateTime registerDate) {
         this.registerDate = registerDate;
     }
 
-    public void setBalance(double balance) {
-        this.balance = balance;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setTotalAmount(double totalAmount) {
-        this.totalAmount = totalAmount;
-    }
-
-    //abstract method
+    // abstract method
+    @JsonIgnore
     public abstract String getTypeUser();
+
     public abstract boolean canPurchase(double totalAmount);
 
-    //other methods
+    // other methods
     public void addBalance(double amount) {
         this.balance += amount;
     }
