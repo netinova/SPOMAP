@@ -5,7 +5,7 @@
       "firstName": "Mani",
       "lastName": "Baghdadi",
       "phoneNumber": "09111111111",
-      "password": "admin123",
+      "password": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
       "registeredDate": "2026-01-01T00:00:00",
       "balance": 0
     },
@@ -14,7 +14,7 @@
       "firstName": "parsa",
       "lastName": "qeli",
       "phoneNumber": "09122222222",
-      "password": "admin456",
+      "password": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
       "registeredDate": "2026-01-15T00:00:00",
       "balance": 0
     }

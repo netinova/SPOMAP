@@ -23,6 +23,7 @@ public abstract class User {
         this.registerDate = LocalDateTime.now();
         this.password = password;
         this.balance = 0;
+        this.totalAmount=0;
     }
 
     //for load user
@@ -32,13 +33,16 @@ public abstract class User {
         this.firstName = firstName;
         this.lastName = lastName;
         this.registerDate = registerDate;
+        this.totalAmount=0;
+    }
+
+    //for JSOM
+    public User() {
     }
 
     private static String generateId() {
-        return "USR_" + ++idCounter;
+        return "USR_" + String.format("%06d",idCounter++);
     }
-
-    ;
 
     //getters
 
@@ -107,6 +111,7 @@ public abstract class User {
     public abstract String getTypeUser();
     public abstract boolean canPurchase(double totalAmount);
     public abstract double getAvailableBalance();
+
     //other methods
     public void addBalance(double amount) {
         this.balance += amount;

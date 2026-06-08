@@ -92,6 +92,10 @@ public class AuthenticationView extends JPanel {
         return singUpPanel != null ? singUpPanel.getPassword() : "";
     }
 
+    public SingUpPanel getSingUpPanel() {
+        return singUpPanel;
+    }
+
     public String getLoginUsername() {
         return loginPanel != null ? loginPanel.getUsernameInput() : "";
     }

@@ -3,20 +3,23 @@ package Model;
 import java.time.LocalDateTime;
 
 public class PrimeUser extends User {
-    private int memberShipID;
+    private String  memberShipID;
     private double creditAmount;//bestancari
     private double debitAmount;//bedehcari
-    private double balance;
 
-    public PrimeUser(String phoneNumber, String firstName, String lastName, String password, int memberShipID, double creditAmount, double debitAmount) {
+    private double balance;
+    private static int memberShipCode=1;
+
+    //add new Prime user
+    public PrimeUser(String phoneNumber, String firstName, String lastName, String password, double creditAmount, double debitAmount) {
         super(phoneNumber, firstName, lastName, password);
-        this.memberShipID = memberShipID;
+        this.memberShipID = generateMemberShipCode();
         this.creditAmount = creditAmount;
         this.debitAmount = debitAmount;
         this.balance = 0;
     }
 
-    public PrimeUser(String userId, String phoneNumber, String firstName, String lastName, LocalDateTime registerDate, double balance, int memberShipID, double creditAmount, double debitAmount) {
+    public PrimeUser(String userId, String phoneNumber, String firstName, String lastName, LocalDateTime registerDate, double balance, String  memberShipID, double creditAmount, double debitAmount) {
         super(userId, phoneNumber, firstName, lastName, registerDate, balance);
         this.memberShipID = memberShipID;
         this.creditAmount = creditAmount;
@@ -24,7 +27,7 @@ public class PrimeUser extends User {
     }
 
     // getters
-    public int getMemberShipID() {
+    public String  getMemberShipID() {
         return memberShipID;
     }
 
@@ -33,7 +36,7 @@ public class PrimeUser extends User {
     }
 
     // setter
-    public void setMemberShipID(int memberShipID) {
+    public void setMemberShipID(String  memberShipID) {
         this.memberShipID = memberShipID;
     }
 
@@ -60,6 +63,19 @@ public class PrimeUser extends User {
         }
     }
 
+    public void addCredit(double amount) {
+        this.creditAmount += amount;
+        System.out.println("Added $" + amount + " to credit");
+    }
+
+    public void addDebit(double amount) {
+        this.debitAmount += amount;
+        System.out.println("Added $" + amount + " to Debit");
+    }
+
+    public String generateMemberShipCode(){
+        return "PRM_" + String.format("%06d",memberShipCode);
+    }
 
     @Override
     public String getTypeUser() {

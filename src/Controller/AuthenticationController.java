@@ -2,14 +2,23 @@ package Controller;
 
 import Model.PrimeUser;
 import Model.User;
+import Service.UserService;
+import Util.PasswordHasher;
 import View.AuthenticationView;
 import Util.Validator;
 import Util.Validator.ValidationResult;
+
+import static Util.PasswordHasher.hashingPassword;
 
 public class AuthenticationController {
 
     @SuppressWarnings("unused")
     private AuthenticationView view;
+    private UserService userService;
+
+    public AuthenticationController() {
+        this.userService = new UserService();
+    }
 
     public void setView(AuthenticationView view) {
         this.view = view;
@@ -155,11 +164,16 @@ public class AuthenticationController {
     // buttons
 
     public void onSingUp() {
-        System.out.println("request SingUp");
-        if (view != null) {
-            boolean isValid = view.validateAndSignUp();
-            if (isValid)
-                System.out.println("successfully SingUp");
+        if (view != null && view.validateAndSignUp()) {
+            String passwordHashed = hashingPassword(view.getPassword());
+            boolean statusSingUp = userService.registerNormalUser(
+                    view.getSingUpPanel().getFirstName(),
+                    view.getSingUpPanel().getLastName(),
+                    view.getSingUpPanel().getPhoneNumber(),
+                    passwordHashed
+            );
+            if(statusSingUp)
+                System.out.println("successfully singUp");
         }
 
     }
@@ -172,14 +186,18 @@ public class AuthenticationController {
     }
 
     public void onLogin() {
-        System.out.println("request Login");
         if (view != null) {
             String username = view.getLoginUsername();
             String password = view.getLoginPassword();
+            System.out.println(PasswordHasher.hashingPassword(password));
             boolean isValid = validateFullLogin(username, password);
-            if (isValid)
-                System.out.println("successfully Login");
-
+            if (isValid) {
+                Object user = userService.login(username,password);
+                if (user != null)
+                    System.out.println("successfully login");
+                else
+                    System.out.println("Unsuccessfully login");
+            }
         }
     }
 
@@ -189,13 +207,5 @@ public class AuthenticationController {
             view.showSingUpPanel();
 
     }
-
-    // adding user
-
-    public void registerUser(String phoneNumber , String firstName, String lastName, String password, boolean isPrime){
-        User user;
-        if (isPrime){
-
-        }
-    }
 }
+
