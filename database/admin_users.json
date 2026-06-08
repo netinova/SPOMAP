@@ -1,5 +1,5 @@
 {
-  "adminUsers": [
+  "users": [
     {
       "userId": "ADM_000001",
       "firstName": "Mani",

@@ -33,21 +33,57 @@ public class UserService {
 
         loadNormalUser();
         loadPrimeUser();
-        LoadAdminUser();
+        loadAdminUser();
     }
 
     // loader
     private void loadNormalUser() {
         File file = new File("database/normal_users.json");
+        System.out.println("Loading normal users from: " + file.getAbsolutePath());
+        if (!file.exists())
+            return;
+        try {
+            UserNormalList user = mapper.readValue(file,UserNormalList.class);
+            if (user!=null && user.getUsers() != null){
+                this.normalUsers=user.getUsers();
+                System.out.println("loaded normal user");
+            }
+            else{
+                System.out.println("can't load normal user");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void loadPrimeUser() {
         File file = new File("database/prime_users.json");
-
+        if (!file.exists())
+            return;
+        try {
+            UserPrimeList user = mapper.readValue(file,UserPrimeList.class);
+            if (user!=null && user.getUsers() != null){
+                this.primeUsers=user.getUsers();
+                System.out.println("loaded prime user");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void LoadAdminUser() {
+    private void loadAdminUser() {
         File file = new File("database/admin_users.json");
+        if (!file.exists())
+            return;
+        try {
+            UserAdminList user = mapper.readValue(file, UserAdminList.class);
+            if (user!=null && user.getUsers() != null){
+                this.adminUsers=user.getUsers();
+                System.out.println("loaded admin user");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     // save JSON
@@ -65,7 +101,7 @@ public class UserService {
     }
 
     public void savePrimeUser(){
-        File file = new File("database/Prime_users.json");
+        File file = new File("database/prime_users.json");
         file.getParentFile().mkdirs();
 
         UserPrimeList user = new UserPrimeList(primeUsers);
@@ -77,12 +113,61 @@ public class UserService {
         }
     }
 
+    //generate new id
+    public String getNewId(){
+        int maxId = 0;
 
+        //check normal user
+        for (NormalUser user:normalUsers){
+            String id = user.getUserId();
+            if (user!=null) {
+                int idNumber = Integer.parseInt(id.substring(4));
+                if (idNumber>maxId)
+                    maxId=idNumber;
+            }
+        }
+
+        //check prime user
+        for (PrimeUser user:primeUsers){
+            String id = user.getUserId();
+            if (user!=null) {
+                int idNumber = Integer.parseInt(id.substring(4));
+                if (idNumber>maxId)
+                    maxId=idNumber;
+            }
+        }
+
+        int nextId = maxId + 1;
+        return "USR_" + String.format("%06d", nextId);
+    }
+
+    private String getNewMemberShipCode(){
+        int maxId = 0;
+
+        for (PrimeUser user:primeUsers){
+            String id = user.getMemberShipID();
+            if (user!=null) {
+                int idNumber = Integer.parseInt(id.substring(4));
+                if (idNumber>maxId)
+                    maxId=idNumber;
+            }
+        }
+
+        int nextCode = maxId + 1;
+        return "PRM_" + String.format("%06d", nextCode);
+    }
+
+
+    //operation login singup
     public boolean registerNormalUser(String firstName, String lastName, String phoneNumber, String hashedPassword){
         if (searchUserByPhoneNumber(phoneNumber)!=null)
             return false;
 
         NormalUser user = new NormalUser(phoneNumber,firstName,lastName,hashedPassword);
+
+        String newId=getNewId();
+        user.setUserId(newId);
+
         normalUsers.add(user);
         saveNormalUser();
         return true;
@@ -104,7 +189,7 @@ public class UserService {
             userType="PRIME";
             mainPassword = ((PrimeUser) user).getPassword();
         } else if (user instanceof AdminUser){
-            userType="NORMAL";
+            userType="ADMIN";
             mainPassword = ((AdminUser) user).getPassword();
         }
 
@@ -150,6 +235,9 @@ public class UserService {
 
         primeUser.setRegisterDate(normalUser.getRegisterDate());
         primeUser.setUserId(normalUser.getUserId());
+
+        String newId=getNewMemberShipCode();
+        primeUser.setMemberShipID(newId);
 
         this.normalUsers.remove(normalUser);
         this.primeUsers.add(primeUser);

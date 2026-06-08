@@ -8,15 +8,15 @@ public abstract class User {
     protected String firstName;
     protected String lastName;
     protected String password;
+
     protected LocalDateTime registerDate;
 
-    private static int idCounter = 1;
     protected double balance;
     protected double totalAmount;
 
     //for add new user
     public User(String phoneNumber, String firstName, String lastName, String password) {
-        this.userId = generateId();
+//        this.userId = generateId();
         this.phoneNumber = phoneNumber;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -34,14 +34,11 @@ public abstract class User {
         this.lastName = lastName;
         this.registerDate = registerDate;
         this.totalAmount=0;
+        this.balance=balance;
     }
 
     //for JSOM
     public User() {
-    }
-
-    private static String generateId() {
-        return "USR_" + String.format("%06d",idCounter++);
     }
 
     //getters
@@ -68,6 +65,10 @@ public abstract class User {
 
     public String getPassword() {
         return password;
+    }
+
+    public String getFullName(){
+        return firstName + " " + lastName;
     }
 
     public double getBalance() {
@@ -110,7 +111,6 @@ public abstract class User {
     //abstract method
     public abstract String getTypeUser();
     public abstract boolean canPurchase(double totalAmount);
-    public abstract double getAvailableBalance();
 
     //other methods
     public void addBalance(double amount) {

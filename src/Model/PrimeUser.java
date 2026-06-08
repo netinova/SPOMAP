@@ -1,22 +1,25 @@
 package Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.time.LocalDateTime;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PrimeUser extends User {
     private String  memberShipID;
     private double creditAmount;//bestancari
     private double debitAmount;//bedehcari
 
-    private double balance;
-    private static int memberShipCode=1;
+    public PrimeUser() {
+        super();
+    }
 
     //add new Prime user
     public PrimeUser(String phoneNumber, String firstName, String lastName, String password, double creditAmount, double debitAmount) {
         super(phoneNumber, firstName, lastName, password);
-        this.memberShipID = generateMemberShipCode();
+        this.memberShipID ="";
         this.creditAmount = creditAmount;
         this.debitAmount = debitAmount;
-        this.balance = 0;
     }
 
     public PrimeUser(String userId, String phoneNumber, String firstName, String lastName, LocalDateTime registerDate, double balance, String  memberShipID, double creditAmount, double debitAmount) {
@@ -26,22 +29,15 @@ public class PrimeUser extends User {
         this.debitAmount = debitAmount;
     }
 
+
     // getters
     public String  getMemberShipID() {
         return memberShipID;
     }
 
-    public double getBalance() {
-        return balance;
-    }
-
     // setter
     public void setMemberShipID(String  memberShipID) {
         this.memberShipID = memberShipID;
-    }
-
-    public void setBalance(double balance) {
-        this.balance = balance;
     }
 
     // other methods
@@ -73,10 +69,6 @@ public class PrimeUser extends User {
         System.out.println("Added $" + amount + " to Debit");
     }
 
-    public String generateMemberShipCode(){
-        return "PRM_" + String.format("%06d",memberShipCode);
-    }
-
     @Override
     public String getTypeUser() {
         return "PRIME";
@@ -87,8 +79,4 @@ public class PrimeUser extends User {
         return creditAmount - debitAmount + balance >= totalAmount;
     }
 
-    @Override
-    public double getAvailableBalance() {
-        return creditAmount - debitAmount + balance;
-    }
 }

@@ -1,8 +1,17 @@
 package Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.time.LocalDateTime;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class NormalUser extends User{
+
+    private double availableBalance=0;
+
+    public NormalUser() {
+        super();
+    }
 
     // new User
     public NormalUser(String phoneNumber, String firstName, String lastName , String password) {
@@ -22,11 +31,6 @@ public class NormalUser extends User{
     @Override
     public boolean canPurchase(double totalAmount) {
         return totalAmount<=balance;
-    }
-
-    @Override
-    public double getAvailableBalance() {
-        return balance;
     }
 
     public void depositCash(double amount) {

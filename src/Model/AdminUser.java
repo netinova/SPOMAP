@@ -1,10 +1,18 @@
 package Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.time.LocalDateTime;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class AdminUser extends User{
-    public AdminUser(String userId, String phoneNumber, String firstName, String lastName, LocalDateTime registerDate ,String password) {
-        super(firstName, lastName, phoneNumber, password);
+
+    public AdminUser() {
+        super();
+    }
+
+    public AdminUser(String userId, String phoneNumber, String firstName, String lastName, LocalDateTime registerDate, double balance) {
+        super(userId, phoneNumber, firstName, lastName, registerDate, balance);
     }
 
     @Override
@@ -15,10 +23,5 @@ public class AdminUser extends User{
     @Override
     public boolean canPurchase(double amount) {
         return true;
-    }
-
-    @Override
-    public double getAvailableBalance() {
-        return 0;
     }
 }
