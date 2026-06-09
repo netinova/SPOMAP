@@ -3,29 +3,31 @@ package Model;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class User {
     protected String userId;
     protected String phoneNumber;
     protected String firstName;
     protected String lastName;
     protected String password;
-
-    protected LocalDateTime registerDate;
+    protected String registerDate;
 
     protected double balance;
     protected double totalAmount;
 
     // for load user
-    public User(String userId, String phoneNumber, String firstName, String lastName, LocalDateTime registerDate,
+    public User(String userId, String phoneNumber,String hashedPassword, String firstName, String lastName, String registerDate,
             double balance) {
         this.userId = userId;
         this.phoneNumber = phoneNumber;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.registerDate = (registerDate == null) ? LocalDateTime.now() : registerDate;
+        this.registerDate = (registerDate == null) ? LocalDateTime.now().toString() : registerDate;
         this.totalAmount = 0;
-        this.balance = (balance == 0.0) ? 0 : balance;
+        password=hashedPassword;
+        this.balance =balance;
     }
 
     // for JSON
@@ -50,7 +52,7 @@ public abstract class User {
         return lastName;
     }
 
-    public LocalDateTime getRegisterDate() {
+    public String  getRegisterDate() {
         return registerDate;
     }
 
@@ -72,7 +74,7 @@ public abstract class User {
         this.userId = userId;
     }
 
-    public void setRegisterDate(LocalDateTime registerDate) {
+    public void setRegisterDate(String  registerDate) {
         this.registerDate = registerDate;
     }
 
@@ -80,6 +82,7 @@ public abstract class User {
     @JsonIgnore
     public abstract String getTypeUser();
 
+    @JsonIgnore
     public abstract boolean canPurchase(double totalAmount);
 
     // other methods

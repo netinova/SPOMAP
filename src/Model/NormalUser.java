@@ -1,5 +1,6 @@
 package Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.time.LocalDateTime;
@@ -10,23 +11,20 @@ public class NormalUser extends User {
         super();
     }
 
-    // new User
-    public NormalUser(String phoneNumber, String firstName, String lastName, String password) {
-        super(phoneNumber, firstName, lastName, password, null, 0.0);
-    }
-
     // read User
-    public NormalUser(String userId, String phoneNumber, String firstName, String lastName, LocalDateTime registerDate,
+    public NormalUser(String userId, String phoneNumber, String hashedPassword, String firstName, String lastName, String registerDate,
             double balance) {
-        super(userId, phoneNumber, firstName, lastName, registerDate, balance);
+        super(userId, phoneNumber, hashedPassword, firstName, lastName, registerDate, balance);
     }
 
     @Override
+    @JsonIgnore
     public String getTypeUser() {
         return "NORMAL";
     }
 
     @Override
+    @JsonIgnore
     public boolean canPurchase(double totalAmount) {
         return totalAmount <= balance;
     }

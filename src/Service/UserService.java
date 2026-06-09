@@ -11,7 +11,6 @@ import Model.UserLists.UserPrimeList;
 import Util.PasswordHasher;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import java.io.File;
 import java.io.IOException;
@@ -42,7 +41,6 @@ public class UserService {
 
         this.mapper = new ObjectMapper();
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
-        mapper.registerModule(new JavaTimeModule());
 
         loadNormalUser();
         loadPrimeUser();
@@ -174,7 +172,7 @@ public class UserService {
         if (searchUserByPhoneNumber(phoneNumber) != null)
             return false;
 
-        NormalUser user = new NormalUser(phoneNumber, firstName, lastName, hashedPassword);
+        NormalUser user = new NormalUser(null,phoneNumber,hashedPassword,firstName,lastName,null,0.0);
 
         String newId = getNewId();
         user.setUserId(newId);
@@ -236,11 +234,15 @@ public class UserService {
         }
         NormalUser normalUser = (NormalUser) user;
         PrimeUser primeUser = new PrimeUser(
+                null,
                 normalUser.getPhoneNumber(),
+                normalUser.getPassword(),
                 normalUser.getFirstName(),
                 normalUser.getLastName(),
-                normalUser.getPassword(),
-                0, 0);
+                null,
+                normalUser.getBalance(),
+                null,
+                0,0);
 
         primeUser.setRegisterDate(normalUser.getRegisterDate());
         primeUser.setUserId(normalUser.getUserId());

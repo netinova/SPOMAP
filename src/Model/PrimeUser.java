@@ -1,5 +1,6 @@
 package Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.time.LocalDateTime;
@@ -14,16 +15,10 @@ public class PrimeUser extends User {
         super();
     }
 
-    //add new Prime user
-    public PrimeUser(String phoneNumber, String firstName, String lastName, String password, double creditAmount, double debitAmount) {
-        super(phoneNumber, firstName, lastName, password, null, 0.0);
-        this.memberShipID ="";
-        this.creditAmount = creditAmount;
-        this.debitAmount = debitAmount;
-    }
 
-    public PrimeUser(String userId, String phoneNumber, String firstName, String lastName, LocalDateTime registerDate, double balance, String  memberShipID, double creditAmount, double debitAmount) {
-        super(userId, phoneNumber, firstName, lastName, registerDate, balance);
+    public PrimeUser(String userId, String phoneNumber,String hashedPassword ,String firstName, String lastName,
+                     String registerDate, double balance, String  memberShipID, double creditAmount, double debitAmount) {
+        super(userId, phoneNumber, hashedPassword, firstName, lastName, registerDate, balance);
         this.memberShipID = memberShipID;
         this.creditAmount = creditAmount;
         this.debitAmount = debitAmount;
@@ -70,11 +65,13 @@ public class PrimeUser extends User {
     }
 
     @Override
+    @JsonIgnore
     public String getTypeUser() {
         return "PRIME";
     }
 
     @Override
+    @JsonIgnore
     public boolean canPurchase(double totalAmount) {
         return creditAmount - debitAmount + balance >= totalAmount;
     }

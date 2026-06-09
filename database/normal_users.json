@@ -1,34 +1,59 @@
 {
-  "users": [
-    {
-      "userId": "USR_000001",
-      "phoneNumber": "09056545974",
-      "firstName": "asd",
-      "lastName": "asd",
-      "password": "2c0968dabe58c67d17a07f066a9e5d9cc0ffe914f12da60aa62acc1f49bfd30c",
-      "registerDate": "2026-01-01T00:00:00",
-      "balance": 0.0,
-      "typeUser": "NORMAL"
-    },
-    {
-      "userId": "USR_000002",
-      "phoneNumber": "09121212122",
-      "firstName": "asd",
-      "lastName": "asd",
-      "password": "2c0968dabe58c67d17a07f066a9e5d9cc0ffe914f12da60aa62acc1f49bfd30c",
-      "registerDate": "2026-01-01T00:00:00",
-      "balance": 0.0,
-      "typeUser": "NORMAL"
-    },
-    {
-      "userId": "USR_000003",
-      "phoneNumber": "09056545970",
-      "firstName": "asdasd",
-      "lastName": "asd",
-      "password": "2c0968dabe58c67d17a07f066a9e5d9cc0ffe914f12da60aa62acc1f49bfd30c",
-      "registerDate": "2026-01-01T00:00:00",
-      "balance": 0.0,
-      "typeUser": "NORMAL"
-    }
-  ]
+  "users" : [ {
+    "userId" : "USR_000001",
+    "phoneNumber" : "09123123123",
+    "firstName" : "asd",
+    "lastName" : "asd",
+    "password" : null,
+    "registerDate" : "2026-06-09T16:07:08.555509600",
+    "balance" : 0.0
+  }, {
+    "userId" : "USR_000002",
+    "phoneNumber" : "09123123122",
+    "firstName" : "asd",
+    "lastName" : "asd",
+    "password" : null,
+    "registerDate" : "2026-06-09T16:08:48.741978400",
+    "balance" : 0.0
+  }, {
+    "userId" : "USR_000003",
+    "phoneNumber" : "09123123121",
+    "firstName" : "asd",
+    "lastName" : "asd",
+    "password" : null,
+    "registerDate" : "2026-06-09T16:16:03.252803400",
+    "balance" : 0.0
+  }, {
+    "userId" : "USR_000004",
+    "phoneNumber" : "09123123212",
+    "firstName" : "asd",
+    "lastName" : "asd",
+    "password" : null,
+    "registerDate" : "2026-06-09T16:16:21.229734600",
+    "balance" : 0.0
+  }, {
+    "userId" : "USR_000005",
+    "phoneNumber" : "09123111111",
+    "firstName" : "asd",
+    "lastName" : "asd",
+    "password" : null,
+    "registerDate" : "2026-06-09T16:19:38.209812200",
+    "balance" : 0.0
+  }, {
+    "userId" : "USR_000006",
+    "phoneNumber" : "09876543211",
+    "firstName" : "asd",
+    "lastName" : "asd",
+    "password" : null,
+    "registerDate" : "2026-06-09T16:29:20.311916900",
+    "balance" : 0.0
+  }, {
+    "userId" : "USR_000007",
+    "phoneNumber" : "09987654321",
+    "firstName" : "asd",
+    "lastName" : "asd",
+    "password" : "2c0968dabe58c67d17a07f066a9e5d9cc0ffe914f12da60aa62acc1f49bfd30c",
+    "registerDate" : "2026-06-09T16:30:38.150895500",
+    "balance" : 0.0
+  } ]
 }
