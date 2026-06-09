@@ -18,7 +18,6 @@ public class AuthenticationView extends JPanel {
     private JPanel cardPanel;
 
     public AuthenticationView(AuthenticationController controller) {
-
         this.controller = controller;
 
         setupUI();
@@ -57,17 +56,12 @@ public class AuthenticationView extends JPanel {
             } else if (evt.getPropertyName().equals(LoginPanel.SHOW_SIGNUP_PROP)) {
                 controller.onShowSingUp();
             }
-
         });
-
-
     }
 
     private void setupUI() {
         this.setBackground(ColorPalette.BG_MAIN);
         this.setLayout(new GridBagLayout());
-
-
 
         cardLayout = new CardLayout();
         cardPanel = new JPanel(cardLayout);
@@ -79,7 +73,7 @@ public class AuthenticationView extends JPanel {
 
         loginPanel = new LoginPanel();
         loginPanel.setAuthenticationController(controller);  // Connect controller to View
-
+        loginPanel.resetForm();
         cardPanel.add(loginPanel, "LOG_IN");
         cardPanel.add(singUpPanel, "SING_UP");
 
@@ -103,6 +97,8 @@ public class AuthenticationView extends JPanel {
     public String getLoginPassword() {
         return loginPanel != null ? loginPanel.getPassword() : "";
     }
+
+    public AuthenticationView getView(){return this;}
 
     // singUp Errors handler
     public void showPhoneError(String error) {

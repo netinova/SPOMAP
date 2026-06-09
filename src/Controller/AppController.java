@@ -38,6 +38,7 @@ public class AppController {
         // Set views in controllers so they can update them
         shopController.setView(shopView);
         navigationController.setShopView(shopView);
+        navigationController.setMultiViewPanel(multiViewPanel);
         authenticationController.setView(authenticationView);
 
         // Set up view switching listeners

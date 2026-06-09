@@ -15,7 +15,7 @@ public class MultiViewPanel extends JPanel {
 
     private ShopView shopView;
     private CardLayout cardLayout;
-    private AuthenticationView authenticationView;
+    public AuthenticationView authenticationView;
     private ProductView productView;
 
     public static final String USER_VIEW = "userView";
@@ -45,6 +45,10 @@ public class MultiViewPanel extends JPanel {
 
         // Show shop view by default
         cardLayout.show(this, SHOP_VIEW);
+    }
+
+    public AuthenticationView getAuthenticationView() {
+        return authenticationView;
     }
 
     /**
