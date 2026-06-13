@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.ProductCatalog;
+import Model.ShoppingCart;
 import View.ShopView;
 import View.AuthenticationView;
 import View.NavigationView;
@@ -12,27 +13,30 @@ import Components.MultiViewPanel;
  * It coordinates between all controllers and manages view switching.
  */
 public class AppController {
-    private ProductCatalog model;
+    private ProductCatalog productCatalog;
 
     private ShopController shopController;
     private NavigationController navigationController;
     private SidebarController sidebarController;
     private AuthenticationController authenticationController;
+    private ShoppingCartController shoppingCartController;
 
     private MultiViewPanel multiViewPanel;
 
-    public AppController(ProductCatalog model) {
-        this.model = model;
+    public AppController(ProductCatalog productCatalog, ShoppingCart shoppingCart) {
+        this.productCatalog = productCatalog;
 
-        this.shopController = new ShopController(model);
-        this.navigationController = new NavigationController(model);
+        this.shopController = new ShopController(productCatalog);
+        this.navigationController = new NavigationController(productCatalog);
         this.sidebarController = new SidebarController();
         this.authenticationController = new AuthenticationController();
+        this.shoppingCartController = new ShoppingCartController(shoppingCart);
     }
 
     public void setViews(ShopView shopView, NavigationView navigationView,
             SidebarView sidebarView, MultiViewPanel multiViewPanel,
             AuthenticationView authenticationView) {
+                
         this.multiViewPanel = multiViewPanel;
 
         // Set views in controllers so they can update them
@@ -71,7 +75,11 @@ public class AppController {
         return authenticationController;
     }
 
+    public ShoppingCartController getShoppingCartController() {
+        return shoppingCartController;
+    }
+
     public ProductCatalog getModel() {
-        return model;
+        return productCatalog;
     }
 }

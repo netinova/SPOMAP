@@ -4,8 +4,14 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -16,13 +22,25 @@ import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 
+import Components.ProductCard;
+import Components.ShoppingCartItemCard;
+import Controller.ShoppingCartController;
+import Model.CartItem;
+import Model.Product;
+import Model.ShoppingCart;
 import Util.ColorPalette;
 
-public class ShoppingCartView extends JPanel {
+public class ShoppingCartView extends JPanel implements PropertyChangeListener {
 
-    private JPanel contentPanel;
+    private JPanel itemsGrid;
 
-    public ShoppingCartView() {
+    @SuppressWarnings("unused")
+    private ShoppingCartController controller;
+
+    public ShoppingCartView(ShoppingCartController controller, ShoppingCart shoppingCart) {
+
+        shoppingCart.addPropertyChangeListener(this);
+        this.controller = controller;
         setupUI();
     }
 
@@ -30,12 +48,12 @@ public class ShoppingCartView extends JPanel {
         this.setBackground(ColorPalette.BG_MAIN);
         this.setLayout(new BorderLayout());
 
-        contentPanel = new JPanel();
-        contentPanel.setBackground(ColorPalette.BG_MAIN);
-        contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
+        itemsGrid = new JPanel();
+        itemsGrid.setBackground(ColorPalette.BG_MAIN);
+        itemsGrid.setLayout(new GridLayout(0, 1, 10, 10));
 
         // wrapping the grid in a scroll pane
-        JScrollPane scrollPane = new JScrollPane(contentPanel);
+        JScrollPane scrollPane = new JScrollPane(itemsGrid);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
@@ -47,6 +65,31 @@ public class ShoppingCartView extends JPanel {
         styleScrollBar(verticalBar);
 
         this.add(scrollPane, BorderLayout.CENTER);
+    }
+
+    public void displayItems(ArrayList<CartItem> items) {
+        itemsGrid.removeAll();
+
+        for (CartItem item : items) {
+            ShoppingCartItemCard card = new ShoppingCartItemCard(item);
+
+            // Use standard ActionListener instead of custom callback
+            // card.addActionListener(e -> {
+            // controller.handleProductClick(product);
+            // });
+
+            itemsGrid.add(card);
+        }
+
+        itemsGrid.revalidate();
+        itemsGrid.repaint();
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals(ShoppingCart.PROP_ITEMS)) {
+            displayItems((ArrayList<CartItem>) evt.getNewValue());
+        }
     }
 
     private void styleScrollBar(JScrollBar bar) {

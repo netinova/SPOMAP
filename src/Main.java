@@ -6,6 +6,7 @@ import Controller.AppController;
 import Model.AppState;
 import Model.Product;
 import Model.ProductCatalog;
+import Model.ShoppingCart;
 import View.NavigationView;
 import View.ProductView;
 import View.ShopView;
@@ -24,15 +25,16 @@ public class Main {
         Locale.setDefault(Locale.US);
 
         ProductCatalog products = new ProductCatalog();
+        ShoppingCart shoppingCart = new ShoppingCart();
 
-        AppController appController = new AppController(products);
+        AppController appController = new AppController(products, shoppingCart);
 
         ShopView shopView = new ShopView(appController.getShopController(), products);
         NavigationView navigationView = new NavigationView(appController.getNavigationController());
         SidebarView sidebarView = new SidebarView(appController.getSidebarController());
         AuthenticationView authenticationView = new AuthenticationView(appController.getAuthenticationController());
         ProductView productView = new ProductView(products);
-        ShoppingCartView shoppingCartView = new ShoppingCartView();
+        ShoppingCartView shoppingCartView = new ShoppingCartView(appController.getShoppingCartController(), shoppingCart);
 
         MultiViewPanel multiViewPanel = new MultiViewPanel(shopView, authenticationView, productView, shoppingCartView);
 
