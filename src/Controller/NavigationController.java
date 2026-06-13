@@ -37,7 +37,15 @@ public class NavigationController {
         System.out.println("clicked on Icon user");
 
         if (listener != null) {
-            listener.changeView(MultiViewPanel.USER_VIEW);
+            listener.changeView(MultiViewPanel.AUTH_VIEW);
+        }
+    }
+
+    public void onShoppingCartIconClick() {
+        System.out.println("clicked on shopping cart");
+
+        if (listener != null) {
+            listener.changeView(MultiViewPanel.SHOPPING_CART_VIEW);
         }
     }
 }

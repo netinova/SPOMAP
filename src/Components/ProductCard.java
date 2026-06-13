@@ -118,7 +118,7 @@ public class ProductCard extends JPanel {
         this.pricePanel.add(productPrice, BorderLayout.CENTER);
 
         // Product Discount
-        this.productDiscount = new JLabel(String.format("%%%.2f", product.getDiscount()));
+        this.productDiscount = new JLabel(String.format("%%%.0f", product.getDiscount()));
         this.productDiscount.setFont(new Font("Segoe UI", Font.ITALIC, 16));
         this.productDiscount.setForeground(ColorPalette.ACCENT_SUCCESS);
         this.productDiscount.setHorizontalAlignment(SwingConstants.CENTER);

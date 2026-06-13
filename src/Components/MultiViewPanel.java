@@ -9,23 +9,28 @@ import javax.swing.border.Border;
 import Util.ColorPalette;
 import View.ProductView;
 import View.ShopView;
+import View.ShoppingCartView;
 import View.AuthenticationView;
 
 public class MultiViewPanel extends JPanel {
 
-    private ShopView shopView;
     private CardLayout cardLayout;
+    private ShopView shopView;
     private AuthenticationView authenticationView;
     private ProductView productView;
+    private ShoppingCartView shoppingCartView;
 
-    public static final String USER_VIEW = "userView";
+    public static final String AUTH_VIEW = "userView";
     public static final String SHOP_VIEW = "shopView";
     public static final String PRODUCT_VIEW = "productView";
+    public static final String SHOPPING_CART_VIEW = "shoppingCartView";
 
-    public MultiViewPanel(ShopView shopView, AuthenticationView authenticationView, ProductView productView) {
+    public MultiViewPanel(ShopView shopView, AuthenticationView authenticationView, ProductView productView,
+            ShoppingCartView shoppingCartView) {
         this.shopView = shopView;
         this.authenticationView = authenticationView;
         this.productView = productView;
+        this.shoppingCartView = shoppingCartView;
         setupUI();
     }
 
@@ -40,8 +45,9 @@ public class MultiViewPanel extends JPanel {
         this.setBorder(BorderFactory.createCompoundBorder(line, etched));
 
         this.add(shopView, SHOP_VIEW);
-        this.add(authenticationView, USER_VIEW);
+        this.add(authenticationView, AUTH_VIEW);
         this.add(productView, PRODUCT_VIEW);
+        this.add(shoppingCartView, SHOPPING_CART_VIEW);
 
         // Show shop view by default
         cardLayout.show(this, SHOP_VIEW);

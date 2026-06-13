@@ -35,8 +35,8 @@ public class NavigationView extends JPanel {
             }
 
             @Override
-            public void onNotificationClick() {
-
+            public void onShoppingCartClick() {
+                controller.onShoppingCartIconClick();
             }
 
         });

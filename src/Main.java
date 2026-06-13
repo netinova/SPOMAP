@@ -9,6 +9,7 @@ import Model.ProductCatalog;
 import View.NavigationView;
 import View.ProductView;
 import View.ShopView;
+import View.ShoppingCartView;
 import View.SidebarView;
 import View.AuthenticationView;
 import Components.MultiViewPanel;
@@ -31,8 +32,9 @@ public class Main {
         SidebarView sidebarView = new SidebarView(appController.getSidebarController());
         AuthenticationView authenticationView = new AuthenticationView(appController.getAuthenticationController());
         ProductView productView = new ProductView(products);
+        ShoppingCartView shoppingCartView = new ShoppingCartView();
 
-        MultiViewPanel multiViewPanel = new MultiViewPanel(shopView, authenticationView, productView);
+        MultiViewPanel multiViewPanel = new MultiViewPanel(shopView, authenticationView, productView, shoppingCartView);
 
         appController.setViews(shopView, navigationView, sidebarView, multiViewPanel, authenticationView);
 
