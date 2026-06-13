@@ -1,0 +1,22 @@
+{
+  "users": [
+    {
+      "userId": "ADM_000001",
+      "firstName": "Mani",
+      "lastName": "Baghdadi",
+      "phoneNumber": "09111111111",
+      "password": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+      "registerDate": "2026-01-01T00:00:00",
+      "balance": 0
+    },
+    {
+      "userId": "ADM_000002",
+      "firstName": "parsa",
+      "lastName": "qeli",
+      "phoneNumber": "09122222222",
+      "password": "6b86b273ff3fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+      "registerDate": "2026-01-15T00:00:00",
+      "balance": 0
+    }
+  ]
+}

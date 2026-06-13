@@ -15,12 +15,13 @@ public class MultiViewPanel extends JPanel {
 
     private ShopView shopView;
     private CardLayout cardLayout;
-    private AuthenticationView authenticationView;
+    public AuthenticationView authenticationView;
     private ProductView productView;
 
     public static final String USER_VIEW = "userView";
     public static final String SHOP_VIEW = "shopView";
     public static final String PRODUCT_VIEW = "productView";
+    public static final String AUTH_VIEW = "authView";
 
     public MultiViewPanel(ShopView shopView, AuthenticationView authenticationView, ProductView productView) {
         this.shopView = shopView;
@@ -40,17 +41,30 @@ public class MultiViewPanel extends JPanel {
         this.setBorder(BorderFactory.createCompoundBorder(line, etched));
 
         this.add(shopView, SHOP_VIEW);
-        this.add(authenticationView, USER_VIEW);
+        this.add(authenticationView, AUTH_VIEW);
         this.add(productView, PRODUCT_VIEW);
 
         // Show shop view by default
         cardLayout.show(this, SHOP_VIEW);
     }
 
+    public AuthenticationView getAuthenticationView() {
+        return authenticationView;
+    }
+
     /**
      * Switch to a specific view
      */
     public void switchView(String viewId) {
+
+        if (viewId.equals(MultiViewPanel.AUTH_VIEW)) {
+            if (getAuthenticationView() != null)
+                getAuthenticationView().showLoginPanel();
+        }
+
+        // if (multiViewPanel != null && multiViewPanel.getAuthenticationView() != null)
+        // multiViewPanel.getAuthenticationView().showLoginPanel();
+
         cardLayout.show(this, viewId);
     }
 }

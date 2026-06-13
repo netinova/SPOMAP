@@ -52,6 +52,10 @@ public class AppController {
         shopController.setOnChangeViewListener(viewId -> {
             this.multiViewPanel.switchView(viewId);
         });
+
+        authenticationController.setOnChangeViewListener(viewId -> {
+            this.multiViewPanel.switchView(viewId);
+        });
     }
 
     // Getters for controllers (so other components can access them)
