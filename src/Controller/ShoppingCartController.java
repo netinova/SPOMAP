@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.CartItem;
 import Model.ShoppingCart;
 
 public class ShoppingCartController {
@@ -9,5 +10,9 @@ public class ShoppingCartController {
 
     public ShoppingCartController(ShoppingCart shoppingCart) {
         this.shoppingCart = shoppingCart;
+    }
+
+    public void handleItemCardClick(CartItem cartItem) {
+        System.out.println("Clicked on ItemCard!");
     }
 }

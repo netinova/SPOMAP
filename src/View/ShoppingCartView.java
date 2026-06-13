@@ -74,9 +74,9 @@ public class ShoppingCartView extends JPanel implements PropertyChangeListener {
             ShoppingCartItemCard card = new ShoppingCartItemCard(item);
 
             // Use standard ActionListener instead of custom callback
-            // card.addActionListener(e -> {
-            // controller.handleProductClick(product);
-            // });
+            card.setItemCardClickListener(cartItem -> {
+                controller.handleItemCardClick(cartItem);
+            });
 
             itemsGrid.add(card);
         }
