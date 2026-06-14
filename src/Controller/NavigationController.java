@@ -43,12 +43,12 @@ public class NavigationController {
             return;
         }
 
-        if (AppState.getInstance().isUserLoggedIn()) {
-            listener.changeView(MultiViewPanel.USER_VIEW);
-
-        } else {
+        if (!AppState.getInstance().isUserLoggedIn()) {
             listener.changeView(MultiViewPanel.AUTH_VIEW);
+            return;
         }
+
+        listener.changeView(MultiViewPanel.USER_VIEW);
     }
 
     public void onShoppingCartIconClick() {
@@ -58,10 +58,11 @@ public class NavigationController {
             return;
         }
 
-        if (AppState.getInstance().isUserLoggedIn()) {
-            listener.changeView(MultiViewPanel.SHOPPING_CART_VIEW);
-        } else {
+        if (!AppState.getInstance().isUserLoggedIn()) {
             listener.changeView(MultiViewPanel.AUTH_VIEW);
+            return;
         }
+
+        listener.changeView(MultiViewPanel.SHOPPING_CART_VIEW);
     }
 }

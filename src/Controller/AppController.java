@@ -20,6 +20,7 @@ public class AppController {
     private SidebarController sidebarController;
     private AuthenticationController authenticationController;
     private ShoppingCartController shoppingCartController;
+    private ProductController productController;
 
     private MultiViewPanel multiViewPanel;
 
@@ -31,12 +32,13 @@ public class AppController {
         this.sidebarController = new SidebarController();
         this.authenticationController = new AuthenticationController();
         this.shoppingCartController = new ShoppingCartController(shoppingCart);
+        this.productController = new ProductController();
     }
 
     public void setViews(ShopView shopView, NavigationView navigationView,
             SidebarView sidebarView, MultiViewPanel multiViewPanel,
             AuthenticationView authenticationView) {
-                
+
         this.multiViewPanel = multiViewPanel;
 
         // Set views in controllers so they can update them
@@ -58,6 +60,10 @@ public class AppController {
         });
 
         authenticationController.setOnChangeViewListener(viewId -> {
+            this.multiViewPanel.switchView(viewId);
+        });
+
+        productController.setOnChangeViewListener(viewId -> {
             this.multiViewPanel.switchView(viewId);
         });
     }
@@ -85,5 +91,9 @@ public class AppController {
 
     public ProductCatalog getModel() {
         return productCatalog;
+    }
+
+    public ProductController getProductController() {
+        return productController;
     }
 }

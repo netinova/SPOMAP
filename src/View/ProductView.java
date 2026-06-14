@@ -34,6 +34,7 @@ import Components.ProductInfoPanel;
 import Components.QuantityCartPanel;
 import Components.StockLabel;
 import Components.TechnicalSpecsPanel;
+import Controller.ProductController;
 import Model.Product;
 import Model.ProductCatalog;
 import Util.ColorPalette;
@@ -49,9 +50,12 @@ public class ProductView extends JPanel implements PropertyChangeListener {
     private ColorSelectorPanel colorSelectorPanel;
     private StockLabel stockLabel;
 
-    public ProductView(ProductCatalog model) {
+    ProductController controller;
+
+    public ProductView(ProductController controller, ProductCatalog model) {
 
         model.addListener(this);
+        this.controller = controller;
 
         setupUI();
         attachEvents();
@@ -59,7 +63,7 @@ public class ProductView extends JPanel implements PropertyChangeListener {
 
     private void attachEvents() {
         quantityCartPanel.addCartListener(e -> {
-            System.out.println("Clicked add to cart!");
+            controller.handleAddToCart();
         });
 
         quantityCartPanel.addMinusListener(e -> {

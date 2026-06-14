@@ -33,8 +33,9 @@ public class Main {
         NavigationView navigationView = new NavigationView(appController.getNavigationController());
         SidebarView sidebarView = new SidebarView(appController.getSidebarController());
         AuthenticationView authenticationView = new AuthenticationView(appController.getAuthenticationController());
-        ProductView productView = new ProductView(products);
-        ShoppingCartView shoppingCartView = new ShoppingCartView(appController.getShoppingCartController(), shoppingCart);
+        ProductView productView = new ProductView(appController.getProductController(), products);
+        ShoppingCartView shoppingCartView = new ShoppingCartView(appController.getShoppingCartController(),
+                shoppingCart);
 
         MultiViewPanel multiViewPanel = new MultiViewPanel(shopView, authenticationView, productView, shoppingCartView);
 
