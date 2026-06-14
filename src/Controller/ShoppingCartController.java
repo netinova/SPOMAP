@@ -20,38 +20,40 @@ public class ShoppingCartController {
     }
 
     public void handleItemCardClick(CartItem cartItem) {
-        if (listener == null) return;
+        if (listener == null)
+            return;
         model.setSelectedProduct(cartItem.getProduct());
         listener.changeView(MultiViewPanel.PRODUCT_VIEW);
     }
 
     public void handleIncreaseQuantity(CartItem cartItem) {
         ShoppingCart cart = AppState.getInstance().getCart();
-        if (cart == null) return;
+        if (cart == null)
+            return;
 
         int newQty = cartItem.getQuantity() + 1;
-        int available = cart.getAvailableQuantity(cartItem.getProduct());
-        if (newQty > available) {
-            newQty = available;
+        int maxStock = cartItem.getProduct().getStockQuantity();
+        if (newQty > maxStock) {
+            newQty = maxStock;
         }
         cart.setItemQuantity(cartItem.getProduct().getId(), newQty);
     }
 
     public void handleDecreaseQuantity(CartItem cartItem) {
         ShoppingCart cart = AppState.getInstance().getCart();
-        if (cart == null) return;
+        if (cart == null)
+            return;
 
         int newQty = cartItem.getQuantity() - 1;
-        if (newQty <= 0) {
-            cart.removeProduct(cartItem.getProduct().getId());
-        } else {
+        if (newQty >= 0) {
             cart.setItemQuantity(cartItem.getProduct().getId(), newQty);
         }
     }
 
     public void handleRemoveItem(CartItem cartItem) {
         ShoppingCart cart = AppState.getInstance().getCart();
-        if (cart == null) return;
+        if (cart == null)
+            return;
         cart.removeProduct(cartItem.getProduct().getId());
     }
 }

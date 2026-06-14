@@ -62,8 +62,8 @@ public class ShoppingCartItemCard extends JPanel {
     }
 
     public void setMaxQuantity(int max) {
-        plusButton.setEnabled(cartItem.getQuantity() < max);
         int available = Math.max(0, max);
+        plusButton.setEnabled(available > 0);
         availableLabel.setText("Available: " + available);
     }
 
@@ -181,6 +181,7 @@ public class ShoppingCartItemCard extends JPanel {
         controlsBar.add(Box.createHorizontalGlue());
 
         removeButton = new RoundedButton(null, CORNER_RADIUS);
+        removeButton.setHasBorder(false);
         removeButton.setIcon(trashIcon);
         removeButton.setPreferredSize(new Dimension(SQUARE_SIZE, SQUARE_SIZE));
         removeButton.setMaximumSize(new Dimension(SQUARE_SIZE, SQUARE_SIZE));

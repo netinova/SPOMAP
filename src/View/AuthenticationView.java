@@ -69,10 +69,10 @@ public class AuthenticationView extends JPanel {
         cardPanel.setPreferredSize(new Dimension(400, 480));
 
         singUpPanel = new SingUpPanel();
-        singUpPanel.setAuthenticationController(controller);  // Connect controller to View
+        singUpPanel.setAuthenticationController(controller); // Connect controller to View
 
         loginPanel = new LoginPanel();
-        loginPanel.setAuthenticationController(controller);  // Connect controller to View
+        loginPanel.setAuthenticationController(controller); // Connect controller to View
         loginPanel.resetForm();
         cardPanel.add(loginPanel, "LOG_IN");
         cardPanel.add(singUpPanel, "SING_UP");
@@ -98,65 +98,81 @@ public class AuthenticationView extends JPanel {
         return loginPanel != null ? loginPanel.getPassword() : "";
     }
 
-    public AuthenticationView getView(){return this;}
+    public AuthenticationView getView() {
+        return this;
+    }
 
     // singUp Errors handler
     public void showPhoneError(String error) {
-        if (singUpPanel != null) singUpPanel.showPhoneError(error);
+        if (singUpPanel != null)
+            singUpPanel.showPhoneError(error);
     }
 
     public void clearPhoneError() {
-        if (singUpPanel != null) singUpPanel.clearPhoneError();
+        if (singUpPanel != null)
+            singUpPanel.clearPhoneError();
     }
 
     public void showFirstNameError(String error) {
-        if (singUpPanel != null) singUpPanel.showFirstNameError(error);
+        if (singUpPanel != null)
+            singUpPanel.showFirstNameError(error);
     }
 
     public void clearFirstNameError() {
-        if (singUpPanel != null) singUpPanel.clearFirstNameError();
+        if (singUpPanel != null)
+            singUpPanel.clearFirstNameError();
     }
 
     public void showLastNameError(String error) {
-        if (singUpPanel != null) singUpPanel.showLastNameError(error);
+        if (singUpPanel != null)
+            singUpPanel.showLastNameError(error);
     }
 
     public void clearLastNameError() {
-        if (singUpPanel != null) singUpPanel.clearLastNameError();
+        if (singUpPanel != null)
+            singUpPanel.clearLastNameError();
     }
 
     public void showPasswordError(String error) {
-        if (singUpPanel != null) singUpPanel.showPasswordError(error);
+        if (singUpPanel != null)
+            singUpPanel.showPasswordError(error);
     }
 
     public void clearPasswordError() {
-        if (singUpPanel != null) singUpPanel.clearPasswordError();
+        if (singUpPanel != null)
+            singUpPanel.clearPasswordError();
     }
 
     public void showConfirmPasswordError(String error) {
-        if (singUpPanel != null) singUpPanel.showConfirmPasswordError(error);
+        if (singUpPanel != null)
+            singUpPanel.showConfirmPasswordError(error);
     }
 
     public void clearConfirmPasswordError() {
-        if (singUpPanel != null) singUpPanel.clearConfirmPasswordError();
+        if (singUpPanel != null)
+            singUpPanel.clearConfirmPasswordError();
     }
 
     public void showFindUsError(String error) {
-        if (singUpPanel != null) singUpPanel.showFindUsError(error);
+        if (singUpPanel != null)
+            singUpPanel.showFindUsError(error);
     }
 
     public void clearFindUsError() {
-        if (singUpPanel != null) singUpPanel.clearFindUsError();
+        if (singUpPanel != null)
+            singUpPanel.clearFindUsError();
     }
 
     // logIn Error Handler
 
     public void showLoginUsernameError(String error) {
-        if (loginPanel != null) loginPanel.showUsernameError(error);
+        if (loginPanel != null)
+            loginPanel.showUsernameError(error);
     }
 
     public void showLoginPasswordError(String error) {
-        if (loginPanel != null) loginPanel.showPasswordError(error);
+        if (loginPanel != null)
+            loginPanel.showPasswordError(error);
     }
 
     public boolean validateAndSignUp() {

@@ -52,7 +52,7 @@ public class AuthenticationController {
     }
 
     public ValidationResult validatePassword(String password) {
-        return Validator.validatePassword(password);
+        return Validator.validatePassword(password.trim());
     }
 
     public ValidationResult validateConfirmPassword(String password, String confirmPassword) {

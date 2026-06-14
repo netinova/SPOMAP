@@ -63,6 +63,7 @@ public class ShoppingCartView extends JPanel implements PropertyChangeListener {
         itemsGrid = new JPanel();
         itemsGrid.setBackground(ColorPalette.BG_MAIN);
         itemsGrid.setLayout(new GridBagLayout());
+        itemsGrid.setBorder(BorderFactory.createEmptyBorder(5, 10, 10, 10));
 
         // wrapping the grid in a scroll pane
         JScrollPane scrollPane = new JScrollPane(itemsGrid);
