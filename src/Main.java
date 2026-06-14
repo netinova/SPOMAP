@@ -25,17 +25,15 @@ public class Main {
         Locale.setDefault(Locale.US);
 
         ProductCatalog products = new ProductCatalog();
-        ShoppingCart shoppingCart = new ShoppingCart();
 
-        AppController appController = new AppController(products, shoppingCart);
+        AppController appController = new AppController(products);
 
         ShopView shopView = new ShopView(appController.getShopController(), products);
         NavigationView navigationView = new NavigationView(appController.getNavigationController());
         SidebarView sidebarView = new SidebarView(appController.getSidebarController());
         AuthenticationView authenticationView = new AuthenticationView(appController.getAuthenticationController());
         ProductView productView = new ProductView(appController.getProductController(), products);
-        ShoppingCartView shoppingCartView = new ShoppingCartView(appController.getShoppingCartController(),
-                shoppingCart);
+        ShoppingCartView shoppingCartView = new ShoppingCartView(appController.getShoppingCartController());
 
         MultiViewPanel multiViewPanel = new MultiViewPanel(shopView, authenticationView, productView, shoppingCartView);
 
@@ -53,3 +51,4 @@ public class Main {
         mainFrame.setVisible(true);
     }
 }
+

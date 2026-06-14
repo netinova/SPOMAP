@@ -30,4 +30,8 @@ public class ShoppingCart {
         support.firePropertyChange(PROP_ITEMS, null, items);
     }
 
+    public ArrayList<CartItem> getItems() {
+        return new ArrayList<>(items);
+    }
+
 }

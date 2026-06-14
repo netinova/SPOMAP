@@ -51,6 +51,8 @@ public class ProductView extends JPanel implements PropertyChangeListener {
     private StockLabel stockLabel;
 
     ProductController controller;
+    private Product currentProduct;
+    private int selectedQuantity;
 
     public ProductView(ProductController controller, ProductCatalog model) {
 
@@ -63,18 +65,21 @@ public class ProductView extends JPanel implements PropertyChangeListener {
 
     private void attachEvents() {
         quantityCartPanel.addCartListener(e -> {
-            controller.handleAddToCart();
+            controller.handleAddToCart(currentProduct, selectedQuantity);
+            quantityCartPanel.resetQuantity();
         });
 
         quantityCartPanel.addMinusListener(e -> {
             int quantity = Integer.parseInt(e.getActionCommand());
             System.out.println("Clicked - ! quantity: " + quantity);
+            this.selectedQuantity = quantity;
             pricePanel.updateQuantity(quantity);
         });
 
         quantityCartPanel.addPlusListener(e -> {
             int quantity = Integer.parseInt(e.getActionCommand());
             System.out.println("Clicked + ! quantity: " + quantity);
+            this.selectedQuantity = quantity;
             pricePanel.updateQuantity(quantity);
         });
 
@@ -200,6 +205,8 @@ public class ProductView extends JPanel implements PropertyChangeListener {
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals(ProductCatalog.PROP_SELECTED)) {
             Product product = (Product) evt.getNewValue();
+            this.currentProduct = product;
+
             imageGallery.setImages(product.getProductImages());
             productInfoPanel.updateInfo(product.getName(), product.getDescription());
             specsPanel.setProduct(product);

@@ -23,17 +23,6 @@ public class UserService {
     private List<AdminUser> adminUsers;
     private ObjectMapper mapper;
 
-    private User loggedInUser;
-
-    public User getLoggedInUser() {
-        return loggedInUser;
-    }
-
-    public void setLoggedInUser(User loggedInUser) {
-        this.loggedInUser = loggedInUser;
-        System.out.println("logged in user set: " + loggedInUser.getFirstName());
-    }
-
     public UserService() {
         this.normalUsers = new ArrayList<>();
         this.primeUsers = new ArrayList<>();
@@ -172,7 +161,7 @@ public class UserService {
         if (searchUserByPhoneNumber(phoneNumber) != null)
             return false;
 
-        NormalUser user = new NormalUser(null,phoneNumber,hashedPassword,firstName,lastName,null,0.0);
+        NormalUser user = new NormalUser(null, phoneNumber, hashedPassword, firstName, lastName, null, 0.0);
 
         String newId = getNewId();
         user.setUserId(newId);
@@ -242,7 +231,7 @@ public class UserService {
                 null,
                 normalUser.getBalance(),
                 null,
-                0,0);
+                0, 0);
 
         primeUser.setRegisterDate(normalUser.getRegisterDate());
         primeUser.setUserId(normalUser.getUserId());

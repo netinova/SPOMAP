@@ -30,16 +30,14 @@ import Model.Product;
 import Model.ShoppingCart;
 import Util.ColorPalette;
 
-public class ShoppingCartView extends JPanel implements PropertyChangeListener {
+public class ShoppingCartView extends JPanel{
 
     private JPanel itemsGrid;
 
     @SuppressWarnings("unused")
     private ShoppingCartController controller;
 
-    public ShoppingCartView(ShoppingCartController controller, ShoppingCart shoppingCart) {
-
-        shoppingCart.addPropertyChangeListener(this);
+    public ShoppingCartView(ShoppingCartController controller) {
         this.controller = controller;
         setupUI();
     }
@@ -83,13 +81,6 @@ public class ShoppingCartView extends JPanel implements PropertyChangeListener {
 
         itemsGrid.revalidate();
         itemsGrid.repaint();
-    }
-
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals(ShoppingCart.PROP_ITEMS)) {
-            displayItems((ArrayList<CartItem>) evt.getNewValue());
-        }
     }
 
     private void styleScrollBar(JScrollBar bar) {

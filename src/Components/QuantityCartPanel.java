@@ -126,6 +126,10 @@ public class QuantityCartPanel extends JPanel {
         return quantity;
     }
 
+    public void resetQuantity() {
+        setQuantity(1);
+    }
+
     public void setQuantity(int qty) {
         this.quantity = Math.max(1, qty);
         quantityIndicator.setQuantity(quantity);

@@ -2,6 +2,9 @@ package Controller;
 
 import Components.MultiViewPanel;
 import Model.AppState;
+import Model.CartItem;
+import Model.Product;
+import Model.ShoppingCart;
 
 public class ProductController {
 
@@ -11,8 +14,7 @@ public class ProductController {
         this.listener = listener;
     }
 
-    public void handleAddToCart() {
-        System.out.println("Clicked add to cart!");
+    public void handleAddToCart(Product product, int quantity) {
 
         if (listener == null) {
             return;
@@ -23,7 +25,13 @@ public class ProductController {
             return;
         }
 
-        
+        ShoppingCart shoppingCart = AppState.getInstance().getCart();
+
+        shoppingCart.addProduct(product, quantity);
+
+        for (CartItem item : shoppingCart.getItems()) {
+            System.out.println(item.getProduct().getName() + " " + item.getQuantity());
+        }
 
     }
 

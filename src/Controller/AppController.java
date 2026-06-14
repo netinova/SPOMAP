@@ -24,14 +24,14 @@ public class AppController {
 
     private MultiViewPanel multiViewPanel;
 
-    public AppController(ProductCatalog productCatalog, ShoppingCart shoppingCart) {
+    public AppController(ProductCatalog productCatalog) {
         this.productCatalog = productCatalog;
 
         this.shopController = new ShopController(productCatalog);
         this.navigationController = new NavigationController(productCatalog);
         this.sidebarController = new SidebarController();
         this.authenticationController = new AuthenticationController();
-        this.shoppingCartController = new ShoppingCartController(shoppingCart);
+        this.shoppingCartController = new ShoppingCartController();
         this.productController = new ProductController();
     }
 

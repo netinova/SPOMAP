@@ -4,14 +4,27 @@ public class AppState {
 
     private static AppState instance;
 
-    private boolean isUserLoggedIn;
+    private User loggedInUser;
+    private ShoppingCart cart;
 
-    public boolean isUserLoggedIn() {
-        return isUserLoggedIn;
+    public ShoppingCart getCart() {
+        return cart;
     }
 
-    public void setUserLoggedIn(boolean isUserLoggedIn) {
-        this.isUserLoggedIn = isUserLoggedIn;
+    public void setCart(ShoppingCart currentShoppingCart) {
+        this.cart = currentShoppingCart;
+    }
+
+    public User getLoggedInUser() {
+        return loggedInUser;
+    }
+
+    public void setLoggedInUser(User loggedInUser) {
+        this.loggedInUser = loggedInUser;
+    }
+
+    public boolean isUserLoggedIn() {
+        return loggedInUser != null;
     }
 
     private AppState() {
