@@ -5,6 +5,8 @@ import Model.ProductCatalog;
 import View.AuthenticationView;
 import View.ShopView;
 import java.util.List;
+
+import Model.AppState;
 import Model.Product;
 
 public class NavigationController {
@@ -36,7 +38,15 @@ public class NavigationController {
 
     public void onUserIconClick() {
         System.out.println("clicked on Icon user");
-        if (listener != null) {
+
+        if (listener == null) {
+            return;
+        }
+
+        if (AppState.getInstance().isUserLoggedIn()) {
+            listener.changeView(MultiViewPanel.USER_VIEW);
+
+        } else {
             listener.changeView(MultiViewPanel.AUTH_VIEW);
         }
     }
@@ -44,8 +54,14 @@ public class NavigationController {
     public void onShoppingCartIconClick() {
         System.out.println("clicked on shopping cart");
 
-        if (listener != null) {
+        if (listener == null) {
+            return;
+        }
+
+        if (AppState.getInstance().isUserLoggedIn()) {
             listener.changeView(MultiViewPanel.SHOPPING_CART_VIEW);
+        } else {
+            listener.changeView(MultiViewPanel.AUTH_VIEW);
         }
     }
 }

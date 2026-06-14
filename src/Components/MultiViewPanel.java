@@ -24,6 +24,7 @@ public class MultiViewPanel extends JPanel {
     public static final String PRODUCT_VIEW = "productView";
     public static final String AUTH_VIEW = "authView";
     public static final String SHOPPING_CART_VIEW = "shoppingCartView";
+    public static final String USER_VIEW = "userView";
 
     public MultiViewPanel(ShopView shopView, AuthenticationView authenticationView, ProductView productView,
             ShoppingCartView shoppingCartView) {

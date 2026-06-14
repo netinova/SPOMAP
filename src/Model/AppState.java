@@ -4,6 +4,16 @@ public class AppState {
 
     private static AppState instance;
 
+    private boolean isUserLoggedIn;
+
+    public boolean isUserLoggedIn() {
+        return isUserLoggedIn;
+    }
+
+    public void setUserLoggedIn(boolean isUserLoggedIn) {
+        this.isUserLoggedIn = isUserLoggedIn;
+    }
+
     private AppState() {
     }
 

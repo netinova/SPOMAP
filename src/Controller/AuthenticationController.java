@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.AppState;
 import Model.PrimeUser;
 import Model.User;
 import Service.UserService;
@@ -204,11 +205,12 @@ public class AuthenticationController {
             if (isValid) {
                 User user = userService.login(username, password);
                 if (user != null) {
-                    System.out.println("successfully login");
+                    System.out.println("successfully logged in");
                     userService.setLoggedInUser(user);
+                    AppState.getInstance().setUserLoggedIn(true);
                     listener.changeView(MultiViewPanel.SHOP_VIEW);
                 } else
-                    System.out.println("Unsuccessfully login");
+                    System.out.println("failed to login");
             }
         }
     }
