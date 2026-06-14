@@ -64,12 +64,13 @@ public class MultiViewPanel extends JPanel {
     public void switchView(String viewId) {
 
         if (viewId.equals(MultiViewPanel.AUTH_VIEW)) {
-            if (getAuthenticationView() != null)
-                getAuthenticationView().showLoginPanel();
+            if (authenticationView != null)
+                authenticationView.showLoginPanel();
         }
 
-        // if (multiViewPanel != null && multiViewPanel.getAuthenticationView() != null)
-        // multiViewPanel.getAuthenticationView().showLoginPanel();
+        if (viewId.equals(MultiViewPanel.SHOPPING_CART_VIEW)) {
+            shoppingCartView.loadCartItems();
+        }
 
         cardLayout.show(this, viewId);
     }

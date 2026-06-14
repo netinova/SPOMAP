@@ -35,8 +35,10 @@ import Components.QuantityCartPanel;
 import Components.StockLabel;
 import Components.TechnicalSpecsPanel;
 import Controller.ProductController;
+import Model.AppState;
 import Model.Product;
 import Model.ProductCatalog;
+import Model.ShoppingCart;
 import Util.ColorPalette;
 
 public class ProductView extends JPanel implements PropertyChangeListener {
@@ -67,12 +69,22 @@ public class ProductView extends JPanel implements PropertyChangeListener {
         quantityCartPanel.addCartListener(e -> {
             controller.handleAddToCart(currentProduct, selectedQuantity);
             quantityCartPanel.resetQuantity();
+
+            ShoppingCart cart = AppState.getInstance().getCart();
+            if (cart != null) {
+                quantityCartPanel.setMaxQuantity(cart.getAvailableQuantity(currentProduct));
+            }
+
+            int maxQuantity = (cart != null) ? cart.getAvailableQuantity(currentProduct)
+                    : currentProduct.getStockQuantity();
+            stockLabel.setStockQuantity(currentProduct.getStockQuantity(), maxQuantity);
         });
 
         quantityCartPanel.addMinusListener(e -> {
             int quantity = Integer.parseInt(e.getActionCommand());
             System.out.println("Clicked - ! quantity: " + quantity);
             this.selectedQuantity = quantity;
+
             pricePanel.updateQuantity(quantity);
         });
 
@@ -212,9 +224,13 @@ public class ProductView extends JPanel implements PropertyChangeListener {
             specsPanel.setProduct(product);
             pricePanel.setPrice(product.getPrice(), product.getDiscount(), 1);
             quantityCartPanel.setQuantity(1);
-            quantityCartPanel.setMaxQuantity(product.getStockQuantity());
+
+            ShoppingCart cart = AppState.getInstance().getCart();
+            int maxQuantity = (cart != null) ? cart.getAvailableQuantity(product) : product.getStockQuantity();
+
+            quantityCartPanel.setMaxQuantity(maxQuantity);
             colorSelectorPanel.setColors(product.getColors());
-            stockLabel.setStockQuantity(product.getStockQuantity());
+            stockLabel.setStockQuantity(product.getStockQuantity(), maxQuantity);
         }
     }
 }

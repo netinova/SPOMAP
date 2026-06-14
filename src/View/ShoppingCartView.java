@@ -6,7 +6,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.beans.PropertyChangeEvent;
@@ -22,24 +21,39 @@ import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 
-import Components.ProductCard;
 import Components.ShoppingCartItemCard;
 import Controller.ShoppingCartController;
+import Model.AppState;
 import Model.CartItem;
-import Model.Product;
 import Model.ShoppingCart;
 import Util.ColorPalette;
 
-public class ShoppingCartView extends JPanel{
+public class ShoppingCartView extends JPanel implements PropertyChangeListener {
 
     private JPanel itemsGrid;
 
-    @SuppressWarnings("unused")
     private ShoppingCartController controller;
+
+    private boolean subscribed = false;
 
     public ShoppingCartView(ShoppingCartController controller) {
         this.controller = controller;
         setupUI();
+    }
+
+    public void subscribeToModel(ShoppingCart cart) {
+        cart.addPropertyChangeListener(this);
+        subscribed = true;
+    }
+
+    public void loadCartItems() {
+        ShoppingCart cart = AppState.getInstance().getCart();
+        if (cart != null) {
+            if (!subscribed) {
+                subscribeToModel(cart);
+            }
+            displayItems(cart.getItems());
+        }
     }
 
     void setupUI() {
@@ -48,7 +62,7 @@ public class ShoppingCartView extends JPanel{
 
         itemsGrid = new JPanel();
         itemsGrid.setBackground(ColorPalette.BG_MAIN);
-        itemsGrid.setLayout(new GridLayout(0, 1, 10, 10));
+        itemsGrid.setLayout(new GridBagLayout());
 
         // wrapping the grid in a scroll pane
         JScrollPane scrollPane = new JScrollPane(itemsGrid);
@@ -68,19 +82,52 @@ public class ShoppingCartView extends JPanel{
     public void displayItems(ArrayList<CartItem> items) {
         itemsGrid.removeAll();
 
-        for (CartItem item : items) {
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 1.0;
+        gbc.insets = new java.awt.Insets(5, 0, 5, 0);
+
+        for (int i = 0; i < items.size(); i++) {
+            CartItem item = items.get(i);
             ShoppingCartItemCard card = new ShoppingCartItemCard(item);
 
-            // Use standard ActionListener instead of custom callback
-            card.setItemCardClickListener(cartItem -> {
-                controller.handleItemCardClick(cartItem);
+            card.addActionListener(e -> {
+                switch (e.getActionCommand()) {
+                    case "plus" -> controller.handleIncreaseQuantity(item);
+                    case "minus" -> controller.handleDecreaseQuantity(item);
+                    case "remove" -> controller.handleRemoveItem(item);
+                    case "cardClick" -> controller.handleItemCardClick(item);
+                }
             });
 
-            itemsGrid.add(card);
+            ShoppingCart cart = AppState.getInstance().getCart();
+            if (cart != null) {
+                card.setMaxQuantity(cart.getAvailableQuantity(item.getProduct()));
+            }
+
+            gbc.gridy = i;
+            itemsGrid.add(card, gbc);
         }
+
+        // Add a vertical filler at the bottom so cards stay top-aligned
+        gbc.gridy = items.size();
+        gbc.weighty = 1.0;
+        gbc.fill = GridBagConstraints.BOTH;
+        JPanel filler = new JPanel();
+        filler.setOpaque(false);
+        itemsGrid.add(filler, gbc);
 
         itemsGrid.revalidate();
         itemsGrid.repaint();
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals(ShoppingCart.PROP_ITEMS)) {
+            ArrayList<CartItem> newItems = (ArrayList<CartItem>) evt.getNewValue();
+            displayItems(newItems);
+        }
     }
 
     private void styleScrollBar(JScrollBar bar) {

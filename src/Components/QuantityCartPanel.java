@@ -35,7 +35,6 @@ public class QuantityCartPanel extends JPanel {
 
     private static final int SQUARE_SIZE = 40;
     private static final int CORNER_RADIUS = 15;
-    private static final Font QTY_FONT = new Font("Segoe UI", Font.BOLD, 16);
     private static final Font CART_FONT = new Font("Segoe UI", Font.BOLD, 16);
 
     private RoundedButton minusButton;
@@ -178,40 +177,4 @@ public class QuantityCartPanel extends JPanel {
         return new ImageIcon(scaledIcon);
     }
 
-    private static class QuantityIndicator extends JComponent {
-        private int radius;
-        private int quantity;
-
-        public QuantityIndicator(int radius) {
-            this.radius = radius;
-            setOpaque(false);
-        }
-
-        public void setQuantity(int q) {
-            this.quantity = q;
-            repaint();
-        }
-
-        @Override
-        protected void paintComponent(Graphics g) {
-            Graphics2D g2 = (Graphics2D) g.create();
-            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            // Background
-            g2.setColor(ColorPalette.BG_TERTIARY);
-            g2.fillRoundRect(0, 0, getWidth(), getHeight(), radius, radius);
-            // Border
-            g2.setColor(ColorPalette.BORDER);
-            g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, radius, radius);
-            // Number
-            g2.setFont(QTY_FONT);
-            g2.setColor(ColorPalette.TEXT_PRIMARY);
-            String text = String.valueOf(quantity);
-            int textWidth = g2.getFontMetrics().stringWidth(text);
-            int textHeight = g2.getFontMetrics().getAscent();
-            g2.drawString(text,
-                    (getWidth() - textWidth) / 2,
-                    (getHeight() + textHeight) / 2 - 2);
-            g2.dispose();
-        }
-    }
 }

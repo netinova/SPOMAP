@@ -38,9 +38,8 @@ public class ProductCatalog {
     }
 
     public void setSelectedProduct(Product product) {
-        Product old = this.selectedProduct;
         this.selectedProduct = product;
-        support.firePropertyChange(PROP_SELECTED, old, product);
+        support.firePropertyChange(PROP_SELECTED, null, product);
     }
 
     public Product getSelectedProduct() {

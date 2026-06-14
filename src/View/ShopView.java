@@ -37,13 +37,8 @@ public class ShopView extends JPanel implements PropertyChangeListener {
         this.controller = controller;
 
         setupUI();
-        attachEvents();
 
         model.addListener(this); // subscribing to model
-    }
-
-    private void attachEvents() {
-
     }
 
     private void setupUI() {

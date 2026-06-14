@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Font;
 
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -26,9 +25,14 @@ public class StockLabel extends JPanel {
         this.add(textLabel, BorderLayout.WEST);
     }
 
-    public void setStockQuantity(int quantity) {
-        if (quantity > 0) {
-            textLabel.setText("In Stock: " + quantity);
+    public void setStockQuantity(int stockQuantity, int availableQuantity) {
+        if (stockQuantity > 0) {
+            if (availableQuantity < stockQuantity) {
+                textLabel.setText(
+                        String.format("In Stock: %d  |  Available for Cart: %d", stockQuantity, availableQuantity));
+            } else {
+                textLabel.setText("In Stock: " + stockQuantity);
+            }
             textLabel.setForeground(ColorPalette.TEXT_PRIMARY);
         } else {
             textLabel.setText("Out of Stock");

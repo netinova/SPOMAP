@@ -31,7 +31,7 @@ public class AppController {
         this.navigationController = new NavigationController(productCatalog);
         this.sidebarController = new SidebarController();
         this.authenticationController = new AuthenticationController();
-        this.shoppingCartController = new ShoppingCartController();
+        this.shoppingCartController = new ShoppingCartController(productCatalog);
         this.productController = new ProductController();
     }
 
@@ -64,6 +64,10 @@ public class AppController {
         });
 
         productController.setOnChangeViewListener(viewId -> {
+            this.multiViewPanel.switchView(viewId);
+        });
+
+        shoppingCartController.setOnChangeViewListener(viewId -> {
             this.multiViewPanel.switchView(viewId);
         });
     }
