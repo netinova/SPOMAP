@@ -1,13 +1,34 @@
 package Controller;
 
+import Model.PrimeUser;
+import Model.User;
+import Service.UserService;
+import Util.PasswordHasher;
 import View.AuthenticationView;
 import Util.Validator;
 import Util.Validator.ValidationResult;
 
+import static Util.PasswordHasher.hashingPassword;
+
+import javax.swing.plaf.multi.MultiPanelUI;
+
+import Components.MultiViewPanel;
+
 public class AuthenticationController {
+
+    private OnChangeViewListener listener;
+
+    public void setOnChangeViewListener(OnChangeViewListener listener) {
+        this.listener = listener;
+    }
 
     @SuppressWarnings("unused")
     private AuthenticationView view;
+    private UserService userService;
+
+    public AuthenticationController() {
+        this.userService = new UserService();
+    }
 
     public void setView(AuthenticationView view) {
         this.view = view;
@@ -35,6 +56,7 @@ public class AuthenticationController {
     public ValidationResult validateConfirmPassword(String password, String confirmPassword) {
         return Validator.validateConfirmPassword(password, confirmPassword);
     }
+
     public ValidationResult validateLoginPassword(String password) {
         return Validator.validateLoginPassword(password);
     }
@@ -80,9 +102,10 @@ public class AuthenticationController {
     }
 
     // check full input of SingUp panel
-    public boolean validateFullSingUpForm(String phone, String fName, String lName, String pass, String passConfirm, String findUs) {
+    public boolean validateFullSingUpForm(String phone, String fName, String lName, String pass, String passConfirm,
+            String findUs) {
         ValidationResult phoneResult = validatePhoneNumber(phone);
-        int tempNum=0;
+        int tempNum = 0;
         if (!phoneResult.isValid()) {
             if (view != null)
                 view.showPhoneError(phoneResult.getErrorMessage());
@@ -90,7 +113,7 @@ public class AuthenticationController {
         }
 
         ValidationResult firstNameResult = validateFirstName(fName);
-        if (!firstNameResult.isValid()){
+        if (!firstNameResult.isValid()) {
             if (view != null)
                 view.showFirstNameError(firstNameResult.getErrorMessage());
             tempNum++;
@@ -117,12 +140,12 @@ public class AuthenticationController {
         }
 
         ValidationResult findUsResult = validateFoundUs(findUs);
-        if (!findUsResult.isValid()){
+        if (!findUsResult.isValid()) {
             if (view != null)
                 view.showFindUsError(findUsResult.getErrorMessage());
             tempNum++;
         }
-        if (tempNum!=0)
+        if (tempNum != 0)
             return false;
 
         return true;
@@ -131,7 +154,7 @@ public class AuthenticationController {
     // check full input in logIn
     public boolean validateFullLogin(String username, String password) {
         ValidationResult usernameResult = validatePhoneNumber(username);
-        int tempNum=0;
+        int tempNum = 0;
         if (!usernameResult.isValid()) {
             if (view != null)
                 view.showLoginUsernameError(usernameResult.getErrorMessage());
@@ -143,7 +166,7 @@ public class AuthenticationController {
                 view.showLoginPasswordError(passwordResult.getErrorMessage());
             tempNum++;
         }
-        if (tempNum!=0)
+        if (tempNum != 0)
             return false;
 
         return true;
@@ -151,12 +174,16 @@ public class AuthenticationController {
 
     // buttons
 
-    public void onSingUp(){
-        System.out.println("request SingUp");
-        if (view != null){
-            boolean isValid = view.validateAndSignUp();
-            if (isValid)
-                System.out.println("successfully SingUp");
+    public void onSingUp() {
+        if (view != null && view.validateAndSignUp()) {
+            String passwordHashed = hashingPassword(view.getPassword());
+            boolean statusSingUp = userService.registerNormalUser(
+                    view.getSingUpPanel().getFirstName(),
+                    view.getSingUpPanel().getLastName(),
+                    view.getSingUpPanel().getPhoneNumber(),
+                    passwordHashed);
+            if (statusSingUp)
+                System.out.println("successfully singUp");
         }
 
     }
@@ -168,16 +195,21 @@ public class AuthenticationController {
 
     }
 
-    public void onLogin()
-    {
-        System.out.println("request Login");
-        if (view != null){
+    public void onLogin() {
+        if (view != null) {
             String username = view.getLoginUsername();
             String password = view.getLoginPassword();
-            boolean isValid = validateFullLogin(username , password);
-            if (isValid)
-                System.out.println("successfully Login");
-
+            System.out.println(PasswordHasher.hashingPassword(password));
+            boolean isValid = validateFullLogin(username, password);
+            if (isValid) {
+                User user = userService.login(username, password);
+                if (user != null) {
+                    System.out.println("successfully login");
+                    userService.setLoggedInUser(user);
+                    listener.changeView(MultiViewPanel.SHOP_VIEW);
+                } else
+                    System.out.println("Unsuccessfully login");
+            }
         }
     }
 

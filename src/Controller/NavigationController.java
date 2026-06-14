@@ -2,6 +2,7 @@ package Controller;
 
 import Components.MultiViewPanel;
 import Model.ProductCatalog;
+import View.AuthenticationView;
 import View.ShopView;
 import java.util.List;
 import Model.Product;
@@ -35,7 +36,6 @@ public class NavigationController {
 
     public void onUserIconClick() {
         System.out.println("clicked on Icon user");
-
         if (listener != null) {
             listener.changeView(MultiViewPanel.AUTH_VIEW);
         }

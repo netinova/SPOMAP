@@ -20,9 +20,9 @@ public class MultiViewPanel extends JPanel {
     private ProductView productView;
     private ShoppingCartView shoppingCartView;
 
-    public static final String AUTH_VIEW = "userView";
     public static final String SHOP_VIEW = "shopView";
     public static final String PRODUCT_VIEW = "productView";
+    public static final String AUTH_VIEW = "authView";
     public static final String SHOPPING_CART_VIEW = "shoppingCartView";
 
     public MultiViewPanel(ShopView shopView, AuthenticationView authenticationView, ProductView productView,
@@ -53,10 +53,23 @@ public class MultiViewPanel extends JPanel {
         cardLayout.show(this, SHOP_VIEW);
     }
 
+    public AuthenticationView getAuthenticationView() {
+        return authenticationView;
+    }
+
     /**
      * Switch to a specific view
      */
     public void switchView(String viewId) {
+
+        if (viewId.equals(MultiViewPanel.AUTH_VIEW)) {
+            if (getAuthenticationView() != null)
+                getAuthenticationView().showLoginPanel();
+        }
+
+        // if (multiViewPanel != null && multiViewPanel.getAuthenticationView() != null)
+        // multiViewPanel.getAuthenticationView().showLoginPanel();
+
         cardLayout.show(this, viewId);
     }
 }
