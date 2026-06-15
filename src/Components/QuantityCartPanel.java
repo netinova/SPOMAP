@@ -44,6 +44,7 @@ public class QuantityCartPanel extends JPanel {
 
     private int quantity = 1;
     private int maxQuantity = Integer.MAX_VALUE;
+    private boolean isOutOfStock = false;
 
     public QuantityCartPanel() {
         setBackground(ColorPalette.BG_SECONDARY);
@@ -110,6 +111,7 @@ public class QuantityCartPanel extends JPanel {
     }
 
     public void setMaxQuantity(int max) {
+        this.isOutOfStock = max <= 0;
         this.maxQuantity = Math.max(1, max);
         if (quantity > maxQuantity) {
             setQuantity(maxQuantity);
@@ -118,7 +120,8 @@ public class QuantityCartPanel extends JPanel {
     }
 
     private void updateButtons() {
-        plusButton.setEnabled(quantity < maxQuantity);
+        plusButton.setEnabled(!isOutOfStock && quantity < maxQuantity);
+        cartButton.setEnabled(!isOutOfStock);
     }
 
     public int getQuantity() {

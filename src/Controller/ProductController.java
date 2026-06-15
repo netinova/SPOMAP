@@ -27,7 +27,13 @@ public class ProductController {
 
         ShoppingCart shoppingCart = AppState.getInstance().getCart();
 
-        shoppingCart.addProduct(product, quantity);
+        int available = shoppingCart.getAvailableQuantity(product);
+        int actualQuantity = Math.min(quantity, available);
+        if (actualQuantity <= 0) {
+            return;
+        }
+
+        shoppingCart.addProduct(product, actualQuantity);
 
         for (CartItem item : shoppingCart.getItems()) {
             System.out.println(item.getProduct().getName() + " " + item.getQuantity());
