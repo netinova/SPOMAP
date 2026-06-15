@@ -87,7 +87,7 @@ public class ShoppingCartController {
             // item.getProduct().reduceStock(item.getQuantity());
             // }
             // user.deductBalance(finalTotal);
-            // cart.clear();
+            cart.clear();
         } else {
             // Insufficient funds
         }

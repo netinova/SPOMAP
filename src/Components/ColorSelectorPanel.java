@@ -173,7 +173,9 @@ public class ColorSelectorPanel extends JPanel {
                 }
 
                 repaint();
-                getParent().repaint();
+                if (getParent() != null) {
+                    getParent().repaint();
+                }
             });
 
             animationTimer.start();
@@ -211,7 +213,9 @@ public class ColorSelectorPanel extends JPanel {
                 }
 
                 repaint();
-                getParent().repaint();
+                if (getParent() != null) {
+                    getParent().repaint();
+                }
             });
 
             animationTimer.start();

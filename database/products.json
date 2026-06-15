@@ -11,7 +11,7 @@
       "description": "A fun and strategic game",
       "discount": 50.0,
       "price": 20.0,
-      "colors": [],
+      "colors": ["Default"],
       "manufacturer": "La Mame Game",
       "technicalSpecs": {
         "Range age": "+13",
@@ -27,7 +27,7 @@
       "description": "a perfect iranain bread",
       "discount": 10.0,
       "price": 1.0,
-      "colors": [],
+      "colors": ["Default"],
       "manufacturer": "",
       "technicalSpecs": {}
     },
@@ -61,7 +61,7 @@
       "description": "Several terms redirect here. For other uses, see B2",
       "discount": 0.0,
       "price": 25487930.0,
-      "colors": [],
+      "colors": ["Default"],
       "manufacturer": "",
       "technicalSpecs": {}
     },
@@ -73,7 +73,7 @@
       "description": "saghol for choosing UnBoul - Your product is on its way from cabol",
       "discount": 98.0,
       "price": 26.0,
-      "colors": [],
+      "colors": ["Default"],
       "manufacturer": "abol_yamin",
       "technicalSpecs": {}
     },
@@ -222,7 +222,7 @@
       "description": "Naruto Shippuden - Naruto Uzumaki -The Jinchuriki Entrusted with Hope, Bandai Spirits S.H.Figuarts Action Figure",
       "discount": 26.26,
       "price": 32.89,
-      "colors": [],
+      "colors": ["Default"],
       "manufacturer": "Spirits S.H.Figuarts",
       "technicalSpecs": {}
     }

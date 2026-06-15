@@ -219,9 +219,9 @@ public class ShoppingCartItemCard extends JPanel {
 
         controlsBar.add(Box.createHorizontalStrut(16));
 
-        controlsBar.add(availableSection);
-
         controlsBar.add(Box.createHorizontalGlue());
+
+        controlsBar.add(availableSection);
 
         removeButton = new RoundedButton(null, CORNER_RADIUS);
         removeButton.setHasBorder(false);

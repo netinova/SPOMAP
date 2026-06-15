@@ -205,35 +205,51 @@ public class ShoppingCartView extends JPanel implements PropertyChangeListener {
         gbc.weightx = 1.0;
         gbc.insets = new java.awt.Insets(5, 0, 5, 0);
 
-        for (int i = 0; i < items.size(); i++) {
-            CartItem item = items.get(i);
-            ShoppingCartItemCard card = new ShoppingCartItemCard(item);
+        if (items.size() == 0) {
+            gbc.gridy = 0;
+            gbc.weighty = 1.0;
+            gbc.fill = GridBagConstraints.BOTH;
 
-            card.addActionListener(e -> {
-                switch (e.getActionCommand()) {
-                    case "plus" -> controller.handleIncreaseQuantity(item);
-                    case "minus" -> controller.handleDecreaseQuantity(item);
-                    case "remove" -> controller.handleRemoveItem(item);
-                    case "cardClick" -> controller.handleItemCardClick(item);
+            JPanel emptyPanel = new JPanel(new GridBagLayout());
+            emptyPanel.setOpaque(false);
+
+            JLabel emptyLabel = new JLabel("The shopping cart is empty right now");
+            emptyLabel.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+            emptyLabel.setForeground(ColorPalette.TEXT_MUTED);
+            emptyPanel.add(emptyLabel);
+
+            itemsGrid.add(emptyPanel, gbc);
+        } else {
+            for (int i = 0; i < items.size(); i++) {
+                CartItem item = items.get(i);
+                ShoppingCartItemCard card = new ShoppingCartItemCard(item);
+
+                card.addActionListener(e -> {
+                    switch (e.getActionCommand()) {
+                        case "plus" -> controller.handleIncreaseQuantity(item);
+                        case "minus" -> controller.handleDecreaseQuantity(item);
+                        case "remove" -> controller.handleRemoveItem(item);
+                        case "cardClick" -> controller.handleItemCardClick(item);
+                    }
+                });
+
+                ShoppingCart cart = AppState.getInstance().getCart();
+                if (cart != null) {
+                    card.setMaxQuantity(cart.getAvailableQuantity(item.getProduct()));
                 }
-            });
 
-            ShoppingCart cart = AppState.getInstance().getCart();
-            if (cart != null) {
-                card.setMaxQuantity(cart.getAvailableQuantity(item.getProduct()));
+                gbc.gridy = i;
+                itemsGrid.add(card, gbc);
             }
 
-            gbc.gridy = i;
-            itemsGrid.add(card, gbc);
+            // Add a vertical filler at the bottom so cards stay top-aligned
+            gbc.gridy = items.size();
+            gbc.weighty = 1.0;
+            gbc.fill = GridBagConstraints.BOTH;
+            JPanel filler = new JPanel();
+            filler.setOpaque(false);
+            itemsGrid.add(filler, gbc);
         }
-
-        // Add a vertical filler at the bottom so cards stay top-aligned
-        gbc.gridy = items.size();
-        gbc.weighty = 1.0;
-        gbc.fill = GridBagConstraints.BOTH;
-        JPanel filler = new JPanel();
-        filler.setOpaque(false);
-        itemsGrid.add(filler, gbc);
 
         itemsGrid.revalidate();
         itemsGrid.repaint();
