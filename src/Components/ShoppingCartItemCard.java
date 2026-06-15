@@ -37,7 +37,6 @@ public class ShoppingCartItemCard extends JPanel {
     private RoundedButton removeButton;
     private QuantityIndicator quantityIndicator;
     private JLabel availableLabel;
-    private JLabel priceLabel;
 
     private EventListenerList listenerList = new EventListenerList();
 
@@ -161,22 +160,66 @@ public class ShoppingCartItemCard extends JPanel {
 
         controlsBar.add(Box.createHorizontalStrut(20));
 
-        if (product.getDiscount() > 0) {
-            double discountedPrice = product.getPrice() * (1 - product.getDiscount() / 100);
-            priceLabel = new JLabel(String.format("$%.2f", discountedPrice));
-        } else {
-            priceLabel = new JLabel(String.format("$%.2f", product.getPrice()));
-        }
-        priceLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        priceLabel.setForeground(ColorPalette.ACCENT_PRIMARY);
-        controlsBar.add(priceLabel);
+        JPanel priceSection = new JPanel();
+        priceSection.setLayout(new BoxLayout(priceSection, BoxLayout.Y_AXIS));
+        priceSection.setOpaque(false);
+        priceSection.setAlignmentY(CENTER_ALIGNMENT);
 
-        controlsBar.add(Box.createHorizontalStrut(16));
-
+        JPanel availableSection = new JPanel();
+        availableSection.setLayout(new BoxLayout(availableSection, BoxLayout.X_AXIS));
+        availableSection.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
+        availableSection.setOpaque(false);
+        availableSection.setAlignmentY(CENTER_ALIGNMENT);
         availableLabel = new JLabel();
         availableLabel.setFont(new Font("Segoe UI", Font.PLAIN, 12));
         availableLabel.setForeground(ColorPalette.TEXT_MUTED);
-        controlsBar.add(availableLabel);
+        availableSection.add(availableLabel);
+
+        int qty = cartItem.getQuantity();
+        double originalSubtotal = product.getPrice() * qty;
+
+        if (product.getDiscount() > 0) {
+            double discountedUnit = product.getPrice() * (1 - product.getDiscount() / 100);
+            double discountedSubtotal = discountedUnit * qty;
+
+            JLabel originalLabel = new JLabel(
+                    String.format("<html><strike>$%.2f</strike></html>", originalSubtotal));
+            originalLabel.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+            originalLabel.setForeground(ColorPalette.TEXT_MUTED);
+            originalLabel.setAlignmentX(LEFT_ALIGNMENT);
+            priceSection.add(originalLabel);
+
+            JPanel discountedRow = new JPanel();
+            discountedRow.setLayout(new BoxLayout(discountedRow, BoxLayout.X_AXIS));
+            discountedRow.setOpaque(false);
+            discountedRow.setAlignmentX(LEFT_ALIGNMENT);
+
+            JLabel discountedLabel = new JLabel(String.format("$%.2f", discountedSubtotal));
+            discountedLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
+            discountedLabel.setForeground(ColorPalette.ACCENT_PRIMARY);
+            discountedRow.add(discountedLabel);
+
+            discountedRow.add(Box.createHorizontalStrut(6));
+
+            JLabel badge = new JLabel(String.format("-%d%%", (int) product.getDiscount()));
+            badge.setFont(new Font("Segoe UI", Font.BOLD, 11));
+            badge.setForeground(ColorPalette.ACCENT_WARNING);
+            discountedRow.add(badge);
+
+            priceSection.add(discountedRow);
+        } else {
+            JLabel singleLabel = new JLabel(String.format("$%.2f", originalSubtotal));
+            singleLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
+            singleLabel.setForeground(ColorPalette.ACCENT_PRIMARY);
+            singleLabel.setAlignmentX(LEFT_ALIGNMENT);
+            priceSection.add(singleLabel);
+        }
+
+        controlsBar.add(priceSection);
+
+        controlsBar.add(Box.createHorizontalStrut(16));
+
+        controlsBar.add(availableSection);
 
         controlsBar.add(Box.createHorizontalGlue());
 

@@ -1,10 +1,13 @@
 package Controller;
 
+import javax.swing.JOptionPane;
+
 import Components.MultiViewPanel;
 import Model.AppState;
 import Model.CartItem;
 import Model.ProductCatalog;
 import Model.ShoppingCart;
+import Model.User;
 
 public class ShoppingCartController {
 
@@ -55,5 +58,38 @@ public class ShoppingCartController {
         if (cart == null)
             return;
         cart.removeProduct(cartItem.getProduct().getId());
+    }
+
+    public void handleCheckout() {
+        ShoppingCart cart = AppState.getInstance().getCart();
+        User user = AppState.getInstance().getLoggedInUser();
+        if (cart == null || user == null)
+            return;
+
+        double finalTotal = 0;
+        for (CartItem item : cart.getItems()) {
+            double price = item.getProduct().getPrice();
+            double discount = item.getProduct().getDiscount();
+            double unitFinal = price * (1 - discount / 100);
+            finalTotal += unitFinal * item.getQuantity();
+        }
+
+        if (finalTotal <= 0) {
+
+            return;
+        }
+
+        if (user.canPurchase(finalTotal)) {
+
+            // Success
+
+            // for (CartItem item : cart.getItems()) {
+            // item.getProduct().reduceStock(item.getQuantity());
+            // }
+            // user.deductBalance(finalTotal);
+            // cart.clear();
+        } else {
+            // Insufficient funds
+        }
     }
 }

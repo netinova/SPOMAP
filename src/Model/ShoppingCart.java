@@ -67,4 +67,9 @@ public class ShoppingCart {
         return new ArrayList<>(items);
     }
 
+    public void clear() {
+        items.clear();
+        support.firePropertyChange(PROP_ITEMS, null, items);
+    }
+
 }
