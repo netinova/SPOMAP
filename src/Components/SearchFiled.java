@@ -65,6 +65,7 @@ public class SearchFiled extends JPanel {
         // comboBox
         String[] searchOptions = { "All", "Name", "Color", "Manufacturer" };
         comboBox = new RoundedComboBox<String>(searchOptions);
+        comboBox.setSelectedIndex(1);
 
         this.add(iconLabel);
         this.add(searchInput);
