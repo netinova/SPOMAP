@@ -14,6 +14,9 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Dimension;
@@ -28,6 +31,10 @@ public class SearchBarTextInput extends JTextField {
     private boolean activePlaceHolder;
     private EventListenerList listenerList = new EventListenerList();
     private boolean isUpdatingPlaceholder = false;
+
+    // Debounce timer to avoid searching on every keystroke
+    private ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+    private static final int SEARCH_DELAY_MS = 150; // Wait 150ms after last keystroke
 
     public interface EnterKeyListener {
         void onEnterPressed(String text);
@@ -52,21 +59,21 @@ public class SearchBarTextInput extends JTextField {
             @Override
             public void insertUpdate(DocumentEvent e) {
                 if (!isUpdatingPlaceholder) {
-                    fireSearchEvent();
+                    scheduleSearchEvent();
                 }
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
                 if (!isUpdatingPlaceholder) {
-                    fireSearchEvent();
+                    scheduleSearchEvent();
                 }
             }
 
             @Override
             public void changedUpdate(DocumentEvent e) {
                 if (!isUpdatingPlaceholder) {
-                    fireSearchEvent();
+                    scheduleSearchEvent();
                 }
             }
         });
@@ -128,6 +135,15 @@ public class SearchBarTextInput extends JTextField {
 
     private void fireSearchEvent() {
         fireActionEvent();
+    }
+
+        // Debounced search event - waits for user to stop typing before triggering search
+    private void scheduleSearchEvent() {
+        executor.schedule(() -> {
+            SwingUtilities.invokeLater(() -> {
+                fireSearchEvent();
+            });
+        }, SEARCH_DELAY_MS, TimeUnit.MILLISECONDS);
     }
 
     @Override

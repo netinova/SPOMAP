@@ -44,13 +44,13 @@ public class ProductCatalog {
     public void addProduct(Product product) {
         products.add(product);
         indexesBuilt = false;
-        support.firePropertyChange(PROP_PRODUCTS, null, products);
+        support.firePropertyChange(PROP_PRODUCTS, null, new ArrayList<>(products));
     }
 
     public void removeProduct(Product product) {
         products.remove(product);
         indexesBuilt = false;
-        support.firePropertyChange(PROP_PRODUCTS, null, products);
+        support.firePropertyChange(PROP_PRODUCTS, null, new ArrayList<>(products));
     }
 
     public List<Product> getProducts() {
@@ -68,7 +68,7 @@ public class ProductCatalog {
 
     // Search logic
 
-    // Build indexes for fast searching (called once after loading all products)
+    // Build indexes for fast searching
     public void buildIndexes() {
         if (indexesBuilt)
             return;
@@ -78,24 +78,23 @@ public class ProductCatalog {
         manufacturerIndex.clear();
 
         for (int i = 0; i < products.size(); i++) {
-            Product product = products.get(i);
+            Product p = products.get(i);
 
             // Index by name words
-            if (product.getName() != null) {
-                String[] nameWords = product.getName().toLowerCase().split("\\s+");
+            if (p.getName() != null) {
+                String[] nameWords = p.getName().toLowerCase().split("\\s+");
                 for (String word : nameWords) {
                     if (!word.isEmpty()) {
                         nameIndex.computeIfAbsent(word, k -> new HashSet<>()).add(i);
                     }
                 }
-                // Also index the full name as a substring searchable term
-                String lowerName = product.getName().toLowerCase();
+                String lowerName = p.getName().toLowerCase();
                 nameIndex.computeIfAbsent(lowerName, k -> new HashSet<>()).add(i);
             }
 
             // Index by colors
-            if (product.getColors() != null) {
-                for (ProductColor color : product.getColors()) {
+            if (p.getColors() != null) {
+                for (ProductColor color : p.getColors()) {
                     if (color != null) {
                         String colorName = color.name().toLowerCase();
                         colorIndex.computeIfAbsent(colorName, k -> new HashSet<>()).add(i);
@@ -104,11 +103,10 @@ public class ProductCatalog {
             }
 
             // Index by manufacturer
-            if (product.getManufacturer() != null && !product.getManufacturer().isEmpty()) {
-                String lowerManufacturer = product.getManufacturer().toLowerCase();
+            if (p.getManufacturer() != null && !p.getManufacturer().isEmpty()) {
+                String lowerManufacturer = p.getManufacturer().toLowerCase();
                 manufacturerIndex.computeIfAbsent(lowerManufacturer, k -> new HashSet<>()).add(i);
-
-                // Also index individual words in manufacturer name
+                
                 String[] manufacturerWords = lowerManufacturer.split("[\\s_]+");
                 for (String word : manufacturerWords) {
                     if (!word.isEmpty()) {
@@ -146,7 +144,6 @@ public class ProductCatalog {
                 break;
             case ALL:
             default:
-                // Search across all fields
                 resultIndices.addAll(searchInName(lowerKeyword));
                 resultIndices.addAll(searchInColor(lowerKeyword));
                 resultIndices.addAll(searchInManufacturer(lowerKeyword));
@@ -164,43 +161,17 @@ public class ProductCatalog {
         return results;
     }
 
-    // Helper method to search in name index
     private Set<Integer> searchInName(String keyword) {
         Set<Integer> matches = new HashSet<>();
 
-        // Direct match
         if (nameIndex.containsKey(keyword)) {
             matches.addAll(nameIndex.get(keyword));
+            return matches; // Early exit for exact matches
         }
 
-        // Partial word match - check each word in the keyword
-        String[] words = keyword.split("\\s+");
-        for (String word : words) {
-            if (!word.isEmpty()) {
-                // Check if any indexed name contains this word
-                for (Map.Entry<String, Set<Integer>> entry : nameIndex.entrySet()) {
-                    if (entry.getKey().contains(word)) {
-                        matches.addAll(entry.getValue());
-                    }
-                }
-            }
-        }
-
-        return matches;
-    }
-
-    // Helper method to search in color index
-    private Set<Integer> searchInColor(String keyword) {
-        Set<Integer> matches = new HashSet<>();
-
-        // Direct match
-        if (colorIndex.containsKey(keyword)) {
-            matches.addAll(colorIndex.get(keyword));
-        }
-
-        // Partial match
-        for (Map.Entry<String, Set<Integer>> entry : colorIndex.entrySet()) {
-            if (entry.getKey().contains(keyword)) {
+        // Prefix match
+        for (Map.Entry<String, Set<Integer>> entry : nameIndex.entrySet()) {
+            if (entry.getKey().startsWith(keyword)) {
                 matches.addAll(entry.getValue());
             }
         }
@@ -208,24 +179,39 @@ public class ProductCatalog {
         return matches;
     }
 
-    // Helper method to search in manufacturer index
-    private Set<Integer> searchInManufacturer(String keyword) {
+
+    private Set<Integer> searchInColor(String keyword) {
         Set<Integer> matches = new HashSet<>();
 
         // Direct match
-        if (manufacturerIndex.containsKey(keyword)) {
-            matches.addAll(manufacturerIndex.get(keyword));
+        if (colorIndex.containsKey(keyword)) {
+            matches.addAll(colorIndex.get(keyword));
+            return matches;
         }
 
-        // Partial word match
-        String[] words = keyword.split("\\s+");
-        for (String word : words) {
-            if (!word.isEmpty()) {
-                for (Map.Entry<String, Set<Integer>> entry : manufacturerIndex.entrySet()) {
-                    if (entry.getKey().contains(word)) {
-                        matches.addAll(entry.getValue());
-                    }
-                }
+        // Prefix match
+        for (Map.Entry<String, Set<Integer>> entry : colorIndex.entrySet()) {
+            if (entry.getKey().startsWith(keyword)) {
+                matches.addAll(entry.getValue());
+            }
+        }
+
+        return matches;
+    }
+
+
+    private Set<Integer> searchInManufacturer(String keyword) {
+        Set<Integer> matches = new HashSet<>();
+
+        if (manufacturerIndex.containsKey(keyword)) {
+            matches.addAll(manufacturerIndex.get(keyword));
+            return matches;
+        }
+
+        // Prefix match
+        for (Map.Entry<String, Set<Integer>> entry : manufacturerIndex.entrySet()) {
+            if (entry.getKey().startsWith(keyword)) {
+                matches.addAll(entry.getValue());
             }
         }
 

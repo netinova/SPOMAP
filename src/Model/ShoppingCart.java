@@ -1,6 +1,5 @@
 package Model;
 
-import java.awt.List;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
@@ -21,18 +20,18 @@ public class ShoppingCart {
         for (CartItem item : items) {
             if (item.getProduct().getId().equals(product.getId())) {
                 item.increaseQuantity(quantity);
-                support.firePropertyChange(PROP_ITEMS, null, items);
+                support.firePropertyChange(PROP_ITEMS, null, new ArrayList<>(items));
                 return;
             }
         }
 
         items.add(new CartItem(product, quantity));
-        support.firePropertyChange(PROP_ITEMS, null, items);
+        support.firePropertyChange(PROP_ITEMS, null, new ArrayList<>(items));
     }
 
     public void removeProduct(String productId) {
         items.removeIf(item -> item.getProduct().getId().equals(productId));
-        support.firePropertyChange(PROP_ITEMS, null, items);
+        support.firePropertyChange(PROP_ITEMS, null, new ArrayList<>(items));
     }
 
     public void setItemQuantity(String productId, int newQuantity) {
@@ -43,7 +42,7 @@ public class ShoppingCart {
                 } else {
                     item.setQuantity(newQuantity);
                 }
-                support.firePropertyChange(PROP_ITEMS, null, items);
+                support.firePropertyChange(PROP_ITEMS, null, new ArrayList<>(items));
                 return;
             }
         }
@@ -69,7 +68,7 @@ public class ShoppingCart {
 
     public void clear() {
         items.clear();
-        support.firePropertyChange(PROP_ITEMS, null, items);
+        support.firePropertyChange(PROP_ITEMS, null, new ArrayList<>(items));
     }
 
 }

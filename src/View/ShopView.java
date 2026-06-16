@@ -17,6 +17,7 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 
@@ -44,7 +45,7 @@ public class ShopView extends JPanel implements PropertyChangeListener {
     private void setupUI() {
         this.setBackground(ColorPalette.BG_MAIN);
         this.setLayout(new BorderLayout());
-;
+        ;
 
         // productGrid
         productGrid = new JPanel();
@@ -118,19 +119,24 @@ public class ShopView extends JPanel implements PropertyChangeListener {
     }
 
     public void displayProducts(ArrayList<Product> products) {
-        productGrid.removeAll();
+        ArrayList<Product> productsCopy = new ArrayList<>(products);
 
-        for (Product product : products) {
-            ProductCard card = new ProductCard(product);
-            // Use standard ActionListener instead of custom callback
-            card.addActionListener(e -> {
-                controller.handleProductClick(product);
-            });
-            productGrid.add(card);
-        }
+        SwingUtilities.invokeLater(() -> {
+            productGrid.removeAll();
 
-        productGrid.revalidate();
-        productGrid.repaint();
+            for (Product product : productsCopy) {
+                ProductCard card = new ProductCard(product);
+                // Use standard ActionListener instead of custom callback
+                card.addActionListener(e -> {
+                    controller.handleProductClick(product);
+                });
+                productGrid.add(card);
+            }
+
+            productGrid.revalidate();
+            productGrid.repaint();
+        });
+
     }
 
     @Override
