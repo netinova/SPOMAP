@@ -1,6 +1,6 @@
 package Controller;
 
-import Components.MultiViewPanel;
+import Model.ViewType;
 
 public class SidebarController {
 
@@ -25,6 +25,6 @@ public class SidebarController {
 
     public void HandelLogoSidebar() {
         System.out.println("clicked on logo sidebar");
-        listener.changeView(MultiViewPanel.SHOP_VIEW);
+        listener.changeView(ViewType.SHOP.getViewId());
     }
 }

@@ -17,8 +17,11 @@ public abstract class User {
     protected double balance;
     protected double totalAmount;
 
+    protected UserType userType;
+
     // for load user
-    public User(String userId, String phoneNumber,String hashedPassword, String firstName, String lastName, String registerDate,
+    public User(String userId, String phoneNumber, String hashedPassword, String firstName, String lastName,
+            String registerDate,
             double balance) {
         this.userId = userId;
         this.phoneNumber = phoneNumber;
@@ -26,8 +29,8 @@ public abstract class User {
         this.lastName = lastName;
         this.registerDate = (registerDate == null) ? LocalDateTime.now().toString() : registerDate;
         this.totalAmount = 0;
-        password=hashedPassword;
-        this.balance =balance;
+        password = hashedPassword;
+        this.balance = balance;
     }
 
     // for JSON
@@ -52,7 +55,7 @@ public abstract class User {
         return lastName;
     }
 
-    public String  getRegisterDate() {
+    public String getRegisterDate() {
         return registerDate;
     }
 
@@ -69,12 +72,16 @@ public abstract class User {
         return balance;
     }
 
+    public UserType getUserType() {
+        return userType;
+    }
+
     // setter
     public void setUserId(String userId) {
         this.userId = userId;
     }
 
-    public void setRegisterDate(String  registerDate) {
+    public void setRegisterDate(String registerDate) {
         this.registerDate = registerDate;
     }
 
@@ -90,6 +97,10 @@ public abstract class User {
         if (this.balance >= amount) {
             this.balance -= amount;
         }
+    }
+
+    public void setUserType(UserType userType) {
+        this.userType = userType;
     }
 
 }

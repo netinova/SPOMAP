@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 import Util.ColorPalette;
+import Model.ViewType;
 import View.ProductView;
 import View.ShopView;
 import View.ShoppingCartView;
@@ -19,12 +20,6 @@ public class MultiViewPanel extends JPanel {
     private AuthenticationView authenticationView;
     private ProductView productView;
     private ShoppingCartView shoppingCartView;
-
-    public static final String SHOP_VIEW = "shopView";
-    public static final String PRODUCT_VIEW = "productView";
-    public static final String AUTH_VIEW = "authView";
-    public static final String SHOPPING_CART_VIEW = "shoppingCartView";
-    public static final String USER_VIEW = "userView";
 
     public MultiViewPanel(ShopView shopView, AuthenticationView authenticationView, ProductView productView,
             ShoppingCartView shoppingCartView) {
@@ -45,13 +40,13 @@ public class MultiViewPanel extends JPanel {
         Border etched = BorderFactory.createEtchedBorder();
         this.setBorder(BorderFactory.createCompoundBorder(line, etched));
 
-        this.add(shopView, SHOP_VIEW);
-        this.add(authenticationView, AUTH_VIEW);
-        this.add(productView, PRODUCT_VIEW);
-        this.add(shoppingCartView, SHOPPING_CART_VIEW);
+        this.add(shopView, ViewType.SHOP.getViewId());
+        this.add(authenticationView, ViewType.AUTH.getViewId());
+        this.add(productView, ViewType.PRODUCT.getViewId());
+        this.add(shoppingCartView, ViewType.SHOPPING_CART.getViewId());
 
         // Show shop view by default
-        cardLayout.show(this, SHOP_VIEW);
+        cardLayout.show(this, ViewType.SHOP.getViewId());
     }
 
     public AuthenticationView getAuthenticationView() {
@@ -63,12 +58,14 @@ public class MultiViewPanel extends JPanel {
      */
     public void switchView(String viewId) {
 
-        if (viewId.equals(MultiViewPanel.AUTH_VIEW)) {
+        ViewType viewType = ViewType.fromViewId(viewId);
+
+        if (viewType == ViewType.AUTH) {
             if (authenticationView != null)
                 authenticationView.showLoginPanel();
         }
 
-        if (viewId.equals(MultiViewPanel.SHOPPING_CART_VIEW)) {
+        if (viewType == ViewType.SHOPPING_CART) {
             shoppingCartView.loadCartItems();
         }
 

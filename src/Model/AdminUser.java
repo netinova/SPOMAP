@@ -9,11 +9,14 @@ public class AdminUser extends User {
 
     public AdminUser() {
         super();
+        this.userType = UserType.ADMIN;
     }
 
-    public AdminUser(String userId, String phoneNumber, String hashedPassword, String firstName, String lastName, String  registerDate,
+    public AdminUser(String userId, String phoneNumber, String hashedPassword, String firstName, String lastName,
+            String registerDate,
             double balance) {
-        super(userId, phoneNumber, hashedPassword,firstName, lastName, registerDate, balance);
+        super(userId, phoneNumber, hashedPassword, firstName, lastName, registerDate, balance);
+        this.userType = UserType.ADMIN;
     }
 
     @Override

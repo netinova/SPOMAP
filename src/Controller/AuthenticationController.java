@@ -4,6 +4,7 @@ import Model.AppState;
 import Model.PrimeUser;
 import Model.ShoppingCart;
 import Model.User;
+import Model.ViewType;
 import Service.UserService;
 import Util.PasswordHasher;
 import View.AuthenticationView;
@@ -13,8 +14,6 @@ import Util.Validator.ValidationResult;
 import static Util.PasswordHasher.hashingPassword;
 
 import javax.swing.plaf.multi.MultiPanelUI;
-
-import Components.MultiViewPanel;
 
 public class AuthenticationController {
 
@@ -209,7 +208,7 @@ public class AuthenticationController {
                     System.out.println("successfully logged in");
                     AppState.getInstance().setLoggedInUser(user);
                     AppState.getInstance().setCart(new ShoppingCart());
-                    listener.changeView(MultiViewPanel.SHOP_VIEW);
+                    listener.changeView(ViewType.SHOP.getViewId());
                 } else
                     System.out.println("failed to login");
             }

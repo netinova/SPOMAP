@@ -1,10 +1,10 @@
 package Controller;
 
-import Components.MultiViewPanel;
 import Model.AppState;
 import Model.CartItem;
 import Model.Product;
 import Model.ShoppingCart;
+import Model.ViewType;
 
 public class ProductController {
 
@@ -21,7 +21,7 @@ public class ProductController {
         }
 
         if (!AppState.getInstance().isUserLoggedIn()) {
-            listener.changeView(MultiViewPanel.AUTH_VIEW);
+            listener.changeView(ViewType.AUTH.getViewId());
             return;
         }
 

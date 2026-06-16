@@ -1,11 +1,12 @@
 package Controller;
 
-import Components.MultiViewPanel;
 import Model.ProductCatalog;
+import Model.ViewType;
 import View.AuthenticationView;
 import View.ShopView;
 import java.util.List;
 
+import Components.MultiViewPanel;
 import Model.AppState;
 import Model.Product;
 
@@ -44,25 +45,25 @@ public class NavigationController {
         }
 
         if (!AppState.getInstance().isUserLoggedIn()) {
-            listener.changeView(MultiViewPanel.AUTH_VIEW);
+            listener.changeView(ViewType.AUTH.getViewId());
             return;
         }
 
-        listener.changeView(MultiViewPanel.USER_VIEW);
+        listener.changeView(ViewType.USER.getViewId());
     }
 
     public void onShoppingCartIconClick() {
-        System.out.println("clicked on shopping cart");
+        //System.out.println("clicked on shopping cart");
 
         if (listener == null) {
             return;
         }
 
         if (!AppState.getInstance().isUserLoggedIn()) {
-            listener.changeView(MultiViewPanel.AUTH_VIEW);
+            listener.changeView(ViewType.AUTH.getViewId());
             return;
         }
 
-        listener.changeView(MultiViewPanel.SHOPPING_CART_VIEW);
+        listener.changeView(ViewType.SHOPPING_CART.getViewId());
     }
 }

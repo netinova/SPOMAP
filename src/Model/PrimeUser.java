@@ -7,31 +7,31 @@ import java.time.LocalDateTime;
 
 public class PrimeUser extends User {
 
-    private String  memberShipID;
-    private double creditAmount;//bestancari
-    private double debitAmount;//bedehcari
+    private String memberShipID;
+    private double creditAmount;// bestancari
+    private double debitAmount;// bedehcari
 
     public PrimeUser() {
         super();
+        this.userType = UserType.PRIME;
     }
 
-
-    public PrimeUser(String userId, String phoneNumber,String hashedPassword ,String firstName, String lastName,
-                     String registerDate, double balance, String  memberShipID, double creditAmount, double debitAmount) {
+    public PrimeUser(String userId, String phoneNumber, String hashedPassword, String firstName, String lastName,
+            String registerDate, double balance, String memberShipID, double creditAmount, double debitAmount) {
         super(userId, phoneNumber, hashedPassword, firstName, lastName, registerDate, balance);
         this.memberShipID = memberShipID;
         this.creditAmount = creditAmount;
         this.debitAmount = debitAmount;
+        this.userType = UserType.PRIME;
     }
 
-
     // getters
-    public String  getMemberShipID() {
+    public String getMemberShipID() {
         return memberShipID;
     }
 
     // setter
-    public void setMemberShipID(String  memberShipID) {
+    public void setMemberShipID(String memberShipID) {
         this.memberShipID = memberShipID;
     }
 
@@ -46,9 +46,8 @@ public class PrimeUser extends User {
             deductBalance(amount);
             System.out.println("remove from balance $" + amount);
             return true;
-        }
-        else {
-            debitAmount-=amount;
+        } else {
+            debitAmount -= amount;
             System.out.println("remove from debitAmount $" + amount);
             return true;
         }

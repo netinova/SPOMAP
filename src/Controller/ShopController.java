@@ -1,8 +1,8 @@
 package Controller;
 
-import Components.MultiViewPanel;
 import Model.Product;
 import Model.ProductCatalog;
+import Model.ViewType;
 import View.ShopView;
 
 public class ShopController {
@@ -27,7 +27,7 @@ public class ShopController {
         model.setSelectedProduct(product);
 
         if (listener != null) {
-            listener.changeView(MultiViewPanel.PRODUCT_VIEW);
+            listener.changeView(ViewType.PRODUCT.getViewId());
         }
 
     }

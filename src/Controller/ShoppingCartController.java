@@ -2,12 +2,12 @@ package Controller;
 
 import javax.swing.JOptionPane;
 
-import Components.MultiViewPanel;
 import Model.AppState;
 import Model.CartItem;
 import Model.ProductCatalog;
 import Model.ShoppingCart;
 import Model.User;
+import Model.ViewType;
 
 public class ShoppingCartController {
 
@@ -26,7 +26,7 @@ public class ShoppingCartController {
         if (listener == null)
             return;
         model.setSelectedProduct(cartItem.getProduct());
-        listener.changeView(MultiViewPanel.PRODUCT_VIEW);
+        listener.changeView(ViewType.PRODUCT.getViewId());
     }
 
     public void handleIncreaseQuantity(CartItem cartItem) {

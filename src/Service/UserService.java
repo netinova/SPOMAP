@@ -5,6 +5,7 @@ import Model.NormalUser;
 import Model.PrimeUser;
 import Model.User;
 import Model.UserLists;
+import Model.UserType;
 import Model.UserLists.UserAdminList;
 import Model.UserLists.UserNormalList;
 import Model.UserLists.UserPrimeList;
@@ -178,21 +179,11 @@ public class UserService {
             return null;
         }
 
-        String userType = "";
         String mainPassword = "";
-        if (user instanceof NormalUser) {
-            userType = "NORMAL";
-            mainPassword = ((NormalUser) user).getPassword();
-        } else if (user instanceof PrimeUser) {
-            userType = "PRIME";
-            mainPassword = ((PrimeUser) user).getPassword();
-        } else if (user instanceof AdminUser) {
-            userType = "ADMIN";
-            mainPassword = ((AdminUser) user).getPassword();
-        }
+        mainPassword = user.getPassword();
 
         if (PasswordHasher.checkerPassword(password, mainPassword)) {
-            System.out.println("successfully login as " + userType);
+            System.out.println("successfully login as " + user.getUserType().getDisplayName());
             return user;
         } else {
             System.out.println("Unsuccessful login");
