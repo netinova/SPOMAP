@@ -48,6 +48,8 @@ public class Main {
             products.addProduct(product);
         }
 
+        products.buildIndexes();
+
         mainFrame.setVisible(true);
     }
 }

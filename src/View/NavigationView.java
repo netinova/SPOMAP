@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 import Components.IconNavbarLabel;
 import Components.SearchFiled;
 import Controller.NavigationController;
+import Model.ProductCatalog;
 import Util.ColorPalette;
 
 public class NavigationView extends JPanel {
@@ -44,7 +45,8 @@ public class NavigationView extends JPanel {
         // Use standard ActionListener for search field
         this.searchFiled.addActionListener(e -> {
             String searchText = e.getActionCommand();
-            controller.searchProducts(searchText);
+            String searchType = searchFiled.getSelectedSearchType();
+            controller.searchProducts(searchText, searchType);
         });
     }
 

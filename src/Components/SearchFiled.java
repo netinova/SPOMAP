@@ -38,7 +38,7 @@ public class SearchFiled extends JPanel {
         searchInput.addActionListener(e -> {
             fireSearchEvent(searchInput.getText());
         });
-        
+
         // Add EnterKeyListener for explicit Enter key (can trigger loseFocus)
         searchInput.setEnterKeyListener(text -> {
             fireSearchEvent(text);
@@ -63,12 +63,18 @@ public class SearchFiled extends JPanel {
         });
 
         // comboBox
-        String[] searchOptions = { "Free Search", "Color", "Creator Name" };
+        String[] searchOptions = { "All", "Name", "Color", "Manufacturer" };
         comboBox = new RoundedComboBox<String>(searchOptions);
 
         this.add(iconLabel);
         this.add(searchInput);
         this.add(comboBox);
+    }
+
+    public String getSelectedSearchType() {
+        if (comboBox == null)
+            return "All";
+        return comboBox.getSelectedItem().toString();
     }
 
     // Standard ActionListener support

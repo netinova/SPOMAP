@@ -30,11 +30,30 @@ public class NavigationController {
         this.shopView = shopView;
     }
 
-    public void searchProducts(String searchString) {
-        // Delegate to ProductService for business logic
-        List<Product> results = model.searchByName(searchString);
+    public void searchProducts(String searchText, String searchType) {
+        // Map string search type to SearchType enum
+        ProductCatalog.SearchType type;
+        switch (searchType.toLowerCase()) {
+            case "name":
+                type = ProductCatalog.SearchType.NAME;
+                break;
+            case "color":
+                type = ProductCatalog.SearchType.COLOR;
+                break;
+            case "manufacturer":
+                type = ProductCatalog.SearchType.MANUFACTURER;
+                break;
+            case "all":
+            default:
+                type = ProductCatalog.SearchType.ALL;
+                break;
+        }
+
+        // Use optimized indexed search
+        List<Product> results = model.search(searchText, type);
         shopView.displayProducts(new java.util.ArrayList<>(results));
-        System.out.println("Search for: " + searchString + " - Found " + results.size() + " products");
+        System.out
+                .println("Search for: " + searchText + " (type: " + type + ") - Found " + results.size() + " products");
     }
 
     public void onUserIconClick() {
@@ -53,7 +72,7 @@ public class NavigationController {
     }
 
     public void onShoppingCartIconClick() {
-        //System.out.println("clicked on shopping cart");
+        // System.out.println("clicked on shopping cart");
 
         if (listener == null) {
             return;
