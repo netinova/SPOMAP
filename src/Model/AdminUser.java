@@ -18,12 +18,6 @@ public class AdminUser extends User {
 
     @Override
     @JsonIgnore
-    public String getTypeUser() {
-        return "ADMIN";
-    }
-
-    @Override
-    @JsonIgnore
     public boolean canPurchase(double amount) {
         return true;
     }

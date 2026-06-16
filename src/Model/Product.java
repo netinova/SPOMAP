@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.HashMap;
 
-public class Product {
+public class Product implements Purchasable {
     private String name;
     private String id;
 

@@ -78,10 +78,6 @@ public abstract class User {
         this.registerDate = registerDate;
     }
 
-    // abstract method
-    @JsonIgnore
-    public abstract String getTypeUser();
-
     @JsonIgnore
     public abstract boolean canPurchase(double totalAmount);
 

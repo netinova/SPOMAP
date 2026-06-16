@@ -19,12 +19,6 @@ public class NormalUser extends User {
 
     @Override
     @JsonIgnore
-    public String getTypeUser() {
-        return "NORMAL";
-    }
-
-    @Override
-    @JsonIgnore
     public boolean canPurchase(double totalAmount) {
         return totalAmount <= balance;
     }

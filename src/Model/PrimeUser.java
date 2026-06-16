@@ -66,12 +66,6 @@ public class PrimeUser extends User {
 
     @Override
     @JsonIgnore
-    public String getTypeUser() {
-        return "PRIME";
-    }
-
-    @Override
-    @JsonIgnore
     public boolean canPurchase(double totalAmount) {
         return creditAmount - debitAmount + balance >= totalAmount;
     }
