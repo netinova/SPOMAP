@@ -1,5 +1,6 @@
 import java.util.Random;
 
+import View.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import Controller.AppController;
@@ -7,12 +8,6 @@ import Model.AppState;
 import Model.Product;
 import Model.ProductCatalog;
 import Model.ShoppingCart;
-import View.NavigationView;
-import View.ProductView;
-import View.ShopView;
-import View.ShoppingCartView;
-import View.SidebarView;
-import View.AuthenticationView;
 import Components.MultiViewPanel;
 
 import java.io.File;
@@ -32,10 +27,11 @@ public class Main {
         NavigationView navigationView = new NavigationView(appController.getNavigationController());
         SidebarView sidebarView = new SidebarView(appController.getSidebarController());
         AuthenticationView authenticationView = new AuthenticationView(appController.getAuthenticationController());
+        UserProfileView userProfileView = new UserProfileView();
         ProductView productView = new ProductView(appController.getProductController(), products);
         ShoppingCartView shoppingCartView = new ShoppingCartView(appController.getShoppingCartController());
 
-        MultiViewPanel multiViewPanel = new MultiViewPanel(shopView, authenticationView, productView, shoppingCartView);
+        MultiViewPanel multiViewPanel = new MultiViewPanel(shopView, authenticationView, userProfileView,productView, shoppingCartView);
 
         appController.setViews(shopView, navigationView, sidebarView, multiViewPanel, authenticationView);
 

@@ -208,7 +208,7 @@ public class AuthenticationController {
                     System.out.println("successfully logged in");
                     AppState.getInstance().setLoggedInUser(user);
                     AppState.getInstance().setCart(new ShoppingCart());
-                    listener.changeView(ViewType.SHOP.getViewId());
+                    listener.changeView(ViewType.USER.getViewId());
                 } else
                     System.out.println("failed to login");
             }
