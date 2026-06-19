@@ -2,8 +2,12 @@ package Model;
 
 import java.time.LocalDateTime;
 
+import Util.LocalDateTimeDeserializer;
+import Util.LocalDateTimeSerializer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class User {
@@ -12,7 +16,10 @@ public abstract class User {
     protected String firstName;
     protected String lastName;
     protected String password;
-    protected String registerDate;
+
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    protected LocalDateTime registerDate;
 
     protected double balance;
     protected double totalAmount;
@@ -21,13 +28,13 @@ public abstract class User {
 
     // for load user
     public User(String userId, String phoneNumber, String hashedPassword, String firstName, String lastName,
-            String registerDate,
+            LocalDateTime registerDate,
             double balance) {
         this.userId = userId;
         this.phoneNumber = phoneNumber;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.registerDate = (registerDate == null) ? LocalDateTime.now().toString() : registerDate;
+        this.registerDate = (registerDate == null) ? LocalDateTime.now() : registerDate;
         this.totalAmount = 0;
         password = hashedPassword;
         this.balance = balance;
@@ -55,7 +62,7 @@ public abstract class User {
         return lastName;
     }
 
-    public String getRegisterDate() {
+    public LocalDateTime getRegisterDate() {
         return registerDate;
     }
 
@@ -81,7 +88,7 @@ public abstract class User {
         this.userId = userId;
     }
 
-    public void setRegisterDate(String registerDate) {
+    public void setRegisterDate(LocalDateTime registerDate) {
         this.registerDate = registerDate;
     }
 

@@ -1,5 +1,6 @@
 package Model;
 
+import Util.LocalDateTimeSerializer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -13,7 +14,7 @@ public class AdminUser extends User {
     }
 
     public AdminUser(String userId, String phoneNumber, String hashedPassword, String firstName, String lastName,
-            String registerDate,
+            LocalDateTime registerDate,
             double balance) {
         super(userId, phoneNumber, hashedPassword, firstName, lastName, registerDate, balance);
         this.userType = UserType.ADMIN;

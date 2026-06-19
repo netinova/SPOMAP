@@ -5,7 +5,7 @@
     "firstName" : "asd",
     "lastName" : "asd",
     "password" : null,
-    "registerDate" : "2026-06-09T16:07:08.555509600",
+    "registerDate" : "2026/06/09 16:07:08",
     "balance" : 0.0
   }, {
     "userId" : "USR_000002",
@@ -13,7 +13,7 @@
     "firstName" : "asd",
     "lastName" : "asd",
     "password" : null,
-    "registerDate" : "2026-06-09T16:08:48.741978400",
+    "registerDate" : "2026/06/09 16:08:48",
     "balance" : 0.0
   }, {
     "userId" : "USR_000003",
@@ -21,7 +21,7 @@
     "firstName" : "asd",
     "lastName" : "asd",
     "password" : null,
-    "registerDate" : "2026-06-09T16:16:03.252803400",
+    "registerDate" : "2026/06/09 16:16:03",
     "balance" : 0.0
   }, {
     "userId" : "USR_000004",
@@ -29,7 +29,7 @@
     "firstName" : "asd",
     "lastName" : "asd",
     "password" : null,
-    "registerDate" : "2026-06-09T16:16:21.229734600",
+    "registerDate" : "2026/06/09 16:16:21",
     "balance" : 0.0
   }, {
     "userId" : "USR_000005",
@@ -37,7 +37,7 @@
     "firstName" : "asd",
     "lastName" : "asd",
     "password" : null,
-    "registerDate" : "2026-06-09T16:19:38.209812200",
+    "registerDate" : "2026/06/09 16:19:38",
     "balance" : 0.0
   }, {
     "userId" : "USR_000006",
@@ -45,7 +45,7 @@
     "firstName" : "asd",
     "lastName" : "asd",
     "password" : null,
-    "registerDate" : "2026-06-09T16:29:20.311916900",
+    "registerDate" : "2026/06/09 16:29:20",
     "balance" : 0.0
   }, {
     "userId" : "USR_000007",
@@ -53,7 +53,7 @@
     "firstName" : "asd",
     "lastName" : "asd",
     "password" : "2c0968dabe58c67d17a07f066a9e5d9cc0ffe914f12da60aa62acc1f49bfd30c",
-    "registerDate" : "2026-06-09T16:30:38.150895500",
+    "registerDate" : "2026/06/09 16:30:38",
     "balance" : 0.0
   } ]
 }

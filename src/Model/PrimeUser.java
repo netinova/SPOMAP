@@ -17,7 +17,7 @@ public class PrimeUser extends User {
     }
 
     public PrimeUser(String userId, String phoneNumber, String hashedPassword, String firstName, String lastName,
-            String registerDate, double balance, String memberShipID, double creditAmount, double debitAmount) {
+            LocalDateTime registerDate, double balance, String memberShipID, double creditAmount, double debitAmount) {
         super(userId, phoneNumber, hashedPassword, firstName, lastName, registerDate, balance);
         this.memberShipID = memberShipID;
         this.creditAmount = creditAmount;
