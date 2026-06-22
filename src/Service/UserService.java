@@ -191,7 +191,7 @@ public class UserService {
         }
     }
 
-    private User searchUserByPhoneNumber(String phoneNumber) {
+    public User searchUserByPhoneNumber(String phoneNumber) {
         for (NormalUser normal : normalUsers)
             if (normal.getPhoneNumber().equals(phoneNumber))
                 return normal;

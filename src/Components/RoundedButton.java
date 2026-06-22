@@ -1,10 +1,6 @@
 package Components;
 
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import java.awt.*;
 import javax.swing.JButton;
 import javax.swing.border.EmptyBorder;
 
@@ -14,6 +10,7 @@ public class RoundedButton extends JButton {
 
     private int cornerRadius;
     private boolean hasBorder = true;
+    private Color hoverColor=ColorPalette.BUTTON_HOVER;
 
     public void setHasBorder(boolean hasBorder) {
         this.hasBorder = hasBorder;
@@ -31,6 +28,10 @@ public class RoundedButton extends JButton {
         this.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
 
+    public void setHoverColor(Color hoverColor) {
+        this.hoverColor = hoverColor;
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g.create();
@@ -40,7 +41,7 @@ public class RoundedButton extends JButton {
         if (getModel().isPressed()) {
             g2.setColor(ColorPalette.BUTTON_PRESSED);
         } else if (getModel().isRollover()) {
-            g2.setColor(ColorPalette.BUTTON_HOVER);
+            g2.setColor(hoverColor);
         } else {
             g2.setColor(getBackground());
         }

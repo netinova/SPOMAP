@@ -3,6 +3,7 @@ package View;
 import Components.RoundedButton;
 import Components.RoundedBorder;
 import Components.RoundedPanel;
+import Controller.ProfileController;
 import Model.AppState;
 import Model.User;
 import Util.ColorPalette;
@@ -10,6 +11,8 @@ import Util.ColorPalette;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 
 public class UserProfileView extends JPanel {
 
@@ -27,7 +30,26 @@ public class UserProfileView extends JPanel {
     private JLabel typeLabel;
     private double balance;
 
-    public UserProfileView() {
+    private ProfileController controller;
+
+    private PropertyChangeSupport support = new PropertyChangeSupport(this);
+
+    private static final String EDIT_PROFILE_PROP = "editProfile";
+    private static final String CHARGE_VALET_PROP = "chargeValet";
+    private static final String LOGOUT_PROP = "logout";
+
+
+    public void addPropertyChangeListener(PropertyChangeListener listener){
+        support.addPropertyChangeListener(listener);
+    }
+
+    public void setProfileController(ProfileController profileController){
+        controller=profileController;
+    }
+
+    public UserProfileView(ProfileController controller) {
+        this.controller=controller;
+
         setupUI();
         attachEvents();
     }
@@ -153,6 +175,7 @@ public class UserProfileView extends JPanel {
 
         chargeWallet = new RoundedButton("Charge Wallet", borderRadius);
         chargeWallet.setBackground(ColorPalette.ACCENT_SUCCESS);
+        chargeWallet.setHoverColor(new Color(0xB36FCF97, true));
         chargeWallet.setForeground(ColorPalette.TEXT_PRIMARY);
         chargeWallet.setFont(new Font("Arial", Font.PLAIN, 13));
         chargeWallet.setMaximumSize(new Dimension(150, 40));
@@ -161,6 +184,7 @@ public class UserProfileView extends JPanel {
 
         logOut = new RoundedButton("Logout", borderRadius);
         logOut.setBackground(new Color(0xde3c2f));
+        logOut.setHoverColor(new Color(0xC6DE3C2F, true));
         logOut.setForeground(ColorPalette.TEXT_PRIMARY);
         logOut.setFont(new Font("Arial", Font.PLAIN, 13));
         logOut.setMaximumSize(new Dimension(150, 40));
@@ -175,22 +199,23 @@ public class UserProfileView extends JPanel {
     }
 
     public void loadUserData() {
-        this.user = AppState.getInstance().getLoggedInUser();
-        nameLabel.setText(String.format("Hi, %s",user.getFullName()));
-        typeLabel.setText(user.getUserType().getDisplayName());
-        balance = user.getBalance();
+        controller.loadProfile();
     }
 
     private void attachEvents() {
-        if (chargeWallet != null)
-            chargeWallet.addActionListener(e -> System.out.println("Charge wallet clicked"));
-        if (logOut != null)
-            logOut.addActionListener(e -> System.out.println("Logout clicked"));
-        if (editProfile != null)
-            editProfile.addActionListener(e -> System.out.println("Edit profile clicked"));
+        this.addPropertyChangeListener(evt -> {
+
+        });
     }
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public void displayUser(String fullName, String userType, double balance, int cartItems, boolean isNormal) {
+        nameLabel.setText(String.format("Hi, %s",fullName));
+        typeLabel.setText(userType);
+        //TODO: add balance
+        //TODO: add cart Item
     }
 }

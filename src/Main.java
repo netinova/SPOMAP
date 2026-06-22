@@ -27,13 +27,13 @@ public class Main {
         NavigationView navigationView = new NavigationView(appController.getNavigationController());
         SidebarView sidebarView = new SidebarView(appController.getSidebarController());
         AuthenticationView authenticationView = new AuthenticationView(appController.getAuthenticationController());
-        UserProfileView userProfileView = new UserProfileView();
+        UserProfileView userProfileView = new UserProfileView(appController.getProfileController());
         ProductView productView = new ProductView(appController.getProductController(), products);
         ShoppingCartView shoppingCartView = new ShoppingCartView(appController.getShoppingCartController());
 
         MultiViewPanel multiViewPanel = new MultiViewPanel(shopView, authenticationView, userProfileView,productView, shoppingCartView);
 
-        appController.setViews(shopView, navigationView, sidebarView, multiViewPanel, authenticationView);
+        appController.setViews(shopView, navigationView, sidebarView, multiViewPanel, authenticationView, userProfileView);
 
         MainFrame mainFrame = new MainFrame(appController, sidebarView, navigationView, multiViewPanel);
 
