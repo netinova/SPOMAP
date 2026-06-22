@@ -7,13 +7,7 @@ import View.UserProfileView;
 public class ProfileController {
 
     private UserProfileView view;
-    private UserService userService;
     private OnChangeViewListener listener;
-
-
-    public ProfileController() {
-        this.userService = new UserService();
-    }
 
     public void setView(UserProfileView view) {
         this.view = view;
@@ -26,7 +20,8 @@ public class ProfileController {
 
     public void loadProfile() {
         User user = AppState.getInstance().getLoggedInUser();
-        if (user == null || view == null) return;
+        if (user == null || view == null)
+            return;
 
         int cartItems = 0;
         if (AppState.getInstance().getCart() != null)
@@ -39,8 +34,7 @@ public class ProfileController {
                 user.getUserType().getDisplayName(),
                 user.getBalance(),
                 cartItems,
-                isNormal
-        );
+                isNormal);
     }
 
     public void handleLogout() {
@@ -52,10 +46,17 @@ public class ProfileController {
 
     public void handleUpgradeToPrime() {
         User user = AppState.getInstance().getLoggedInUser();
-        if (user == null) return;
-        boolean success = userService.convertNormalUserToPrime(user.getPhoneNumber());
+        if (user == null)
+            return;
+        boolean success = UserService.convertNormalUserToPrime(user.getPhoneNumber(),
+                AppState.getInstance().normalUsersList,
+                AppState.getInstance().primeUsersList,
+                AppState.getInstance().adminUsersList);
         if (success) {
-            User updated = userService.searchUserByPhoneNumber(user.getPhoneNumber());
+            User updated = UserService.searchUserByPhoneNumber(user.getPhoneNumber(),
+                    AppState.getInstance().normalUsersList,
+                    AppState.getInstance().primeUsersList,
+                    AppState.getInstance().adminUsersList);
             AppState.getInstance().setLoggedInUser(updated);
             loadProfile(); // refresh view
         }

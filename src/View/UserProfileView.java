@@ -8,13 +8,26 @@ import Model.AppState;
 import Model.User;
 import Util.ColorPalette;
 
-import javax.swing.*;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import java.awt.*;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Image;
+import java.awt.Insets;
+import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-public class UserProfileView extends JPanel {
+public class UserProfileView extends JPanel implements PropertyChangeListener {
 
     private User user;
     private final int borderRadius = 20;
@@ -34,21 +47,23 @@ public class UserProfileView extends JPanel {
 
     private PropertyChangeSupport support = new PropertyChangeSupport(this);
 
+    @SuppressWarnings("unused")
     private static final String EDIT_PROFILE_PROP = "editProfile";
+    @SuppressWarnings("unused")
     private static final String CHARGE_VALET_PROP = "chargeValet";
+    @SuppressWarnings("unused")
     private static final String LOGOUT_PROP = "logout";
 
-
-    public void addPropertyChangeListener(PropertyChangeListener listener){
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
         support.addPropertyChangeListener(listener);
     }
 
-    public void setProfileController(ProfileController profileController){
-        controller=profileController;
+    public void setProfileController(ProfileController profileController) {
+        controller = profileController;
     }
 
     public UserProfileView(ProfileController controller) {
-        this.controller=controller;
+        this.controller = controller;
 
         setupUI();
         attachEvents();
@@ -73,7 +88,7 @@ public class UserProfileView extends JPanel {
     }
 
     private RoundedPanel createHeader() {
-        RoundedPanel panel = new RoundedPanel(borderRadius,ColorPalette.BG_SECONDARY,ColorPalette.BORDER);
+        RoundedPanel panel = new RoundedPanel(borderRadius, ColorPalette.BG_SECONDARY, ColorPalette.BORDER);
         panel.setLayout(new BorderLayout());
         panel.setBorder(new EmptyBorder(30, 40, 30, 40));
         panel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 80));
@@ -91,7 +106,7 @@ public class UserProfileView extends JPanel {
         JPanel namePanel = new JPanel();
         namePanel.setOpaque(false);
         namePanel.setLayout(new BoxLayout(namePanel, BoxLayout.Y_AXIS));
-        nameLabel = new JLabel(String.format("Hi, %s","UserFullName"));
+        nameLabel = new JLabel(String.format("Hi, %s", "UserFullName"));
         nameLabel.setFont(new Font("Arial", Font.BOLD, 22));
         nameLabel.setForeground(ColorPalette.TEXT_PRIMARY);
 
@@ -114,7 +129,7 @@ public class UserProfileView extends JPanel {
     }
 
     private RoundedPanel createStatsMiddle() {
-        RoundedPanel panel = new RoundedPanel(borderRadius,ColorPalette.BG_SECONDARY,ColorPalette.BORDER);
+        RoundedPanel panel = new RoundedPanel(borderRadius, ColorPalette.BG_SECONDARY, ColorPalette.BORDER);
         panel.setLayout(new GridBagLayout());
         panel.setBorder(new EmptyBorder(25, 30, 25, 40));
 
@@ -147,7 +162,7 @@ public class UserProfileView extends JPanel {
     }
 
     private RoundedPanel createStatCard(String label, String value) {
-        RoundedPanel card = new RoundedPanel(borderRadius,ColorPalette.BG_SECONDARY,ColorPalette.SELECTION_BG);
+        RoundedPanel card = new RoundedPanel(borderRadius, ColorPalette.BG_SECONDARY, ColorPalette.SELECTION_BG);
         card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
         card.setBorder(new EmptyBorder(10, 14, 10, 14));
 
@@ -203,9 +218,7 @@ public class UserProfileView extends JPanel {
     }
 
     private void attachEvents() {
-        this.addPropertyChangeListener(evt -> {
-
-        });
+        
     }
 
     public void setUser(User user) {
@@ -213,9 +226,16 @@ public class UserProfileView extends JPanel {
     }
 
     public void displayUser(String fullName, String userType, double balance, int cartItems, boolean isNormal) {
-        nameLabel.setText(String.format("Hi, %s",fullName));
+        nameLabel.setText(String.format("Hi, %s", fullName));
         typeLabel.setText(userType);
-        //TODO: add balance
-        //TODO: add cart Item
+        // TODO: add balance
+        // TODO: add cart Item
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals(AppState.PROP_USER)) {
+            // update
+        }
     }
 }

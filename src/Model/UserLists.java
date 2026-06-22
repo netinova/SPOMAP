@@ -40,6 +40,14 @@ public class UserLists {
         public void setUsers(List<NormalUser> users) {
             this.users = users;
         }
+
+        public void addUser(NormalUser user) {
+            users.add(user);
+        }
+
+        public void removeUser(NormalUser user) {
+            users.remove(user);
+        }
     }
 
     public static class UserPrimeList {
@@ -58,6 +66,10 @@ public class UserLists {
 
         public void setUsers(List<PrimeUser> users) {
             this.users = users;
+        }
+
+        public void addUser(PrimeUser user) {
+            users.add(user);
         }
     }
 

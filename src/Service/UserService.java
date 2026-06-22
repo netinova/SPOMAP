@@ -19,94 +19,131 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserService {
-    private List<NormalUser> normalUsers;
-    private List<PrimeUser> primeUsers;
-    private List<AdminUser> adminUsers;
-    private ObjectMapper mapper;
 
-    public UserService() {
-        this.normalUsers = new ArrayList<>();
-        this.primeUsers = new ArrayList<>();
-        this.adminUsers = new ArrayList<>();
+    // private static List<NormalUser> normalUsers;
+    // private static List<PrimeUser> primeUsers;
+    // private static List<AdminUser> adminUsers;
 
-        this.mapper = new ObjectMapper();
+    // public UserService() {
+    // this.normalUsers = new ArrayList<>();
+    // this.primeUsers = new ArrayList<>();
+    // this.adminUsers = new ArrayList<>();
+
+    // loadNormalUser();
+    // loadPrimeUser();
+    // loadAdminUser();
+    // }
+
+    private UserService() {
+    }
+
+    private static ObjectMapper createObjectMapper() {
+        ObjectMapper mapper = new ObjectMapper();
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
-
-        loadNormalUser();
-        loadPrimeUser();
-        loadAdminUser();
+        return mapper;
     }
 
     // loader
-    private void loadNormalUser() {
+    public static UserNormalList loadNormalUser() {
+
+        ObjectMapper mapper = createObjectMapper();
+
         File file = new File("database/normal_users.json");
-        System.out.println("Loading normal users from: " + file.getAbsolutePath());
         if (!file.exists())
-            return;
+            return null;
+
         try {
             UserNormalList users = mapper.readValue(file, UserNormalList.class);
             if (users != null && users.getUsers() != null) {
-                this.normalUsers = users.getUsers();
                 System.out.println("loaded normal user");
+                return users;
             } else {
                 System.out.println("can't load normal user");
+                return null;
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        return null;
     }
 
-    private void loadPrimeUser() {
+    public static UserPrimeList loadPrimeUser() {
+
+        ObjectMapper mapper = createObjectMapper();
+
         File file = new File("database/prime_users.json");
+
         if (!file.exists())
-            return;
+            return null;
+
         try {
             UserPrimeList users = mapper.readValue(file, UserPrimeList.class);
+
             if (users != null && users.getUsers() != null) {
-                this.primeUsers = users.getUsers();
+                users.setUsers(users.getUsers());
                 System.out.println("loaded prime user");
+                return users;
+            } else {
+                System.out.println("can't load prime user");
+                return null;
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return null;
     }
 
-    private void loadAdminUser() {
+    public static UserAdminList loadAdminUser() {
+
+        ObjectMapper mapper = createObjectMapper();
+
         File file = new File("database/admin_users.json");
         if (!file.exists())
-            return;
+            return null;
+
         try {
             UserAdminList users = mapper.readValue(file, UserAdminList.class);
             if (users != null && users.getUsers() != null) {
-                this.adminUsers = users.getUsers();
                 System.out.println("loaded admin user");
+                return users;
+            } else {
+                System.out.println("can't load admin user");
+                return null;
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        return null;
     }
 
     // save JSON
-    public void saveNormalUser() {
+    public static void saveNormalUser(UserNormalList normalUsers) {
+
+        ObjectMapper mapper = createObjectMapper();
+
         File file = new File("database/normal_users.json");
         file.getParentFile().mkdirs();
 
-        UserNormalList user = new UserNormalList(normalUsers);
         try {
-            mapper.writeValue(file, user);
+            mapper.writeValue(file, normalUsers);
             System.out.println("save info normalUser");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void savePrimeUser() {
+    public static void savePrimeUser(UserPrimeList primeUsers) {
+
+        ObjectMapper mapper = createObjectMapper();
+
         File file = new File("database/prime_users.json");
         file.getParentFile().mkdirs();
 
-        UserPrimeList user = new UserPrimeList(primeUsers);
         try {
-            mapper.writeValue(file, user);
+            mapper.writeValue(file, primeUsers);
             System.out.println("save info PrimeUser");
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -114,11 +151,11 @@ public class UserService {
     }
 
     // generate new id
-    public String getNewId() {
+    public static String getNewId(UserNormalList normalUsers, UserPrimeList primeUsers) {
         int maxId = 0;
 
         // check normal user
-        for (NormalUser user : normalUsers) {
+        for (NormalUser user : normalUsers.getUsers()) {
             String id = user.getUserId();
             if (user != null) {
                 int idNumber = Integer.parseInt(id.substring(4));
@@ -128,7 +165,7 @@ public class UserService {
         }
 
         // check prime user
-        for (PrimeUser user : primeUsers) {
+        for (PrimeUser user : primeUsers.getUsers()) {
             String id = user.getUserId();
             if (user != null) {
                 int idNumber = Integer.parseInt(id.substring(4));
@@ -141,10 +178,10 @@ public class UserService {
         return "USR_" + String.format("%06d", nextId);
     }
 
-    private String getNewMemberShipCode() {
+    private static String getNewMemberShipCode(UserPrimeList primeUsers) {
         int maxId = 0;
 
-        for (PrimeUser user : primeUsers) {
+        for (PrimeUser user : primeUsers.getUsers()) {
             String id = user.getMemberShipID();
             if (user != null) {
                 int idNumber = Integer.parseInt(id.substring(4));
@@ -158,22 +195,24 @@ public class UserService {
     }
 
     // operation login signUP
-    public boolean registerNormalUser(String firstName, String lastName, String phoneNumber, String hashedPassword) {
-        if (searchUserByPhoneNumber(phoneNumber) != null)
+    public static boolean registerNormalUser(String firstName, String lastName, String phoneNumber,
+            String hashedPassword, UserNormalList normalUsers, UserPrimeList primeUsers, UserAdminList adminUsers) {
+        if (searchUserByPhoneNumber(phoneNumber, normalUsers, primeUsers, adminUsers) != null)
             return false;
 
         NormalUser user = new NormalUser(null, phoneNumber, hashedPassword, firstName, lastName, null, 0.0);
 
-        String newId = getNewId();
+        String newId = getNewId(normalUsers, primeUsers);
         user.setUserId(newId);
 
-        normalUsers.add(user);
-        saveNormalUser();
+        normalUsers.addUser(user);
+        saveNormalUser(normalUsers);
         return true;
     }
 
-    public User login(String phoneNumber, String password) {
-        User user = searchUserByPhoneNumber(phoneNumber);
+    public static User login(String phoneNumber, String password, UserNormalList normalUsers, UserPrimeList primeUsers,
+            UserAdminList adminUsers) {
+        User user = searchUserByPhoneNumber(phoneNumber, normalUsers, primeUsers, adminUsers);
         if (user == null) {
             System.out.println("user not founded");
             return null;
@@ -191,23 +230,33 @@ public class UserService {
         }
     }
 
-    public User searchUserByPhoneNumber(String phoneNumber) {
-        for (NormalUser normal : normalUsers)
-            if (normal.getPhoneNumber().equals(phoneNumber))
-                return normal;
+    public static User searchUserByPhoneNumber(String phoneNumber, UserNormalList normalUsers, UserPrimeList primeUsers,
+            UserAdminList adminUsers) {
 
-        for (PrimeUser prime : primeUsers)
-            if (prime.getPhoneNumber().equals(phoneNumber))
-                return prime;
+        if (normalUsers != null) {
+            for (NormalUser normal : normalUsers.getUsers())
+                if (normal.getPhoneNumber().equals(phoneNumber))
+                    return normal;
+        }
 
-        for (AdminUser admin : adminUsers)
-            if (admin.getPhoneNumber().equals(phoneNumber))
-                return admin;
+        if (primeUsers != null) {
+            for (PrimeUser prime : primeUsers.getUsers())
+                if (prime.getPhoneNumber().equals(phoneNumber))
+                    return prime;
+        }
+
+        if (adminUsers != null) {
+            for (AdminUser admin : adminUsers.getUsers())
+                if (admin.getPhoneNumber().equals(phoneNumber))
+                    return admin;
+        }
         return null;
     }
 
-    public boolean convertNormalUserToPrime(String phonNumber) {
-        Object user = searchUserByPhoneNumber(phonNumber);
+    public static boolean convertNormalUserToPrime(String phonNumber, UserNormalList normalUsers,
+            UserPrimeList primeUsers,
+            UserAdminList adminUsers) {
+        Object user = searchUserByPhoneNumber(phonNumber, normalUsers, primeUsers, adminUsers);
         if (user == null || !(user instanceof NormalUser)) {
             System.out.println("user normal not found");
             return false;
@@ -227,25 +276,15 @@ public class UserService {
         primeUser.setRegisterDate(normalUser.getRegisterDate());
         primeUser.setUserId(normalUser.getUserId());
 
-        String newId = getNewMemberShipCode();
+        String newId = getNewMemberShipCode(primeUsers);
         primeUser.setMemberShipID(newId);
 
-        this.normalUsers.remove(normalUser);
-        this.primeUsers.add(primeUser);
+        normalUsers.removeUser(normalUser);
+        primeUsers.addUser(primeUser);
 
-        savePrimeUser();
-        saveNormalUser();
+        savePrimeUser(primeUsers);
+        saveNormalUser(normalUsers);
 
         return true;
-    }
-
-    // get all normal users
-    public List<NormalUser> getAllNormalUsers() {
-        return normalUsers;
-    }
-
-    // get all prime users
-    public List<PrimeUser> getAllPrimeUsers() {
-        return primeUsers;
     }
 }

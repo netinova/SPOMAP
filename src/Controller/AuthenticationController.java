@@ -25,11 +25,6 @@ public class AuthenticationController {
 
     @SuppressWarnings("unused")
     private AuthenticationView view;
-    private UserService userService;
-
-    public AuthenticationController() {
-        this.userService = new UserService();
-    }
 
     public void setView(AuthenticationView view) {
         this.view = view;
@@ -178,11 +173,14 @@ public class AuthenticationController {
     public void onSingUp() {
         if (view != null && view.validateAndSignUp()) {
             String passwordHashed = hashingPassword(view.getPassword());
-            boolean statusSingUp = userService.registerNormalUser(
+            boolean statusSingUp = UserService.registerNormalUser(
                     view.getSingUpPanel().getFirstName(),
                     view.getSingUpPanel().getLastName(),
                     view.getSingUpPanel().getPhoneNumber(),
-                    passwordHashed);
+                    passwordHashed,
+                    AppState.getInstance().normalUsersList,
+                    AppState.getInstance().primeUsersList,
+                    AppState.getInstance().adminUsersList);
             if (statusSingUp)
                 System.out.println("successfully singUp");
         }
@@ -203,7 +201,10 @@ public class AuthenticationController {
             System.out.println(PasswordHasher.hashingPassword(password));
             boolean isValid = validateFullLogin(username, password);
             if (isValid) {
-                User user = userService.login(username, password);
+                User user = UserService.login(username, password,
+                        AppState.getInstance().normalUsersList,
+                        AppState.getInstance().primeUsersList,
+                        AppState.getInstance().adminUsersList);
                 if (user != null) {
                     System.out.println("successfully logged in");
                     AppState.getInstance().setLoggedInUser(user);

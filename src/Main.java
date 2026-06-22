@@ -5,9 +5,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import Controller.AppController;
 import Model.AppState;
+import Model.PrimeUser;
 import Model.Product;
 import Model.ProductCatalog;
 import Model.ShoppingCart;
+import Model.UserLists.UserAdminList;
+import Model.UserLists.UserNormalList;
+import Model.UserLists.UserPrimeList;
+import Service.UserService;
 import Components.MultiViewPanel;
 
 import java.io.File;
@@ -31,9 +36,11 @@ public class Main {
         ProductView productView = new ProductView(appController.getProductController(), products);
         ShoppingCartView shoppingCartView = new ShoppingCartView(appController.getShoppingCartController());
 
-        MultiViewPanel multiViewPanel = new MultiViewPanel(shopView, authenticationView, userProfileView,productView, shoppingCartView);
+        MultiViewPanel multiViewPanel = new MultiViewPanel(shopView, authenticationView, userProfileView, productView,
+                shoppingCartView);
 
-        appController.setViews(shopView, navigationView, sidebarView, multiViewPanel, authenticationView, userProfileView);
+        appController.setViews(shopView, navigationView, sidebarView, multiViewPanel, authenticationView,
+                userProfileView);
 
         MainFrame mainFrame = new MainFrame(appController, sidebarView, navigationView, multiViewPanel);
 
@@ -45,6 +52,14 @@ public class Main {
         }
 
         products.buildIndexes();
+
+        UserNormalList normalUsersList = UserService.loadNormalUser();
+        UserPrimeList primeUsersList = UserService.loadPrimeUser();
+        UserAdminList adminUsersList = UserService.loadAdminUser();
+
+        AppState.getInstance().normalUsersList = normalUsersList;
+        AppState.getInstance().primeUsersList = primeUsersList;
+        AppState.getInstance().adminUsersList = adminUsersList;
 
         mainFrame.setVisible(true);
     }
