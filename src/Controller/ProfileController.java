@@ -1,6 +1,10 @@
 package Controller;
 
-import Model.*;
+import Model.AppState;
+import Model.PrimeUser;
+import Model.User;
+import Model.UserType;
+import Model.ViewType;
 import Service.UserService;
 import View.UserProfileView;
 
@@ -27,14 +31,23 @@ public class ProfileController {
         if (AppState.getInstance().getCart() != null)
             cartItems = AppState.getInstance().getCart().getItems().size();
 
-        boolean isNormal = UserType.NORMAL.getDisplayName().equals("Normal User");
 
         view.displayUser(
                 user.getFullName(),
                 user.getUserType().getDisplayName(),
                 user.getBalance(),
                 cartItems,
-                isNormal);
+                user.getUserType());
+
+        if (user.getUserType()==UserType.PRIME){
+            PrimeUser userPrime=(PrimeUser) user;
+            view.displayPrimeUser(
+                    userPrime.getCreditAmount(),
+                    userPrime.getCreditAmount(),
+                    userPrime.getMemberShipID()
+            );
+
+        }
     }
 
     public void handleLogout() {
@@ -65,10 +78,12 @@ public class ProfileController {
     private void attachViewEvents() {
         view.addPropertyChangeListener(evt -> {
             switch (evt.getPropertyName()) {
-                case "logout" -> handleLogout();
-                case "upgradeToPrime" -> handleUpgradeToPrime();
-                case "chargeWallet" -> System.out.println("charge wallet Button");// TODO: charge wallet
-                case "editProfile" -> System.out.println("edit profile Button"); // TODO: edit profile
+                case UserProfileView.LOGOUT_PROP -> handleLogout();
+                case UserProfileView.CHARGE_WALLET_PROP -> System.out.println("Clicked on charge wallet");
+                case UserProfileView.EDIT_PROFILE_PROP -> System.out.println("Clicked on edit profile");
+                case UserProfileView.ADD_PRODUCT_PROP -> System.out.println("Clicked on add product");
+                case UserProfileView.MANAGE_USER_PROP -> System.out.println("Clicked on mange profile");
+                case UserProfileView.LOG_SHOP_PROP -> System.out.println("Clicked on Status shop");
             }
         });
     }

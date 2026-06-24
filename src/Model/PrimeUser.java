@@ -53,6 +53,14 @@ public class PrimeUser extends User {
         }
     }
 
+    public double getDebitAmount() {
+        return debitAmount;
+    }
+
+    public double getCreditAmount() {
+        return creditAmount;
+    }
+
     public void addCredit(double amount) {
         this.creditAmount += amount;
         System.out.println("Added $" + amount + " to credit");
