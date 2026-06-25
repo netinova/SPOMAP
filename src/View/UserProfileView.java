@@ -1,5 +1,6 @@
 package View;
 
+import Components.ChargeWalletPanel;
 import Components.ProfileMainPanel;
 import Components.UserProfileEditPanel;
 import Controller.ProfileController;
@@ -16,6 +17,7 @@ public class UserProfileView extends JPanel {
 
     private ProfileMainPanel profileMainView;
     private UserProfileEditPanel userProfileEditPanel;
+    private ChargeWalletPanel chargeWalletPanel;
 
     private CardLayout cardLayout;
     private JPanel cardPanel;
@@ -49,14 +51,18 @@ public class UserProfileView extends JPanel {
         cardLayout = new CardLayout();
         cardPanel = new JPanel(cardLayout);
         cardPanel.setOpaque(false);
-        cardPanel.setPreferredSize(new Dimension(Integer.MAX_VALUE,Integer.MAX_VALUE));
+        cardPanel.setPreferredSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
 
         profileMainView = new ProfileMainPanel();
-
         userProfileEditPanel = new UserProfileEditPanel();
+        chargeWalletPanel = new ChargeWalletPanel();
+
         userProfileEditPanel.setController(controller);
-        cardPanel.add(profileMainView , "MAIN");
-        cardPanel.add(userProfileEditPanel , "EDIT_PROFILE");
+        chargeWalletPanel.setController(controller);
+
+        cardPanel.add(profileMainView, "MAIN");
+        cardPanel.add(userProfileEditPanel, "EDIT_PROFILE");
+        cardPanel.add(chargeWalletPanel, "CHARGE_WALLET");
 
         this.add(cardPanel);
     }
@@ -68,7 +74,8 @@ public class UserProfileView extends JPanel {
     private void attachEvents() {
         //profileMainView handle
         profileMainView.onClickLogout(e -> {
-            support.firePropertyChange(LOGOUT_PROP, null, null);});
+            support.firePropertyChange(LOGOUT_PROP, null, null);
+        });
         profileMainView.onClickChargeWallet(e ->
                 support.firePropertyChange(CHARGE_WALLET_PROP, null, null));
         profileMainView.onClickEditProfile(e ->
@@ -95,6 +102,16 @@ public class UserProfileView extends JPanel {
             if (evt.getPropertyName().equals(UserProfileEditPanel.PASSWORD_CONFIRM_PROP))
                 controller.onConfirmPasswordChange((String) evt.getNewValue());
         });
+
+        //charge proses
+        chargeWalletPanel.addPropertyChangeListener(evt -> {
+            if(evt.getPropertyName().equals(ChargeWalletPanel.AMOUNT_PROP))
+                controller.onAmountChange(evt.getNewValue().toString());
+            if(evt.getPropertyName().equals(ChargeWalletPanel.CHARGE_PROP))
+                controller.onChargeButtonClick(evt.getNewValue().toString());
+            if(evt.getPropertyName().equals(ChargeWalletPanel.CANCEL_PROP))
+                controller.onCancelClick();
+        });
     }
 
     // show errors edit panel
@@ -115,7 +132,7 @@ public class UserProfileView extends JPanel {
 
     public void showCurrentPasswordError(String error) {
         if (userProfileEditPanel != null)
-                userProfileEditPanel.showCurrentPasswordError(error);
+            userProfileEditPanel.showCurrentPasswordError(error);
     }
 
     public void showNewtPasswordError(String error) {
@@ -129,6 +146,7 @@ public class UserProfileView extends JPanel {
     }
 
 
+    //load Data
     public void displayUser(String fullName, String userType, double balance, int cartItems, UserType type) {
         profileMainView.displayUser(fullName, userType, balance, cartItems, type);
     }
@@ -140,14 +158,24 @@ public class UserProfileView extends JPanel {
     public void loadEditUserData(String fName, String lName, String phoneNumber) {
         userProfileEditPanel.loadUserData(fName, lName, phoneNumber);
     }
-    public void showEditProfile() {
-        controller.loadEditProfile();
-        cardLayout.show(cardPanel,"EDIT_PROFILE");
+
+    public void loadChargeWalletData(String balance){
+        chargeWalletPanel.loadUserData(balance);
     }
 
-    public void showMainProfile(){
-        cardLayout.show(cardPanel,"MAIN");
+    //switch view
+    public void showEditProfile() {
+        controller.loadEditProfile();
+        cardLayout.show(cardPanel, "EDIT_PROFILE");
+    }
+
+    public void showMainProfile() {
+        cardLayout.show(cardPanel, "MAIN");
+    }
+
+    public void showChargeWallet(){
+        controller.loadChargeWalletData();
+        cardLayout.show(cardPanel, "CHARGE_WALLET");
     }
 
 }
-

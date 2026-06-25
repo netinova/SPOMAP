@@ -1,15 +1,12 @@
 package Util;
 
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
-
 public class Validator {
 
     // Regex patterns
     public static final String PHONE_REGEX = "^09\\d{9}$";
     public static final String NAME_REGEX = "^[a-zA-Z\\s]{3,50}$";
     public static final String PASSWORD_REGEX = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
-
+    public static final String DOUBLE_REGEX = "^\\d+(\\.\\d{1,2})?$";
 
     public static class ValidationResult {
         private final boolean valid;
@@ -88,6 +85,15 @@ public class Validator {
         if (findUs == null || findUs.isEmpty() || findUs.equals("Select an option")) {
             return new ValidationResult(false, "Please tell us how you found us");
         }
+        return new ValidationResult(true, null);
+    }
+
+    public static ValidationResult validationDouble(String number) {
+        if (number == null || number.isEmpty() || number.equals("Enter amount")) {
+            return new ValidationResult(false, "Amount is required");
+        }
+        if (!number.matches(DOUBLE_REGEX))
+            return new ValidationResult(false, "Enter a valid format");
         return new ValidationResult(true, null);
     }
 

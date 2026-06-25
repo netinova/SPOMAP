@@ -52,6 +52,7 @@ public class ProfileController {
         }
     }
 
+    // -------------------- Logout
     public void handleLogout() {
         AppState.getInstance().setLoggedInUser(null);
         AppState.getInstance().setCart(null);
@@ -77,7 +78,7 @@ public class ProfileController {
         }
     }
 
-    // ---------------- EditProfile methods
+    // ---------------- EditProfile methods --------------------
 
     // validation methods
     // View sends user input to controller, controller validates and returns result
@@ -208,11 +209,43 @@ public class ProfileController {
     }
 
 
+    // --------------- Charge wallet ------------------
+    public void loadChargeWalletData(){
+        User user = AppState.getInstance().getLoggedInUser();
+        if (user == null || view == null)
+            return;
+        view.loadChargeWalletData(String.format("%.2f",user.getBalance()));
+    }
+
+    public Validator.ValidationResult validateAmount(String amount) {
+        return Validator.validationDouble(amount);
+    }
+
+    // listener Charging
+    public void onAmountChange(String value) {
+        System.out.println("Amount changed: "+ value );
+    }
+    public void onChargeButtonClick(String balance) {
+        User user = AppState.getInstance().getLoggedInUser();
+        user.addBalance(Double.parseDouble(balance));
+
+        if (user.getUserType().isPrime())
+            UserService.savePrimeUser(AppState.getInstance().primeUsersList);
+        else
+            UserService.saveNormalUser(AppState.getInstance().normalUsersList);
+
+        loadProfile();
+        showMainPage();
+    }
+    public void onCancelClick() {
+        showMainPage();
+    }
+
     private void attachViewEvents() {
         view.addPropertyChangeListener(evt -> {
             switch (evt.getPropertyName()) {
                 case UserProfileView.LOGOUT_PROP -> handleLogout();
-                case UserProfileView.CHARGE_WALLET_PROP -> System.out.println("Clicked on charge wallet");
+                case UserProfileView.CHARGE_WALLET_PROP -> view.showChargeWallet();
                 case UserProfileView.EDIT_PROFILE_PROP -> view.showEditProfile();
                 case UserProfileView.ADD_PRODUCT_PROP -> System.out.println("Clicked on add product");
                 case UserProfileView.MANAGE_USER_PROP -> System.out.println("Clicked on mange profile");

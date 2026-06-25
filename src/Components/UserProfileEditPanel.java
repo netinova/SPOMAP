@@ -41,8 +41,8 @@ public class UserProfileEditPanel extends JPanel {
 
     public static final String PHONE_NUMBER_PROP = "phoneNumber";
     public static final String PASSWORD_CURRENT_PROP = "passwordCurrent";
-    public static final String PASSWORD_PROP = "passwordFiled";
-    public static final String PASSWORD_CONFIRM_PROP = "confirmPasswordFiled";
+    public static final String PASSWORD_PROP = "password";
+    public static final String PASSWORD_CONFIRM_PROP = "confirmPassword";
     public static final String F_NAME_PROP = "firstName";
     public static final String L_NAME_PROP = "lastName";
     public static final String SAVE_PROP = "save";
@@ -69,7 +69,7 @@ public class UserProfileEditPanel extends JPanel {
     private void createForm() {
         // First Name
         firstNameField = new RoundedInputText("First Name", 5);
-        firstNamePanel = new FormTextFiledPanel("First Name", firstNameField, "firstName");
+        firstNamePanel = new FormTextFiledPanel("First Name", firstNameField, F_NAME_PROP);
         firstNameField.addActionListener(e -> {
             if (controller != null) {
                 var result = controller.validateFirstName(firstNameField.getText());
@@ -86,7 +86,7 @@ public class UserProfileEditPanel extends JPanel {
 
         // Last Name
         lastNameField = new RoundedInputText("Last Name", 5);
-        lastNamePanel = new FormTextFiledPanel("Last Name", lastNameField, "lastName");
+        lastNamePanel = new FormTextFiledPanel("Last Name", lastNameField, L_NAME_PROP);
         lastNameField.addActionListener(e -> {
             if (controller != null) {
                 var result = controller.validateLastName(lastNameField.getText());// TODO: for saving FName and LName, first character upper case
@@ -104,7 +104,7 @@ public class UserProfileEditPanel extends JPanel {
 
         // Phone Number
         phoneNumberField = new RoundedInputText("Username / Phone number", 5);
-        phoneNumberPanel = new FormTextFiledPanel("Phone Number", phoneNumberField, "phoneNumber");
+        phoneNumberPanel = new FormTextFiledPanel("Phone Number", phoneNumberField, PHONE_NUMBER_PROP);
         phoneNumberField.addActionListener(e -> {
             if (controller != null) {
                 var result = controller.validatePhoneNumber(phoneNumberField.getText());
@@ -121,7 +121,7 @@ public class UserProfileEditPanel extends JPanel {
         // password
 
         currentPasswordField = new RoundedInputPassword("Current Password", 5);
-        currentPasswordPanel = new FormTextFiledPanel("Current Password", currentPasswordField, "currentPassword");
+        currentPasswordPanel = new FormTextFiledPanel("Current Password", currentPasswordField, PASSWORD_CURRENT_PROP);
         currentPasswordField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -146,7 +146,7 @@ public class UserProfileEditPanel extends JPanel {
         this.add(currentPasswordPanel);
 
         newPasswordField = new RoundedInputPassword("Password", 5);
-        newPasswordPanel = new FormTextFiledPanel("New Password", newPasswordField, "newPassword");
+        newPasswordPanel = new FormTextFiledPanel("New Password", newPasswordField, PASSWORD_PROP);
         newPasswordField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -306,26 +306,5 @@ public class UserProfileEditPanel extends JPanel {
 
     public void showConfirmPasswordError(String error) {
         confirmPasswordPanel.setError(error);
-    }
-
-    // listener edit profile
-    public void onPhoneNumberChange(String value) {
-        System.out.println("Phone changed: " + value);
-    }
-
-    public void onFirstNameChange(String value) {
-        System.out.println("First name changed: " + value);
-    }
-
-    public void onLastNameChange(String value) {
-        System.out.println("Last name changed: " + value);
-    }
-
-    public void onPasswordChange(String value) {
-        System.out.println("Password changed");
-    }
-
-    public void onConfirmPasswordChange(String value) {
-        System.out.println("Confirm password changed");
     }
 }
