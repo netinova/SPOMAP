@@ -1,9 +1,8 @@
 // Components/EditProfilePanel.java
 package Components;
 
-import Controller.ProfileController;
+import Controller.UserProfileController;
 import Util.ColorPalette;
-import Util.PasswordHasher;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -37,7 +36,7 @@ public class UserProfileEditPanel extends JPanel {
     private String confirmPassword = "";
     private PropertyChangeSupport support = new PropertyChangeSupport(this);
 
-    private ProfileController controller;
+    private UserProfileController controller;
 
     public static final String PHONE_NUMBER_PROP = "phoneNumber";
     public static final String PASSWORD_CURRENT_PROP = "passwordCurrent";
@@ -53,7 +52,7 @@ public class UserProfileEditPanel extends JPanel {
         support.addPropertyChangeListener(listener);
     }
 
-    public void setController(ProfileController controller) {
+    public void setController(UserProfileController controller) {
         this.controller = controller;
     }
 

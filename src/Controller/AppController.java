@@ -1,7 +1,6 @@
 package Controller;
 
 import Model.ProductCatalog;
-import Model.ShoppingCart;
 import View.*;
 import Components.MultiViewPanel;
 
@@ -18,7 +17,7 @@ public class AppController {
     private AuthenticationController authenticationController;
     private ShoppingCartController shoppingCartController;
     private ProductController productController;
-    private ProfileController profileController;
+    private UserProfileController profileController;
 
     private MultiViewPanel multiViewPanel;
 
@@ -29,7 +28,7 @@ public class AppController {
         this.navigationController = new NavigationController(productCatalog);
         this.sidebarController = new SidebarController();
         this.authenticationController = new AuthenticationController();
-        this.profileController = new ProfileController();
+        this.profileController = new UserProfileController();
         this.shoppingCartController = new ShoppingCartController(productCatalog);
         this.productController = new ProductController();
     }
@@ -105,7 +104,7 @@ public class AppController {
         return productController;
     }
 
-    public ProfileController getProfileController() {
+    public UserProfileController getProfileController() {
         return profileController;
     }
 }

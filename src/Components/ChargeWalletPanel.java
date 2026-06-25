@@ -1,6 +1,6 @@
 package Components;
 
-import Controller.ProfileController;
+import Controller.UserProfileController;
 import Util.ColorPalette;
 
 import javax.swing.*;
@@ -30,13 +30,13 @@ public class ChargeWalletPanel extends JPanel {
 
     private PropertyChangeSupport support = new PropertyChangeSupport(this);
 
-    private ProfileController controller;
+    private UserProfileController controller;
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         support.addPropertyChangeListener(listener);
     }
 
-    public void setController(ProfileController controller) {
+    public void setController(UserProfileController controller) {
         this.controller = controller;
     }
 

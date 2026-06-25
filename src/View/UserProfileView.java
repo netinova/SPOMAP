@@ -1,9 +1,10 @@
 package View;
 
 import Components.ChargeWalletPanel;
+import Components.MangeUserProfilePanel;
 import Components.ProfileMainPanel;
 import Components.UserProfileEditPanel;
-import Controller.ProfileController;
+import Controller.UserProfileController;
 import Model.UserType;
 import Util.ColorPalette;
 
@@ -18,11 +19,12 @@ public class UserProfileView extends JPanel {
     private ProfileMainPanel profileMainView;
     private UserProfileEditPanel userProfileEditPanel;
     private ChargeWalletPanel chargeWalletPanel;
+    private MangeUserProfilePanel mangeUserProfilePanel;
 
     private CardLayout cardLayout;
     private JPanel cardPanel;
 
-    private ProfileController controller;
+    private UserProfileController controller;
 
     private PropertyChangeSupport support = new PropertyChangeSupport(this);
 
@@ -37,7 +39,7 @@ public class UserProfileView extends JPanel {
         support.addPropertyChangeListener(listener);
     }
 
-    public UserProfileView(ProfileController controller) {
+    public UserProfileView(UserProfileController controller) {
         this.controller = controller;
 
         setupUI();
@@ -56,13 +58,16 @@ public class UserProfileView extends JPanel {
         profileMainView = new ProfileMainPanel();
         userProfileEditPanel = new UserProfileEditPanel();
         chargeWalletPanel = new ChargeWalletPanel();
+        mangeUserProfilePanel = new MangeUserProfilePanel();
 
         userProfileEditPanel.setController(controller);
         chargeWalletPanel.setController(controller);
+        mangeUserProfilePanel.setController(controller);
 
         cardPanel.add(profileMainView, "MAIN");
         cardPanel.add(userProfileEditPanel, "EDIT_PROFILE");
         cardPanel.add(chargeWalletPanel, "CHARGE_WALLET");
+        cardPanel.add(mangeUserProfilePanel,"MANAGE_USERS");
 
         this.add(cardPanel);
     }
@@ -110,6 +115,16 @@ public class UserProfileView extends JPanel {
             if(evt.getPropertyName().equals(ChargeWalletPanel.CHARGE_PROP))
                 controller.onChargeButtonClick(evt.getNewValue().toString());
             if(evt.getPropertyName().equals(ChargeWalletPanel.CANCEL_PROP))
+                controller.onCancelClick();
+        });
+
+        //Manage User
+        mangeUserProfilePanel.addPropertyChangeListener(evt -> {
+            if(evt.getPropertyName().equals(MangeUserProfilePanel.SEARCH_FILED_PROP))
+                controller.onSearchPhoneChange(evt.getNewValue().toString());
+            if(evt.getPropertyName().equals(MangeUserProfilePanel.SEARCH_PROP))
+                controller.onSearchClicked(evt.getNewValue().toString());
+            if(evt.getPropertyName().equals(MangeUserProfilePanel.CANCEL_PROP))
                 controller.onCancelClick();
         });
     }
@@ -163,6 +178,10 @@ public class UserProfileView extends JPanel {
         chargeWalletPanel.loadUserData(balance);
     }
 
+    public void loadManageUsers(){
+        mangeUserProfilePanel.loadView();
+    }
+
     //switch view
     public void showEditProfile() {
         controller.loadEditProfile();
@@ -176,6 +195,11 @@ public class UserProfileView extends JPanel {
     public void showChargeWallet(){
         controller.loadChargeWalletData();
         cardLayout.show(cardPanel, "CHARGE_WALLET");
+    }
+
+    public void showMangeUsers(){
+        controller.loadMangeUsers();
+        cardLayout.show(cardPanel, "MANAGE_USERS");
     }
 
 }

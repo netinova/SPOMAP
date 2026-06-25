@@ -10,7 +10,7 @@ import Util.PasswordHasher;
 import Util.Validator;
 import View.UserProfileView;
 
-public class ProfileController {
+public class UserProfileController {
 
     private UserProfileView view;
     private OnChangeViewListener listener;
@@ -241,6 +241,20 @@ public class ProfileController {
         showMainPage();
     }
 
+    // Mange Users
+    public void loadMangeUsers(){
+
+    }
+
+    //listener
+    public void onSearchPhoneChange(String value) {
+        System.out.println("Phone Search change: "+ value);
+    }
+
+    public void onSearchClicked(String string) {
+        System.out.println("clicked on search");//TODO: search handle
+    }
+
     private void attachViewEvents() {
         view.addPropertyChangeListener(evt -> {
             switch (evt.getPropertyName()) {
@@ -248,7 +262,9 @@ public class ProfileController {
                 case UserProfileView.CHARGE_WALLET_PROP -> view.showChargeWallet();
                 case UserProfileView.EDIT_PROFILE_PROP -> view.showEditProfile();
                 case UserProfileView.ADD_PRODUCT_PROP -> System.out.println("Clicked on add product");
-                case UserProfileView.MANAGE_USER_PROP -> System.out.println("Clicked on mange profile");
+                case UserProfileView.MANAGE_USER_PROP -> {
+                    view.showMangeUsers();
+                }
                 case UserProfileView.LOG_SHOP_PROP -> System.out.println("Clicked on Status shop");
             }
         });
