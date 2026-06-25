@@ -69,6 +69,7 @@ public class MultiViewPanel extends JPanel {
             shoppingCartView.loadCartItems();
         }
         if (viewType == ViewType.USER){
+            userProfileView.showMainProfile();
             userProfileView.loadUserData();
         }
 

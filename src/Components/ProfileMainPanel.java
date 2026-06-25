@@ -58,7 +58,9 @@ public class ProfileMainPanel extends JPanel{
         setBackground(ColorPalette.BG_MAIN);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBorder(new EmptyBorder(30, 30, 30, 30));
+    }
 
+    private void createComponents() {
         userHeader = createHeader();
         userHeader.setAlignmentX(LEFT_ALIGNMENT);
         this.add(userHeader);
@@ -84,9 +86,6 @@ public class ProfileMainPanel extends JPanel{
         logoutPanel.setAlignmentX(LEFT_ALIGNMENT);
         this.add(Box.createVerticalGlue());
         this.add(logoutPanel);
-    }
-
-    private void createComponents() {
     }
 
     private RoundedPanel createHeader() {
