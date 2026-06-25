@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import static Util.PasswordHasher.hashingPassword;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class User {
     protected String userId;
@@ -83,6 +85,13 @@ public abstract class User {
 
     public void setRegisterDate(String registerDate) {
         this.registerDate = registerDate;
+    }
+
+    public void editProfile(String fName, String lName, String phoneNumber, String password){
+        this.firstName=fName;
+        this.lastName=lName;
+        this.phoneNumber=phoneNumber;//TODO: check num duplicate
+        this.password=(password.isEmpty())? this.password : hashingPassword(password);
     }
 
     @JsonIgnore

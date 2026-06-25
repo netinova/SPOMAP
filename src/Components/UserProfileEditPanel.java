@@ -32,10 +32,9 @@ public class UserProfileEditPanel extends JPanel {
     private RoundedButton saveButton;
     private RoundedButton cancelButton;
 
-    private String userPassword;
-    private String currentPassword="";
-    private String newPassword="";
-    private String confirmPassword="";
+    private String currentPassword = "";
+    private String newPassword = "";
+    private String confirmPassword = "";
     private PropertyChangeSupport support = new PropertyChangeSupport(this);
 
     private ProfileController controller;
@@ -74,13 +73,12 @@ public class UserProfileEditPanel extends JPanel {
         firstNameField.addActionListener(e -> {
             if (controller != null) {
                 var result = controller.validateFirstName(firstNameField.getText());
-                if (result.isValid()){
+                if (result.isValid()) {
                     firstNamePanel.clearError();
-                }
-                else
+                } else
                     firstNamePanel.setError(result.getErrorMessage());
 
-                support.firePropertyChange(F_NAME_PROP, null,firstNameField.getText());
+                support.firePropertyChange(F_NAME_PROP, null, firstNameField.getText());
             }
         });
         this.add(firstNamePanel);
@@ -97,7 +95,7 @@ public class UserProfileEditPanel extends JPanel {
                 else
                     lastNamePanel.setError(result.getErrorMessage());
 
-                support.firePropertyChange(L_NAME_PROP, null,lastNameField.getText());
+                support.firePropertyChange(L_NAME_PROP, null, lastNameField.getText());
 
             }
         });
@@ -105,7 +103,7 @@ public class UserProfileEditPanel extends JPanel {
 
 
         // Phone Number
-        phoneNumberField = new RoundedInputText("Phone Number", 5);
+        phoneNumberField = new RoundedInputText("Username / Phone number", 5);
         phoneNumberPanel = new FormTextFiledPanel("Phone Number", phoneNumberField, "phoneNumber");
         phoneNumberField.addActionListener(e -> {
             if (controller != null) {
@@ -115,7 +113,7 @@ public class UserProfileEditPanel extends JPanel {
                 else
                     phoneNumberPanel.setError(result.getErrorMessage());
 
-                support.firePropertyChange(PHONE_NUMBER_PROP, null,phoneNumberField.getText());
+                support.firePropertyChange(PHONE_NUMBER_PROP, null, phoneNumberField.getText());
             }
         });
         this.add(phoneNumberPanel);
@@ -141,8 +139,8 @@ public class UserProfileEditPanel extends JPanel {
             }
 
             private void validator() {
-                currentPassword= (new String(currentPasswordField.getPassword()).equals("Current Password"))? "" : new String(currentPasswordField.getPassword());
-                support.firePropertyChange(PASSWORD_CURRENT_PROP, null,currentPassword);
+                currentPassword = (new String(currentPasswordField.getPassword()).equals("Current Password")) ? "" : new String(currentPasswordField.getPassword());
+                support.firePropertyChange(PASSWORD_CURRENT_PROP, null, currentPassword);
             }
         });
         this.add(currentPasswordPanel);
@@ -151,21 +149,29 @@ public class UserProfileEditPanel extends JPanel {
         newPasswordPanel = new FormTextFiledPanel("New Password", newPasswordField, "newPassword");
         newPasswordField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
-            public void insertUpdate(DocumentEvent e) {validator();}
-            @Override
-            public void removeUpdate(DocumentEvent e) {validator();}
-            @Override
-            public void changedUpdate(DocumentEvent e) {validator();}
+            public void insertUpdate(DocumentEvent e) {
+                validator();
+            }
 
-            public void validator(){
-                newPassword= (new String(newPasswordField.getPassword()).equals("Password"))? "" : new String(newPasswordField.getPassword());
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                validator();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                validator();
+            }
+
+            public void validator() {
+                newPassword = (new String(newPasswordField.getPassword()).equals("Password")) ? "" : new String(newPasswordField.getPassword());
                 var result = controller.validatePassword(newPassword);
                 if (result.isValid() || currentPassword.isEmpty())
                     newPasswordPanel.clearError();
                 else
                     newPasswordPanel.setError(result.getErrorMessage());
 
-                support.firePropertyChange(PASSWORD_PROP, null,newPassword);
+                support.firePropertyChange(PASSWORD_PROP, null, newPassword);
             }
         });
         this.add(newPasswordPanel);
@@ -175,21 +181,29 @@ public class UserProfileEditPanel extends JPanel {
         confirmPasswordPanel = new FormTextFiledPanel("Confirm Password", confirmPasswordField, "confirmPassword");
         confirmPasswordField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
-            public void insertUpdate(DocumentEvent e) {validator();}
-            @Override
-            public void removeUpdate(DocumentEvent e) {validator();}
-            @Override
-            public void changedUpdate(DocumentEvent e) {validator();}
+            public void insertUpdate(DocumentEvent e) {
+                validator();
+            }
 
-            public void validator(){
-                confirmPassword= (new String(confirmPasswordField.getPassword()).equals("Repeat Password"))? "" : new String(confirmPasswordField.getPassword());
-                var result = controller.validateConfirmPassword(newPassword,confirmPassword);
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                validator();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                validator();
+            }
+
+            public void validator() {
+                confirmPassword = (new String(confirmPasswordField.getPassword()).equals("Repeat Password")) ? "" : new String(confirmPasswordField.getPassword());
+                var result = controller.validateConfirmPassword(newPassword, confirmPassword);
                 if (result.isValid() || newPassword.isEmpty())
                     confirmPasswordPanel.clearError();
                 else
                     confirmPasswordPanel.setError(result.getErrorMessage());
 
-                support.firePropertyChange(PASSWORD_CONFIRM_PROP , null , confirmPassword);
+                support.firePropertyChange(PASSWORD_CONFIRM_PROP, null, confirmPassword);
             }
         });
         this.add(confirmPasswordPanel);
@@ -197,14 +211,19 @@ public class UserProfileEditPanel extends JPanel {
         JPanel buttonPanel = createButtons();
         this.add(buttonPanel);
         saveButton.addActionListener(e -> {
-            if (controller.fullValidator(firstNameField.getText(),lastNameField.getText(),phoneNumberField.getText() , currentPassword , newPassword , confirmPassword))
-                System.out.println("valid inputs");//TODO : change information user
+            if (controller.fullValidator(firstNameField.getText(), lastNameField.getText(), phoneNumberField.getText(), currentPassword, newPassword, confirmPassword)) {
+                boolean statusEdit= controller.editProfileHandler(firstNameField.getText(), lastNameField.getText(), phoneNumberField.getText(), newPassword);
+                if (statusEdit) {
+                    controller.loadProfile();
+                    controller.showMainPage();
+                }
+            }//TODO : change information user
 
-            support.firePropertyChange(SAVE_PROP , null , null);
+            support.firePropertyChange(SAVE_PROP, null, null);
         });
         cancelButton.addActionListener(e -> {
             controller.showMainPage();
-            support.firePropertyChange(CANCEL_PROP , null , null);
+            support.firePropertyChange(CANCEL_PROP, null, null);
         });
         this.add(Box.createVerticalGlue());
     }
@@ -231,7 +250,7 @@ public class UserProfileEditPanel extends JPanel {
         return buttonPanel;
     }
 
-    public void loadUserData(String fName , String lName , String phoneNumber) {
+    public void loadUserData(String fName, String lName, String phoneNumber) {
         currentPasswordField.setActivePlaceHolder(true);
         newPasswordField.setActivePlaceHolder(true);
         confirmPasswordField.setActivePlaceHolder(true);
@@ -248,12 +267,23 @@ public class UserProfileEditPanel extends JPanel {
     }
 
     // Getters for form data
-    public String getFirstName() { return firstNameField.getText(); }
-    public String getLastName() { return lastNameField.getText(); }
-    public String getPhoneNumber() { return phoneNumberField.getText(); }
-    public String getNewPassword() { return newPassword; }
+    public String getFirstName() {
+        return firstNameField.getText();
+    }
 
-    //error handeler
+    public String getLastName() {
+        return lastNameField.getText();
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumberField.getText();
+    }
+
+    public String getNewPassword() {
+        return newPassword;
+    }
+
+    //error handler
     public void showPhoneError(String error) {
         phoneNumberPanel.setError(error);
     }
@@ -266,7 +296,7 @@ public class UserProfileEditPanel extends JPanel {
         lastNamePanel.setError(error);
     }
 
-    public void showCurrentPasswordError(String error){
+    public void showCurrentPasswordError(String error) {
         currentPasswordPanel.setError(error);
     }
 
@@ -276,5 +306,26 @@ public class UserProfileEditPanel extends JPanel {
 
     public void showConfirmPasswordError(String error) {
         confirmPasswordPanel.setError(error);
+    }
+
+    // listener edit profile
+    public void onPhoneNumberChange(String value) {
+        System.out.println("Phone changed: " + value);
+    }
+
+    public void onFirstNameChange(String value) {
+        System.out.println("First name changed: " + value);
+    }
+
+    public void onLastNameChange(String value) {
+        System.out.println("Last name changed: " + value);
+    }
+
+    public void onPasswordChange(String value) {
+        System.out.println("Password changed");
+    }
+
+    public void onConfirmPasswordChange(String value) {
+        System.out.println("Confirm password changed");
     }
 }

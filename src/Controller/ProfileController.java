@@ -41,8 +41,8 @@ public class ProfileController {
                 cartItems,
                 user.getUserType());
 
-        if (user.getUserType()==UserType.PRIME){
-            PrimeUser userPrime=(PrimeUser) user;
+        if (user.getUserType() == UserType.PRIME) {
+            PrimeUser userPrime = (PrimeUser) user;
             view.displayPrimeUser(
                     userPrime.getCreditAmount(),
                     userPrime.getCreditAmount(),
@@ -77,7 +77,6 @@ public class ProfileController {
         }
     }
 
-
     // ---------------- EditProfile methods
 
     // validation methods
@@ -102,45 +101,44 @@ public class ProfileController {
         return Validator.validateConfirmPassword(password, confirmPassword);
     }
 
-    public boolean fullValidator(String fName , String lName , String phoneNumber, String currentPassword, String newPassword, String confirmPassword){
+    public boolean fullValidator(String fName, String lName, String phoneNumber, String currentPassword, String newPassword, String confirmPassword) {
         Validator.ValidationResult result;
-        int temp=0;
+        int temp = 0;
         User user = AppState.getInstance().getLoggedInUser();
 
-        result= validatePhoneNumber(phoneNumber);
+        result = validatePhoneNumber(phoneNumber);
         if (!result.isValid()) {
             if (view != null)
                 view.showPhoneError(result.getErrorMessage());
             temp++;
         }
 
-        result=validateFirstName(fName);
-        if (!result.isValid()){
-            if (view!=null)
+        result = validateFirstName(fName);
+        if (!result.isValid()) {
+            if (view != null)
                 view.showFirstNameError(result.getErrorMessage());
             temp++;
         }
 
-        result=validateLastName(lName);
-        if (!result.isValid()){
-            if (view!=null)
+        result = validateLastName(lName);
+        if (!result.isValid()) {
+            if (view != null)
                 view.showLastNameError(result.getErrorMessage());
             temp++;
         }
 
         //password
-        if (currentPassword=="" &&(newPassword!="" || confirmPassword!="")){
-            if (view!=null)
+        if (currentPassword == "" && (newPassword != "" || confirmPassword != "")) {
+            if (view != null)
                 view.showCurrentPasswordError("Your password is incorrect");
             temp++;
-        }
-        else if (currentPassword!=""){
+        } else if (currentPassword != "") {
             boolean passwordResult = PasswordHasher.checkerPassword(currentPassword, user.getPassword());
             result = validatePassword(newPassword);
             if (!result.isValid())
                 temp++;
             view.showNewtPasswordError(result.getErrorMessage());
-            result = validateConfirmPassword(newPassword , confirmPassword);
+            result = validateConfirmPassword(newPassword, confirmPassword);
             if (!result.isValid())
                 temp++;
             view.showConfirmPasswordError(result.getErrorMessage());
@@ -149,15 +147,27 @@ public class ProfileController {
                     view.showCurrentPasswordError("Your password is incorrect");
                 temp++;
             }
-        }else if (view!=null){
+        } else if (view != null) {
             view.showCurrentPasswordError("");
             view.showConfirmPasswordError("");
             view.showNewtPasswordError("");
         }
 
 
-        if (temp!=0)
+        if (temp != 0)
             return false;
+        return true;
+    }
+
+    public boolean editProfileHandler(String fName, String lName, String phoneNumber, String newPassword) {
+        User user = AppState.getInstance().getLoggedInUser();
+        user.editProfile(fName,lName,phoneNumber,newPassword);
+        if (user.getUserType().isAdmin())
+            UserService.saveAdminUser(AppState.getInstance().adminUsersList);
+        else if (user.getUserType().isPrime())
+            UserService.savePrimeUser(AppState.getInstance().primeUsersList);
+        else
+            UserService.saveNormalUser(AppState.getInstance().normalUsersList);
         return true;
     }
 
@@ -171,6 +181,32 @@ public class ProfileController {
                 user.getPhoneNumber()
         );
     }
+
+    // listener edit profile
+    public void onPhoneNumberChange(String value) {
+        System.out.println("Phone changed: " + value);
+    }
+
+    public void onFirstNameChange(String value) {
+        System.out.println("First name changed: " + value);
+    }
+
+    public void onLastNameChange(String value) {
+        System.out.println("Last name changed: " + value);
+    }
+
+    public void onPasswordCurrentChange(String newValue) {
+        System.out.println("Password current change");
+    }
+
+    public void onPasswordChange(String value) {
+        System.out.println("Password changed");
+    }
+
+    public void onConfirmPasswordChange(String value) {
+        System.out.println("Confirm password changed");
+    }
+
 
     private void attachViewEvents() {
         view.addPropertyChangeListener(evt -> {

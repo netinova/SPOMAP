@@ -150,6 +150,21 @@ public class UserService {
         }
     }
 
+    public static void saveAdminUser(UserAdminList adminUser) {
+
+        ObjectMapper mapper = createObjectMapper();
+
+        File file = new File("database/admin_users.json");
+        file.getParentFile().mkdirs();
+
+        try {
+            mapper.writeValue(file, adminUser);
+            System.out.println("save info AdminUser");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     // generate new id
     public static String getNewId(UserNormalList normalUsers, UserPrimeList primeUsers) {
         int maxId = 0;

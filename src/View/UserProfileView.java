@@ -83,7 +83,17 @@ public class UserProfileView extends JPanel {
         //edit profile handle
         userProfileEditPanel.addPropertyChangeListener(evt -> {
             if (evt.getPropertyName().equals(UserProfileEditPanel.F_NAME_PROP))
-                System.out.println();
+                controller.onFirstNameChange((String) evt.getNewValue());
+            if (evt.getPropertyName().equals(UserProfileEditPanel.L_NAME_PROP))
+                controller.onLastNameChange((String) evt.getNewValue());
+            if (evt.getPropertyName().equals(UserProfileEditPanel.PHONE_NUMBER_PROP))
+                controller.onPhoneNumberChange((String) evt.getNewValue());
+            if (evt.getPropertyName().equals(UserProfileEditPanel.PASSWORD_CURRENT_PROP))
+                controller.onPasswordCurrentChange((String) evt.getNewValue());
+            if (evt.getPropertyName().equals(UserProfileEditPanel.PASSWORD_PROP))
+                controller.onPasswordChange((String) evt.getNewValue());
+            if (evt.getPropertyName().equals(UserProfileEditPanel.PASSWORD_CONFIRM_PROP))
+                controller.onConfirmPasswordChange((String) evt.getNewValue());
         });
     }
 
