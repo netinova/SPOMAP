@@ -18,6 +18,7 @@ public class UserProfileController {
 
     public void setView(UserProfileView view) {
         this.view = view;
+        attachViewEvents();
     }
 
     public void setOnChangeViewListener(OnChangeViewListener listener) {
@@ -33,6 +34,7 @@ public class UserProfileController {
         if (AppState.getInstance().getCart() != null)
             cartItems = AppState.getInstance().getCart().getItems().size();
 
+
         view.displayUser(
                 user.getFullName(),
                 user.getUserType().getDisplayName(),
@@ -45,7 +47,8 @@ public class UserProfileController {
             view.displayPrimeUser(
                     userPrime.getCreditAmount(),
                     userPrime.getCreditAmount(),
-                    userPrime.getMemberShipID());
+                    userPrime.getMemberShipID()
+            );
 
         }
     }
@@ -100,8 +103,7 @@ public class UserProfileController {
         return Validator.validateConfirmPassword(password, confirmPassword);
     }
 
-    public boolean fullValidator(String fName, String lName, String phoneNumber, String currentPassword,
-            String newPassword, String confirmPassword) {
+    public boolean fullValidator(String fName, String lName, String phoneNumber, String currentPassword, String newPassword, String confirmPassword) {
         Validator.ValidationResult result;
         int temp = 0;
         User user = AppState.getInstance().getLoggedInUser();
@@ -127,7 +129,7 @@ public class UserProfileController {
             temp++;
         }
 
-        // password
+        //password
         if (currentPassword == "" && (newPassword != "" || confirmPassword != "")) {
             if (view != null)
                 view.showCurrentPasswordError("Your password is incorrect");
@@ -153,6 +155,7 @@ public class UserProfileController {
             view.showNewtPasswordError("");
         }
 
+
         if (temp != 0)
             return false;
         return true;
@@ -160,7 +163,7 @@ public class UserProfileController {
 
     public boolean editProfileHandler(String fName, String lName, String phoneNumber, String newPassword) {
         User user = AppState.getInstance().getLoggedInUser();
-        user.editProfile(fName, lName, phoneNumber, newPassword);
+        user.editProfile(fName,lName,phoneNumber,newPassword);
         if (user.getUserType().isAdmin())
             UserService.saveAdminUser(AppState.getInstance().adminUsersList);
         else if (user.getUserType().isPrime())
@@ -177,7 +180,8 @@ public class UserProfileController {
         view.loadEditUserData(
                 user.getFirstName(),
                 user.getLastName(),
-                user.getPhoneNumber());
+                user.getPhoneNumber()
+        );
     }
 
     // listener edit profile
@@ -205,12 +209,13 @@ public class UserProfileController {
         System.out.println("Confirm password changed");
     }
 
+
     // --------------- Charge wallet ------------------
-    public void loadChargeWalletData() {
+    public void loadChargeWalletData(){
         User user = AppState.getInstance().getLoggedInUser();
         if (user == null || view == null)
             return;
-        view.loadChargeWalletData(String.format("%.2f", user.getBalance()));
+        view.loadChargeWalletData(String.format("%.2f",user.getBalance()));
     }
 
     public Validator.ValidationResult validateAmount(String amount) {
@@ -219,12 +224,11 @@ public class UserProfileController {
 
     // listener Charging
     public void onAmountChange(String value) {
-        System.out.println("Amount changed: " + value);
+        System.out.println("Amount changed: "+ value );
     }
-
-    public void onChargeButtonClick(double balance) {
+    public void onChargeButtonClick(String balance) {
         User user = AppState.getInstance().getLoggedInUser();
-        user.addBalance(balance);
+        user.addBalance(Double.parseDouble(balance));
 
         if (user.getUserType().isPrime())
             UserService.savePrimeUser(AppState.getInstance().primeUsersList);
@@ -234,23 +238,25 @@ public class UserProfileController {
         loadProfile();
         showMainPage();
     }
-
     public void onCancelClick() {
         showMainPage();
     }
 
     // Mange Users
-    public void loadMangeUsers() {
-
+    public void loadMangeUsers(){
+        view.loadManageUsers();
     }
 
-    // listener
+    //listener
     public void onSearchPhoneChange(String value) {
-        System.out.println("Phone Search change: " + value);
+        System.out.println("Phone Search change: "+ value);
     }
 
     public void onSearchClicked(String string) {
-        System.out.println("clicked on search");// TODO: search handle
+        System.out.println("clicked on search");//TODO: search handle
+    }
+
+    private void attachViewEvents() {
     }
 
     public void showMainPage() {

@@ -73,36 +73,11 @@ public class ProfileMainPanel extends JPanel {
     public static final String LOG_SHOP_PROP = "logShop";
     public static final String ADD_PRODUCT_PROP = "addProduct";
 
+
     public ProfileMainPanel() {
         setupUI();
         createComponents();
         attachEvents();
-    }
-
-    private void attachEvents() {
-        logOut.addActionListener(e -> {
-            fireActionEvent(LOGOUT_PROP);
-        });
-
-        chargeWallet.addActionListener(e -> {
-            fireActionEvent(CHARGE_WALLET_PROP);
-        });
-
-        editProfile.addActionListener(e -> {
-            fireActionEvent(EDIT_PROFILE_PROP);
-        });
-
-        manageUserBtn.addActionListener(e -> {
-            fireActionEvent(MANAGE_USER_PROP);
-        });
-
-        logShopBtn.addActionListener(e -> {
-            fireActionEvent(LOG_SHOP_PROP);
-        });
-
-        addProductBtn.addActionListener(e -> {
-            fireActionEvent(ADD_PRODUCT_PROP);
-        });
     }
 
     private void setupUI() {
@@ -357,11 +332,9 @@ public class ProfileMainPanel extends JPanel {
                 statsMiddle.setVisible(true);
                 break;
         }
-
         switch (type) {
             case ADMIN -> adminPanel.setVisible(true);
             case PRIME -> primePanel.setVisible(true);
-            default -> throw new IllegalArgumentException("Unexpected value: " + type);
         }
 
         revalidate();
@@ -377,28 +350,13 @@ public class ProfileMainPanel extends JPanel {
         repaint();
     }
 
-    // listener
-    public void onClickLogout(ActionListener listener) {
-        logOut.addActionListener(listener);
-    }
 
-    public void onClickChargeWallet(ActionListener listener) {
-        chargeWallet.addActionListener(listener);
-    }
-
-    public void onClickEditProfile(ActionListener listener) {
-        editProfile.addActionListener(listener);
-    }
-
-    public void onClickManageUser(ActionListener listener) {
-        manageUserBtn.addActionListener(listener);
-    }
-
-    public void onClickLogShop(ActionListener listener) {
-        logShopBtn.addActionListener(listener);
-    }
-
-    public void onClickAddProduct(ActionListener listener) {
-        addProductBtn.addActionListener(listener);
+    private void attachEvents() {
+        logOut.addActionListener(e -> fireActionEvent(LOGOUT_PROP));
+        chargeWallet.addActionListener(e -> fireActionEvent(CHARGE_WALLET_PROP));
+        editProfile.addActionListener(e -> fireActionEvent(EDIT_PROFILE_PROP));
+        manageUserBtn.addActionListener(e -> fireActionEvent(MANAGE_USER_PROP));
+        logShopBtn.addActionListener(e -> fireActionEvent(LOG_SHOP_PROP));
+        addProductBtn.addActionListener(e -> fireActionEvent(ADD_PRODUCT_PROP));
     }
 }

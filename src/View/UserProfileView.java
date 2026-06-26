@@ -9,13 +9,10 @@ import Model.UserType;
 import Util.ColorPalette;
 
 import javax.swing.JPanel;
-import javax.swing.event.EventListenerList;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Dimension;
 
 public class UserProfileView extends JPanel {
 
@@ -28,12 +25,6 @@ public class UserProfileView extends JPanel {
     private JPanel cardPanel;
 
     private UserProfileController controller;
-
-    private PropertyChangeSupport support = new PropertyChangeSupport(this);
-
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        support.addPropertyChangeListener(listener);
-    }
 
     public UserProfileView(UserProfileController controller) {
         this.controller = controller;
@@ -77,27 +68,15 @@ public class UserProfileView extends JPanel {
 
         profileMainView.addActionListener(e -> {
             switch (e.getActionCommand()) {
-                case ProfileMainPanel.LOGOUT_PROP:
-                    controller.handleLogout();
-                    break;
-                case ProfileMainPanel.CHARGE_WALLET_PROP:
-                    showChargeWallet();
-                    break;
-                case ProfileMainPanel.EDIT_PROFILE_PROP:
-                    showEditProfile();
-                    break;
-                case ProfileMainPanel.MANAGE_USER_PROP:
-                    showMangeUsers();
-                    break;
-                case ProfileMainPanel.LOG_SHOP_PROP:
-                    System.out.println("Clicked on Status shop");
-                    break;
-                case ProfileMainPanel.ADD_PRODUCT_PROP:
-                    System.out.println("Clicked on add product");
-                    break;
-
+                case ProfileMainPanel.LOGOUT_PROP -> controller.handleLogout();
+                case ProfileMainPanel.CHARGE_WALLET_PROP -> showChargeWallet();
+                case ProfileMainPanel.EDIT_PROFILE_PROP -> showEditProfile();
+                case ProfileMainPanel.MANAGE_USER_PROP -> showMangeUsers();
+                case ProfileMainPanel.LOG_SHOP_PROP -> System.out.println("Clicked status shop");
+                case ProfileMainPanel.ADD_PRODUCT_PROP -> System.out.println("Clicked add product");
             }
         });
+
         // edit profile handle
         userProfileEditPanel.addPropertyChangeListener(evt -> {
             if (evt.getPropertyName().equals(UserProfileEditPanel.F_NAME_PROP))
@@ -119,7 +98,7 @@ public class UserProfileView extends JPanel {
             if (evt.getPropertyName().equals(ChargeWalletPanel.AMOUNT_PROP))
                 controller.onAmountChange(evt.getNewValue().toString());
             if (evt.getPropertyName().equals(ChargeWalletPanel.CHARGE_PROP))
-                controller.onChargeButtonClick((double) evt.getNewValue());
+                controller.onChargeButtonClick(evt.getNewValue().toString());
             if (evt.getPropertyName().equals(ChargeWalletPanel.CANCEL_PROP))
                 controller.onCancelClick();
         });
@@ -206,5 +185,4 @@ public class UserProfileView extends JPanel {
         controller.loadMangeUsers();
         cardLayout.show(cardPanel, "MANAGE_USERS");
     }
-
 }
