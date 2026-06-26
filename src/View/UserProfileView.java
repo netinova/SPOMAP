@@ -9,8 +9,11 @@ import Model.UserType;
 import Util.ColorPalette;
 
 import javax.swing.JPanel;
+import javax.swing.event.EventListenerList;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
@@ -28,7 +31,6 @@ public class UserProfileView extends JPanel {
 
     private PropertyChangeSupport support = new PropertyChangeSupport(this);
 
-    public static final String LOGOUT_PROP = "logout";
     public static final String CHARGE_WALLET_PROP = "chargeWallet";
     public static final String EDIT_PROFILE_PROP = "editProfile";
     public static final String MANAGE_USER_PROP = "manageUser";
@@ -67,7 +69,7 @@ public class UserProfileView extends JPanel {
         cardPanel.add(profileMainView, "MAIN");
         cardPanel.add(userProfileEditPanel, "EDIT_PROFILE");
         cardPanel.add(chargeWalletPanel, "CHARGE_WALLET");
-        cardPanel.add(mangeUserProfilePanel,"MANAGE_USERS");
+        cardPanel.add(mangeUserProfilePanel, "MANAGE_USERS");
 
         this.add(cardPanel);
     }
@@ -77,22 +79,26 @@ public class UserProfileView extends JPanel {
     }
 
     private void attachEvents() {
-        //profileMainView handle
-        profileMainView.onClickLogout(e -> {
-            support.firePropertyChange(LOGOUT_PROP, null, null);
-        });
-        profileMainView.onClickChargeWallet(e ->
-                support.firePropertyChange(CHARGE_WALLET_PROP, null, null));
-        profileMainView.onClickEditProfile(e ->
-                support.firePropertyChange(EDIT_PROFILE_PROP, null, null));
-        profileMainView.onClickManageUser(e ->
-                support.firePropertyChange(MANAGE_USER_PROP, null, null));
-        profileMainView.onClickLogShop(e ->
-                support.firePropertyChange(LOG_SHOP_PROP, null, null));
-        profileMainView.onClickAddProduct(e ->
-                support.firePropertyChange(ADD_PRODUCT_PROP, null, null));
+        // profileMainView handle
 
-        //edit profile handle
+        profileMainView.addActionListener(e -> {
+            switch (e.getActionCommand()) {
+                case ProfileMainPanel.LOGOUT_PROP:
+                    controller.handleLogout();
+                    break;
+
+                default:
+                    break;
+            }
+        });
+
+        profileMainView.onClickChargeWallet(e -> support.firePropertyChange(CHARGE_WALLET_PROP, null, null));
+        profileMainView.onClickEditProfile(e -> support.firePropertyChange(EDIT_PROFILE_PROP, null, null));
+        profileMainView.onClickManageUser(e -> support.firePropertyChange(MANAGE_USER_PROP, null, null));
+        profileMainView.onClickLogShop(e -> support.firePropertyChange(LOG_SHOP_PROP, null, null));
+        profileMainView.onClickAddProduct(e -> support.firePropertyChange(ADD_PRODUCT_PROP, null, null));
+
+        // edit profile handle
         userProfileEditPanel.addPropertyChangeListener(evt -> {
             if (evt.getPropertyName().equals(UserProfileEditPanel.F_NAME_PROP))
                 controller.onFirstNameChange((String) evt.getNewValue());
@@ -108,23 +114,23 @@ public class UserProfileView extends JPanel {
                 controller.onConfirmPasswordChange((String) evt.getNewValue());
         });
 
-        //charge proses
+        // charge proses
         chargeWalletPanel.addPropertyChangeListener(evt -> {
-            if(evt.getPropertyName().equals(ChargeWalletPanel.AMOUNT_PROP))
+            if (evt.getPropertyName().equals(ChargeWalletPanel.AMOUNT_PROP))
                 controller.onAmountChange(evt.getNewValue().toString());
-            if(evt.getPropertyName().equals(ChargeWalletPanel.CHARGE_PROP))
+            if (evt.getPropertyName().equals(ChargeWalletPanel.CHARGE_PROP))
                 controller.onChargeButtonClick(evt.getNewValue().toString());
-            if(evt.getPropertyName().equals(ChargeWalletPanel.CANCEL_PROP))
+            if (evt.getPropertyName().equals(ChargeWalletPanel.CANCEL_PROP))
                 controller.onCancelClick();
         });
 
-        //Manage User
+        // Manage User
         mangeUserProfilePanel.addPropertyChangeListener(evt -> {
-            if(evt.getPropertyName().equals(MangeUserProfilePanel.SEARCH_FILED_PROP))
+            if (evt.getPropertyName().equals(MangeUserProfilePanel.SEARCH_FILED_PROP))
                 controller.onSearchPhoneChange(evt.getNewValue().toString());
-            if(evt.getPropertyName().equals(MangeUserProfilePanel.SEARCH_PROP))
+            if (evt.getPropertyName().equals(MangeUserProfilePanel.SEARCH_PROP))
                 controller.onSearchClicked(evt.getNewValue().toString());
-            if(evt.getPropertyName().equals(MangeUserProfilePanel.CANCEL_PROP))
+            if (evt.getPropertyName().equals(MangeUserProfilePanel.CANCEL_PROP))
                 controller.onCancelClick();
         });
     }
@@ -160,8 +166,7 @@ public class UserProfileView extends JPanel {
             userProfileEditPanel.showConfirmPasswordError(error);
     }
 
-
-    //load Data
+    // load Data
     public void displayUser(String fullName, String userType, double balance, int cartItems, UserType type) {
         profileMainView.displayUser(fullName, userType, balance, cartItems, type);
     }
@@ -174,15 +179,15 @@ public class UserProfileView extends JPanel {
         userProfileEditPanel.loadUserData(fName, lName, phoneNumber);
     }
 
-    public void loadChargeWalletData(String balance){
+    public void loadChargeWalletData(String balance) {
         chargeWalletPanel.loadUserData(balance);
     }
 
-    public void loadManageUsers(){
+    public void loadManageUsers() {
         mangeUserProfilePanel.loadView();
     }
 
-    //switch view
+    // switch view
     public void showEditProfile() {
         controller.loadEditProfile();
         cardLayout.show(cardPanel, "EDIT_PROFILE");
@@ -192,12 +197,12 @@ public class UserProfileView extends JPanel {
         cardLayout.show(cardPanel, "MAIN");
     }
 
-    public void showChargeWallet(){
+    public void showChargeWallet() {
         controller.loadChargeWalletData();
         cardLayout.show(cardPanel, "CHARGE_WALLET");
     }
 
-    public void showMangeUsers(){
+    public void showMangeUsers() {
         controller.loadMangeUsers();
         cardLayout.show(cardPanel, "MANAGE_USERS");
     }

@@ -1,5 +1,6 @@
 package Controller;
 
+import Components.ProfileMainPanel;
 import Model.AppState;
 import Model.PrimeUser;
 import Model.User;
@@ -258,7 +259,7 @@ public class UserProfileController {
     private void attachViewEvents() {
         view.addPropertyChangeListener(evt -> {
             switch (evt.getPropertyName()) {
-                case UserProfileView.LOGOUT_PROP -> handleLogout();
+                case ProfileMainPanel.LOGOUT_PROP -> handleLogout();
                 case UserProfileView.CHARGE_WALLET_PROP -> view.showChargeWallet();
                 case UserProfileView.EDIT_PROFILE_PROP -> view.showEditProfile();
                 case UserProfileView.ADD_PRODUCT_PROP -> System.out.println("Clicked on add product");

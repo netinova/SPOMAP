@@ -9,6 +9,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.EventListenerList;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -17,9 +19,10 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ProfileMainPanel extends JPanel{
+public class ProfileMainPanel extends JPanel {
 
     private final int borderRadius = 20;
 
@@ -47,11 +50,36 @@ public class ProfileMainPanel extends JPanel{
     private JPanel adminPanel;
     private JPanel logoutPanel;
 
+    private EventListenerList listenerList = new EventListenerList();
+
+    public void addActionListener(ActionListener listener) {
+        listenerList.add(ActionListener.class, listener);
+    }
+
+    private void fireActionEvent(String command) {
+        ActionListener[] listeners = listenerList.getListeners(ActionListener.class);
+        if (listeners.length > 0) {
+            ActionEvent event = new ActionEvent(this, ActionEvent.ACTION_PERFORMED, command);
+            for (ActionListener listener : listeners) {
+                listener.actionPerformed(event);
+            }
+        }
+    }
+
+    public static final String LOGOUT_PROP = "logout";
+
     private double balance;
 
     public ProfileMainPanel() {
         setupUI();
+        attachEvents();
         createComponents();
+    }
+
+    private void attachEvents() {
+        logOut.addActionListener(e -> {
+            fireActionEvent(LOGOUT_PROP);
+        });
     }
 
     private void setupUI() {
@@ -141,19 +169,18 @@ public class ProfileMainPanel extends JPanel{
         gbc.weighty = 1;
         gbc.insets = new Insets(5, 10, 5, 10);
 
-
         gbc.gridx = 0;
         gbc.weightx = 1;
         panel.add(createStatCard("Balance", "$0.00"), gbc);
-        balanceValueLabel=tempLabel;
+        balanceValueLabel = tempLabel;
 
         gbc.gridx = 1;
         panel.add(createStatCard("Total purchases", "0"), gbc);// TODO: add number of purchases
-        totalPurchasesLabel=tempLabel;
+        totalPurchasesLabel = tempLabel;
 
         gbc.gridx = 2;
         panel.add(createStatCard("Cart items", "0"), gbc);// TODO: add number of products that now to list(ShapingCart)
-        cartItemsValueLabel=tempLabel;
+        cartItemsValueLabel = tempLabel;
 
         gbc.gridx = 3;
         gbc.weightx = 0;
@@ -182,7 +209,7 @@ public class ProfileMainPanel extends JPanel{
         card.add(labelComp);
         card.add(Box.createVerticalStrut(4));
         card.add(valueComp);
-        this.tempLabel=valueComp;
+        this.tempLabel = valueComp;
 
         return card;
     }
@@ -204,10 +231,10 @@ public class ProfileMainPanel extends JPanel{
         return panel;
     }
 
-    private JPanel crateLogoutPanel(){
+    private JPanel crateLogoutPanel() {
         JPanel panel = new JPanel();
         panel.setOpaque(false);
-        panel.setLayout(new BoxLayout(panel,BoxLayout.X_AXIS));
+        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
 
         logOut = new RoundedButton("Logout", borderRadius);
         logOut.setBackground(new Color(0xde3c2f));
@@ -252,7 +279,7 @@ public class ProfileMainPanel extends JPanel{
 
     private JPanel createAdminPanel() {
         RoundedPanel panel = new RoundedPanel(borderRadius, ColorPalette.BG_SECONDARY, ColorPalette.ACCENT_WARNING);
-        panel.setLayout(new BoxLayout(panel,BoxLayout.X_AXIS));
+        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
         panel.setBorder(new EmptyBorder(20, 30, 20, 30));
         panel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 80));
 
@@ -291,9 +318,9 @@ public class ProfileMainPanel extends JPanel{
         typeLabel.setText(userType);
         balanceValueLabel.setText(String.format("$%.2f", balance));
         cartItemsValueLabel.setText(String.valueOf(cartItems));
-        totalPurchasesLabel.setText("0");//TODO: if need this property handle for side of user
+        totalPurchasesLabel.setText("0");// TODO: if need this property handle for side of user
 
-        switch (type){
+        switch (type) {
             case ADMIN:
                 adminPanel.setVisible(true);
                 statsMiddle.setVisible(false);
@@ -306,7 +333,8 @@ public class ProfileMainPanel extends JPanel{
                 primePanel.setVisible(false);
                 statsMiddle.setVisible(true);
                 break;
-        }switch (type){
+        }
+        switch (type) {
             case ADMIN -> adminPanel.setVisible(true);
             case PRIME -> primePanel.setVisible(true);
         }
@@ -317,18 +345,35 @@ public class ProfileMainPanel extends JPanel{
 
     public void displayPrimeUser(double creditAmount, double debitAmount, String memberShipID) {
         creditLabel.setText(String.format("$%.2f", creditAmount));
-        debitLabel.setText(String.format("$%.2f",debitAmount));
+        debitLabel.setText(String.format("$%.2f", debitAmount));
         membershipIdLabel.setText(memberShipID);
 
         revalidate();
         repaint();
     }
 
-    //listener
-    public void onClickLogout (ActionListener listener){logOut.addActionListener(listener);}
-    public void onClickChargeWallet (ActionListener listener){chargeWallet.addActionListener(listener);}
-    public void onClickEditProfile(ActionListener listener){editProfile.addActionListener(listener);}
-    public void onClickManageUser (ActionListener listener){manageUserBtn.addActionListener(listener);}
-    public void onClickLogShop (ActionListener listener){logShopBtn.addActionListener(listener);}
-    public void onClickAddProduct (ActionListener listener){addProductBtn.addActionListener(listener);}
+    // listener
+    public void onClickLogout(ActionListener listener) {
+        logOut.addActionListener(listener);
+    }
+
+    public void onClickChargeWallet(ActionListener listener) {
+        chargeWallet.addActionListener(listener);
+    }
+
+    public void onClickEditProfile(ActionListener listener) {
+        editProfile.addActionListener(listener);
+    }
+
+    public void onClickManageUser(ActionListener listener) {
+        manageUserBtn.addActionListener(listener);
+    }
+
+    public void onClickLogShop(ActionListener listener) {
+        logShopBtn.addActionListener(listener);
+    }
+
+    public void onClickAddProduct(ActionListener listener) {
+        addProductBtn.addActionListener(listener);
+    }
 }
