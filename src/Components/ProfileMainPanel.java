@@ -73,7 +73,6 @@ public class ProfileMainPanel extends JPanel {
     public static final String LOG_SHOP_PROP = "logShop";
     public static final String ADD_PRODUCT_PROP = "addProduct";
 
-
     public ProfileMainPanel() {
         setupUI();
         createComponents();
@@ -83,6 +82,26 @@ public class ProfileMainPanel extends JPanel {
     private void attachEvents() {
         logOut.addActionListener(e -> {
             fireActionEvent(LOGOUT_PROP);
+        });
+
+        chargeWallet.addActionListener(e -> {
+            fireActionEvent(CHARGE_WALLET_PROP);
+        });
+
+        editProfile.addActionListener(e -> {
+            fireActionEvent(EDIT_PROFILE_PROP);
+        });
+
+        manageUserBtn.addActionListener(e -> {
+            fireActionEvent(MANAGE_USER_PROP);
+        });
+
+        logShopBtn.addActionListener(e -> {
+            fireActionEvent(LOG_SHOP_PROP);
+        });
+
+        addProductBtn.addActionListener(e -> {
+            fireActionEvent(ADD_PRODUCT_PROP);
         });
     }
 
@@ -338,9 +357,11 @@ public class ProfileMainPanel extends JPanel {
                 statsMiddle.setVisible(true);
                 break;
         }
+
         switch (type) {
             case ADMIN -> adminPanel.setVisible(true);
             case PRIME -> primePanel.setVisible(true);
+            default -> throw new IllegalArgumentException("Unexpected value: " + type);
         }
 
         revalidate();
