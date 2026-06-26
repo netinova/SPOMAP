@@ -67,13 +67,17 @@ public class ProfileMainPanel extends JPanel {
     }
 
     public static final String LOGOUT_PROP = "logout";
+    public static final String CHARGE_WALLET_PROP = "chargeWallet";
+    public static final String EDIT_PROFILE_PROP = "editProfile";
+    public static final String MANAGE_USER_PROP = "manageUser";
+    public static final String LOG_SHOP_PROP = "logShop";
+    public static final String ADD_PRODUCT_PROP = "addProduct";
 
-    private double balance;
 
     public ProfileMainPanel() {
         setupUI();
-        attachEvents();
         createComponents();
+        attachEvents();
     }
 
     private void attachEvents() {

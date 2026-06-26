@@ -11,7 +11,6 @@ import java.beans.PropertyChangeSupport;
 
 public class ChargeWalletPanel extends JPanel {
 
-
     private RoundedInputText amountInputText;
     private RoundedInputText balanceInputText;
 
@@ -84,6 +83,7 @@ public class ChargeWalletPanel extends JPanel {
         container.add(amountInputFiled);
         btnPanel = crateBtn();
         btnPanel.setAlignmentX(CENTER_ALIGNMENT);
+
         chargeBtn.addActionListener(e -> {
             var result = controller.validateAmount(amountInputText.getText());
             if (result.isValid())
@@ -91,8 +91,9 @@ public class ChargeWalletPanel extends JPanel {
             else
                 amountInputFiled.setError(result.getErrorMessage());
 
-            support.firePropertyChange(CHARGE_PROP, null, amountInputText.getText());
+            support.firePropertyChange(CHARGE_PROP, null, Double.valueOf(amountInputText.getText()));
         });
+        
         cancelBtn.addActionListener(e -> {
             controller.showMainPage();
             support.firePropertyChange(CANCEL_PROP, null, null);

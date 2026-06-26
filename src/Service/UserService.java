@@ -20,20 +20,6 @@ import java.util.List;
 
 public class UserService {
 
-    // private static List<NormalUser> normalUsers;
-    // private static List<PrimeUser> primeUsers;
-    // private static List<AdminUser> adminUsers;
-
-    // public UserService() {
-    // this.normalUsers = new ArrayList<>();
-    // this.primeUsers = new ArrayList<>();
-    // this.adminUsers = new ArrayList<>();
-
-    // loadNormalUser();
-    // loadPrimeUser();
-    // loadAdminUser();
-    // }
-
     private UserService() {
     }
 
@@ -170,22 +156,28 @@ public class UserService {
         int maxId = 0;
 
         // check normal user
-        for (NormalUser user : normalUsers.getUsers()) {
-            String id = user.getUserId();
-            if (user != null) {
-                int idNumber = Integer.parseInt(id.substring(4));
-                if (idNumber > maxId)
-                    maxId = idNumber;
+
+        if (normalUsers != null) {
+            for (NormalUser user : normalUsers.getUsers()) {
+                String id = user.getUserId();
+                if (user != null) {
+                    int idNumber = Integer.parseInt(id.substring(4));
+                    if (idNumber > maxId)
+                        maxId = idNumber;
+                }
             }
         }
 
         // check prime user
-        for (PrimeUser user : primeUsers.getUsers()) {
-            String id = user.getUserId();
-            if (user != null) {
-                int idNumber = Integer.parseInt(id.substring(4));
-                if (idNumber > maxId)
-                    maxId = idNumber;
+
+        if (primeUsers != null) {
+            for (PrimeUser user : primeUsers.getUsers()) {
+                String id = user.getUserId();
+                if (user != null) {
+                    int idNumber = Integer.parseInt(id.substring(4));
+                    if (idNumber > maxId)
+                        maxId = idNumber;
+                }
             }
         }
 
@@ -240,7 +232,7 @@ public class UserService {
             System.out.println("successfully login as " + user.getUserType().getDisplayName());
             return user;
         } else {
-            System.out.println("Unsuccessful login");//TODO: show error
+            System.out.println("Unsuccessful login");// TODO: show error
             return null;
         }
     }

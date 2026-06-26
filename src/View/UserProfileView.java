@@ -31,12 +31,6 @@ public class UserProfileView extends JPanel {
 
     private PropertyChangeSupport support = new PropertyChangeSupport(this);
 
-    public static final String CHARGE_WALLET_PROP = "chargeWallet";
-    public static final String EDIT_PROFILE_PROP = "editProfile";
-    public static final String MANAGE_USER_PROP = "manageUser";
-    public static final String LOG_SHOP_PROP = "logShop";
-    public static final String ADD_PRODUCT_PROP = "addProduct";
-
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         support.addPropertyChangeListener(listener);
     }
@@ -86,18 +80,24 @@ public class UserProfileView extends JPanel {
                 case ProfileMainPanel.LOGOUT_PROP:
                     controller.handleLogout();
                     break;
-
-                default:
+                case ProfileMainPanel.CHARGE_WALLET_PROP:
+                    showChargeWallet();
                     break;
+                case ProfileMainPanel.EDIT_PROFILE_PROP:
+                    showEditProfile();
+                    break;
+                case ProfileMainPanel.MANAGE_USER_PROP:
+                    showMangeUsers();
+                    break;
+                case ProfileMainPanel.LOG_SHOP_PROP:
+                    System.out.println("Clicked on Status shop");
+                    break;
+                case ProfileMainPanel.ADD_PRODUCT_PROP:
+                    System.out.println("Clicked on add product");
+                    break;
+
             }
         });
-
-        profileMainView.onClickChargeWallet(e -> support.firePropertyChange(CHARGE_WALLET_PROP, null, null));
-        profileMainView.onClickEditProfile(e -> support.firePropertyChange(EDIT_PROFILE_PROP, null, null));
-        profileMainView.onClickManageUser(e -> support.firePropertyChange(MANAGE_USER_PROP, null, null));
-        profileMainView.onClickLogShop(e -> support.firePropertyChange(LOG_SHOP_PROP, null, null));
-        profileMainView.onClickAddProduct(e -> support.firePropertyChange(ADD_PRODUCT_PROP, null, null));
-
         // edit profile handle
         userProfileEditPanel.addPropertyChangeListener(evt -> {
             if (evt.getPropertyName().equals(UserProfileEditPanel.F_NAME_PROP))
@@ -119,7 +119,7 @@ public class UserProfileView extends JPanel {
             if (evt.getPropertyName().equals(ChargeWalletPanel.AMOUNT_PROP))
                 controller.onAmountChange(evt.getNewValue().toString());
             if (evt.getPropertyName().equals(ChargeWalletPanel.CHARGE_PROP))
-                controller.onChargeButtonClick(evt.getNewValue().toString());
+                controller.onChargeButtonClick((double) evt.getNewValue());
             if (evt.getPropertyName().equals(ChargeWalletPanel.CANCEL_PROP))
                 controller.onCancelClick();
         });
