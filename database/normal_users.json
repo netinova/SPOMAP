@@ -1,14 +1,5 @@
 {
   "users" : [ {
-    "userId" : "USR_000001",
-    "phoneNumber" : "09123123123",
-    "firstName" : "asd",
-    "lastName" : "asd",
-    "password" : null,
-    "registerDate" : "2026-06-09T16:07:08.555509600",
-    "balance" : 0.0,
-    "userType" : "NORMAL"
-  }, {
     "userId" : "USR_000002",
     "phoneNumber" : "09123123122",
     "firstName" : "asd",
@@ -69,6 +60,15 @@
     "lastName" : "baghdadi",
     "password" : "0266169a59ce9724e88101f70ce9e756b2b5ca4b103016620459efd90b365644",
     "registerDate" : "2026-06-26T16:27:58.102483900",
+    "balance" : 0.0,
+    "userType" : "NORMAL"
+  }, {
+    "userId" : "USR_000009",
+    "phoneNumber" : "09876556788",
+    "firstName" : "asd",
+    "lastName" : "asd",
+    "password" : "2c0968dabe58c67d17a07f066a9e5d9cc0ffe914f12da60aa62acc1f49bfd30c",
+    "registerDate" : "2026-06-27T15:48:13.288905200",
     "balance" : 0.0,
     "userType" : "NORMAL"
   } ]

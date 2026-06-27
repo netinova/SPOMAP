@@ -1,0 +1,15 @@
+{
+  "users" : [ {
+    "userId" : "USR_000010",
+    "phoneNumber" : "09123123357",
+    "firstName" : "asd",
+    "lastName" : "asd",
+    "password" : "2c0968dabe58c67d17a07f066a9e5d9cc0ffe914f12da60aa62acc1f49bfd30c",
+    "registerDate" : "2026-06-27T15:54:36.417021900",
+    "balance" : 123.0,
+    "userType" : "PRIME",
+    "memberShipID" : "PRM_000001",
+    "creditAmount" : 0.0,
+    "debitAmount" : 0.0
+  } ]
+}

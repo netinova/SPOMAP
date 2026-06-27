@@ -322,9 +322,12 @@ public class ProfileMainPanel extends JPanel {
             case ADMIN:
                 adminPanel.setVisible(true);
                 statsMiddle.setVisible(false);
+                primePanel.setVisible(false);
                 break;
             case PRIME:
                 primePanel.setVisible(true);
+                statsMiddle.setVisible(true);
+                adminPanel.setVisible(false);
                 break;
             case NORMAL:
                 adminPanel.setVisible(false);

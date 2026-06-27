@@ -1,11 +1,6 @@
 package Controller;
 
-import Components.ProfileMainPanel;
-import Model.AppState;
-import Model.PrimeUser;
-import Model.User;
-import Model.UserType;
-import Model.ViewType;
+import Model.*;
 import Service.UserService;
 import Util.PasswordHasher;
 import Util.Validator;
@@ -18,7 +13,6 @@ public class UserProfileController {
 
     public void setView(UserProfileView view) {
         this.view = view;
-        attachViewEvents();
     }
 
     public void setOnChangeViewListener(OnChangeViewListener listener) {
@@ -46,7 +40,7 @@ public class UserProfileController {
             PrimeUser userPrime = (PrimeUser) user;
             view.displayPrimeUser(
                     userPrime.getCreditAmount(),
-                    userPrime.getCreditAmount(),
+                    userPrime.getDebitAmount(),
                     userPrime.getMemberShipID()
             );
 
@@ -59,24 +53,6 @@ public class UserProfileController {
         AppState.getInstance().setCart(null);
         if (listener != null)
             listener.changeView(ViewType.AUTH.getViewId());
-    }
-
-    public void handleUpgradeToPrime() {
-        User user = AppState.getInstance().getLoggedInUser();
-        if (user == null)
-            return;
-        boolean success = UserService.convertNormalUserToPrime(user.getPhoneNumber(),
-                AppState.getInstance().normalUsersList,
-                AppState.getInstance().primeUsersList,
-                AppState.getInstance().adminUsersList);
-        if (success) {
-            User updated = UserService.searchUserByPhoneNumber(user.getPhoneNumber(),
-                    AppState.getInstance().normalUsersList,
-                    AppState.getInstance().primeUsersList,
-                    AppState.getInstance().adminUsersList);
-            AppState.getInstance().setLoggedInUser(updated);
-            loadProfile(); // refresh view
-        }
     }
 
     // ---------------- EditProfile methods --------------------
@@ -163,7 +139,7 @@ public class UserProfileController {
 
     public boolean editProfileHandler(String fName, String lName, String phoneNumber, String newPassword) {
         User user = AppState.getInstance().getLoggedInUser();
-        user.editProfile(fName,lName,phoneNumber,newPassword);
+        user.editProfile(fName, lName, phoneNumber, newPassword);
         if (user.getUserType().isAdmin())
             UserService.saveAdminUser(AppState.getInstance().adminUsersList);
         else if (user.getUserType().isPrime())
@@ -211,11 +187,11 @@ public class UserProfileController {
 
 
     // --------------- Charge wallet ------------------
-    public void loadChargeWalletData(){
+    public void loadChargeWalletData() {
         User user = AppState.getInstance().getLoggedInUser();
         if (user == null || view == null)
             return;
-        view.loadChargeWalletData(String.format("%.2f",user.getBalance()));
+        view.loadChargeWalletData(String.format("%.2f", user.getBalance()));
     }
 
     public Validator.ValidationResult validateAmount(String amount) {
@@ -224,8 +200,9 @@ public class UserProfileController {
 
     // listener Charging
     public void onAmountChange(String value) {
-        System.out.println("Amount changed: "+ value );
+        System.out.println("Amount changed: " + value);
     }
+
     public void onChargeButtonClick(String balance) {
         User user = AppState.getInstance().getLoggedInUser();
         user.addBalance(Double.parseDouble(balance));
@@ -238,26 +215,74 @@ public class UserProfileController {
         loadProfile();
         showMainPage();
     }
+
     public void onCancelClick() {
         showMainPage();
     }
 
     // Mange Users
-    public void loadMangeUsers(){
+    public void showSearchUser() {
         view.loadManageUsers();
     }
 
-    //listener
-    public void onSearchPhoneChange(String value) {
-        System.out.println("Phone Search change: "+ value);
+    public void handelSearchUser(String phoneNumberString) {
+        User user = UserService.searchUserByPhoneNumber(phoneNumberString, AppState.getInstance().normalUsersList,
+                AppState.getInstance().primeUsersList, AppState.getInstance().adminUsersList);
+        if (user == null) return;
+
+        String memberShipCode = null;
+        double creditAmount = 0;
+        double debitAmount = 0;
+        if (user.getUserType().isPrime()) {
+            PrimeUser primeUser = (PrimeUser) user;
+            memberShipCode = primeUser.getMemberShipID();
+            creditAmount = primeUser.getCreditAmount();
+            debitAmount = primeUser.getDebitAmount();
+        }
+
+        view.loadInformationUser(user.getFirstName(), user.getLastName(), user.getPhoneNumber(),
+                user.getUserId(), user.getUserType().getDisplayName(), user.getRegisterDate(),
+                memberShipCode, creditAmount, debitAmount);
+
+
     }
 
-    public void onSearchClicked(String string) {
-        System.out.println("clicked on search");//TODO: search handle
+    public boolean statusSearchPhoneNumber(String phoneNumberString) {
+        User user = UserService.searchUserByPhoneNumber(phoneNumberString, AppState.getInstance().normalUsersList,
+                AppState.getInstance().primeUsersList, AppState.getInstance().adminUsersList);
+
+        return user != null;
     }
 
-    private void attachViewEvents() {
+    public void handleUpgradeToPrime(String phoneNumber) {
+        boolean status = UserService.convertNormalUserToPrime(phoneNumber,
+                AppState.getInstance().normalUsersList,
+                AppState.getInstance().primeUsersList,
+                AppState.getInstance().adminUsersList);
+        if (status) {
+            UserService.saveNormalUser(AppState.getInstance().normalUsersList);
+            UserService.savePrimeUser(AppState.getInstance().primeUsersList);
+        }
     }
+
+    public void handleKickUser(String phonNumber){
+        User user = UserService.searchUserByPhoneNumber(phonNumber, AppState.getInstance().normalUsersList, AppState.getInstance().primeUsersList,
+                AppState.getInstance().adminUsersList);
+        if (user==null || user.getUserType().isAdmin()) return;
+        if (user.getUserType().getDisplayName().equals("Normal User")) {
+            NormalUser normalUser = (NormalUser)user;
+            AppState.getInstance().normalUsersList.removeUser(normalUser);
+            UserService.saveNormalUser(AppState.getInstance().normalUsersList);
+            return;
+        }
+        else {
+            PrimeUser primeUser = (PrimeUser) user;
+            AppState.getInstance().primeUsersList.removeUser(primeUser);
+            UserService.savePrimeUser(AppState.getInstance().primeUsersList);
+            return;
+        }
+    }
+
 
     public void showMainPage() {
         view.showMainProfile();

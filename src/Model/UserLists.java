@@ -71,6 +71,10 @@ public class UserLists {
         public void addUser(PrimeUser user) {
             users.add(user);
         }
+
+        public void removeUser(PrimeUser user) {
+            users.remove(user);
+        }
     }
 
 }

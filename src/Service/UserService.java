@@ -188,12 +188,15 @@ public class UserService {
     private static String getNewMemberShipCode(UserPrimeList primeUsers) {
         int maxId = 0;
 
-        for (PrimeUser user : primeUsers.getUsers()) {
-            String id = user.getMemberShipID();
-            if (user != null) {
-                int idNumber = Integer.parseInt(id.substring(4));
-                if (idNumber > maxId)
-                    maxId = idNumber;
+
+        if (primeUsers!=null){
+            for (PrimeUser user : primeUsers.getUsers()) {
+                String id = user.getMemberShipID();
+                if (user != null) {
+                    int idNumber = Integer.parseInt(id.substring(4));
+                    if (idNumber > maxId)
+                        maxId = idNumber;
+                }
             }
         }
 
@@ -270,18 +273,15 @@ public class UserService {
         }
         NormalUser normalUser = (NormalUser) user;
         PrimeUser primeUser = new PrimeUser(
-                null,
+                normalUser.getUserId(),
                 normalUser.getPhoneNumber(),
                 normalUser.getPassword(),
                 normalUser.getFirstName(),
                 normalUser.getLastName(),
-                null,
+                normalUser.getRegisterDate(),
                 normalUser.getBalance(),
                 null,
                 0, 0);
-
-        primeUser.setRegisterDate(normalUser.getRegisterDate());
-        primeUser.setUserId(normalUser.getUserId());
 
         String newId = getNewMemberShipCode(primeUsers);
         primeUser.setMemberShipID(newId);

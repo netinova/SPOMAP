@@ -104,13 +104,15 @@ public class UserProfileView extends JPanel {
         });
 
         // Manage User
-        mangeUserProfilePanel.addPropertyChangeListener(evt -> {
-            if (evt.getPropertyName().equals(MangeUserProfilePanel.SEARCH_FILED_PROP))
-                controller.onSearchPhoneChange(evt.getNewValue().toString());
-            if (evt.getPropertyName().equals(MangeUserProfilePanel.SEARCH_PROP))
-                controller.onSearchClicked(evt.getNewValue().toString());
-            if (evt.getPropertyName().equals(MangeUserProfilePanel.CANCEL_PROP))
-                controller.onCancelClick();
+        mangeUserProfilePanel.addActionListener(e -> {
+            switch (e.getActionCommand()){
+                case MangeUserProfilePanel.CANCEL_MANAGE_PROP ->mangeUserProfilePanel.showSearchView();
+                case MangeUserProfilePanel.KICK_PROP -> System.out.println("On kick click");
+                case MangeUserProfilePanel.CONVERT_TO_PRIME_PROP -> System.out.println("On Convert click");
+                case MangeUserProfilePanel.CANCEL_PROP -> controller.onCancelClick();
+                case MangeUserProfilePanel.SEARCH_PROP -> System.out.println("On search click");
+                case MangeUserProfilePanel.SEARCH_FILED_PROP -> System.out.println("user changed");
+            }
         });
     }
 
@@ -166,7 +168,12 @@ public class UserProfileView extends JPanel {
         mangeUserProfilePanel.loadView();
     }
 
+    public void loadInformationUser(String firstName, String lastName, String phoneNumber, String userId, String  userType, String registerDate,
+                                    String memberShipCode, double creditAmount, double debitAmount) {
+        mangeUserProfilePanel.loadData(firstName, lastName, phoneNumber, userId, userType , registerDate , memberShipCode , creditAmount , debitAmount);
+    }
     // switch view
+
     public void showEditProfile() {
         controller.loadEditProfile();
         cardLayout.show(cardPanel, "EDIT_PROFILE");
@@ -182,7 +189,8 @@ public class UserProfileView extends JPanel {
     }
 
     public void showMangeUsers() {
-        controller.loadMangeUsers();
+        controller.showSearchUser();
         cardLayout.show(cardPanel, "MANAGE_USERS");
     }
+
 }

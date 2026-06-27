@@ -1,23 +1,18 @@
-import java.util.Random;
-
-import View.*;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
+import Components.MultiViewPanel;
 import Controller.AppController;
 import Model.AppState;
-import Model.PrimeUser;
 import Model.Product;
 import Model.ProductCatalog;
-import Model.ShoppingCart;
 import Model.UserLists.UserAdminList;
 import Model.UserLists.UserNormalList;
 import Model.UserLists.UserPrimeList;
 import Service.UserService;
-import Components.MultiViewPanel;
+import View.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Locale;
 
 public class Main {
@@ -56,6 +51,10 @@ public class Main {
         UserNormalList normalUsersList = UserService.loadNormalUser();
         UserPrimeList primeUsersList = UserService.loadPrimeUser();
         UserAdminList adminUsersList = UserService.loadAdminUser();
+        if (primeUsersList==null)
+            primeUsersList = new UserPrimeList(new ArrayList<>());
+        if (normalUsersList==null)
+            normalUsersList = new UserNormalList(new ArrayList<>());
 
         AppState.getInstance().normalUsersList = normalUsersList;
         AppState.getInstance().primeUsersList = primeUsersList;

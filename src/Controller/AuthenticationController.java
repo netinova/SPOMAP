@@ -181,8 +181,16 @@ public class AuthenticationController {
                     AppState.getInstance().normalUsersList,
                     AppState.getInstance().primeUsersList,
                     AppState.getInstance().adminUsersList);
-            if (statusSingUp)
+            if (statusSingUp) {
                 System.out.println("successfully singUp");
+                User user = UserService.login(view.getSingUpPanel().getPhoneNumber(),view.getPassword(),
+                        AppState.getInstance().normalUsersList,
+                        AppState.getInstance().primeUsersList,
+                        AppState.getInstance().adminUsersList);
+                AppState.getInstance().setLoggedInUser(user);
+                AppState.getInstance().setCart(new ShoppingCart());
+                listener.changeView(ViewType.USER.getViewId());
+            }
         }
 
     }
