@@ -1,6 +1,8 @@
 package Controller;
 
+import Components.AddProductPanel;
 import Model.*;
+import Service.ProductService;
 import Service.UserService;
 import Util.PasswordHasher;
 import Util.Validator;
@@ -10,9 +12,14 @@ public class UserProfileController {
 
     private UserProfileView view;
     private OnChangeViewListener listener;
+    private ProductCatalog productCatalog;
 
     public void setView(UserProfileView view) {
         this.view = view;
+    }
+
+    public void setProductCatalog(ProductCatalog productCatalog) {
+        this.productCatalog = productCatalog;
     }
 
     public void setOnChangeViewListener(OnChangeViewListener listener) {
@@ -77,6 +84,18 @@ public class UserProfileController {
 
     public Validator.ValidationResult validateConfirmPassword(String password, String confirmPassword) {
         return Validator.validateConfirmPassword(password, confirmPassword);
+    }
+
+    public Validator.ValidationResult validationName(String name) {
+        return Validator.validationName(name);
+    }
+
+    public Validator.ValidationResult validationQuery(String name, String pattern) {
+        return Validator.validationQueryEmpty(name, pattern);
+    }
+
+    public Validator.ValidationResult validationFileAddress(String name) {
+        return Validator.validationImageAddress(name);
     }
 
     public boolean fullValidator(String fName, String lName, String phoneNumber, String currentPassword, String newPassword, String confirmPassword) {
@@ -159,8 +178,8 @@ public class UserProfileController {
                 user.getPhoneNumber()
         );
     }
-
     // listener edit profile
+
     public void onPhoneNumberChange(String value) {
         System.out.println("Phone changed: " + value);
     }
@@ -185,8 +204,8 @@ public class UserProfileController {
         System.out.println("Confirm password changed");
     }
 
-
     // --------------- Charge wallet ------------------
+
     public void loadChargeWalletData() {
         User user = AppState.getInstance().getLoggedInUser();
         if (user == null || view == null)
@@ -194,11 +213,11 @@ public class UserProfileController {
         view.loadChargeWalletData(String.format("%.2f", user.getBalance()));
     }
 
-    public Validator.ValidationResult validateAmount(String amount) {
+    public Validator.ValidationResult validateDouble(String amount) {
         return Validator.validationDouble(amount);
     }
-
     // listener Charging
+
     public void onAmountChange(String value) {
         System.out.println("Amount changed: " + value);
     }
@@ -219,8 +238,8 @@ public class UserProfileController {
     public void onCancelClick() {
         showMainPage();
     }
-
     // Mange Users
+
     public void showSearchUser() {
         view.loadManageUsers();
     }
@@ -265,23 +284,118 @@ public class UserProfileController {
         }
     }
 
-    public void handleKickUser(String phonNumber){
+    public void handleKickUser(String phonNumber) {
         User user = UserService.searchUserByPhoneNumber(phonNumber, AppState.getInstance().normalUsersList, AppState.getInstance().primeUsersList,
                 AppState.getInstance().adminUsersList);
-        if (user==null || user.getUserType().isAdmin()) return;
+        if (user == null || user.getUserType().isAdmin()) return;
         if (user.getUserType().getDisplayName().equals("Normal User")) {
-            NormalUser normalUser = (NormalUser)user;
+            NormalUser normalUser = (NormalUser) user;
             AppState.getInstance().normalUsersList.removeUser(normalUser);
             UserService.saveNormalUser(AppState.getInstance().normalUsersList);
             return;
-        }
-        else {
+        } else {
             PrimeUser primeUser = (PrimeUser) user;
             AppState.getInstance().primeUsersList.removeUser(primeUser);
             UserService.savePrimeUser(AppState.getInstance().primeUsersList);
             return;
         }
     }
+
+
+    //add product
+    public void handleAddProduct(AddProductPanel panel) {
+        if (panel == null || productCatalog == null) return;
+
+        // validation
+        String name = panel.getProductName();
+        String priceStr = panel.getPriceText();
+        String discountStr = panel.getDiscountText();
+
+        int temp = 0;
+
+        var result = Validator.validationQueryEmpty(name , "Product name");
+        if (!result.isValid()) {
+            panel.showNameError(result.getErrorMessage());
+            temp++;
+        }
+
+        var priceResult = Validator.validationDouble(priceStr);
+        if (!priceResult.isValid()) {
+            panel.showPriceError(priceResult.getErrorMessage());
+            temp++;
+        }
+
+        double discount = 0;
+        result = validationQuery(discountStr, "0 - 100");
+        if (result.isValid()) {
+            var discResult = Validator.validationDouble(discountStr);
+            if (!discResult.isValid()) {
+                panel.showDiscountError("Enter a valid discount (0-100)");
+                temp++;
+            } else {
+                discount = Double.parseDouble(discountStr);
+                if (discount < 0 || discount > 100) {
+                    panel.showDiscountError("Must be between 0 and 100");
+                    temp++;
+                }
+            }
+        }
+        else
+            panel.showDiscountError(result.getErrorMessage());
+
+
+
+        if (temp!=0) return;
+
+
+        // build product
+        Product product = new Product();
+        product.setId(ProductService.generateProductId(productCatalog));
+        product.setName(name);
+        product.setPrice(Double.parseDouble(priceStr));
+        product.setDiscount(discount);
+        product.setManufacturer(panel.getManufacturer());
+        product.setThumbnail(panel.getProductImages()[0]);
+        product.setProductImages(panel.getProductImages());
+        product.setDescription(panel.getDescription());
+        product.setTechnicalSpecs(panel.getTechnicalSpecs());
+        if (panel.getSelectedColors()==null)
+            panel.getSelectedColors()[0]=ProductColor.Default;
+        product.setColors(panel.getSelectedColors());
+
+
+        productCatalog.addProduct(product);
+        ProductService.saveProducts(productCatalog);
+
+        showMainPage();
+    }
+
+    // listener
+    public void onNameProductChange(String newValue) {
+        System.out.println("name product: "+ newValue);
+    }
+
+    public void onPriceProductChange(String string) {
+        System.out.println("Price product: "+ string);
+    }
+
+    public void onDiscountProductChange(String string) {
+        System.out.println("Discount product: "+ string);
+    }
+
+    public void onManufacturerProductChange(String string) {
+        System.out.println("Manufacturer product: "+ string);
+    }
+
+    public void onDescriptionProductChange(String string) {
+        System.out.println("Description product: "+ string);
+    }
+
+    public void onSaveClicked() {
+        System.out.println("On save Clicked");
+
+    }
+
 
 
     public void showMainPage() {

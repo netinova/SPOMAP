@@ -1,9 +1,6 @@
 package View;
 
-import Components.ChargeWalletPanel;
-import Components.MangeUserProfilePanel;
-import Components.ProfileMainPanel;
-import Components.UserProfileEditPanel;
+import Components.*;
 import Controller.UserProfileController;
 import Model.UserType;
 import Util.ColorPalette;
@@ -20,6 +17,7 @@ public class UserProfileView extends JPanel {
     private UserProfileEditPanel userProfileEditPanel;
     private ChargeWalletPanel chargeWalletPanel;
     private MangeUserProfilePanel mangeUserProfilePanel;
+    private AddProductPanel productPanel;
 
     private CardLayout cardLayout;
     private JPanel cardPanel;
@@ -46,15 +44,18 @@ public class UserProfileView extends JPanel {
         userProfileEditPanel = new UserProfileEditPanel();
         chargeWalletPanel = new ChargeWalletPanel();
         mangeUserProfilePanel = new MangeUserProfilePanel();
+        productPanel = new AddProductPanel();
 
         userProfileEditPanel.setController(controller);
         chargeWalletPanel.setController(controller);
         mangeUserProfilePanel.setController(controller);
+        productPanel.setController(controller);
 
         cardPanel.add(profileMainView, "MAIN");
         cardPanel.add(userProfileEditPanel, "EDIT_PROFILE");
         cardPanel.add(chargeWalletPanel, "CHARGE_WALLET");
         cardPanel.add(mangeUserProfilePanel, "MANAGE_USERS");
+        cardPanel.add(productPanel,"ADD_PRODUCT");
 
         this.add(cardPanel);
     }
@@ -73,7 +74,7 @@ public class UserProfileView extends JPanel {
                 case ProfileMainPanel.EDIT_PROFILE_PROP -> showEditProfile();
                 case ProfileMainPanel.MANAGE_USER_PROP -> showMangeUsers();
                 case ProfileMainPanel.LOG_SHOP_PROP -> System.out.println("Clicked status shop");
-                case ProfileMainPanel.ADD_PRODUCT_PROP -> System.out.println("Clicked add product");
+                case ProfileMainPanel.ADD_PRODUCT_PROP -> showProductPanel();
             }
         });
 
@@ -113,6 +114,24 @@ public class UserProfileView extends JPanel {
                 case MangeUserProfilePanel.SEARCH_PROP -> System.out.println("On search click");
                 case MangeUserProfilePanel.SEARCH_FILED_PROP -> System.out.println("user changed");
             }
+        });
+
+        //add Product
+        productPanel.addPropertyChangeListener(evt -> {
+            if (evt.getPropertyName().equals(AddProductPanel.NAME_PROP))
+                controller.onNameProductChange(evt.getNewValue().toString());
+            if (evt.getPropertyName().equals(AddProductPanel.PRICE_PROP))
+                controller.onPriceProductChange(evt.getNewValue().toString());
+            if (evt.getPropertyName().equals(AddProductPanel.DISCOUNT_PROP))
+                controller.onDiscountProductChange(evt.getNewValue().toString());
+            if (evt.getPropertyName().equals(AddProductPanel.MANUFACTURER_PROP))
+                controller.onManufacturerProductChange(evt.getNewValue().toString());
+            if (evt.getPropertyName().equals(AddProductPanel.DESCRIPTION_PROP))
+                controller.onDescriptionProductChange(evt.getNewValue().toString());
+            if (evt.getPropertyName().equals(AddProductPanel.SAVE_PROP))
+                controller.onSaveClicked();
+            if (evt.getPropertyName().equals(AddProductPanel.CANCEL_PROP))
+                controller.onCancelClick();
         });
     }
 
@@ -191,6 +210,10 @@ public class UserProfileView extends JPanel {
     public void showMangeUsers() {
         controller.showSearchUser();
         cardLayout.show(cardPanel, "MANAGE_USERS");
+    }
+
+    public void showProductPanel(){
+        cardLayout.show(cardPanel, "ADD_PRODUCT");
     }
 
 }

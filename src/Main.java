@@ -6,6 +6,7 @@ import Model.ProductCatalog;
 import Model.UserLists.UserAdminList;
 import Model.UserLists.UserNormalList;
 import Model.UserLists.UserPrimeList;
+import Service.ProductService;
 import Service.UserService;
 import View.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -41,7 +42,7 @@ public class Main {
 
         ObjectMapper objectMapper = new ObjectMapper();
 
-        ProductCatalog temp = objectMapper.readValue(new File("database/products.json"), ProductCatalog.class);
+        ProductCatalog temp = ProductService.loadProducts();
         for (Product product : temp.getProducts()) {
             products.addProduct(product);
         }

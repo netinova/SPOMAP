@@ -1,5 +1,7 @@
 package Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * Interface for items that can be added to a shopping cart.
  * Provides common methods for cart operations.
@@ -29,6 +31,8 @@ public interface Purchasable {
     /**
      * Get the final price after applying discount
      */
+
+    @JsonIgnore
     default double getFinalPrice() {
         return getPrice() * (1 - getDiscount() / 100);
     }

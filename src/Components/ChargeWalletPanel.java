@@ -70,7 +70,7 @@ public class ChargeWalletPanel extends JPanel {
         amountInputFiled = new FormTextFiledPanel("Amount", amountInputText, AMOUNT_PROP);
         amountInputFiled.setAlignmentX(CENTER_ALIGNMENT);
         amountInputText.addActionListener(e -> {
-            var result = controller.validateAmount(amountInputText.getText());
+            var result = controller.validateDouble(amountInputText.getText());
             if (result.isValid())
                 amountInputFiled.clearError();
             else
@@ -85,7 +85,7 @@ public class ChargeWalletPanel extends JPanel {
         btnPanel.setAlignmentX(CENTER_ALIGNMENT);
 
         chargeBtn.addActionListener(e -> {
-            var result = controller.validateAmount(amountInputText.getText());
+            var result = controller.validateDouble(amountInputText.getText());
             if (result.isValid())
                 amountInputFiled.clearError();
             else

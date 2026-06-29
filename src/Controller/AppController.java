@@ -31,6 +31,8 @@ public class AppController {
         this.profileController = new UserProfileController();
         this.shoppingCartController = new ShoppingCartController(productCatalog);
         this.productController = new ProductController();
+
+        this.profileController.setProductCatalog(productCatalog);
     }
 
     public void setViews(ShopView shopView, NavigationView navigationView,
