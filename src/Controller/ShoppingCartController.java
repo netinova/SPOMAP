@@ -4,6 +4,7 @@ import javax.swing.JOptionPane;
 
 import Model.AppState;
 import Model.CartItem;
+import Model.Invoice;
 import Model.ProductCatalog;
 import Model.ShoppingCart;
 import Model.User;
@@ -87,6 +88,10 @@ public class ShoppingCartController {
             // item.getProduct().reduceStock(item.getQuantity());
             // }
             // user.deductBalance(finalTotal);
+
+            @SuppressWarnings("unused")
+            Invoice invoice = Invoice.fromCart(cart, user);
+
             cart.clear();
         } else {
             // Insufficient funds
