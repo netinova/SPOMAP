@@ -350,6 +350,9 @@ public class MangeUserProfilePanel extends JPanel {
 
     public void loadData(String firstName, String lastName, String phoneNumber, String userId, String userType, String registerDate, String memberShipCode,
                          double creditAmount, double debitAmount) {
+        kickButton.setVisible(true);
+        convertButton.setVisible(true);
+
         if (memberShipCode==null){
             memberShipIdPanel.setVisible(false);
             creditFiledPanel.setVisible(false);
@@ -361,13 +364,14 @@ public class MangeUserProfilePanel extends JPanel {
             creditField.setText(String.format("%.2f",creditAmount));
             debitField.setText(String.format("%.2f",debitAmount));
             convertButton.setVisible(false);
+            memberShipIdPanel.setVisible(true);
+            creditFiledPanel.setVisible(true);
+            debitFiledPanel.setVisible(true);
         }
         if (userType.equals("Administrator")){
             convertButton.setVisible(false);
             kickButton.setVisible(false);
         }
-        kickButton.setVisible(true);
-        convertButton.setVisible(true);
         firstNameField.setText(firstName);
         lastNameField.setText(lastName);
         phoneNumberField.setText(phoneNumber);

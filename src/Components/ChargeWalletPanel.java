@@ -91,7 +91,8 @@ public class ChargeWalletPanel extends JPanel {
             else
                 amountInputFiled.setError(result.getErrorMessage());
 
-            support.firePropertyChange(CHARGE_PROP, null, Double.valueOf(amountInputText.getText()));
+            if (result.isValid())
+                support.firePropertyChange(CHARGE_PROP, null, Double.valueOf(amountInputText.getText()));
         });
         
         cancelBtn.addActionListener(e -> {
@@ -135,5 +136,6 @@ public class ChargeWalletPanel extends JPanel {
     public void loadUserData(String balance) {
         balanceInputText.setText(balance);
         amountInputText.setActivePlaceHolder(true);
+        amountInputFiled.clearError();
     }
 }

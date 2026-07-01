@@ -5,11 +5,10 @@ import Controller.UserProfileController;
 import Model.UserType;
 import Util.ColorPalette;
 
-import javax.swing.JPanel;
+import javax.swing.*;
+import javax.swing.plaf.basic.BasicScrollBarUI;
 
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import java.awt.Dimension;
+import java.awt.*;
 
 public class UserProfileView extends JPanel {
 
@@ -51,13 +50,22 @@ public class UserProfileView extends JPanel {
         mangeUserProfilePanel.setController(controller);
         productPanel.setController(controller);
 
-        cardPanel.add(profileMainView, "MAIN");
+        // scroll
+        JScrollPane profileScroll = new JScrollPane(profileMainView);
+        profileScroll.setBorder(null);
+        profileScroll.setOpaque(false);
+        profileScroll.getViewport().setOpaque(false);
+        profileScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        profileScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        styleScrollBar(profileScroll.getVerticalScrollBar());
+
+        cardPanel.add(profileScroll, "MAIN");
         cardPanel.add(userProfileEditPanel, "EDIT_PROFILE");
         cardPanel.add(chargeWalletPanel, "CHARGE_WALLET");
         cardPanel.add(mangeUserProfilePanel, "MANAGE_USERS");
         cardPanel.add(productPanel,"ADD_PRODUCT");
 
-        this.add(cardPanel);
+        this.add(cardPanel, BorderLayout.CENTER);
     }
 
     public void loadUserData() {
@@ -75,6 +83,7 @@ public class UserProfileView extends JPanel {
                 case ProfileMainPanel.MANAGE_USER_PROP -> showMangeUsers();
                 case ProfileMainPanel.LOG_SHOP_PROP -> System.out.println("Clicked status shop");
                 case ProfileMainPanel.ADD_PRODUCT_PROP -> showProductPanel();
+                case ProfileMainPanel.SHOPPING_CART_PROP -> controller.showShopingCart();
             }
         });
 
@@ -216,4 +225,49 @@ public class UserProfileView extends JPanel {
         cardLayout.show(cardPanel, "ADD_PRODUCT");
     }
 
+    private void styleScrollBar(JScrollBar bar) {
+        bar.setUI(new BasicScrollBarUI() {
+            @Override
+            protected void configureScrollBarColors() {
+                this.trackColor = ColorPalette.BG_MAIN;
+                this.thumbColor = ColorPalette.BG_TERTIARY;
+            }
+
+            @Override
+            protected JButton createDecreaseButton(int o) {
+                return zeroBtn();
+            }
+
+            @Override
+            protected JButton createIncreaseButton(int o) {
+                return zeroBtn();
+            }
+
+            private JButton zeroBtn() {
+                JButton b = new JButton();
+                b.setPreferredSize(new Dimension(0, 0));
+                b.setMinimumSize(new Dimension(0, 0));
+                b.setMaximumSize(new Dimension(0, 0));
+                return b;
+            }
+
+            @Override
+            protected void paintThumb(Graphics g, JComponent c, Rectangle r) {
+                if (r.isEmpty() || !scrollbar.isEnabled()) return;
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setColor(thumbColor);
+                g2.fillRoundRect(r.x, r.y, r.width - 1, r.height - 1, 8, 8);
+                g2.dispose();
+            }
+
+            @Override
+            protected void paintTrack(Graphics g, JComponent c, Rectangle r) {
+                g.setColor(trackColor);
+                g.fillRect(r.x, r.y, r.width, r.height);
+            }
+        });
+        bar.setPreferredSize(new Dimension(8, 0));
+        bar.setUnitIncrement(16);
+    }
 }

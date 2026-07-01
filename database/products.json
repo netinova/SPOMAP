@@ -2,7 +2,7 @@
   "products": [
     {
       "name": "Game board Koodeta COUP+",
-      "id": "0",
+      "id": "PRD_000000",
       "thumbnail": "database/pictures/Game_Board_Coodeta_1.png",
       "productImages": [
         "database/pictures/Game_Board_Coodeta_1.png",
@@ -21,7 +21,7 @@
     },
     {
       "name": "barbari bread",
-      "id": "1",
+      "id": "PRD_000001",
       "thumbnail": "database/pictures/Barbari.png",
       "productImages": ["database/pictures/Barbari.png"],
       "description": "a perfect iranain bread",
@@ -33,7 +33,7 @@
     },
     {
       "name": "Hoody Palangi",
-      "id": "2",
+      "id": "PRD_000002",
       "thumbnail": "database/pictures/OG_Hood_1.png",
       "productImages": [
         "database/pictures/OG_Hood_1.png",
@@ -52,7 +52,7 @@
     },
     {
       "name": "B2",
-      "id": "3",
+      "id": "PRD_000003",
       "thumbnail": "database/pictures/B2_1.png",
       "productImages": [
         "database/pictures/B2_1.png",
@@ -67,7 +67,7 @@
     },
     {
       "name": "UmBoul",
-      "id": "4",
+      "id": "PRD_000004",
       "thumbnail": null,
       "productImages": [],
       "description": "saghol for choosing UnBoul - Your product is on its way from cabol",
@@ -79,7 +79,7 @@
     },
     {
       "name": "Karambit knife CS2",
-      "id": "5",
+      "id": "PRD_000005",
       "thumbnail": "database/pictures/karambit_1.png",
       "productImages": [
         "database/pictures/karambit_1.png",
@@ -101,7 +101,7 @@
     },
     {
       "name": "Headphones",
-      "id": "6",
+      "id": "PRD_000006",
       "thumbnail": "database/pictures/headphones_thumb.png",
       "productImages": [
         "database/pictures/headphones_thumb.png",
@@ -120,7 +120,7 @@
     },
     {
       "name": "Apple Watch Ultra 2",
-      "id": "7",
+      "id": "PRD_000007",
       "thumbnail": "database/pictures/appel_watch_black.png",
       "productImages": [
         "database/pictures/appel_watch_black.png",
@@ -149,7 +149,7 @@
     },
     {
       "name": "WD 2TB My Passport",
-      "id": "8",
+      "id": "PRD_000008",
       "thumbnail": "database/pictures/WD_HHD_1.png",
       "productImages": [
         "database/pictures/WD_HHD_1.png",
@@ -170,7 +170,7 @@
     },
     {
       "name": "CORSAIR Vengeance RGB DDR5 RAM 32GB (2x16GB) 6400MHz",
-      "id": "9",
+      "id": "PRD_000009",
       "thumbnail": "database/pictures/Ram_Vengeance_1.png",
       "productImages": [
         "database/pictures/Ram_Vengeance_1.png",
@@ -189,7 +189,7 @@
     },
     {
       "name": "ASUS ProArt Display PA278QV 27” WQHD ",
-      "id": "10",
+      "id": "PRD_000010",
       "thumbnail": "database/pictures/ASUS_ProArt_Display_1.png",
       "productImages": [
         "database/pictures/ASUS_ProArt_Display_1.png",
@@ -211,7 +211,7 @@
     },
     {
       "name": "TAMASHII NATIONS - Naruto Shippuden",
-      "id": "11",
+      "id": "PRD_000011",
       "thumbnail": "database/pictures/TAMASHII_NATIONS_Naruto_Shippuden_1.png",
       "productImages": [
         "database/pictures/TAMASHII_NATIONS_Naruto_Shippuden_1.png",

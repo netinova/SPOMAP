@@ -3,28 +3,18 @@ package Components;
 import Model.UserType;
 import Util.ColorPalette;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.EventListenerList;
+import javax.swing.plaf.basic.BasicScrollBarUI;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Image;
-import java.awt.Insets;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ProfileMainPanel extends JPanel {
 
-    private final int borderRadius = 20;
+    private final int borderRadius = 25;
 
     private RoundedPanel userHeader;
     private RoundedPanel statsMiddle;
@@ -34,7 +24,10 @@ public class ProfileMainPanel extends JPanel {
     private RoundedButton editProfile;
     private RoundedButton manageUserBtn;
     private RoundedButton logShopBtn;
-    private RoundedButton addProductBtn;// TODO: fuhh
+    private RoundedButton addProductBtn;
+    private RoundedButton viewInvoiceBtn;
+    private RoundedButton shoppingCartBtn;
+    private RoundedButton settingBtn;
 
     private JLabel nameLabel;
     private JLabel typeLabel;
@@ -49,6 +42,7 @@ public class ProfileMainPanel extends JPanel {
     private JPanel primePanel;
     private JPanel adminPanel;
     private JPanel logoutPanel;
+    private JPanel quickAction;
 
     private EventListenerList listenerList = new EventListenerList();
 
@@ -72,6 +66,9 @@ public class ProfileMainPanel extends JPanel {
     public static final String MANAGE_USER_PROP = "manageUser";
     public static final String LOG_SHOP_PROP = "logShop";
     public static final String ADD_PRODUCT_PROP = "addProduct";
+    public static final String SHOPPING_CART_PROP = "shoppingCart";
+    public static final String INVOICE_PROP = "invoice";
+    public static final String SETTING_PROP = "setting";
 
 
     public ProfileMainPanel() {
@@ -106,6 +103,11 @@ public class ProfileMainPanel extends JPanel {
         adminPanel.setAlignmentX(LEFT_ALIGNMENT);
         adminPanel.setVisible(false);
         this.add(adminPanel);
+
+        this.add(Box.createVerticalStrut(25));
+        quickAction = createQuickActionPanel();
+        quickAction.setAlignmentX(LEFT_ALIGNMENT);
+        this.add(quickAction);
 
         this.add(Box.createVerticalStrut(25));
         logoutPanel = crateLogoutPanel();
@@ -277,36 +279,100 @@ public class ProfileMainPanel extends JPanel {
 
     private JPanel createAdminPanel() {
         RoundedPanel panel = new RoundedPanel(borderRadius, ColorPalette.BG_SECONDARY, ColorPalette.ACCENT_WARNING);
-        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBorder(new EmptyBorder(20, 30, 20, 30));
-        panel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 80));
+        panel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 200));
 
         JLabel title = new JLabel("Admin Controls");
-        title.setFont(new Font("Arial", Font.BOLD, 14));
+        title.setFont(new Font("Arial", Font.BOLD, 23));
         title.setForeground(ColorPalette.TEXT_PRIMARY);
+        title.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.add(title);
 
-        panel.add(Box.createHorizontalGlue());
+        panel.add(Box.createVerticalStrut(8));
+
+        JPanel btnPanel = new JPanel();
+        btnPanel.setLayout(new FlowLayout(FlowLayout.CENTER,15,30));
+        btnPanel.setOpaque(false);
 
         manageUserBtn = new RoundedButton("Manage Users", borderRadius);
-        manageUserBtn.setPreferredSize(new Dimension(150, 40));
+        manageUserBtn.setPreferredSize(new Dimension(250, 70));
+        manageUserBtn.setMaximumSize(new Dimension(250, 70));
+        manageUserBtn.setFont(new Font("Arial", Font.BOLD, 17));
         manageUserBtn.setBackground(ColorPalette.ACCENT_WARNING);
         manageUserBtn.setForeground(ColorPalette.TEXT_PRIMARY);
-        panel.add(manageUserBtn);
-        panel.add(Box.createHorizontalStrut(10));
+        btnPanel.add(manageUserBtn);
+        btnPanel.add(Box.createHorizontalStrut(10));
+//        panel.add(Box.createHorizontalStrut(10));
 
         logShopBtn = new RoundedButton("Status Shop", borderRadius);
-        logShopBtn.setPreferredSize(new Dimension(150, 40));
+        logShopBtn.setPreferredSize(new Dimension(250, 70));
+        logShopBtn.setMaximumSize(new Dimension(250, 70));
+        logShopBtn.setFont(new Font("Arial", Font.BOLD, 17));
         logShopBtn.setBackground(ColorPalette.ACCENT_WARNING);
         logShopBtn.setForeground(ColorPalette.TEXT_PRIMARY);
-        panel.add(logShopBtn);
-        panel.add(Box.createHorizontalStrut(10));
+        btnPanel.add(logShopBtn);
+        btnPanel.add(Box.createHorizontalStrut(10));
+//        panel.add(Box.createHorizontalStrut(10));
 
         addProductBtn = new RoundedButton("Add Product", borderRadius);
-        addProductBtn.setPreferredSize(new Dimension(150, 40));
+        addProductBtn.setPreferredSize(new Dimension(250, 70));
+        addProductBtn.setMaximumSize(new Dimension(250, 70));
+        addProductBtn.setFont(new Font("Arial", Font.BOLD, 17));
         addProductBtn.setBackground(ColorPalette.ACCENT_WARNING);
         addProductBtn.setForeground(ColorPalette.TEXT_PRIMARY);
-        panel.add(addProductBtn);
+        btnPanel.add(addProductBtn);
+
+        panel.add(btnPanel);
+
+        return panel;
+    }
+
+    private JPanel createQuickActionPanel() {
+        RoundedPanel panel = new RoundedPanel(borderRadius, ColorPalette.BG_SECONDARY, ColorPalette.ACCENT_WARNING);
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setBorder(new EmptyBorder(20, 30, 20, 30));
+        panel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 200));
+
+        JLabel title = new JLabel("Quick Actions");
+        title.setFont(new Font("Arial", Font.BOLD, 23));
+        title.setForeground(ColorPalette.TEXT_PRIMARY);
+        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panel.add(title);
+
+        panel.add(Box.createVerticalStrut(8));
+
+        JPanel btnPanel = new JPanel();
+        btnPanel.setLayout(new FlowLayout(FlowLayout.CENTER,15,30));
+        btnPanel.setOpaque(false);
+
+        viewInvoiceBtn = new RoundedButton("View Invoices", borderRadius);
+        viewInvoiceBtn.setPreferredSize(new Dimension(250, 70));
+        viewInvoiceBtn.setMaximumSize(new Dimension(250, 70));
+        viewInvoiceBtn.setFont(new Font("Arial", Font.BOLD, 17));
+        viewInvoiceBtn.setBackground(ColorPalette.ACCENT_WARNING);
+        viewInvoiceBtn.setForeground(ColorPalette.TEXT_PRIMARY);
+        btnPanel.add(viewInvoiceBtn);
+        btnPanel.add(Box.createHorizontalStrut(10));
+
+        shoppingCartBtn = new RoundedButton("Shopping Cart", borderRadius);
+        shoppingCartBtn.setPreferredSize(new Dimension(250, 70));
+        shoppingCartBtn.setMaximumSize(new Dimension(250, 70));
+        shoppingCartBtn.setFont(new Font("Arial", Font.BOLD, 17));
+        shoppingCartBtn.setBackground(ColorPalette.ACCENT_WARNING);
+        shoppingCartBtn.setForeground(ColorPalette.TEXT_PRIMARY);
+        btnPanel.add(shoppingCartBtn);
+        btnPanel.add(Box.createHorizontalStrut(10));
+
+        settingBtn = new RoundedButton("Setting", borderRadius);
+        settingBtn.setPreferredSize(new Dimension(250, 70));
+        settingBtn.setMaximumSize(new Dimension(250, 70));
+        settingBtn.setFont(new Font("Arial", Font.BOLD, 17));
+        settingBtn.setBackground(ColorPalette.ACCENT_WARNING);
+        settingBtn.setForeground(ColorPalette.TEXT_PRIMARY);
+        btnPanel.add(settingBtn);
+
+        panel.add(btnPanel);
 
         return panel;
     }
@@ -323,21 +389,20 @@ public class ProfileMainPanel extends JPanel {
                 adminPanel.setVisible(true);
                 statsMiddle.setVisible(false);
                 primePanel.setVisible(false);
+                quickAction.setVisible(false);
                 break;
             case PRIME:
                 primePanel.setVisible(true);
                 statsMiddle.setVisible(true);
                 adminPanel.setVisible(false);
+                quickAction.setVisible(true);
                 break;
             case NORMAL:
                 adminPanel.setVisible(false);
                 primePanel.setVisible(false);
                 statsMiddle.setVisible(true);
+                quickAction.setVisible(true);
                 break;
-        }
-        switch (type) {
-            case ADMIN -> adminPanel.setVisible(true);
-            case PRIME -> primePanel.setVisible(true);
         }
 
         revalidate();
@@ -361,5 +426,8 @@ public class ProfileMainPanel extends JPanel {
         manageUserBtn.addActionListener(e -> fireActionEvent(MANAGE_USER_PROP));
         logShopBtn.addActionListener(e -> fireActionEvent(LOG_SHOP_PROP));
         addProductBtn.addActionListener(e -> fireActionEvent(ADD_PRODUCT_PROP));
+        shoppingCartBtn.addActionListener(e -> fireActionEvent(SHOPPING_CART_PROP));
+        settingBtn.addActionListener(e -> fireActionEvent(SETTING_PROP));
+        viewInvoiceBtn.addActionListener(e -> fireActionEvent(INVOICE_PROP));
     }
 }

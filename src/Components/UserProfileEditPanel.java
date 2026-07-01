@@ -232,12 +232,12 @@ public class UserProfileEditPanel extends JPanel {
         buttonPanel.setOpaque(false);
 
         saveButton = new RoundedButton("Save", 15);
-        saveButton.setPreferredSize(new Dimension(120, 30));
+        saveButton.setPreferredSize(new Dimension(100, 30));
         saveButton.setBackground(new Color(75, 173, 79));
         saveButton.setForeground(Color.WHITE);
 
         cancelButton = new RoundedButton("Cancel", 15);
-        cancelButton.setPreferredSize(new Dimension(120, 30));
+        cancelButton.setPreferredSize(new Dimension(100, 30));
         cancelButton.setBackground(new Color(0xde3c2f));
         cancelButton.setHoverColor(new Color(0xAD3225));
         cancelButton.setForeground(ColorPalette.TEXT_PRIMARY);
