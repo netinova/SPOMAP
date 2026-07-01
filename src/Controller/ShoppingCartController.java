@@ -9,9 +9,11 @@ import Model.ProductCatalog;
 import Model.ShoppingCart;
 import Model.User;
 import Model.ViewType;
+import Service.InvoiceService;
 
 public class ShoppingCartController {
 
+    private InvoiceService invoiceService;
     private ProductCatalog model;
     private OnChangeViewListener listener;
 
@@ -19,8 +21,9 @@ public class ShoppingCartController {
         this.listener = listener;
     }
 
-    public ShoppingCartController(ProductCatalog model) {
+    public ShoppingCartController(ProductCatalog model, InvoiceService invoiceService) {
         this.model = model;
+        this.invoiceService = invoiceService;
     }
 
     public void handleItemCardClick(CartItem cartItem) {
@@ -84,17 +87,17 @@ public class ShoppingCartController {
 
             // Success
 
-            // for (CartItem item : cart.getItems()) {
-            // item.getProduct().reduceStock(item.getQuantity());
-            // }
-            // user.deductBalance(finalTotal);
+            for (CartItem item : cart.getItems()) {
+                item.getProduct().reduceStock(item.getQuantity());
+            }
+            user.deductBalance(finalTotal);
 
-            @SuppressWarnings("unused")
             Invoice invoice = Invoice.fromCart(cart, user);
+            invoiceService.addInvoice(invoice);
 
             cart.clear();
         } else {
-            // Insufficient funds
+            System.out.println("Insufficient funds!");
         }
     }
 }

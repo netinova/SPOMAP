@@ -13,7 +13,8 @@ public class NormalUser extends User {
     }
 
     // read User
-    public NormalUser(String userId, String phoneNumber, String hashedPassword, String firstName, String lastName, LocalDateTime registerDate,
+    public NormalUser(String userId, String phoneNumber, String hashedPassword, String firstName, String lastName,
+            LocalDateTime registerDate,
             double balance) {
         super(userId, phoneNumber, hashedPassword, firstName, lastName, registerDate, balance);
         this.userType = UserType.NORMAL;

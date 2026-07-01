@@ -7,6 +7,7 @@ import Model.AppState;
 import Model.Product;
 import Model.ProductCatalog;
 import Model.ShoppingCart;
+import Service.InvoiceService;
 import View.NavigationView;
 import View.ProductView;
 import View.ShopView;
@@ -26,7 +27,9 @@ public class Main {
 
         ProductCatalog products = new ProductCatalog();
 
-        AppController appController = new AppController(products);
+        InvoiceService invoiceService = new InvoiceService();
+
+        AppController appController = new AppController(products, invoiceService);
 
         ShopView shopView = new ShopView(appController.getShopController(), products);
         NavigationView navigationView = new NavigationView(appController.getNavigationController());

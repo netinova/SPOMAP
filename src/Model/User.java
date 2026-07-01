@@ -2,8 +2,8 @@ package Model;
 
 import java.time.LocalDateTime;
 
-import Util.LocalDateTimeDeserializer;
 import Util.LocalDateTimeSerializer;
+import Util.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;

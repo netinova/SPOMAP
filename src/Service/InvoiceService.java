@@ -2,8 +2,12 @@ package Service;
 
 import Model.Invoice;
 import Model.InvoiceStatus;
+import Util.LocalDateTimeDeserializer;
+import Util.LocalDateTimeSerializer;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,6 +23,11 @@ public class InvoiceService {
     public InvoiceService() {
         this.mapper = new ObjectMapper();
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
+
+        SimpleModule module = new SimpleModule();
+        module.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer());
+        module.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer());
+        mapper.registerModule(module);
 
         initializeDatabase();
     }

@@ -1,0 +1,24 @@
+[
+  {
+    "invoiceId": "INV_000001",
+    "userId": "ADM_000001",
+    "items": [
+      {
+        "productId": "1",
+        "productName": "barbari bread",
+        "unitPrice": 1.0,
+        "quantity": 5,
+        "discount": 10.0
+      },
+      {
+        "productId": "6",
+        "productName": "Headphones",
+        "unitPrice": 30.0,
+        "quantity": 2,
+        "discount": 5.0
+      }
+    ],
+    "invoiceDate": "2026-07-01 22:33:51",
+    "status": "Paid"
+  }
+]

@@ -7,8 +7,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-import Util.LocalDateTimeDeserializer;
 import Util.LocalDateTimeSerializer;
+import Util.LocalDateTimeDeserializer;
 
 public class Invoice {
     private String invoiceId;
@@ -17,7 +17,7 @@ public class Invoice {
 
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    private LocalDateTime InvoiceDate;
+    private LocalDateTime invoiceDate;
 
     private InvoiceStatus status;
 
@@ -27,7 +27,7 @@ public class Invoice {
         this.invoiceId = invoiceId;
         this.userId = userId;
         this.items = items;
-        InvoiceDate = invoiceDate;
+        this.invoiceDate = invoiceDate;
         this.status = status;
     }
 
@@ -47,7 +47,7 @@ public class Invoice {
     }
 
     public LocalDateTime getInvoiceDate() {
-        return InvoiceDate;
+        return invoiceDate;
     }
 
     public InvoiceStatus getStatus() {
@@ -67,7 +67,7 @@ public class Invoice {
     }
 
     public void setInvoiceDate(LocalDateTime invoiceDate) {
-        InvoiceDate = invoiceDate;
+        this.invoiceDate = invoiceDate;
     }
 
     public void setStatus(InvoiceStatus status) {

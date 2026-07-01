@@ -2,6 +2,7 @@ package Controller;
 
 import Model.ProductCatalog;
 import Model.ShoppingCart;
+import Service.InvoiceService;
 import View.ShopView;
 import View.AuthenticationView;
 import View.NavigationView;
@@ -15,6 +16,8 @@ import Components.MultiViewPanel;
 public class AppController {
     private ProductCatalog productCatalog;
 
+    private InvoiceService invoiceService;
+
     private ShopController shopController;
     private NavigationController navigationController;
     private SidebarController sidebarController;
@@ -24,14 +27,16 @@ public class AppController {
 
     private MultiViewPanel multiViewPanel;
 
-    public AppController(ProductCatalog productCatalog) {
+    public AppController(ProductCatalog productCatalog, InvoiceService invoiceService) {
         this.productCatalog = productCatalog;
+
+        this.invoiceService = invoiceService;
 
         this.shopController = new ShopController(productCatalog);
         this.navigationController = new NavigationController(productCatalog);
         this.sidebarController = new SidebarController();
         this.authenticationController = new AuthenticationController();
-        this.shoppingCartController = new ShoppingCartController(productCatalog);
+        this.shoppingCartController = new ShoppingCartController(productCatalog, this.invoiceService);
         this.productController = new ProductController();
     }
 
