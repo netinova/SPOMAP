@@ -41,15 +41,27 @@ public class PrimeUser extends User {
         System.out.println("add to balance $" + amount);
     }
 
-    public boolean withdrawCash(double amount) {
+    public void withdrawCash(double amount) {
+        if (creditAmount>=amount){
+            creditAmount-=amount;
+            amount=0;
+            System.out.println("remove from credit amount $" + amount);
+        }
+        else{
+            amount-=creditAmount;
+            creditAmount=0;
+            System.out.println("remove from credit amount $" + amount);
+        }
+        if (amount==0) return;
+
         if (balance >= amount) {
             deductBalance(amount);
             System.out.println("remove from balance $" + amount);
-            return true;
         } else {
+            amount-=balance;
+            balance=0;
             debitAmount -= amount;
-            System.out.println("remove from debitAmount $" + amount);
-            return true;
+            System.out.println("remove from debitAmount/balance $" + amount);
         }
     }
 
