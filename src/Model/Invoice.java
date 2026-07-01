@@ -108,7 +108,7 @@ public class Invoice {
                     p.getDiscount()));
         }
         return new Invoice(
-                "INV_" + System.currentTimeMillis(),
+                null,
                 user.getUserId(),
                 invoiceItems,
                 LocalDateTime.now(),
