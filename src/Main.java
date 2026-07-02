@@ -7,6 +7,7 @@ import Model.AppState;
 import Model.Product;
 import Model.ProductCatalog;
 import Model.ShoppingCart;
+import Service.AnalyticsService;
 import Service.InvoiceService;
 import View.NavigationView;
 import View.ProductView;
@@ -19,7 +20,9 @@ import Components.MultiViewPanel;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -52,6 +55,11 @@ public class Main {
         }
 
         products.buildIndexes();
+
+        AnalyticsService analytics = new AnalyticsService(invoiceService);
+
+        // Recalculate from all invoices
+        analytics.recalculateAllAnalytics();
 
         mainFrame.setVisible(true);
     }
