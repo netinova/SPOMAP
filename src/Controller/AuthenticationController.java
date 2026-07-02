@@ -25,11 +25,6 @@ public class AuthenticationController {
 
     @SuppressWarnings("unused")
     private AuthenticationView view;
-    private UserService userService;
-
-    public AuthenticationController() {
-        this.userService = new UserService();
-    }
 
     public void setView(AuthenticationView view) {
         this.view = view;
@@ -178,13 +173,24 @@ public class AuthenticationController {
     public void onSingUp() {
         if (view != null && view.validateAndSignUp()) {
             String passwordHashed = hashingPassword(view.getPassword());
-            boolean statusSingUp = userService.registerNormalUser(
+            boolean statusSingUp = UserService.registerNormalUser(
                     view.getSingUpPanel().getFirstName(),
                     view.getSingUpPanel().getLastName(),
                     view.getSingUpPanel().getPhoneNumber(),
-                    passwordHashed);
-            if (statusSingUp)
+                    passwordHashed,
+                    AppState.getInstance().normalUsersList,
+                    AppState.getInstance().primeUsersList,
+                    AppState.getInstance().adminUsersList);
+            if (statusSingUp) {
                 System.out.println("successfully singUp");
+                User user = UserService.login(view.getSingUpPanel().getPhoneNumber(),view.getPassword(),
+                        AppState.getInstance().normalUsersList,
+                        AppState.getInstance().primeUsersList,
+                        AppState.getInstance().adminUsersList);
+                AppState.getInstance().setLoggedInUser(user);
+                AppState.getInstance().setCart(new ShoppingCart());
+                listener.changeView(ViewType.USER.getViewId());
+            }
         }
 
     }
@@ -203,12 +209,15 @@ public class AuthenticationController {
             System.out.println(PasswordHasher.hashingPassword(password));
             boolean isValid = validateFullLogin(username, password);
             if (isValid) {
-                User user = userService.login(username, password);
+                User user = UserService.login(username, password,
+                        AppState.getInstance().normalUsersList,
+                        AppState.getInstance().primeUsersList,
+                        AppState.getInstance().adminUsersList);
                 if (user != null) {
                     System.out.println("successfully logged in");
                     AppState.getInstance().setLoggedInUser(user);
                     AppState.getInstance().setCart(new ShoppingCart());
-                    listener.changeView(ViewType.SHOP.getViewId());
+                    listener.changeView(ViewType.USER.getViewId());
                 } else
                     System.out.println("failed to login");
             }

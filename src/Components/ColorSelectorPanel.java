@@ -1,33 +1,45 @@
 package Components;
 
+import Model.ProductColor;
+import Util.ColorPalette;
+
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.Timer;
+import javax.swing.border.EmptyBorder;
+import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
-
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-import javax.swing.Timer;
-import javax.swing.border.EmptyBorder;
-
-import Model.ProductColor;
-import Util.ColorPalette;
+import java.util.Set;
 
 public class ColorSelectorPanel extends JPanel {
 
+    public enum SelectionMode {
+        SINGLE,
+        MULTI
+    }
+
+    private SelectionMode selectionMode = SelectionMode.SINGLE;
+
+    private final Set<ProductColor> selectedColors = new LinkedHashSet<>();
+    private final List<ColorCircle> circles = new ArrayList<>();
+    private final List<ColorSelectionListener> listeners = new ArrayList<>();
+
     private static final int CIRCLE_DIAMETER = 35;
     private static final int LABEL_HEIGHT = 18;
-    private static final int ITEM_WIDTH = 35;
+    private static final int ITEM_WIDTH = 70;
     private static final int ITEM_HEIGHT = CIRCLE_DIAMETER + LABEL_HEIGHT + 6;
 
     private static final int CIRCLE_PADDING = 10;
@@ -35,31 +47,33 @@ public class ColorSelectorPanel extends JPanel {
     private static final Color BORDER_SELECTED = ColorPalette.ACCENT_PRIMARY;
     private static final int LABEL_VISIBLE_MS = 2500;
 
-    private List<ColorCircle> circles = new ArrayList<>();
-    private ProductColor selectedColor;
-    private ColorCircle selectedCircle;
-    private List<ColorSelectionListener> listeners = new ArrayList<>();
-
     public interface ColorSelectionListener {
-        void colorSelected(ProductColor color);
-    }
-
-    public void addColorSelectionListener(ColorSelectionListener listener) {
-        listeners.add(listener);
+        void colorSelectionChanged(Set<ProductColor> selectedColors);
     }
 
     public ColorSelectorPanel() {
         setBackground(ColorPalette.BG_MAIN);
-        setLayout(new FlowLayout(FlowLayout.LEFT, CIRCLE_PADDING, 0));
-        setBorder(new EmptyBorder(20, 15, 20, 15));
+        setLayout(new WrapLayout(FlowLayout.LEFT, CIRCLE_PADDING, 6));
+        setBorder(new EmptyBorder(10, 10, 10, 10));
         setOpaque(true);
+    }
+
+    public void setSelectionMode(SelectionMode mode) {
+        this.selectionMode = mode;
+        if (mode == SelectionMode.SINGLE && selectedColors.size() > 1) {
+            // Keep only the first selected color
+            ProductColor first = selectedColors.iterator().next();
+            selectedColors.clear();
+            selectedColors.add(first);
+            updateCircles();
+            notifyListeners();
+        }
     }
 
     public void setColors(ProductColor[] colors) {
         removeAll();
         circles.clear();
-        selectedColor = null;
-        selectedCircle = null;
+        selectedColors.clear();
 
         if (colors != null && colors.length > 0) {
             for (ProductColor pc : colors) {
@@ -67,72 +81,88 @@ public class ColorSelectorPanel extends JPanel {
                 circle.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        selectColor(pc);
+                        toggleSelection(pc);
                     }
                 });
                 circles.add(circle);
                 add(circle);
             }
-            selectColor(colors[0]);
         }
 
         revalidate();
         repaint();
     }
 
-    private void selectColor(ProductColor color) {
-        if (color == selectedColor)
-            return;
-
-        selectedColor = color;
-        selectedCircle = null;
-
-        for (ColorCircle c : circles) {
-            boolean isSelected = c.productColor == color;
-            c.setSelected(isSelected);
-
-            if (isSelected) {
-                selectedCircle = c;
-                c.showLabelTemporarily(LABEL_VISIBLE_MS);
+    private void toggleSelection(ProductColor color) {
+        if (selectionMode == SelectionMode.SINGLE) {
+            if (selectedColors.size() == 1 && selectedColors.contains(color)) {// if selected
+                selectedColors.clear();
             } else {
-                c.fadeOutImmediately();
+                selectedColors.clear();
+                selectedColors.add(color);
+            }
+        } else { // multi
+            if (selectedColors.contains(color)) {
+                selectedColors.remove(color);
+            } else {
+                selectedColors.add(color);
             }
         }
 
-        repaint();
+        updateCircles();
+        notifyListeners();
+    }
 
+
+    private void updateCircles() {
+        for (ColorCircle circle : circles) {
+            boolean isSelected = selectedColors.contains(circle.productColor);
+            circle.setSelected(isSelected);
+            if (isSelected) {
+                circle.showLabelTemporarily(LABEL_VISIBLE_MS);
+            } else {
+                circle.fadeOutImmediately();
+            }
+        }
+        repaint();
+    }
+
+    private void notifyListeners() {
+        Set<ProductColor> setColor = new LinkedHashSet<>(selectedColors);
         for (ColorSelectionListener l : listeners) {
-            l.colorSelected(color);
+            l.colorSelectionChanged(setColor);
         }
     }
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
+    public void addColorSelectionListener(ColorSelectionListener listener) {
+        listeners.add(listener);
+    }
 
-        if (selectedCircle != null && selectedCircle.labelAlpha > 0.01f) {
-            Graphics2D g2 = (Graphics2D) g.create();
-            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+    public void removeColorSelectionListener(ColorSelectionListener listener) {
+        listeners.remove(listener);
+    }
 
-            Rectangle b = selectedCircle.getBounds();
+    public ProductColor[] getSelectedColors() {
+        return selectedColors.toArray(new ProductColor[0]);
+    }
 
-            String text = selectedCircle.getColorName();
-            g2.setComposite(java.awt.AlphaComposite.getInstance(
-                    java.awt.AlphaComposite.SRC_OVER,
-                    selectedCircle.labelAlpha));
+    public void clearSelection() {
+        selectedColors.clear();
+        updateCircles();
+        notifyListeners();
+    }
 
-            g2.setColor(ColorPalette.TEXT_PRIMARY);
-
-            FontMetrics fm = g2.getFontMetrics();
-            int textWidth = fm.stringWidth(text);
-
-            // Center label under the circle, but allow it to extend beyond the circle width
-            int textX = b.x + (CIRCLE_DIAMETER / 2) - (textWidth / 2);
-            int textY = b.y + CIRCLE_DIAMETER + fm.getAscent() + 4;
-
-            g2.drawString(text, textX, textY);
-            g2.dispose();
+    public void setSelectedColors(ProductColor... colors) {
+        selectedColors.clear();
+        if (selectionMode == SelectionMode.SINGLE && colors.length > 0) {
+            selectedColors.add(colors[0]);
+        } else {
+            for (ProductColor c : colors) {
+                selectedColors.add(c);
+            }
         }
+        updateCircles();
+        notifyListeners();
     }
 
     private static class ColorCircle extends JComponent {
@@ -148,7 +178,7 @@ public class ColorSelectorPanel extends JPanel {
             setPreferredSize(new Dimension(ITEM_WIDTH, ITEM_HEIGHT));
             setMaximumSize(getPreferredSize());
             setMinimumSize(getPreferredSize());
-            setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+            setCursor(new Cursor(Cursor.HAND_CURSOR));
             setOpaque(false);
         }
 
@@ -156,14 +186,12 @@ public class ColorSelectorPanel extends JPanel {
             if (animationTimer != null) {
                 animationTimer.stop();
             }
-
             final float startAlpha = labelAlpha;
             final long startTime = System.currentTimeMillis();
             final int duration = 100;
 
             animationTimer = new Timer(15, e -> {
                 long elapsed = System.currentTimeMillis() - startTime;
-
                 if (elapsed >= duration) {
                     labelAlpha = 0f;
                     ((Timer) e.getSource()).stop();
@@ -171,13 +199,8 @@ public class ColorSelectorPanel extends JPanel {
                     float t = elapsed / (float) duration;
                     labelAlpha = startAlpha * (1f - t);
                 }
-
                 repaint();
-                if (getParent() != null) {
-                    getParent().repaint();
-                }
             });
-
             animationTimer.start();
         }
 
@@ -194,7 +217,6 @@ public class ColorSelectorPanel extends JPanel {
             final int fadeInMs = 200;
             final int visibleMs = 1800;
             final int fadeOutMs = 500;
-
             final long startTime = System.currentTimeMillis();
 
             animationTimer = new Timer(30, e -> {
@@ -211,18 +233,9 @@ public class ColorSelectorPanel extends JPanel {
                     labelAlpha = 0f;
                     ((Timer) e.getSource()).stop();
                 }
-
                 repaint();
-                if (getParent() != null) {
-                    getParent().repaint();
-                }
             });
-
             animationTimer.start();
-        }
-
-        public String getColorName() {
-            return productColor.name();
         }
 
         @Override
@@ -233,14 +246,28 @@ public class ColorSelectorPanel extends JPanel {
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
             int circleX = (getWidth() - CIRCLE_DIAMETER) / 2;
-            int circleY = 0;
+            int circleY = 2;
 
+            // Draw circle
             g2.setColor(productColor.getProductColor());
             g2.fillOval(circleX, circleY, CIRCLE_DIAMETER - 1, CIRCLE_DIAMETER - 1);
 
+            // Border
             g2.setColor(selected ? BORDER_SELECTED : BORDER_UNSELECTED);
             g2.setStroke(new BasicStroke(1.5f));
             g2.drawOval(circleX, circleY, CIRCLE_DIAMETER - 1, CIRCLE_DIAMETER - 1);
+
+            // Label under circle (fading)
+            if (labelAlpha > 0.01f) {
+                String text = productColor.name();
+                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, labelAlpha));
+                g2.setColor(ColorPalette.TEXT_PRIMARY);
+                FontMetrics fm = g2.getFontMetrics();
+                int textWidth = fm.stringWidth(text);
+                int textX = (getWidth() - textWidth) / 2;
+                int textY = CIRCLE_DIAMETER + fm.getAscent() + 4;
+                g2.drawString(text, textX, textY);
+            }
 
             g2.dispose();
         }

@@ -26,11 +26,6 @@ public class NormalUser extends User {
         return totalAmount <= balance;
     }
 
-    public void depositCash(double amount) {
-        addBalance(amount);
-        System.out.println("add to balance $" + amount);
-    }
-
     public boolean withdrawCash(double amount) {
         if (balance >= amount) {
             deductBalance(amount);

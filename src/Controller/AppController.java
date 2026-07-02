@@ -7,6 +7,7 @@ import View.ShopView;
 import View.AuthenticationView;
 import View.NavigationView;
 import View.SidebarView;
+import View.UserProfileView;
 import Components.MultiViewPanel;
 
 /**
@@ -24,6 +25,7 @@ public class AppController {
     private AuthenticationController authenticationController;
     private ShoppingCartController shoppingCartController;
     private ProductController productController;
+    private UserProfileController profileController;
 
     private MultiViewPanel multiViewPanel;
 
@@ -38,11 +40,14 @@ public class AppController {
         this.authenticationController = new AuthenticationController();
         this.shoppingCartController = new ShoppingCartController(productCatalog, this.invoiceService);
         this.productController = new ProductController();
+        this.profileController = new UserProfileController();
+
+        this.profileController.setProductCatalog(productCatalog);
     }
 
     public void setViews(ShopView shopView, NavigationView navigationView,
             SidebarView sidebarView, MultiViewPanel multiViewPanel,
-            AuthenticationView authenticationView) {
+            AuthenticationView authenticationView, UserProfileView userProfileView) {
 
         this.multiViewPanel = multiViewPanel;
 
@@ -50,6 +55,7 @@ public class AppController {
         shopController.setView(shopView);
         navigationController.setShopView(shopView);
         authenticationController.setView(authenticationView);
+        profileController.setView(userProfileView);
 
         // Set up view switching listeners
         navigationController.setOnChangeViewListener(viewId -> {
@@ -65,6 +71,10 @@ public class AppController {
         });
 
         authenticationController.setOnChangeViewListener(viewId -> {
+            this.multiViewPanel.switchView(viewId);
+        });
+
+        profileController.setOnChangeViewListener(viewId -> {
             this.multiViewPanel.switchView(viewId);
         });
 
@@ -104,5 +114,9 @@ public class AppController {
 
     public ProductController getProductController() {
         return productController;
+    }
+
+    public UserProfileController getProfileController() {
+        return profileController;
     }
 }
