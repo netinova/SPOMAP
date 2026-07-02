@@ -1,5 +1,6 @@
 package Service;
 
+import Model.AppState;
 import Model.Invoice;
 import Model.InvoiceItem;
 import Model.InvoiceStatus;
@@ -83,7 +84,6 @@ public class AnalyticsService {
         }
     }
 
-
     public void recalculateAllAnalytics() {
         List<Invoice> invoices = invoiceService.getAllInvoices();
         ShopAnalytics analytics = new ShopAnalytics();
@@ -127,7 +127,6 @@ public class AnalyticsService {
         }
     }
 
-
     private double calculateProfit(double revenue) {
         // Profit = Revenue - Cost
         // Cost = Revenue * costMargin
@@ -147,7 +146,6 @@ public class AnalyticsService {
     public double getCostMargin() {
         return this.defaultCostMargin;
     }
-
 
     private void calculateTimeBasedMetrics(ShopAnalytics analytics, List<Invoice> paidInvoices) {
         DateTimeFormatter monthFormatter = DateTimeFormatter.ofPattern("yyyy-MM");
@@ -204,29 +202,28 @@ public class AnalyticsService {
     }
 
     private void calculateCustomerMetrics(ShopAnalytics analytics, List<Invoice> paidInvoices) {
-        Set<String> uniqueCustomers = new HashSet<>();
-        Map<String, Integer> customerOrderCount = new HashMap<>();
+        int totalNormal = AppState.getInstance().normalUsersList.getUsers().size();
+        int totalPrime = AppState.getInstance().primeUsersList.getUsers().size();
 
+        int totalCustomers = totalNormal + totalPrime;
+        analytics.setTotalCustomers(totalCustomers);
+
+        Map<String, Integer> customerOrderCount = new HashMap<>();
         for (Invoice invoice : paidInvoices) {
             String userId = invoice.getUserId();
-            uniqueCustomers.add(userId);
             customerOrderCount.put(userId, customerOrderCount.getOrDefault(userId, 0) + 1);
         }
 
-        analytics.setTotalCustomers(uniqueCustomers.size());
-
-        // Count returning customers (those with more than one order)
+        // Returning customers = those with >= 1 order
         long returningCustomers = customerOrderCount.values().stream()
-                .filter(count -> count > 1)
+                .filter(count -> count >= 1)
                 .count();
-
         analytics.setReturningCustomers((int) returningCustomers);
     }
 
     public ShopAnalytics getAnalytics() {
         return readAnalytics();
     }
-
 
     public ShopAnalytics getAnalyticsForDateRange(LocalDateTime startDate, LocalDateTime endDate) {
         List<Invoice> invoices = invoiceService.getInvoicesByDateRange(startDate, endDate);
@@ -244,7 +241,6 @@ public class AnalyticsService {
         return analytics;
     }
 
-
     public List<Map<String, Object>> getMonthlyRevenueData() {
         ShopAnalytics analytics = readAnalytics();
         List<Map<String, Object>> data = new ArrayList<>();
@@ -261,7 +257,6 @@ public class AnalyticsService {
         return data;
     }
 
-
     public List<Map<String, Object>> getDailyRevenueData() {
         ShopAnalytics analytics = readAnalytics();
         List<Map<String, Object>> data = new ArrayList<>();
@@ -277,8 +272,8 @@ public class AnalyticsService {
         return data;
     }
 
-
     public void updateAfterNewInvoice(String invoiceId) {
+
         recalculateAllAnalytics();
     }
 }

@@ -1,24 +1,28 @@
 {
-  "shopName" : "Spomap Shop",
-  "currency" : "USD",
-  "lastUpdated" : "2026-07-02 19:57:13",
-  "analyticsStartDate" : "2026-07-02 19:57:13",
-  "totalRevenue" : 61.5,
-  "totalProfit" : 24.6,
-  "totalOrders" : 1,
-  "totalItemsSold" : 7,
-  "averageOrderValue" : 61.5,
-  "monthlyAnalytics" : [ {
-    "month" : "2026-07",
-    "revenue" : 61.5,
-    "profit" : 24.6,
-    "orders" : 1
-  } ],
-  "dailyAnalytics" : [ {
-    "date" : "2026-07-01",
-    "revenue" : 61.5,
-    "orders" : 1
-  } ],
-  "totalCustomers" : 1,
-  "returningCustomers" : 0
+  "shopName": "Spomap Shop",
+  "currency": "USD",
+  "lastUpdated": "2026-07-02 20:52:45",
+  "analyticsStartDate": "2026-07-02 20:52:45",
+  "totalRevenue": 93.36,
+  "totalProfit": 37.344,
+  "totalOrders": 1,
+  "totalItemsSold": 13,
+  "averageOrderValue": 93.36,
+  "monthlyAnalytics": [
+    {
+      "month": "2026-07",
+      "revenue": 93.36,
+      "profit": 37.344,
+      "orders": 1
+    }
+  ],
+  "dailyAnalytics": [
+    {
+      "date": "2026-07-02",
+      "revenue": 93.36,
+      "orders": 1
+    }
+  ],
+  "totalCustomers": 9,
+  "returningCustomers": 1
 }

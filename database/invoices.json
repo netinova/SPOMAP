@@ -1,24 +1,25 @@
-[
-  {
-    "invoiceId": "INV_000001",
-    "userId": "ADM_000001",
-    "items": [
-      {
-        "productId": "1",
-        "productName": "barbari bread",
-        "unitPrice": 1.0,
-        "quantity": 5,
-        "discount": 10.0
-      },
-      {
-        "productId": "6",
-        "productName": "Headphones",
-        "unitPrice": 30.0,
-        "quantity": 2,
-        "discount": 5.0
-      }
-    ],
-    "invoiceDate": "2026-07-01 22:33:51",
-    "status": "Paid"
-  }
-]
+[ {
+  "invoiceId" : "INV_000001",
+  "userId" : "USR_000007",
+  "items" : [ {
+    "productId" : "PRD_000001",
+    "productName" : "barbari bread",
+    "unitPrice" : 1.0,
+    "quantity" : 7,
+    "discount" : 10.0
+  }, {
+    "productId" : "PRD_000006",
+    "productName" : "Headphones",
+    "unitPrice" : 30.0,
+    "quantity" : 3,
+    "discount" : 5.0
+  }, {
+    "productId" : "PRD_000004",
+    "productName" : "YamBoul",
+    "unitPrice" : 26.0,
+    "quantity" : 3,
+    "discount" : 98.0
+  } ],
+  "invoiceDate" : "2026-07-02 20:48:31",
+  "status" : "Paid"
+} ]

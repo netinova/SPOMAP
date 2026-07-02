@@ -64,14 +64,17 @@ public class Main {
         UserNormalList normalUsersList = UserService.loadNormalUser();
         UserPrimeList primeUsersList = UserService.loadPrimeUser();
         UserAdminList adminUsersList = UserService.loadAdminUser();
-        if (primeUsersList==null)
+        if (primeUsersList == null)
             primeUsersList = new UserPrimeList(new ArrayList<>());
-        if (normalUsersList==null)
+        if (normalUsersList == null)
             normalUsersList = new UserNormalList(new ArrayList<>());
 
         AppState.getInstance().normalUsersList = normalUsersList;
         AppState.getInstance().primeUsersList = primeUsersList;
         AppState.getInstance().adminUsersList = adminUsersList;
+
+        AnalyticsService analyticsService = new AnalyticsService(invoiceService);
+        analyticsService.recalculateAllAnalytics();
 
         mainFrame.setVisible(true);
     }
