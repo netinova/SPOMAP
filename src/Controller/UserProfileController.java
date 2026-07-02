@@ -363,9 +363,12 @@ public class UserProfileController {
         product.setProductImages((panel.getProductImages().length==0)? null :panel.getProductImages());
         product.setDescription((panel.getDescription().equals("Explain about product") || panel.getDescription().isEmpty())? null : panel.getDescription());
         product.setTechnicalSpecs(panel.getTechnicalSpecs());
-        if (panel.getSelectedColors() == null)
-            panel.getSelectedColors()[0] = ProductColor.Default;
-        product.setColors(panel.getSelectedColors());
+        if (panel.getSelectedColors().length==0){
+            ProductColor[] productColor = {ProductColor.Default};
+            product.setColors(productColor);
+        }
+        else
+            product.setColors(panel.getSelectedColors());
 
 
         productCatalog.addProduct(product);

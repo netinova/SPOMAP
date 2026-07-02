@@ -53,7 +53,7 @@ public class ColorSelectorPanel extends JPanel {
 
     public ColorSelectorPanel() {
         setBackground(ColorPalette.BG_MAIN);
-        setLayout(new FlowLayout(FlowLayout.LEFT, CIRCLE_PADDING, 6));
+        setLayout(new WrapLayout(FlowLayout.LEFT, CIRCLE_PADDING, 6));
         setBorder(new EmptyBorder(10, 10, 10, 10));
         setOpaque(true);
     }
