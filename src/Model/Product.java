@@ -111,6 +111,16 @@ public class Product implements Purchasable {
         return technicalSpecs;
     }
 
+    //setter
+    public void setName(String name) { this.name = name; }
+    public void setId(String id) { this.id = id; }
+    public void setThumbnail(String thumbnail) { this.thumbnail = thumbnail; }
+    public void setDescription(String description) { this.description = description; }
+    public void setPrice(double price) { this.price = price; }
+    public void setDiscount(double discount) { this.discount = discount; }
+    public void setColors(ProductColor[] colors) { this.colors = colors; }
+    public void setManufacturer(String manufacturer) { this.manufacturer = manufacturer; }
+
     public void setTechnicalSpecs(Map<String, String> technicalSpecs) {
         this.technicalSpecs = technicalSpecs;
     }

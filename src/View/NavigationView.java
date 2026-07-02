@@ -1,16 +1,18 @@
 package View;
 
-import java.awt.*;
-
-import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
-
 import Components.IconNavbarLabel;
 import Components.SearchFiled;
 import Controller.NavigationController;
-import Model.ProductCatalog;
 import Util.ColorPalette;
+
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.JPanel;
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 
 public class NavigationView extends JPanel {
 

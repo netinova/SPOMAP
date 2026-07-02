@@ -1,5 +1,7 @@
 package Components;
 
+import Util.ColorPalette;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
@@ -9,7 +11,7 @@ import java.awt.RenderingHints;
 
 import javax.swing.border.Border;
 
-class RoundedBorder implements Border {
+public class RoundedBorder implements Border {
     private int radius;
     private Color color;
 
@@ -17,7 +19,6 @@ class RoundedBorder implements Border {
         this.radius = radius;
         this.color = color;
     }
-
     @Override
     public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
         Graphics2D g2d = (Graphics2D) g.create();

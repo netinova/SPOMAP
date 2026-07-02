@@ -69,6 +69,7 @@ public class NavigationController {
         }
 
         listener.changeView(ViewType.USER.getViewId());
+
     }
 
     public void onShoppingCartIconClick() {
