@@ -50,8 +50,6 @@ public class Main {
 
         MainFrame mainFrame = new MainFrame(appController, sidebarView, navigationView, multiViewPanel);
 
-        ObjectMapper objectMapper = new ObjectMapper();
-
         ProductCatalog temp = ProductService.loadProducts();
         for (Product product : temp.getProducts()) {
             products.addProduct(product);

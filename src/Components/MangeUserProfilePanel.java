@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.time.LocalDateTime;
 
 public class MangeUserProfilePanel extends JPanel {
     private RoundedInputText firstNameField;
@@ -42,15 +43,12 @@ public class MangeUserProfilePanel extends JPanel {
 
     private UserProfileController controller;
 
-    private String phoneNumber;
-
     public static final String SEARCH_PROP = "search";
     public static final String SEARCH_FILED_PROP = "searchFiled";
     public static final String CANCEL_PROP = "cancel";
     public static final String CANCEL_MANAGE_PROP = "cancelMange";
     public static final String KICK_PROP = "kick";
     public static final String CONVERT_TO_PRIME_PROP = "toPrime";
-
 
     public void addActionListener(ActionListener listener) {
         listenerList.add(ActionListener.class, listener);
@@ -73,7 +71,7 @@ public class MangeUserProfilePanel extends JPanel {
     public MangeUserProfilePanel() {
         setOpaque(false);
         setLayout(new GridBagLayout());
-        setBorder(new EmptyBorder(20,20,20,20));
+        setBorder(new EmptyBorder(20, 20, 20, 20));
 
         cardLayout = new CardLayout();
         cardPanel = new JPanel(cardLayout);
@@ -83,9 +81,9 @@ public class MangeUserProfilePanel extends JPanel {
         informationPanel = crateInfoUserPanel();
         searchUserPanel.setLayout(new GridBagLayout());
 
-        cardPanel.add(searchUserPanel,"SEARCH_USER");
-        cardPanel.add(informationPanel,"INFORMATION_USER");
-        cardLayout.show(cardPanel,"SEARCH_USER");
+        cardPanel.add(searchUserPanel, "SEARCH_USER");
+        cardPanel.add(informationPanel, "INFORMATION_USER");
+        cardLayout.show(cardPanel, "SEARCH_USER");
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -106,8 +104,8 @@ public class MangeUserProfilePanel extends JPanel {
         RoundedPanel container = new RoundedPanel(30, ColorPalette.BG_MAIN, ColorPalette.BORDER);
         container.setBorder(new EmptyBorder(40, 30, 40, 30));
         container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
-        container.setPreferredSize(new Dimension(350,300));
-        container.setMaximumSize(new Dimension(350,300));
+        container.setPreferredSize(new Dimension(350, 300));
+        container.setMaximumSize(new Dimension(350, 300));
 
         JLabel titleLabel = new JLabel("Search User");
         titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 24));
@@ -132,7 +130,6 @@ public class MangeUserProfilePanel extends JPanel {
         gbc.weighty = 1;
         gbc.anchor = GridBagConstraints.CENTER;
         panel.add(container, gbc);
-
 
         return panel;
     }
@@ -159,7 +156,7 @@ public class MangeUserProfilePanel extends JPanel {
         return buttonPanel;
     }
 
-    private JPanel crateInfoUserPanel(){
+    private JPanel crateInfoUserPanel() {
         JPanel panel = new JPanel();
         panel.setOpaque(false);
         panel.setLayout(new GridBagLayout());
@@ -167,15 +164,14 @@ public class MangeUserProfilePanel extends JPanel {
         RoundedPanel container = new RoundedPanel(30, ColorPalette.BG_MAIN, ColorPalette.BORDER);
         container.setBorder(new EmptyBorder(40, 30, 40, 30));
         container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
-        container.setPreferredSize(new Dimension(1400,450));
-        container.setMaximumSize(new Dimension(1400,450));
+        container.setPreferredSize(new Dimension(1400, 450));
+        container.setMaximumSize(new Dimension(1400, 450));
         container.setLayout(new GridBagLayout());
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.weightx = 1;
         gbc.insets = new Insets(0, 20, 20, 20);
-
 
         JLabel titleLabel = new JLabel("User Status");
         titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 24));
@@ -187,11 +183,11 @@ public class MangeUserProfilePanel extends JPanel {
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.CENTER;
 
-        container.add(titleLabel,gbc);
+        container.add(titleLabel, gbc);
         container.add(Box.createVerticalStrut(30));
         gbc.gridwidth = 1;
 
-        //row 2(01)
+        // row 2(01)
         gbc.gridy = 1;
 
         firstNameField = new RoundedInputText("", 5);
@@ -219,8 +215,8 @@ public class MangeUserProfilePanel extends JPanel {
         FormTextFiledPanel phonePanel = new FormTextFiledPanel("Phone Number", phoneNumberField, "phone");
         container.add(phonePanel, gbc);
 
-        gbc.gridy=2;
-        gbc.gridx=0;
+        gbc.gridy = 2;
+        gbc.gridx = 0;
 
         userIdField = new RoundedInputText("", 5);
         userIdField.setEnabled(false);
@@ -229,7 +225,7 @@ public class MangeUserProfilePanel extends JPanel {
         FormTextFiledPanel userIdPanel = new FormTextFiledPanel("User ID", userIdField, "userId");
         container.add(userIdPanel, gbc);
 
-        gbc.gridx=1;
+        gbc.gridx = 1;
         userTypeField = new RoundedInputText("", 5);
         userTypeField.setEnabled(false);
         userTypeField.setForeground(ColorPalette.TEXT_PRIMARY);
@@ -237,7 +233,7 @@ public class MangeUserProfilePanel extends JPanel {
         FormTextFiledPanel userTypePanel = new FormTextFiledPanel("User Type", userTypeField, "userType");
         container.add(userTypePanel, gbc);
 
-        gbc.gridx=2;
+        gbc.gridx = 2;
         registerField = new RoundedInputText("", 5);
         registerField.setEnabled(false);
         registerField.setForeground(ColorPalette.TEXT_PRIMARY);
@@ -245,9 +241,9 @@ public class MangeUserProfilePanel extends JPanel {
         FormTextFiledPanel registerDatePanel = new FormTextFiledPanel("Registered", registerField, "registerDate");
         container.add(registerDatePanel, gbc);
 
-        //Prime user filed
-        gbc.gridy=3;
-        gbc.gridx=0;
+        // Prime user filed
+        gbc.gridy = 3;
+        gbc.gridx = 0;
 
         memberShipIdField = new RoundedInputText("", 5);
         memberShipIdField.setEnabled(false);
@@ -256,7 +252,7 @@ public class MangeUserProfilePanel extends JPanel {
         memberShipIdPanel = new FormTextFiledPanel("Membership Code", memberShipIdField, "membershipCode");
         container.add(memberShipIdPanel, gbc);
 
-        gbc.gridx=1;
+        gbc.gridx = 1;
         creditField = new RoundedInputText("", 5);
         creditField.setEnabled(false);
         creditField.setForeground(ColorPalette.TEXT_PRIMARY);
@@ -290,7 +286,7 @@ public class MangeUserProfilePanel extends JPanel {
         return panel;
     }
 
-    private JPanel crateBtnMange(){
+    private JPanel crateBtnMange() {
         JPanel btnPanel = new JPanel();
         btnPanel.setOpaque(false);
         btnPanel.setLayout(new BoxLayout(btnPanel, BoxLayout.X_AXIS));
@@ -300,7 +296,7 @@ public class MangeUserProfilePanel extends JPanel {
         // Button 1: Convert to Prime
         convertButton = new RoundedButton("Convert to Prime", 20);
         convertButton.setPreferredSize(new Dimension(230, 45));
-        convertButton.setBackground(ColorPalette.SELECTION_BG   );
+        convertButton.setBackground(ColorPalette.SELECTION_BG);
         convertButton.setForeground(ColorPalette.TEXT_PRIMARY);
         convertButton.setFont(new Font("Arial", Font.BOLD, 13));
 
@@ -332,15 +328,16 @@ public class MangeUserProfilePanel extends JPanel {
         return btnPanel;
     }
 
-    public void showSearchView(){
+    public void showSearchView() {
         loadView();
-        cardLayout.show(cardPanel,"SEARCH_USER");
-    }
-    public void showInformationUser(){
-        cardLayout.show(cardPanel,"INFORMATION_USER");
+        cardLayout.show(cardPanel, "SEARCH_USER");
     }
 
-    public String getPhoneNumber(){
+    public void showInformationUser() {
+        cardLayout.show(cardPanel, "INFORMATION_USER");
+    }
+
+    public String getPhoneNumber() {
         return phoneNumberField.getText();
     }
 
@@ -348,27 +345,27 @@ public class MangeUserProfilePanel extends JPanel {
         searchUserField.setActivePlaceHolder(true);
     }
 
-    public void loadData(String firstName, String lastName, String phoneNumber, String userId, String userType, String registerDate, String memberShipCode,
-                         double creditAmount, double debitAmount) {
+    public void loadData(String firstName, String lastName, String phoneNumber, String userId, String userType,
+            LocalDateTime registerDate, String memberShipCode,
+            double creditAmount, double debitAmount) {
         kickButton.setVisible(true);
         convertButton.setVisible(true);
 
-        if (memberShipCode==null){
+        if (memberShipCode == null) {
             memberShipIdPanel.setVisible(false);
             creditFiledPanel.setVisible(false);
             debitFiledPanel.setVisible(false);
             convertButton.setVisible(true);
-        }
-        else {
+        } else {
             memberShipIdField.setText(memberShipCode);
-            creditField.setText(String.format("%.2f",creditAmount));
-            debitField.setText(String.format("%.2f",debitAmount));
+            creditField.setText(String.format("%.2f", creditAmount));
+            debitField.setText(String.format("%.2f", debitAmount));
             convertButton.setVisible(false);
             memberShipIdPanel.setVisible(true);
             creditFiledPanel.setVisible(true);
             debitFiledPanel.setVisible(true);
         }
-        if (userType.equals("Administrator")){
+        if (userType.equals("Administrator")) {
             convertButton.setVisible(false);
             kickButton.setVisible(false);
         }
@@ -377,26 +374,31 @@ public class MangeUserProfilePanel extends JPanel {
         phoneNumberField.setText(phoneNumber);
         userIdField.setText(userId);
         userTypeField.setText(userType);
-        registerField.setText(registerDate);
+        registerField.setText(registerDate.toString());
         showInformationUser();
     }
 
     private void attachEvents() {
-        cancelMangeButton.addActionListener(e -> {fireActionEvent(CANCEL_MANAGE_PROP);});
-        kickButton.addActionListener(e ->{
+        cancelMangeButton.addActionListener(e -> {
+            fireActionEvent(CANCEL_MANAGE_PROP);
+        });
+        kickButton.addActionListener(e -> {
             controller.handleKickUser(searchUserField.getText());
             showSearchView();
             controller.showMainPage();
-            fireActionEvent(KICK_PROP);});
-        convertButton.addActionListener(e ->{
+            fireActionEvent(KICK_PROP);
+        });
+        convertButton.addActionListener(e -> {
             controller.handleUpgradeToPrime(searchUserField.getText());
             showSearchView();
             controller.showMainPage();
-            fireActionEvent(CONVERT_TO_PRIME_PROP);});
-        cancelButton.addActionListener(e ->{
+            fireActionEvent(CONVERT_TO_PRIME_PROP);
+        });
+        cancelButton.addActionListener(e -> {
             controller.showMainPage();
-            fireActionEvent(CANCEL_PROP);});
-        searchButton.addActionListener(e ->{
+            fireActionEvent(CANCEL_PROP);
+        });
+        searchButton.addActionListener(e -> {
             var result = controller.validatePhoneNumber(searchUserField.getText());
             if (result.isValid())
                 searchUserFiledPanel.clearError();
@@ -404,11 +406,11 @@ public class MangeUserProfilePanel extends JPanel {
                 searchUserFiledPanel.setError(result.getErrorMessage());
             if (controller.statusSearchPhoneNumber(searchUserField.getText()))
                 controller.handelSearchUser(searchUserField.getText());
-            else searchUserFiledPanel.setError("User with this number not found!");
+            else
+                searchUserFiledPanel.setError("User with this number not found!");
 
-            phoneNumber = searchUserField.getText();
-
-            fireActionEvent(SEARCH_PROP);});
+            fireActionEvent(SEARCH_PROP);
+        });
         searchUserField.addActionListener(e -> {
             var result = controller.validatePhoneNumber(searchUserField.getText());
             if (result.isValid())

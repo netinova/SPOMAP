@@ -14,7 +14,6 @@ public class UserProfileController {
     private OnChangeViewListener listener;
     private ProductCatalog productCatalog;
 
-
     public void setView(UserProfileView view) {
         this.view = view;
     }
@@ -36,7 +35,6 @@ public class UserProfileController {
         if (AppState.getInstance().getCart() != null)
             cartItems = AppState.getInstance().getCart().getItems().size();
 
-
         view.displayUser(
                 user.getFullName(),
                 user.getUserType().getDisplayName(),
@@ -49,8 +47,7 @@ public class UserProfileController {
             view.displayPrimeUser(
                     userPrime.getCreditAmount(),
                     userPrime.getDebitAmount(),
-                    userPrime.getMemberShipID()
-            );
+                    userPrime.getMemberShipID());
 
         }
     }
@@ -99,7 +96,8 @@ public class UserProfileController {
         return Validator.validationImageAddress(name);
     }
 
-    public boolean fullValidator(String fName, String lName, String phoneNumber, String currentPassword, String newPassword, String confirmPassword) {
+    public boolean fullValidator(String fName, String lName, String phoneNumber, String currentPassword,
+            String newPassword, String confirmPassword) {
         Validator.ValidationResult result;
         int temp = 0;
         User user = AppState.getInstance().getLoggedInUser();
@@ -125,7 +123,7 @@ public class UserProfileController {
             temp++;
         }
 
-        //password
+        // password
         if (currentPassword == "" && (newPassword != "" || confirmPassword != "")) {
             if (view != null)
                 view.showCurrentPasswordError("Your password is incorrect");
@@ -150,7 +148,6 @@ public class UserProfileController {
             view.showConfirmPasswordError("");
             view.showNewtPasswordError("");
         }
-
 
         if (temp != 0)
             return false;
@@ -181,8 +178,7 @@ public class UserProfileController {
         view.loadEditUserData(
                 user.getFirstName(),
                 user.getLastName(),
-                user.getPhoneNumber()
-        );
+                user.getPhoneNumber());
     }
     // listener edit profile
 
@@ -253,7 +249,8 @@ public class UserProfileController {
     public void handelSearchUser(String phoneNumberString) {
         User user = UserService.searchUserByPhoneNumber(phoneNumberString, AppState.getInstance().normalUsersList,
                 AppState.getInstance().primeUsersList, AppState.getInstance().adminUsersList);
-        if (user == null) return;
+        if (user == null)
+            return;
 
         String memberShipCode = null;
         double creditAmount = 0;
@@ -268,7 +265,6 @@ public class UserProfileController {
         view.loadInformationUser(user.getFirstName(), user.getLastName(), user.getPhoneNumber(),
                 user.getUserId(), user.getUserType().getDisplayName(), user.getRegisterDate(),
                 memberShipCode, creditAmount, debitAmount);
-
 
     }
 
@@ -291,9 +287,11 @@ public class UserProfileController {
     }
 
     public void handleKickUser(String phonNumber) {
-        User user = UserService.searchUserByPhoneNumber(phonNumber, AppState.getInstance().normalUsersList, AppState.getInstance().primeUsersList,
+        User user = UserService.searchUserByPhoneNumber(phonNumber, AppState.getInstance().normalUsersList,
+                AppState.getInstance().primeUsersList,
                 AppState.getInstance().adminUsersList);
-        if (user == null || user.getUserType().isAdmin()) return;
+        if (user == null || user.getUserType().isAdmin())
+            return;
         if (user.getUserType().getDisplayName().equals("Normal User")) {
             NormalUser normalUser = (NormalUser) user;
             AppState.getInstance().normalUsersList.removeUser(normalUser);
@@ -307,10 +305,10 @@ public class UserProfileController {
         }
     }
 
-
-    //add product
+    // add product
     public void handleAddProduct(AddProductPanel panel) {
-        if (panel == null || productCatalog == null) return;
+        if (panel == null || productCatalog == null)
+            return;
 
         // validation
         String name = panel.getProductName();
@@ -348,9 +346,8 @@ public class UserProfileController {
         } else
             panel.showDiscountError(result.getErrorMessage());
 
-
-        if (temp != 0) return;
-
+        if (temp != 0)
+            return;
 
         // build product
         Product product = new Product();
@@ -358,18 +355,20 @@ public class UserProfileController {
         product.setName(name);
         product.setPrice(Double.parseDouble(priceStr));
         product.setDiscount(discount);
-        product.setManufacturer((panel.getManufacturer().isEmpty() || panel.getManufacturer().equals("Manufacturer"))? null : panel.getManufacturer());
-        product.setThumbnail((panel.getProductImages().length==0)? null :panel.getProductImages()[0]);
-        product.setProductImages((panel.getProductImages().length==0)? null :panel.getProductImages());
-        product.setDescription((panel.getDescription().equals("Explain about product") || panel.getDescription().isEmpty())? null : panel.getDescription());
+        product.setManufacturer(
+                (panel.getManufacturer().isEmpty() || panel.getManufacturer().equals("Manufacturer")) ? null
+                        : panel.getManufacturer());
+        product.setThumbnail((panel.getProductImages().length == 0) ? null : panel.getProductImages()[0]);
+        product.setProductImages((panel.getProductImages().length == 0) ? null : panel.getProductImages());
+        product.setDescription(
+                (panel.getDescription().equals("Explain about product") || panel.getDescription().isEmpty()) ? null
+                        : panel.getDescription());
         product.setTechnicalSpecs(panel.getTechnicalSpecs());
-        if (panel.getSelectedColors().length==0){
-            ProductColor[] productColor = {ProductColor.Default};
+        if (panel.getSelectedColors().length == 0) {
+            ProductColor[] productColor = { ProductColor.Default };
             product.setColors(productColor);
-        }
-        else
+        } else
             product.setColors(panel.getSelectedColors());
-
 
         productCatalog.addProduct(product);
         ProductService.saveProducts(productCatalog);

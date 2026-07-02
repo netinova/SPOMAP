@@ -9,6 +9,7 @@ import javax.swing.*;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 
 import java.awt.*;
+import java.time.LocalDateTime;
 
 public class UserProfileView extends JPanel {
 
@@ -196,7 +197,7 @@ public class UserProfileView extends JPanel {
         mangeUserProfilePanel.loadView();
     }
 
-    public void loadInformationUser(String firstName, String lastName, String phoneNumber, String userId, String  userType, String registerDate,
+    public void loadInformationUser(String firstName, String lastName, String phoneNumber, String userId, String  userType, LocalDateTime registerDate,
                                     String memberShipCode, double creditAmount, double debitAmount) {
         mangeUserProfilePanel.loadData(firstName, lastName, phoneNumber, userId, userType , registerDate , memberShipCode , creditAmount , debitAmount);
     }

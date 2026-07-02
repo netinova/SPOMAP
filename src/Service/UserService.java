@@ -9,12 +9,16 @@ import Model.UserType;
 import Model.UserLists.UserAdminList;
 import Model.UserLists.UserNormalList;
 import Model.UserLists.UserPrimeList;
+import Util.LocalDateTimeDeserializer;
+import Util.LocalDateTimeSerializer;
 import Util.PasswordHasher;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +30,10 @@ public class UserService {
     private static ObjectMapper createObjectMapper() {
         ObjectMapper mapper = new ObjectMapper();
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
+        SimpleModule module = new SimpleModule();
+        module.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer());
+        module.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer());
+        mapper.registerModule(module);
         return mapper;
     }
 
@@ -188,8 +196,7 @@ public class UserService {
     private static String getNewMemberShipCode(UserPrimeList primeUsers) {
         int maxId = 0;
 
-
-        if (primeUsers!=null){
+        if (primeUsers != null) {
             for (PrimeUser user : primeUsers.getUsers()) {
                 String id = user.getMemberShipID();
                 if (user != null) {

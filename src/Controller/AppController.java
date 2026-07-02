@@ -40,13 +40,14 @@ public class AppController {
         this.authenticationController = new AuthenticationController();
         this.shoppingCartController = new ShoppingCartController(productCatalog, this.invoiceService);
         this.productController = new ProductController();
+        this.profileController = new UserProfileController();
 
         this.profileController.setProductCatalog(productCatalog);
     }
 
     public void setViews(ShopView shopView, NavigationView navigationView,
-                         SidebarView sidebarView, MultiViewPanel multiViewPanel,
-                         AuthenticationView authenticationView, UserProfileView userProfileView) {
+            SidebarView sidebarView, MultiViewPanel multiViewPanel,
+            AuthenticationView authenticationView, UserProfileView userProfileView) {
 
         this.multiViewPanel = multiViewPanel;
 
