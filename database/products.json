@@ -66,11 +66,11 @@
       "technicalSpecs": {}
     },
     {
-      "name": "UmBoul",
+      "name": "YamBoul",
       "id": "PRD_000004",
       "thumbnail": null,
       "productImages": [],
-      "description": "saghol for choosing UnBoul - Your product is on its way from cabol",
+      "description": "saghol for choosing YamBoul - Your product is on its way from cabol",
       "discount": 98.0,
       "price": 26.0,
       "colors": ["Default"],
@@ -91,10 +91,10 @@
       "discount": 0.0,
       "price": 7000.0,
       "colors": [
-        "Red_Doppler",
-        "Blue_Doppler",
-        "Purple_Doppler",
-        "Dark_Purple_Doppler"
+        "Red",
+        "Light_Blue",
+        "Purple",
+        "Dark_Purple"
       ],
       "manufacturer": "Vale",
       "technicalSpecs": {}
@@ -135,7 +135,7 @@
       "colors": [
         "Black_Band",
         "Blue_Band",
-        " Orange_Band",
+        "Orange_Band",
         "Olive_Loop",
         "Blue_Loop"
       ],

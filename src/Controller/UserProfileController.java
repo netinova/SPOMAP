@@ -358,7 +358,7 @@ public class UserProfileController {
         product.setName(name);
         product.setPrice(Double.parseDouble(priceStr));
         product.setDiscount(discount);
-        product.setManufacturer(panel.getManufacturer());
+        product.setManufacturer((panel.getManufacturer().isEmpty() || panel.getManufacturer().equals("Manufacturer"))? null : panel.getManufacturer());
         product.setThumbnail((panel.getProductImages().length==0)? null :panel.getProductImages()[0]);
         product.setProductImages((panel.getProductImages().length==0)? null :panel.getProductImages());
         product.setDescription((panel.getDescription().equals("Explain about product") || panel.getDescription().isEmpty())? null : panel.getDescription());

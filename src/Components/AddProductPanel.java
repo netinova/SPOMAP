@@ -6,11 +6,13 @@ import Util.ColorPalette;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -27,10 +29,13 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import static java.nio.file.Files.copy;
 
 public class AddProductPanel extends JPanel {
     private RoundedInputText nameField;
@@ -43,7 +48,7 @@ public class AddProductPanel extends JPanel {
     private FormTextFiledPanel pricePanel;
     private FormTextFiledPanel discountPanel;
 
-//    private ColorMultiSelect colorMultiSelect;
+    //    private ColorMultiSelect colorMultiSelect;
     private ColorSelectorPanel colorMultiSelect;
 
     // specs
@@ -383,6 +388,7 @@ public class AddProductPanel extends JPanel {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.weightx = 1;
+        gbc.insets = new Insets(4, 0, 4, 0);
 
         JLabel title = new JLabel("Add Product Image");
         title.setFont(new Font("Segoe UI", Font.BOLD, 20));
@@ -393,20 +399,55 @@ public class AddProductPanel extends JPanel {
         gbc.insets = new Insets(0, 0, 20, 0);
         container.add(title, gbc);
 
-        imagePathField = new RoundedInputText("database/pictures/...", 5);
-        imagePathPanel = new FormTextFiledPanel("Image Path", imagePathField, "imagePath");
-        imagePathField.addActionListener(e -> {
-            var result = controller.validationFileAddress(imagePathField.getText());
-            if (!result.isValid())
-                imagePathPanel.setError(result.getErrorMessage());
-            else
-                imagePathPanel.clearError();
-
-        });
+        // ---- Image path with Browse button ----
         gbc.gridy = 1;
         gbc.insets = new Insets(4, 0, 4, 0);
+
+        JPanel pathPanel = new JPanel(new BorderLayout(8, 0));
+        pathPanel.setOpaque(false);
+
+        imagePathField = new RoundedInputText("database/pictures/...", 5);
+        imagePathField.setPreferredSize(new Dimension(0, 40));
+        imagePathField.setEnabled(false);
+        pathPanel.add(imagePathField, BorderLayout.CENTER);
+
+        RoundedButton browseBtn = new RoundedButton("Browse", 25);
+        browseBtn.setPreferredSize(new Dimension(90, 40));
+        browseBtn.addActionListener(e -> {
+            JFileChooser chooser = new JFileChooser();
+            // Filter for images
+            FileNameExtensionFilter filter = new javax.swing.filechooser.FileNameExtensionFilter(
+                    "Images (png, jpg, jpeg)", "png", "jpg", "jpeg");
+            chooser.setFileFilter(filter);
+            chooser.setAcceptAllFileFilterUsed(false);
+
+            int result = chooser.showOpenDialog(this);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = chooser.getSelectedFile();
+                try {
+                    File copyFile = new File("database/pictures");
+                    if (!copyFile.exists())
+                        copyFile.mkdirs();
+
+                    File destFile = new File(copyFile, selectedFile.getName());
+
+                    // copy file
+                    copy(selectedFile.toPath(), destFile.toPath(),
+                            java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+                    String relativePath = "database/pictures/" + selectedFile.getName();
+                    imagePathField.setText(relativePath);
+                } catch (Exception ex) {
+                    System.out.println("Error copying file: " + ex.getMessage());
+                }
+            }
+        });
+        pathPanel.add(browseBtn, BorderLayout.EAST);
+
+        imagePathPanel = new FormTextFiledPanel("Image Path", pathPanel, "imagePath");
         container.add(imagePathPanel, gbc);
 
+        gbc.gridy = 2;
+        gbc.insets = new Insets(20, 0, 0, 0);
         JPanel btnRow = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 0));
         btnRow.setOpaque(false);
 
@@ -422,8 +463,6 @@ public class AddProductPanel extends JPanel {
 
         btnRow.add(confirmImageBtn);
         btnRow.add(backImageBtn);
-        gbc.gridy = 2;
-        gbc.insets = new Insets(20, 0, 0, 0);
         container.add(btnRow, gbc);
 
         confirmImageBtn.addActionListener(e -> {
