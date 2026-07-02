@@ -14,6 +14,7 @@ public class UserProfileController {
     private OnChangeViewListener listener;
     private ProductCatalog productCatalog;
 
+
     public void setView(UserProfileView view) {
         this.view = view;
     }
@@ -154,6 +155,11 @@ public class UserProfileController {
         if (temp != 0)
             return false;
         return true;
+    }
+
+    public void showShoppingCart() {
+        if (listener != null)
+            listener.changeView(ViewType.SHOPPING_CART.getViewId());
     }
 
     public boolean editProfileHandler(String fName, String lName, String phoneNumber, String newPassword) {
@@ -313,7 +319,7 @@ public class UserProfileController {
 
         int temp = 0;
 
-        var result = Validator.validationQueryEmpty(name , "Product name");
+        var result = Validator.validationQueryEmpty(name, "Product name");
         if (!result.isValid()) {
             panel.showNameError(result.getErrorMessage());
             temp++;
@@ -339,13 +345,11 @@ public class UserProfileController {
                     temp++;
                 }
             }
-        }
-        else
+        } else
             panel.showDiscountError(result.getErrorMessage());
 
 
-
-        if (temp!=0) return;
+        if (temp != 0) return;
 
 
         // build product
@@ -355,12 +359,12 @@ public class UserProfileController {
         product.setPrice(Double.parseDouble(priceStr));
         product.setDiscount(discount);
         product.setManufacturer(panel.getManufacturer());
-        product.setThumbnail(panel.getProductImages()[0]);
-        product.setProductImages(panel.getProductImages());
-        product.setDescription(panel.getDescription());
+        product.setThumbnail((panel.getProductImages().length==0)? null :panel.getProductImages()[0]);
+        product.setProductImages((panel.getProductImages().length==0)? null :panel.getProductImages());
+        product.setDescription((panel.getDescription().equals("Explain about product") || panel.getDescription().isEmpty())? null : panel.getDescription());
         product.setTechnicalSpecs(panel.getTechnicalSpecs());
-        if (panel.getSelectedColors()==null)
-            panel.getSelectedColors()[0]=ProductColor.Default;
+        if (panel.getSelectedColors() == null)
+            panel.getSelectedColors()[0] = ProductColor.Default;
         product.setColors(panel.getSelectedColors());
 
 
@@ -372,31 +376,29 @@ public class UserProfileController {
 
     // listener
     public void onNameProductChange(String newValue) {
-        System.out.println("name product: "+ newValue);
+        System.out.println("name product: " + newValue);
     }
 
     public void onPriceProductChange(String string) {
-        System.out.println("Price product: "+ string);
+        System.out.println("Price product: " + string);
     }
 
     public void onDiscountProductChange(String string) {
-        System.out.println("Discount product: "+ string);
+        System.out.println("Discount product: " + string);
     }
 
     public void onManufacturerProductChange(String string) {
-        System.out.println("Manufacturer product: "+ string);
+        System.out.println("Manufacturer product: " + string);
     }
 
     public void onDescriptionProductChange(String string) {
-        System.out.println("Description product: "+ string);
+        System.out.println("Description product: " + string);
     }
 
     public void onSaveClicked() {
         System.out.println("On save Clicked");
 
     }
-
-
 
     public void showMainPage() {
         view.showMainProfile();

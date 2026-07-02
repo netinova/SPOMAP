@@ -15,9 +15,6 @@ public class ProductService {
     private static ObjectMapper createObjectMapper() {
         ObjectMapper mapper = new ObjectMapper();
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
-        mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-        mapper.setDefaultPrettyPrinter(new com.fasterxml.jackson.core.util.DefaultPrettyPrinter()
-                .withoutSpacesInObjectEntries());
         return mapper;
     }
 

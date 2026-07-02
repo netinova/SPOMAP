@@ -1,6 +1,7 @@
 package Components;
 
 import Controller.UserProfileController;
+import Model.ProductColor;
 import Util.ColorPalette;
 
 import javax.swing.JButton;
@@ -42,7 +43,8 @@ public class AddProductPanel extends JPanel {
     private FormTextFiledPanel pricePanel;
     private FormTextFiledPanel discountPanel;
 
-    private ColorMultiSelect colorMultiSelect;
+//    private ColorMultiSelect colorMultiSelect;
+    private ColorSelectorPanel colorMultiSelect;
 
     // specs
     private final Map<String, String> technicalSpecs = new LinkedHashMap<>();
@@ -166,7 +168,10 @@ public class AddProductPanel extends JPanel {
         gbc.insets = new Insets(14, 6, 2, 6);
         content.add(createLabel("Colors"), gbc);
 
-        colorMultiSelect = new ColorMultiSelect();
+        colorMultiSelect = new ColorSelectorPanel();
+        colorMultiSelect.setSelectionMode(ColorSelectorPanel.SelectionMode.MULTI);
+        colorMultiSelect.setColors(ProductColor.values());
+
         gbc.gridy = 5;
         gbc.insets = new Insets(2, 6, 4, 6);
         content.add(colorMultiSelect, gbc);
@@ -279,11 +284,11 @@ public class AddProductPanel extends JPanel {
 
         specKeyField = new RoundedInputText("e.g. Mass", 5);
         specKeyPanel = new FormTextFiledPanel("Key", specKeyField, "specKey");
-        specKeyField.addActionListener(e ->{
+        specKeyField.addActionListener(e -> {
             var result = controller.validationQuery(specKeyField.getText(), "e.g. Mass");
             if (!result.isValid())
                 specKeyPanel.setError(result.getErrorMessage());
-                else
+            else
                 specKeyPanel.clearError();
         });
         gbc.gridy = 1;
@@ -292,7 +297,7 @@ public class AddProductPanel extends JPanel {
 
         specValueField = new RoundedInputText("e.g. 250g", 5);
         specValuePanel = new FormTextFiledPanel("Value", specValueField, "specValue");
-        specValueField.addActionListener(e ->{
+        specValueField.addActionListener(e -> {
             var result = controller.validationQuery(specValueField.getText(), "e.g. Mass");
             if (!result.isValid())
                 specValuePanel.setError(result.getErrorMessage());

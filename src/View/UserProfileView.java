@@ -83,7 +83,7 @@ public class UserProfileView extends JPanel {
                 case ProfileMainPanel.MANAGE_USER_PROP -> showMangeUsers();
                 case ProfileMainPanel.LOG_SHOP_PROP -> System.out.println("Clicked status shop");
                 case ProfileMainPanel.ADD_PRODUCT_PROP -> showProductPanel();
-                case ProfileMainPanel.SHOPPING_CART_PROP -> controller.showShopingCart();
+                case ProfileMainPanel.SHOPPING_CART_PROP -> controller.showShoppingCart();
             }
         });
 

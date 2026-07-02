@@ -11,10 +11,10 @@ public enum ProductColor {
     Orange_Band(new Color(0xf65d24)),
     Olive_Loop(new Color(0x79705f)),
     Blue_Loop(new Color(0x194171)),
-    Purple_Doppler(new Color(0x742451)),
-    Blue_Doppler(new Color(0x8276FB)),
-    Red_Doppler(new Color(0x8c1826)),
-    Dark_Purple_Doppler(new Color(0x2c0a16)),
+    Purple(new Color(0x742451)),
+    Light_Blue(new Color(0x8276FB)),
+    Red(new Color(0x8c1826)),
+    Dark_Purple(new Color(0x2c0a16)),
     Default(new Color(0x3b3b3b)); // #3b3b3b
 
     private final Color productColor;
