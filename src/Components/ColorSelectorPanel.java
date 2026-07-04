@@ -22,6 +22,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 public class ColorSelectorPanel extends JPanel {
@@ -88,6 +89,9 @@ public class ColorSelectorPanel extends JPanel {
                 add(circle);
             }
         }
+
+        if (selectionMode==SelectionMode.SINGLE)
+            setSelectedColors(Objects.requireNonNull(colors)[0]);
 
         revalidate();
         repaint();

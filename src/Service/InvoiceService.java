@@ -1,5 +1,7 @@
 package Service;
 
+import Controller.AppController;
+import Model.AppState;
 import Model.Invoice;
 import Model.InvoiceStatus;
 import Util.LocalDateTimeDeserializer;
@@ -100,7 +102,7 @@ public class InvoiceService {
             return null;
 
         currentInvoices.add(invoice);
-        writeAllInvoices(currentInvoices);
+        writeAllInvoices(currentInvoices);//TODO: use def updateAfterNewInvoice for analytic
         return invoice.getInvoiceId();
     }
 
