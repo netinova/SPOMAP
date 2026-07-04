@@ -22,4 +22,16 @@
   } ],
   "invoiceDate" : "2026-07-02 20:48:31",
   "status" : "Paid"
+}, {
+  "invoiceId" : "INV_000002",
+  "userId" : "USR_000001",
+  "items" : [ {
+    "productId" : "PRD_000000",
+    "productName" : "Game board Koodeta COUP+",
+    "unitPrice" : 20.0,
+    "quantity" : 2,
+    "discount" : 50.0
+  } ],
+  "invoiceDate" : "2026-07-04 02:19:56",
+  "status" : "Paid"
 } ]

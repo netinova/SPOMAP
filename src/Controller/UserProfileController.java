@@ -2,6 +2,7 @@ package Controller;
 
 import Components.AddProductPanel;
 import Model.*;
+import Service.InvoiceService;
 import Service.ProductService;
 import Service.UserService;
 import Util.PasswordHasher;
@@ -13,6 +14,13 @@ public class UserProfileController {
     private UserProfileView view;
     private OnChangeViewListener listener;
     private ProductCatalog productCatalog;
+
+    private InvoiceService invoiceService;
+
+    public UserProfileController(InvoiceService invoiceService) {
+        this.invoiceService = invoiceService;
+    }
+
 
     public void setView(UserProfileView view) {
         this.view = view;
