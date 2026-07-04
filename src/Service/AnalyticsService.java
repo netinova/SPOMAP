@@ -99,6 +99,8 @@ public class AnalyticsService {
 
         calculateCustomerMetrics(analytics, paidInvoices);
 
+        calculateProductMetrics(analytics, paidInvoices);
+
         writeAnalytics(analytics);
     }
 
@@ -207,6 +209,7 @@ public class AnalyticsService {
 
         int totalCustomers = totalNormal + totalPrime;
         analytics.setTotalCustomers(totalCustomers);
+        analytics.setTotalPrimeUsers(totalPrime);
 
         Map<String, Integer> customerOrderCount = new HashMap<>();
         for (Invoice invoice : paidInvoices) {
@@ -219,6 +222,36 @@ public class AnalyticsService {
                 .filter(count -> count >= 1)
                 .count();
         analytics.setReturningCustomers((int) returningCustomers);
+    }
+
+    private void calculateProductMetrics(ShopAnalytics analytics, List<Invoice> paidInvoices) {
+        Map<String, String> productNameMap = new HashMap<>();
+        Map<String, Integer> quantityMap = new HashMap<>();
+        Map<String, Double> revenueMap = new HashMap<>();
+        Map<String, Set<String>> invoiceMap = new HashMap<>();
+
+        for (Invoice invoice : paidInvoices) {
+            for (InvoiceItem item : invoice.getItems()) {
+                String pid = item.getProductId();
+                productNameMap.put(pid, item.getProductName());
+                quantityMap.merge(pid, item.getQuantity(), Integer::sum);
+                revenueMap.merge(pid, item.getTotalPrice(), Double::sum);
+                invoiceMap.computeIfAbsent(pid, k -> new HashSet<>()).add(invoice.getInvoiceId());
+            }
+        }
+
+        List<ShopAnalytics.ProductAnalytics> productList = new ArrayList<>();
+        for (String pid : quantityMap.keySet()) {
+            productList.add(new ShopAnalytics.ProductAnalytics(
+                    pid,
+                    productNameMap.get(pid),
+                    quantityMap.get(pid),
+                    revenueMap.getOrDefault(pid, 0.0),
+                    invoiceMap.getOrDefault(pid, Collections.emptySet()).size()));
+        }
+
+        productList.sort(Comparator.comparing(ShopAnalytics.ProductAnalytics::getTotalQuantitySold).reversed());
+        analytics.setProductAnalytics(productList);
     }
 
     public ShopAnalytics getAnalytics() {
@@ -237,6 +270,7 @@ public class AnalyticsService {
         calculateOverallMetrics(analytics, paidInvoices);
         calculateTimeBasedMetrics(analytics, paidInvoices);
         calculateCustomerMetrics(analytics, paidInvoices);
+        calculateProductMetrics(analytics, paidInvoices);
 
         return analytics;
     }
@@ -270,6 +304,34 @@ public class AnalyticsService {
         }
 
         return data;
+    }
+
+    public List<Map<String, Object>> getMostPopularProducts(int limit) {
+        ShopAnalytics analytics = readAnalytics();
+        List<ShopAnalytics.ProductAnalytics> productList = analytics.getProductAnalytics();
+        List<Map<String, Object>> data = new ArrayList<>();
+
+        int count = Math.min(limit, productList.size());
+        for (int i = 0; i < count; i++) {
+            ShopAnalytics.ProductAnalytics pa = productList.get(i);
+            Map<String, Object> entry = new HashMap<>();
+            entry.put("productId", pa.getProductId());
+            entry.put("productName", pa.getProductName());
+            entry.put("totalQuantitySold", pa.getTotalQuantitySold());
+            entry.put("totalRevenue", pa.getTotalRevenue());
+            entry.put("totalOrdersContaining", pa.getTotalOrdersContaining());
+            data.add(entry);
+        }
+
+        return data;
+    }
+
+    public List<ShopAnalytics.ProductAnalytics> getProductAnalyticsData() {
+        return readAnalytics().getProductAnalytics();
+    }
+
+    public int getPrimeUserCount() {
+        return readAnalytics().getTotalPrimeUsers();
     }
 
     public void updateAfterNewInvoice(String invoiceId) {

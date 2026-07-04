@@ -36,6 +36,10 @@ public class ShopAnalytics {
     // Customer metrics
     private int totalCustomers;
     private int returningCustomers;
+    private int totalPrimeUsers;
+
+    // Product metrics
+    private List<ProductAnalytics> productAnalytics;
 
     public ShopAnalytics() {
         this.shopName = "Spomap Shop";
@@ -51,6 +55,8 @@ public class ShopAnalytics {
         this.dailyAnalytics = new ArrayList<>();
         this.totalCustomers = 0;
         this.returningCustomers = 0;
+        this.totalPrimeUsers = 0;
+        this.productAnalytics = new ArrayList<>();
     }
 
     // Getters and Setters
@@ -163,6 +169,22 @@ public class ShopAnalytics {
         this.returningCustomers = returningCustomers;
     }
 
+    public int getTotalPrimeUsers() {
+        return totalPrimeUsers;
+    }
+
+    public void setTotalPrimeUsers(int totalPrimeUsers) {
+        this.totalPrimeUsers = totalPrimeUsers;
+    }
+
+    public List<ProductAnalytics> getProductAnalytics() {
+        return productAnalytics;
+    }
+
+    public void setProductAnalytics(List<ProductAnalytics> productAnalytics) {
+        this.productAnalytics = productAnalytics;
+    }
+
     public void addOrUpdateMonthlyAnalytics(String month, double revenue, double profit, int orders) {
         for (MonthlyAnalytics ma : monthlyAnalytics) {
             if (ma.getMonth().equals(month)) {
@@ -185,6 +207,65 @@ public class ShopAnalytics {
             }
         }
         dailyAnalytics.add(new DailyAnalytics(date, revenue, orders));
+    }
+
+    public static class ProductAnalytics {
+        private String productId;
+        private String productName;
+        private int totalQuantitySold;
+        private double totalRevenue;
+        private int totalOrdersContaining;
+
+        public ProductAnalytics() {
+        }
+
+        public ProductAnalytics(String productId, String productName, int totalQuantitySold, double totalRevenue, int totalOrdersContaining) {
+            this.productId = productId;
+            this.productName = productName;
+            this.totalQuantitySold = totalQuantitySold;
+            this.totalRevenue = totalRevenue;
+            this.totalOrdersContaining = totalOrdersContaining;
+        }
+
+        public String getProductId() {
+            return productId;
+        }
+
+        public void setProductId(String productId) {
+            this.productId = productId;
+        }
+
+        public String getProductName() {
+            return productName;
+        }
+
+        public void setProductName(String productName) {
+            this.productName = productName;
+        }
+
+        public int getTotalQuantitySold() {
+            return totalQuantitySold;
+        }
+
+        public void setTotalQuantitySold(int totalQuantitySold) {
+            this.totalQuantitySold = totalQuantitySold;
+        }
+
+        public double getTotalRevenue() {
+            return totalRevenue;
+        }
+
+        public void setTotalRevenue(double totalRevenue) {
+            this.totalRevenue = totalRevenue;
+        }
+
+        public int getTotalOrdersContaining() {
+            return totalOrdersContaining;
+        }
+
+        public void setTotalOrdersContaining(int totalOrdersContaining) {
+            this.totalOrdersContaining = totalOrdersContaining;
+        }
     }
 
     public static class MonthlyAnalytics {

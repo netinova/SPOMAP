@@ -1,28 +1,44 @@
 {
-  "shopName": "Spomap Shop",
-  "currency": "USD",
-  "lastUpdated": "2026-07-02 20:52:45",
-  "analyticsStartDate": "2026-07-02 20:52:45",
-  "totalRevenue": 93.36,
-  "totalProfit": 37.344,
-  "totalOrders": 1,
-  "totalItemsSold": 13,
-  "averageOrderValue": 93.36,
-  "monthlyAnalytics": [
-    {
-      "month": "2026-07",
-      "revenue": 93.36,
-      "profit": 37.344,
-      "orders": 1
-    }
-  ],
-  "dailyAnalytics": [
-    {
-      "date": "2026-07-02",
-      "revenue": 93.36,
-      "orders": 1
-    }
-  ],
-  "totalCustomers": 9,
-  "returningCustomers": 1
+  "shopName" : "Spomap Shop",
+  "currency" : "USD",
+  "lastUpdated" : "2026-07-04 17:55:41",
+  "analyticsStartDate" : "2026-07-04 17:55:41",
+  "totalRevenue" : 93.36,
+  "totalProfit" : 37.344,
+  "totalOrders" : 1,
+  "totalItemsSold" : 13,
+  "averageOrderValue" : 93.36,
+  "monthlyAnalytics" : [ {
+    "month" : "2026-07",
+    "revenue" : 93.36,
+    "profit" : 37.344,
+    "orders" : 1
+  } ],
+  "dailyAnalytics" : [ {
+    "date" : "2026-07-02",
+    "revenue" : 93.36,
+    "orders" : 1
+  } ],
+  "totalCustomers" : 9,
+  "returningCustomers" : 1,
+  "totalPrimeUsers" : 2,
+  "productAnalytics" : [ {
+    "productId" : "PRD_000001",
+    "productName" : "barbari bread",
+    "totalQuantitySold" : 7,
+    "totalRevenue" : 6.3,
+    "totalOrdersContaining" : 1
+  }, {
+    "productId" : "PRD_000006",
+    "productName" : "Headphones",
+    "totalQuantitySold" : 3,
+    "totalRevenue" : 85.5,
+    "totalOrdersContaining" : 1
+  }, {
+    "productId" : "PRD_000004",
+    "productName" : "YamBoul",
+    "totalQuantitySold" : 3,
+    "totalRevenue" : 1.56,
+    "totalOrdersContaining" : 1
+  } ]
 }
