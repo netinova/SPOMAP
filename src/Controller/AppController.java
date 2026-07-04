@@ -5,6 +5,7 @@ import Model.ShoppingCart;
 import Service.InvoiceService;
 import View.ShopView;
 import View.AuthenticationView;
+import View.InvoiceView;
 import View.NavigationView;
 import View.SidebarView;
 import View.UserProfileView;
@@ -26,6 +27,7 @@ public class AppController {
     private ShoppingCartController shoppingCartController;
     private ProductController productController;
     private UserProfileController profileController;
+    private InvoiceController invoiceController;
 
     private MultiViewPanel multiViewPanel;
 
@@ -40,14 +42,14 @@ public class AppController {
         this.authenticationController = new AuthenticationController();
         this.shoppingCartController = new ShoppingCartController(productCatalog, this.invoiceService);
         this.productController = new ProductController();
-        this.profileController = new UserProfileController();
+        this.profileController = new UserProfileController(productCatalog);
+        this.invoiceController = new InvoiceController();
 
-        this.profileController.setProductCatalog(productCatalog);
     }
 
     public void setViews(ShopView shopView, NavigationView navigationView,
             SidebarView sidebarView, MultiViewPanel multiViewPanel,
-            AuthenticationView authenticationView, UserProfileView userProfileView) {
+            AuthenticationView authenticationView, UserProfileView userProfileView, InvoiceView invoiceView) {
 
         this.multiViewPanel = multiViewPanel;
 
@@ -56,6 +58,7 @@ public class AppController {
         navigationController.setShopView(shopView);
         authenticationController.setView(authenticationView);
         profileController.setView(userProfileView);
+        invoiceController.setView(invoiceView);
 
         // Set up view switching listeners
         navigationController.setOnChangeViewListener(viewId -> {
@@ -83,6 +86,10 @@ public class AppController {
         });
 
         shoppingCartController.setOnChangeViewListener(viewId -> {
+            this.multiViewPanel.switchView(viewId);
+        });
+
+        invoiceController.setOnChangeViewListener(viewId -> {
             this.multiViewPanel.switchView(viewId);
         });
     }
@@ -118,5 +125,9 @@ public class AppController {
 
     public UserProfileController getProfileController() {
         return profileController;
+    }
+
+    public InvoiceController getInvoiceController() {
+        return invoiceController;
     }
 }

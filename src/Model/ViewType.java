@@ -10,7 +10,8 @@ public enum ViewType {
     PRODUCT("productView", "Product Details"),
     AUTH("authView", "Authentication"),
     SHOPPING_CART("shoppingCartView", "Shopping Cart"),
-    USER("userView", "User Profile");
+    USER("userView", "User Profile"),
+    INVOICE("invoiceView", "invoices display");
 
     private final String viewId;
     private final String displayName;

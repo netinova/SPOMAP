@@ -14,12 +14,12 @@ public class UserProfileController {
     private OnChangeViewListener listener;
     private ProductCatalog productCatalog;
 
-    public void setView(UserProfileView view) {
-        this.view = view;
+    public UserProfileController(ProductCatalog productCatalog) {
+        this.productCatalog = productCatalog;
     }
 
-    public void setProductCatalog(ProductCatalog productCatalog) {
-        this.productCatalog = productCatalog;
+    public void setView(UserProfileView view) {
+        this.view = view;
     }
 
     public void setOnChangeViewListener(OnChangeViewListener listener) {

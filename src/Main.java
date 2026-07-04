@@ -12,6 +12,7 @@ import Model.UserLists.UserPrimeList;
 import Service.ProductService;
 import Service.UserService;
 import View.AuthenticationView;
+import View.InvoiceView;
 import View.NavigationView;
 import View.ProductView;
 import View.ShopView;
@@ -45,12 +46,13 @@ public class Main {
         UserProfileView userProfileView = new UserProfileView(appController.getProfileController());
         ProductView productView = new ProductView(appController.getProductController(), products);
         ShoppingCartView shoppingCartView = new ShoppingCartView(appController.getShoppingCartController());
+        InvoiceView invoiceView = new InvoiceView();
 
         MultiViewPanel multiViewPanel = new MultiViewPanel(shopView, authenticationView, userProfileView, productView,
-                shoppingCartView);
+                shoppingCartView, invoiceView);
 
         appController.setViews(shopView, navigationView, sidebarView, multiViewPanel, authenticationView,
-                userProfileView);
+                userProfileView, invoiceView);
 
         MainFrame mainFrame = new MainFrame(appController, sidebarView, navigationView, multiViewPanel);
 
