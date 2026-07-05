@@ -37,8 +37,9 @@ public class Main {
         ProductCatalog products = new ProductCatalog();
 
         InvoiceService invoiceService = new InvoiceService();
+        AnalyticsService analyticsService = new AnalyticsService(invoiceService);
 
-        AppController appController = new AppController(products, invoiceService);
+        AppController appController = new AppController(products, invoiceService, analyticsService);
 
         UIManager.put("ToolTip.foreground", ColorPalette.TEXT_PRIMARY);
         UIManager.put("ToolTip.background", ColorPalette.BG_TERTIARY);
@@ -78,9 +79,7 @@ public class Main {
         AppState.getInstance().primeUsersList = primeUsersList;
         AppState.getInstance().adminUsersList = adminUsersList;
 
-        AnalyticsService analyticsService = new AnalyticsService(invoiceService);
         analyticsService.recalculateAllAnalytics();
-        appController.setAnalyticsService(analyticsService);
 
         mainFrame.setVisible(true);
     }

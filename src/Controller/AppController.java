@@ -31,10 +31,11 @@ public class AppController {
 
     private MultiViewPanel multiViewPanel;
 
-    public AppController(ProductCatalog productCatalog, InvoiceService invoiceService) {
+    public AppController(ProductCatalog productCatalog, InvoiceService invoiceService,
+            AnalyticsService analyticsService) {
         this.productCatalog = productCatalog;
-
         this.invoiceService = invoiceService;
+        this.analyticsService = analyticsService;
 
         this.shopController = new ShopController(productCatalog);
         this.navigationController = new NavigationController(productCatalog);
@@ -42,8 +43,7 @@ public class AppController {
         this.authenticationController = new AuthenticationController();
         this.shoppingCartController = new ShoppingCartController(productCatalog, this.invoiceService);
         this.productController = new ProductController();
-        this.profileController = new UserProfileController();
-        this.profileController.setProductCatalog(productCatalog);
+        this.profileController = new UserProfileController(productCatalog, this.analyticsService);
     }
 
     public void setViews(ShopView shopView, NavigationView navigationView,
@@ -119,13 +119,5 @@ public class AppController {
 
     public UserProfileController getProfileController() {
         return profileController;
-    }
-
-    public void setAnalyticsService(AnalyticsService analyticsService) {
-        this.analyticsService = analyticsService;
-
-        if (profileController != null) {
-            profileController.setAnalyticsService(analyticsService);
-        }
     }
 }

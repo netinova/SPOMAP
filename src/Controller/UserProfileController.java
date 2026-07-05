@@ -25,19 +25,13 @@ public class UserProfileController {
 
     private AnalyticsService analyticsService;
 
-    public UserProfileController() {
-    }
-
-    public void setAnalyticsService(AnalyticsService analyticsService) {
+    public UserProfileController(ProductCatalog productCatalog, AnalyticsService analyticsService) {
+        this.productCatalog = productCatalog;
         this.analyticsService = analyticsService;
     }
 
     public void setView(UserProfileView view) {
         this.view = view;
-    }
-
-    public void setProductCatalog(ProductCatalog productCatalog) {
-        this.productCatalog = productCatalog;
     }
 
     public void setOnChangeViewListener(OnChangeViewListener listener) {
@@ -399,81 +393,82 @@ public class UserProfileController {
     }
 
     // status Shop
-    public int getCountPrimeUser(){
+    public int getCountPrimeUser() {
         return analyticsService.getPrimeUserCount();
     }
 
-    public double getRevenue(){
+    public double getRevenue() {
         return analyticsService.getAnalytics().getTotalRevenue();
     }
 
-    public double getProfit(){
+    public double getProfit() {
         return analyticsService.getAnalytics().getTotalProfit();
     }
 
-    public double getCustomer(){
+    public double getCustomer() {
         return analyticsService.getAnalytics().getTotalCustomers();
     }
 
-    public int getOrders(){
+    public int getOrders() {
         return analyticsService.getAnalytics().getTotalOrders();
     }
 
-    public int getItemSold(){
+    public int getItemSold() {
         return analyticsService.getAnalytics().getTotalItemsSold();
     }
 
-    public double getAverageOrder(){
+    public double getAverageOrder() {
         return analyticsService.getAnalytics().getAverageOrderValue();
     }
 
-    public String getLastUpdate(){
+    public String getLastUpdate() {
         LocalDateTime date = analyticsService.getAnalytics().getLastUpdated();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         return date.format(formatter);
     }
 
-    public void handleMonthlyChart(){
+    public void handleMonthlyChart() {
         List<ShopAnalytics.MonthlyAnalytics> monthlyAnalytics = analyticsService.getAnalytics().getMonthlyAnalytics();
         List<String> date = new ArrayList<>();
         List<Double> revenue = new ArrayList<>();
         List<Double> profit = new ArrayList<>();
-        for (ShopAnalytics.MonthlyAnalytics da : monthlyAnalytics){
+        for (ShopAnalytics.MonthlyAnalytics da : monthlyAnalytics) {
             date.add(da.getMonth());
             profit.add(da.getProfit());
             revenue.add(da.getRevenue());
         }
-        view.setInfoMonthlyChart(date,revenue,profit);
+        view.setInfoMonthlyChart(date, revenue, profit);
 
     }
 
-    public void handleDailyChart(String from , String to){
+    public void handleDailyChart(String from, String to) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         LocalDate dateFrom = LocalDate.parse(from, formatter);
         LocalDate dateTo = LocalDate.parse(to, formatter);
 
-        ShopAnalytics analytics = analyticsService.getAnalyticsForDateRange(dateFrom.atStartOfDay(),dateTo.atTime(23,59,59));
-        if (analytics==null) return;
+        ShopAnalytics analytics = analyticsService.getAnalyticsForDateRange(dateFrom.atStartOfDay(),
+                dateTo.atTime(23, 59, 59));
+        if (analytics == null)
+            return;
 
         List<ShopAnalytics.DailyAnalytics> dailyAnalytics = analytics.getDailyAnalytics();
         List<String> date = new ArrayList<>();
         List<Double> revenue = new ArrayList<>();
-        for (ShopAnalytics.DailyAnalytics da : dailyAnalytics){
+        for (ShopAnalytics.DailyAnalytics da : dailyAnalytics) {
             date.add(da.getDate());
             revenue.add(da.getRevenue());
         }
-        view.setInfoDailyChart(date,revenue);
+        view.setInfoDailyChart(date, revenue);
     }
 
-    public void handleProductChart(){
+    public void handleProductChart() {
         List<ShopAnalytics.ProductAnalytics> productAnalytics = analyticsService.getAnalytics().getProductAnalytics();
-        Map<String, Integer> productSales= new HashMap<>();
-        for (ShopAnalytics.ProductAnalytics da : productAnalytics){
-            productSales.put(da.getProductName(),da.getTotalQuantitySold());
+        Map<String, Integer> productSales = new HashMap<>();
+        for (ShopAnalytics.ProductAnalytics da : productAnalytics) {
+            productSales.put(da.getProductName(), da.getTotalQuantitySold());
         }
         view.setProductInfo(productSales);
     }
-
 
     // listener
     public void onNameProductChange(String newValue) {
@@ -504,6 +499,5 @@ public class UserProfileController {
     public void showMainPage() {
         view.showMainProfile();
     }
-
 
 }
