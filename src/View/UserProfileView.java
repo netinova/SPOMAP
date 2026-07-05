@@ -10,6 +10,8 @@ import javax.swing.plaf.basic.BasicScrollBarUI;
 
 import java.awt.*;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
 
 public class UserProfileView extends JPanel {
 
@@ -239,6 +241,8 @@ public class UserProfileView extends JPanel {
     }
 
     private void showLogShop() {
+        logShopPanel.refreshFullView();
+        controller.handleProductChart();
         cardLayout.show(cardPanel, "LOG_SHOP");
     }
 
@@ -286,5 +290,23 @@ public class UserProfileView extends JPanel {
         });
         bar.setPreferredSize(new Dimension(8, 0));
         bar.setUnitIncrement(16);
+    }
+
+    public void setInfoDailyChart(List<String> date, List<Double> revenue) {
+        logShopPanel.setDateForDaily(date);
+        logShopPanel.setRevenueForDaily(revenue);
+        logShopPanel.refreshViewChartDaily();
+    }
+
+    public void setInfoMonthlyChart(List<String> date, List<Double> revenue, List<Double> profit) {
+        logShopPanel.setDateForMonthly(date);
+        logShopPanel.setProfitForMonthly(profit);
+        logShopPanel.setRevenueForMonthly(revenue);
+        logShopPanel.refreshViewChartMonthly();
+    }
+
+    public void setProductInfo(Map<String, Integer> productSales) {
+        logShopPanel.setProductSalesMap(productSales);
+        logShopPanel.refreshViewChartProduct();
     }
 }

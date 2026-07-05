@@ -2,6 +2,7 @@ package Controller;
 
 import Model.ProductCatalog;
 import Model.ShoppingCart;
+import Service.AnalyticsService;
 import Service.InvoiceService;
 import View.ShopView;
 import View.AuthenticationView;
@@ -18,6 +19,7 @@ public class AppController {
     private ProductCatalog productCatalog;
 
     private InvoiceService invoiceService;
+    private AnalyticsService analyticsService;
 
     private ShopController shopController;
     private NavigationController navigationController;
@@ -40,8 +42,7 @@ public class AppController {
         this.authenticationController = new AuthenticationController();
         this.shoppingCartController = new ShoppingCartController(productCatalog, this.invoiceService);
         this.productController = new ProductController();
-        this.profileController = new UserProfileController(invoiceService);
-
+        this.profileController = new UserProfileController();
         this.profileController.setProductCatalog(productCatalog);
     }
 
@@ -118,5 +119,13 @@ public class AppController {
 
     public UserProfileController getProfileController() {
         return profileController;
+    }
+
+    public void setAnalyticsService(AnalyticsService analyticsService) {
+        this.analyticsService = analyticsService;
+
+        if (profileController != null) {
+            profileController.setAnalyticsService(analyticsService);
+        }
     }
 }

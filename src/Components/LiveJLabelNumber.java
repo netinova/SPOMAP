@@ -32,6 +32,7 @@ public class LiveJLabelNumber extends JLabel {
     }
     public void setTarget(double target) {
         this.targetDouble = target;
+        this.target = (int) target;
         startCounting();
     }
 

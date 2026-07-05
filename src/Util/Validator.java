@@ -8,6 +8,7 @@ public class Validator {
     public static final String PASSWORD_REGEX = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
     public static final String DOUBLE_REGEX = "^\\d+(\\.\\d{1,2})?$";
     public static final String FILE_REGEX = "^database/pictures/[^/]+\\.(png|jpg|jpeg)$";
+    public static final String DATE_REGEX = "^\\d{4}/(0[1-9]|1[0-2])/(0[1-9]|[12]\\d|3[01])$";
 
     public static class ValidationResult {
         private final boolean valid;
@@ -127,6 +128,16 @@ public class Validator {
         }
         if (!name.matches(FILE_REGEX)) {
             return new ValidationResult(false, "Invalid format for Address");
+        }
+        return new ValidationResult(true, null);
+    }
+
+    public static ValidationResult validationDate(String name) {
+        if (name == null || name.isEmpty() || name.equals("YYYY/MM/DD")) {
+            return new ValidationResult(false, "Date is required");
+        }
+        if (!name.matches(DATE_REGEX)) {
+            return new ValidationResult(false, "Invalid format for Date");
         }
         return new ValidationResult(true, null);
     }

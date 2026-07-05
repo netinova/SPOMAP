@@ -7,21 +7,31 @@ import org.knowm.xchart.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 public class LogShopPanel extends JPanel {
 
     private final int borderRadius = 25;
 
     private RoundedPanel statusTopPanel;
-    private RoundedPanel chartPanel;
+
+    private RoundedButton backButton;
+    private RoundedButton searchButton;
 
     private CategoryChart categoryChartDaily;
     private CategoryChart categoryChartMonthly;
     private PieChart pieChart;
+
+    private FormTextFiledPanel dateFromPanel;
+    private FormTextFiledPanel dateToPanel;
+
+    private RoundedInputText dateFromInputPanel;
+    private RoundedInputText dateToInputPanel;
 
     private LiveJLabelNumber revenueLabel;
     private LiveJLabelNumber profitLabel;
@@ -29,15 +39,32 @@ public class LogShopPanel extends JPanel {
     private LiveJLabelNumber customersLabel;
     private LiveJLabelNumber itemsSoldLabel;
     private LiveJLabelNumber averageOrderLabel;
+    private LiveJLabelNumber primeUserLabel;
     private LiveJLabelNumber tempLiveLabel;
+
+    private List<String> dateForDaily;
+    private List<String> dateForMonthly;
+    private List<Double> revenueForDaily;
+    private List<Double> revenueForMonthly;
+    private List<Double> profitForMonthly;
+    private Map<String, Integer> productSalesMap;
 
     private JLabel lastUpdateLabel;
     private JLabel tempLabel;
 
+    public static final String DATE_FROM_PROP = "dateFrom";
+    public static final String DATE_TO_PROP = "dateTo";
+    public static final String SEARCH_BTN_PROP = "search";
+
     private UserProfileController controller;
+    private final PropertyChangeSupport support = new PropertyChangeSupport(this);
 
     public void setController(UserProfileController controller) {
         this.controller = controller;
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        support.addPropertyChangeListener(listener);
     }
 
     public LogShopPanel() {
@@ -76,13 +103,23 @@ public class LogShopPanel extends JPanel {
         productPieChart.setAlignmentX(CENTER_ALIGNMENT);
         this.add(productPieChart);
         this.add(Box.createVerticalStrut(25));
-        RoundedButton btn = new RoundedButton("asd",30);
-        btn.addActionListener(e -> {
-            btn.setText(String.valueOf(productPieChart.getWidth()));
-        });
-        this.add(btn);
 
-        //TODO: more status
+//        RoundedButton btn = new RoundedButton("update", 30);
+//        btn.addActionListener(e -> {
+//            System.out.println(dateFromInputPanel.getHeight());
+//        });
+//        this.add(btn);
+
+        // Back btn
+        backButton = new RoundedButton("Back", 30);
+        backButton.setBackground(new Color(0xde3c2f));
+        backButton.setHoverColor(new Color(0xC6DE3C2F, true));
+        backButton.setMaximumSize(new Dimension(140,backButton.getHeight()));
+        backButton.setForeground(ColorPalette.TEXT_PRIMARY);
+        backButton.setAlignmentX(CENTER_ALIGNMENT);
+        backButton.addActionListener(e -> controller.showMainPage());
+        this.add(backButton);
+
         this.add(Box.createVerticalGlue());
     }
 
@@ -107,12 +144,12 @@ public class LogShopPanel extends JPanel {
         profitLabel = tempLiveLabel;
 
         gbc.gridx = 2;
-        panel.add(createLiveStatCard("Orders", null), gbc);
-        orderLabel = tempLiveLabel;
-
-        gbc.gridx = 3;
         panel.add(createLiveStatCard("Customers", null), gbc);
         customersLabel = tempLiveLabel;
+
+        gbc.gridx = 3;
+        panel.add(createLiveStatCard("Orders", null), gbc);
+        orderLabel = tempLiveLabel;
 
         gbc.gridy=1;
         gbc.gridx=0;
@@ -124,6 +161,10 @@ public class LogShopPanel extends JPanel {
         averageOrderLabel = tempLiveLabel;
 
         gbc.gridx=2;
+        panel.add(createLiveStatCard("Prime User", null),gbc);
+        primeUserLabel = tempLiveLabel;
+
+        gbc.gridx=3;
         panel.add(createStatCard("Last Update"),gbc);
         lastUpdateLabel = tempLabel;
 
@@ -198,13 +239,15 @@ public class LogShopPanel extends JPanel {
         return panel;
     }
     private JPanel createRevenueDailyChart() {
-        RoundedPanel wrapper = new RoundedPanel(borderRadius, ColorPalette.BG_SECONDARY, ColorPalette.BORDER);
-        wrapper.setLayout(new BorderLayout());
-        wrapper.setBorder(new EmptyBorder(10, 10, 10, 10));
+        RoundedPanel panel = new RoundedPanel(borderRadius, ColorPalette.BG_SECONDARY, ColorPalette.BORDER);
+        panel.setLayout(new BorderLayout());
+//        panel.setPreferredSize(new Dimension(400,400));
+//        panel.setMaximumSize(new Dimension(400,400));
+        panel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
         // TODO: Replace with real data from monthlyAnalytics
-        List<String> months = Arrays.asList("Jul 2026");
-        List<Double> revenue = Arrays.asList(113.36);
+        List<String> months = Arrays.asList("");
+        List<Double> revenue = Arrays.asList(0.0);
 
         categoryChartDaily = new CategoryChartBuilder()
                 .width(400)
@@ -233,16 +276,86 @@ public class LogShopPanel extends JPanel {
         categoryChartDaily.getSeries("Revenue").setLineColor(ColorPalette.ACCENT_PRIMARY);
 
         XChartPanel<CategoryChart> chartPanel = new XChartPanel<>(categoryChartDaily);
-        wrapper.add(chartPanel, BorderLayout.CENTER);
+        panel.add(chartPanel, BorderLayout.CENTER);
 
-        return wrapper;
+        // search panel
+        JPanel datePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
+        datePanel.setOpaque(false);
+        datePanel.setBorder(new EmptyBorder(5, 10, 5, 10));
+
+        dateFromInputPanel = new RoundedInputText("YYYY/MM/DD",4);
+        dateFromInputPanel.setPreferredSize(new Dimension(50*4,50));
+        dateFromInputPanel.setMaximumSize(new Dimension(50*4,50));
+        dateFromPanel = new FormTextFiledPanel("From", dateFromInputPanel, DATE_FROM_PROP);
+        dateFromPanel.setPreferredSize(new Dimension(50*4,75));
+        dateFromInputPanel.addActionListener(e -> {
+            var result = controller.validationDate(dateFromInputPanel.getText());
+            if (!result.isValid())
+                dateFromPanel.setError(result.getErrorMessage());
+            else
+                dateFromPanel.clearError();
+
+            support.firePropertyChange(DATE_FROM_PROP,null,dateFromInputPanel.getText());
+        });
+        datePanel.add(dateFromPanel);
+
+        dateToInputPanel = new RoundedInputText("YYYY/MM/DD",4);
+        dateToPanel = new FormTextFiledPanel("To", dateToInputPanel, DATE_TO_PROP);
+        dateToInputPanel.setPreferredSize(new Dimension(50*4,50));
+        dateToInputPanel.setMaximumSize(new Dimension(50*4,50));
+        dateToPanel.setPreferredSize(new Dimension(50*4,75));
+        dateToInputPanel.addActionListener(e -> {
+            var result = controller.validationDate(dateToInputPanel.getText());
+            if (!result.isValid())
+                dateToPanel.setError(result.getErrorMessage());
+            else
+                dateToPanel.clearError();
+
+            support.firePropertyChange(DATE_TO_PROP,null,dateToInputPanel.getText());
+        });
+        datePanel.add(dateToPanel);
+
+        searchButton = new RoundedButton("Search", 25);
+        searchButton.addActionListener(e -> {
+            var resultFrom = controller.validationDate(dateFromInputPanel.getText());
+            if (!resultFrom.isValid())
+                dateFromPanel.setError(resultFrom.getErrorMessage());
+            else
+                dateFromPanel.clearError();
+
+            var resultTo = controller.validationDate(dateToInputPanel.getText());
+            if (!resultTo.isValid())
+                dateToPanel.setError(resultTo.getErrorMessage());
+            else
+                dateToPanel.clearError();
+
+            if (resultFrom.isValid() && resultTo.isValid()) {
+                LocalDate from = LocalDate.parse(dateFromInputPanel.getText(),
+                        DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+                LocalDate to = LocalDate.parse(dateToInputPanel.getText(),
+                        DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+
+                if (from.isAfter(to))
+                    dateToPanel.setError("From date must be before \"To date\"");
+                else {
+                    dateToPanel.clearError();
+                    controller.handleDailyChart(dateFromInputPanel.getText(),dateToInputPanel.getText());
+                    support.firePropertyChange(DATE_FROM_PROP, null, null);
+                }
+            }
+
+        });
+        datePanel.add(searchButton,FlowLayout.RIGHT);
+
+        panel.add(datePanel, BorderLayout.SOUTH);
+
+        return panel;
     }
 
-    // Orders by Month - Bar Chart (already good)
     private JPanel createMonthlyBarChart() {
-        RoundedPanel wrapper = new RoundedPanel(borderRadius, ColorPalette.BG_SECONDARY, ColorPalette.BORDER);
-        wrapper.setLayout(new BorderLayout());
-        wrapper.setBorder(new EmptyBorder(10, 10, 10, 10));
+        RoundedPanel panel = new RoundedPanel(borderRadius, ColorPalette.BG_SECONDARY, ColorPalette.BORDER);
+        panel.setLayout(new BorderLayout());
+        panel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
         List<String> months = Arrays.asList("Jul 2026");
         List<Double> revenue = Arrays.asList(22.2);
@@ -265,21 +378,22 @@ public class LogShopPanel extends JPanel {
         categoryChartMonthly.getStyler().setYAxisTitleColor(ColorPalette.TEXT_PRIMARY);
         categoryChartMonthly.getStyler().setLegendBackgroundColor(ColorPalette.BG_SECONDARY);
         categoryChartMonthly.getStyler().setAxisTickLabelsColor(ColorPalette.TEXT_PRIMARY);
-        categoryChartMonthly.getStyler().setSeriesColors(new Color[]{ColorPalette.ACCENT_PRIMARY});
+        categoryChartMonthly.getStyler().setSeriesColors(new Color[]{ColorPalette.ACCENT_PRIMARY, ColorPalette.ACCENT_WARNING});
         categoryChartMonthly.getStyler().setDefaultSeriesRenderStyle(CategorySeries.CategorySeriesRenderStyle.Bar);
 
         categoryChartMonthly.addSeries("Revenue", months, revenue);
+        categoryChartMonthly.addSeries("Profit", months, revenue);
 
         XChartPanel<CategoryChart> chartPanel = new XChartPanel<>(categoryChartMonthly);
-        wrapper.add(chartPanel, BorderLayout.CENTER);
+        panel.add(chartPanel, BorderLayout.CENTER);
 
-        return wrapper;
+        return panel;
     }
 
     private JPanel createProductPieChart() {
-        RoundedPanel wrapper = new RoundedPanel(borderRadius, ColorPalette.BG_SECONDARY, ColorPalette.BORDER);
-        wrapper.setLayout(new BorderLayout());
-        wrapper.setBorder(new EmptyBorder(10, 10, 10, 10));
+        RoundedPanel panel = new RoundedPanel(borderRadius, ColorPalette.BG_SECONDARY, ColorPalette.BORDER);
+        panel.setLayout(new BorderLayout());
+        panel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
         Map<String, Integer> productSales = new LinkedHashMap<>();
         productSales.put("Product A", 120);
@@ -305,12 +419,76 @@ public class LogShopPanel extends JPanel {
         }
 
         XChartPanel<PieChart> chartPanel = new XChartPanel<>(pieChart);
-        wrapper.add(chartPanel, BorderLayout.CENTER);
+        panel.add(chartPanel, BorderLayout.CENTER);
 
-        return wrapper;
+        return panel;
     }
 
-    public void loadView() {
-        // TODO: Load real data from controller and update labels + charts
+    public void setDateForDaily(List<String> dateForDaily) {
+        this.dateForDaily = dateForDaily;
+    }
+
+    public void setDateForMonthly(List<String> dateForMonthly) {
+        this.dateForMonthly = dateForMonthly;
+    }
+
+    public void setRevenueForDaily(List<Double> revenueForDaily) {
+        this.revenueForDaily = revenueForDaily;
+    }
+
+    public void setRevenueForMonthly(List<Double> revenueForMonthly) {
+        this.revenueForMonthly = revenueForMonthly;
+    }
+
+    public void refreshViewChartDaily() {
+        categoryChartDaily.updateCategorySeries("Revenue", dateForDaily, revenueForDaily,null);
+        repaint();
+        revalidate();
+    }
+
+    public void refreshViewChartMonthly() {
+        categoryChartMonthly.updateCategorySeries("Revenue", dateForMonthly, revenueForMonthly,null);
+        categoryChartMonthly.updateCategorySeries("Profit", dateForMonthly, profitForMonthly,null);
+        repaint();
+        revalidate();
+    }
+
+    public void refreshViewChartProduct() {
+        if (pieChart == null || productSalesMap == null || pieChart.getSeries("Product A")==null) return;
+
+        pieChart.removeSeries("Product A");
+        for (Map.Entry<String, Integer> entry : productSalesMap.entrySet()) {
+            pieChart.addSeries(entry.getKey(), entry.getValue());
+        }
+        repaint();
+        revalidate();
+    }
+
+    public void refreshFullView(){
+        revenueLabel.setTarget(controller.getRevenue());
+        profitLabel.setTarget(controller.getProfit());
+        customersLabel.setTarget(controller.getCustomer());
+        orderLabel.setTarget(controller.getOrders());
+        itemsSoldLabel.setTarget(controller.getItemSold());
+        averageOrderLabel.setTarget(controller.getAverageOrder());
+        primeUserLabel.setTarget(controller.getCountPrimeUser());
+        lastUpdateLabel.setText(controller.getLastUpdate());
+
+        dateFromInputPanel.setActivePlaceHolder(true);
+        dateToInputPanel.setActivePlaceHolder(true);
+        dateFromPanel.clearError();
+        dateToPanel.clearError();
+        List<String> temp = new ArrayList<>();
+        List<Double> temp2 = new ArrayList<>();
+        categoryChartDaily.updateCategorySeries("Revenue", temp, temp2,null);
+        controller.handleMonthlyChart();
+    }
+
+    public void setProfitForMonthly(List<Double> profitForMonthly) {
+        this.profitForMonthly = profitForMonthly;
+    }
+
+    public void setProductSalesMap(Map<String, Integer> productSalesMap) {
+        this.productSalesMap = productSalesMap;
     }
 }

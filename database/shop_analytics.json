@@ -1,26 +1,30 @@
 {
   "shopName" : "Spomap Shop",
   "currency" : "USD",
-  "lastUpdated" : "2026-07-04 17:55:41",
-  "analyticsStartDate" : "2026-07-04 17:55:41",
-  "totalRevenue" : 93.36,
-  "totalProfit" : 37.344,
-  "totalOrders" : 1,
-  "totalItemsSold" : 13,
-  "averageOrderValue" : 93.36,
+  "lastUpdated" : "2026-07-05 03:40:50",
+  "analyticsStartDate" : "2026-07-05 03:40:50",
+  "totalRevenue" : 113.36,
+  "totalProfit" : 45.34400000000001,
+  "totalOrders" : 2,
+  "totalItemsSold" : 15,
+  "averageOrderValue" : 56.68,
   "monthlyAnalytics" : [ {
     "month" : "2026-07",
-    "revenue" : 93.36,
-    "profit" : 37.344,
-    "orders" : 1
+    "revenue" : 113.36,
+    "profit" : 45.34400000000001,
+    "orders" : 2
   } ],
   "dailyAnalytics" : [ {
     "date" : "2026-07-02",
     "revenue" : 93.36,
     "orders" : 1
+  }, {
+    "date" : "2026-07-04",
+    "revenue" : 20.0,
+    "orders" : 1
   } ],
   "totalCustomers" : 9,
-  "returningCustomers" : 1,
+  "returningCustomers" : 2,
   "totalPrimeUsers" : 2,
   "productAnalytics" : [ {
     "productId" : "PRD_000001",
@@ -39,6 +43,12 @@
     "productName" : "YamBoul",
     "totalQuantitySold" : 3,
     "totalRevenue" : 1.56,
+    "totalOrdersContaining" : 1
+  }, {
+    "productId" : "PRD_000000",
+    "productName" : "Game board Koodeta COUP+",
+    "totalQuantitySold" : 2,
+    "totalRevenue" : 20.0,
     "totalOrdersContaining" : 1
   } ]
 }

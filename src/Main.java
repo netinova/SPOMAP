@@ -11,6 +11,7 @@ import Model.UserLists.UserNormalList;
 import Model.UserLists.UserPrimeList;
 import Service.ProductService;
 import Service.UserService;
+import Util.ColorPalette;
 import View.AuthenticationView;
 import View.NavigationView;
 import View.ProductView;
@@ -21,6 +22,7 @@ import View.UserProfileView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,6 +39,9 @@ public class Main {
         InvoiceService invoiceService = new InvoiceService();
 
         AppController appController = new AppController(products, invoiceService);
+
+        UIManager.put("ToolTip.foreground", ColorPalette.TEXT_PRIMARY);
+        UIManager.put("ToolTip.background", ColorPalette.BG_TERTIARY);
 
         ShopView shopView = new ShopView(appController.getShopController(), products);
         NavigationView navigationView = new NavigationView(appController.getNavigationController());
@@ -75,6 +80,7 @@ public class Main {
 
         AnalyticsService analyticsService = new AnalyticsService(invoiceService);
         analyticsService.recalculateAllAnalytics();
+        appController.setAnalyticsService(analyticsService);
 
         mainFrame.setVisible(true);
     }
