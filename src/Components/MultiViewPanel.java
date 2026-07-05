@@ -72,9 +72,14 @@ public class MultiViewPanel extends JPanel {
         if (viewType == ViewType.SHOPPING_CART) {
             shoppingCartView.loadCartItems();
         }
+
         if (viewType == ViewType.USER) {
             userProfileView.showMainProfile();
             userProfileView.loadUserData();
+        }
+
+        if (viewType == ViewType.INVOICE) {
+            invoiceView.changeLayout();
         }
 
         cardLayout.show(this, viewId);

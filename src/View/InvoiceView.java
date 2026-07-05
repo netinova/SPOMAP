@@ -18,16 +18,20 @@ import javax.swing.plaf.basic.BasicScrollBarUI;
 
 import Components.ColorSelectorPanel;
 import Components.ImageGallery;
+import Components.InvoiceSearchPanel;
 import Components.PricePanel;
 import Components.ProductInfoPanel;
 import Components.QuantityCartPanel;
 import Components.StockLabel;
 import Components.TechnicalSpecsPanel;
+import Model.AppState;
+import Model.UserType;
 import Util.ColorPalette;
 
 public class InvoiceView extends JPanel {
 
     private JPanel contentPanel;
+    private InvoiceSearchPanel invoiceSearchPanel;
 
     public InvoiceView() {
         setupUI();
@@ -44,6 +48,10 @@ public class InvoiceView extends JPanel {
                 BorderFactory.createEmptyBorder(10, 10, 10, 10),
                 BorderFactory.createLineBorder(ColorPalette.BORDER)));
 
+        invoiceSearchPanel = new InvoiceSearchPanel();
+
+        contentPanel.add(invoiceSearchPanel);
+
         // wrapping the grid in a scroll pane
         JScrollPane scrollPane = new JScrollPane(contentPanel);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -57,6 +65,10 @@ public class InvoiceView extends JPanel {
         styleScrollBar(verticalBar);
 
         this.add(scrollPane, BorderLayout.CENTER);
+    }
+
+    public void changeLayout() {
+        invoiceSearchPanel.setAdminMode(AppState.getInstance().getLoggedInUser().getUserType() == UserType.ADMIN);
     }
 
     private void styleScrollBar(JScrollBar bar) {
