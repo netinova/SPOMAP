@@ -1,18 +1,18 @@
 {
   "shopName" : "Spomap Shop",
   "currency" : "USD",
-  "lastUpdated" : "2026-07-05 17:35:40",
-  "analyticsStartDate" : "2026-07-05 17:35:40",
-  "totalRevenue" : 113.36,
-  "totalProfit" : 45.34400000000001,
-  "totalOrders" : 2,
-  "totalItemsSold" : 15,
-  "averageOrderValue" : 56.68,
+  "lastUpdated" : "2026-07-05 17:58:51",
+  "analyticsStartDate" : "2026-07-05 17:58:51",
+  "totalRevenue" : 151.36,
+  "totalProfit" : 60.54400000000001,
+  "totalOrders" : 3,
+  "totalItemsSold" : 19,
+  "averageOrderValue" : 50.45333333333334,
   "monthlyAnalytics" : [ {
     "month" : "2026-07",
-    "revenue" : 113.36,
-    "profit" : 45.34400000000001,
-    "orders" : 2
+    "revenue" : 151.36,
+    "profit" : 60.54400000000001,
+    "orders" : 3
   } ],
   "dailyAnalytics" : [ {
     "date" : "2026-07-02",
@@ -22,15 +22,25 @@
     "date" : "2026-07-04",
     "revenue" : 20.0,
     "orders" : 1
+  }, {
+    "date" : "2026-07-05",
+    "revenue" : 38.0,
+    "orders" : 1
   } ],
   "totalCustomers" : 9,
-  "returningCustomers" : 2,
+  "returningCustomers" : 3,
   "totalPrimeUsers" : 2,
   "productAnalytics" : [ {
     "productId" : "PRD_000001",
     "productName" : "barbari bread",
     "totalQuantitySold" : 7,
     "totalRevenue" : 6.3,
+    "totalOrdersContaining" : 1
+  }, {
+    "productId" : "PRD_000012",
+    "productName" : "toilet paper",
+    "totalQuantitySold" : 4,
+    "totalRevenue" : 38.0,
     "totalOrdersContaining" : 1
   }, {
     "productId" : "PRD_000006",

@@ -161,26 +161,18 @@
     "manufacturer" : "Spirits S.H.Figuarts",
     "technicalSpecs" : { }
   }, {
-    "name" : "asd",
+    "name" : "toilet paper",
     "id" : "PRD_000012",
-    "thumbnail" : null,
-    "productImages" : [ ],
-    "description" : null,
-    "discount" : 2.0,
-    "price" : 2.0,
-    "colors" : [ ],
-    "manufacturer" : null,
-    "technicalSpecs" : { }
-  }, {
-    "name" : "asd",
-    "id" : "PRD_000013",
-    "thumbnail" : null,
-    "productImages" : [ ],
-    "description" : null,
-    "discount" : 2.0,
-    "price" : 2.0,
-    "colors" : [ "Default" ],
-    "manufacturer" : null,
-    "technicalSpecs" : { }
+    "thumbnail" : "database/pictures/Toiletpapier_(Gobran111).jpg",
+    "productImages" : [ "database/pictures/Toiletpapier_(Gobran111).jpg", "database/pictures/Toilet-Tissue-Paper-Supplier.jpg", "database/pictures/ezgif-8982dfee762157d4.jpg" ],
+    "description" : "toilet paper ...",
+    "discount" : 5.0,
+    "price" : 10.0,
+    "colors" : [ "White" ],
+    "manufacturer" : "Toilet.co",
+    "technicalSpecs" : {
+      "length" : "20m",
+      "mass" : "250g"
+    }
   } ]
 }

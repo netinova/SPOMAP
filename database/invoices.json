@@ -34,4 +34,16 @@
   } ],
   "invoiceDate" : "2026-07-04 02:19:56",
   "status" : "Paid"
+}, {
+  "invoiceId" : "INV_000003",
+  "userId" : "USR_000008",
+  "items" : [ {
+    "productId" : "PRD_000012",
+    "productName" : "toilet paper",
+    "unitPrice" : 10.0,
+    "quantity" : 4,
+    "discount" : 5.0
+  } ],
+  "invoiceDate" : "2026-07-05 17:58:01",
+  "status" : "Paid"
 } ]
