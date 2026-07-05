@@ -40,7 +40,7 @@ public class ColorSelectorPanel extends JPanel {
 
     private static final int CIRCLE_DIAMETER = 35;
     private static final int LABEL_HEIGHT = 18;
-    private static final int ITEM_WIDTH = 70;
+    private static final int ITEM_WIDTH = 75;
     private static final int ITEM_HEIGHT = CIRCLE_DIAMETER + LABEL_HEIGHT + 6;
 
     private static final int CIRCLE_PADDING = 10;
@@ -53,10 +53,9 @@ public class ColorSelectorPanel extends JPanel {
     }
 
     public ColorSelectorPanel() {
-        setBackground(ColorPalette.BG_MAIN);
         setLayout(new WrapLayout(FlowLayout.LEFT, CIRCLE_PADDING, 6));
         setBorder(new EmptyBorder(10, 10, 10, 10));
-        setOpaque(true);
+        setOpaque(false);
     }
 
     public void setSelectionMode(SelectionMode mode) {

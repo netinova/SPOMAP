@@ -104,12 +104,6 @@ public class LogShopPanel extends JPanel {
         this.add(productPieChart);
         this.add(Box.createVerticalStrut(25));
 
-//        RoundedButton btn = new RoundedButton("update", 30);
-//        btn.addActionListener(e -> {
-//            System.out.println(dateFromInputPanel.getHeight());
-//        });
-//        this.add(btn);
-
         // Back btn
         backButton = new RoundedButton("Back", 30);
         backButton.setBackground(new Color(0xde3c2f));
@@ -220,12 +214,27 @@ public class LogShopPanel extends JPanel {
         return card;
     }
     private JPanel createChartsRow() {
-        JPanel panel = new JPanel(new GridLayout(1, 2, 20, 0));
+        JPanel panel = new JPanel(new GridBagLayout());
         panel.setOpaque(false);
-        panel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 280));
 
-        panel.add(createRevenueDailyChart());
-        panel.add(createMonthlyBarChart());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weighty = 1;
+        gbc.insets = new Insets(0, 0, 0, 10);
+
+        gbc.gridx = 0;
+        gbc.weightx = 1;
+        panel.add(createRevenueDailyChart(), gbc);
+
+        gbc.gridx = 1;
+        gbc.weightx = 1;
+        gbc.insets = new Insets(0, 10, 0, 0);
+        panel.add(createMonthlyBarChart(), gbc);
+
+        panel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panel.setMaximumSize(new Dimension(Integer.MAX_VALUE,
+                panel.getPreferredSize().height));
 
         return panel;
     }
@@ -241,8 +250,7 @@ public class LogShopPanel extends JPanel {
     private JPanel createRevenueDailyChart() {
         RoundedPanel panel = new RoundedPanel(borderRadius, ColorPalette.BG_SECONDARY, ColorPalette.BORDER);
         panel.setLayout(new BorderLayout());
-//        panel.setPreferredSize(new Dimension(400,400));
-//        panel.setMaximumSize(new Dimension(400,400));
+        panel.setPreferredSize(new Dimension(450, 470));
         panel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
         // TODO: Replace with real data from monthlyAnalytics
@@ -279,15 +287,15 @@ public class LogShopPanel extends JPanel {
         panel.add(chartPanel, BorderLayout.CENTER);
 
         // search panel
-        JPanel datePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
+        JPanel datePanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 5));
         datePanel.setOpaque(false);
-        datePanel.setBorder(new EmptyBorder(5, 10, 5, 10));
+        datePanel.setBorder(new EmptyBorder(0, 0, 0, 0));
 
         dateFromInputPanel = new RoundedInputText("YYYY/MM/DD",4);
-        dateFromInputPanel.setPreferredSize(new Dimension(50*4,50));
-        dateFromInputPanel.setMaximumSize(new Dimension(50*4,50));
+        dateFromInputPanel.setPreferredSize(new Dimension(50*3,50));
+        dateFromInputPanel.setMaximumSize(new Dimension(50*3,50));
         dateFromPanel = new FormTextFiledPanel("From", dateFromInputPanel, DATE_FROM_PROP);
-        dateFromPanel.setPreferredSize(new Dimension(50*4,75));
+        dateFromPanel.setPreferredSize(new Dimension(50*3,75));
         dateFromInputPanel.addActionListener(e -> {
             var result = controller.validationDate(dateFromInputPanel.getText());
             if (!result.isValid())
@@ -301,9 +309,9 @@ public class LogShopPanel extends JPanel {
 
         dateToInputPanel = new RoundedInputText("YYYY/MM/DD",4);
         dateToPanel = new FormTextFiledPanel("To", dateToInputPanel, DATE_TO_PROP);
-        dateToInputPanel.setPreferredSize(new Dimension(50*4,50));
-        dateToInputPanel.setMaximumSize(new Dimension(50*4,50));
-        dateToPanel.setPreferredSize(new Dimension(50*4,75));
+        dateToInputPanel.setPreferredSize(new Dimension(50*3,50));
+        dateToInputPanel.setMaximumSize(new Dimension(50*3,50));
+        dateToPanel.setPreferredSize(new Dimension(50*3,75));
         dateToInputPanel.addActionListener(e -> {
             var result = controller.validationDate(dateToInputPanel.getText());
             if (!result.isValid())
@@ -315,7 +323,14 @@ public class LogShopPanel extends JPanel {
         });
         datePanel.add(dateToPanel);
 
+        JPanel btnPanel = new JPanel();
+        btnPanel.setOpaque(false);
+        btnPanel.setBorder(new EmptyBorder(10,0,0,0));
+        btnPanel.setLayout(new BorderLayout());
+
         searchButton = new RoundedButton("Search", 25);
+        searchButton.setBorder(new EmptyBorder(10, 0, 10, 0));
+        searchButton.setPreferredSize(new Dimension(83,30));
         searchButton.addActionListener(e -> {
             var resultFrom = controller.validationDate(dateFromInputPanel.getText());
             if (!resultFrom.isValid())
@@ -345,7 +360,9 @@ public class LogShopPanel extends JPanel {
             }
 
         });
-        datePanel.add(searchButton,FlowLayout.RIGHT);
+        btnPanel.add(searchButton,BorderLayout.CENTER);
+
+        datePanel.add(btnPanel);
 
         panel.add(datePanel, BorderLayout.SOUTH);
 
@@ -356,6 +373,7 @@ public class LogShopPanel extends JPanel {
         RoundedPanel panel = new RoundedPanel(borderRadius, ColorPalette.BG_SECONDARY, ColorPalette.BORDER);
         panel.setLayout(new BorderLayout());
         panel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        panel.setPreferredSize(new Dimension(450, 470));
 
         List<String> months = Arrays.asList("Jul 2026");
         List<Double> revenue = Arrays.asList(22.2);

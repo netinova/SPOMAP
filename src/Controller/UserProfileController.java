@@ -405,7 +405,7 @@ public class UserProfileController {
         return analyticsService.getAnalytics().getTotalProfit();
     }
 
-    public double getCustomer() {
+    public int getCustomer() {
         return analyticsService.getAnalytics().getTotalCustomers();
     }
 
