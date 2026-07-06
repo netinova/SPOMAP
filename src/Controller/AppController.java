@@ -43,7 +43,7 @@ public class AppController {
         this.shoppingCartController = new ShoppingCartController(productCatalog, this.invoiceService);
         this.productController = new ProductController();
         this.profileController = new UserProfileController(productCatalog);
-        this.invoiceController = new InvoiceController();
+        this.invoiceController = new InvoiceController(this.invoiceService);
 
     }
 
@@ -94,7 +94,7 @@ public class AppController {
         });
     }
 
-    // Getters for controllers (so other components can access them)
+    // Getters for controllers
     public ShopController getShopController() {
         return shopController;
     }

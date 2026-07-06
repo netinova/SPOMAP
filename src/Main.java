@@ -11,6 +11,7 @@ import Model.UserLists.UserNormalList;
 import Model.UserLists.UserPrimeList;
 import Service.ProductService;
 import Service.UserService;
+import Util.Stopwatch;
 import View.AuthenticationView;
 import View.InvoiceView;
 import View.NavigationView;
@@ -31,6 +32,9 @@ import java.util.Map;
 
 public class Main {
     public static void main(String[] args) throws IOException {
+
+        var stopWatch = new Stopwatch();
+
         Locale.setDefault(Locale.US);
 
         ProductCatalog products = new ProductCatalog();
@@ -77,6 +81,8 @@ public class Main {
 
         AnalyticsService analyticsService = new AnalyticsService(invoiceService);
         analyticsService.recalculateAllAnalytics();
+
+        System.out.println("Time took to load and build data: " + stopWatch.elapsedTime());
 
         mainFrame.setVisible(true);
     }

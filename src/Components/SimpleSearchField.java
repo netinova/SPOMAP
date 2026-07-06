@@ -69,6 +69,10 @@ public class SimpleSearchField extends JPanel {
         this.add(searchInput);
     }
 
+    public String getText() {
+        return searchInput.getText();
+    }
+
     // Standard ActionListener support
     public void addActionListener(ActionListener listener) {
         listenerList.add(ActionListener.class, listener);

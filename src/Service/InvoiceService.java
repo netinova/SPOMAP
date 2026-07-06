@@ -173,6 +173,22 @@ public class InvoiceService {
         return true;
     }
 
+    public List<Invoice> searchInvoices(String invoiceId, String userId,
+            LocalDateTime dateFrom, LocalDateTime dateTo) {
+        List<Invoice> allInvoices = readAllInvoices();
+        return allInvoices.stream()
+                .filter(inv -> inv != null)
+                .filter(inv -> invoiceId == null || invoiceId.isEmpty() ||
+                        inv.getInvoiceId().toLowerCase().contains(invoiceId.toLowerCase()))
+                .filter(inv -> userId == null || userId.isEmpty() ||
+                        userId.equals(inv.getUserId()))
+                .filter(inv -> dateFrom == null ||
+                        (inv.getInvoiceDate() != null && !inv.getInvoiceDate().isBefore(dateFrom)))
+                .filter(inv -> dateTo == null ||
+                        (inv.getInvoiceDate() != null && !inv.getInvoiceDate().isAfter(dateTo)))
+                .collect(Collectors.toList());
+    }
+
     public int getInvoiceCount() {
         return readAllInvoices().size();
     }

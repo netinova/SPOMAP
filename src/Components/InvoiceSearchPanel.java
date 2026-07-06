@@ -53,20 +53,17 @@ public class InvoiceSearchPanel extends JPanel {
     }
 
     private void setupUI() {
-        setOpaque(false);
-        setBackground(ColorPalette.BG_MAIN);
+        setBackground(ColorPalette.BG_SECONDARY);
         setLayout(new BorderLayout());
-        setBorder(new EmptyBorder(10, 15, 10, 15));
-        setPreferredSize(new Dimension(800, 100)); // slightly taller for error labels
-        setMinimumSize(new Dimension(600, 100));
 
         JPanel mainPanel = new JPanel();
         mainPanel.setOpaque(false);
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
 
         JPanel searchContainer = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 0));
         searchContainer.setOpaque(false);
-        searchContainer.setAlignmentY(Component.CENTER_ALIGNMENT); // vertical centring
+        searchContainer.setAlignmentY(Component.CENTER_ALIGNMENT);
         searchContainer.setBorder(BorderFactory.createEmptyBorder(19, 0, 0, 0));
 
         invoiceIdSearch = new SimpleSearchField("Search by Invoice ID");
@@ -79,7 +76,6 @@ public class InvoiceSearchPanel extends JPanel {
             searchContainer.add(userIdSearch);
         }
 
-        // ----- 2. Date inputs container (fixed width, centred) -----
         JPanel dateContainer = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 0));
         dateContainer.setOpaque(false);
         dateContainer.setAlignmentY(Component.CENTER_ALIGNMENT);
@@ -89,13 +85,14 @@ public class InvoiceSearchPanel extends JPanel {
         dateFromPanel = new FormTextFiledPanel("From", dateFromInputPanel, null);
         dateFromPanel.setPreferredSize(new Dimension(200, 75));
         dateFromInputPanel.addActionListener(e -> {
-            if (listener != null) { // guard against null before listener is attached
+            if (listener != null) {
                 var result = listener.onValidation(e.getActionCommand());
                 if (!result.isValid())
                     dateFromPanel.setError(result.getErrorMessage());
                 else
                     dateFromPanel.clearError();
             }
+            fireSearchEvent();
         });
         dateContainer.add(dateFromPanel);
 
@@ -111,13 +108,13 @@ public class InvoiceSearchPanel extends JPanel {
                 else
                     dateToPanel.clearError();
             }
+            fireSearchEvent();
         });
         dateContainer.add(dateToPanel);
 
-        // ----- Assemble the row with glue for centring -----
         mainPanel.add(Box.createHorizontalGlue());
         mainPanel.add(searchContainer);
-        mainPanel.add(Box.createHorizontalStrut(30)); // gap between search and dates
+        mainPanel.add(Box.createHorizontalStrut(30));
         mainPanel.add(dateContainer);
         mainPanel.add(Box.createHorizontalGlue());
 
@@ -146,6 +143,28 @@ public class InvoiceSearchPanel extends JPanel {
             revalidate();
             repaint();
         }
+    }
+
+    public String getInvoiceIdText() {
+        String text = invoiceIdSearch.getText();
+        return (text == null || text.equals("Search by Invoice ID")) ? "" : text;
+    }
+
+    public String getUserIdText() {
+        if (userIdSearch == null)
+            return "";
+        String text = userIdSearch.getText();
+        return (text == null || text.equals("Search by User ID")) ? "" : text;
+    }
+
+    public String getDateFromText() {
+        String text = dateFromInputPanel.getText();
+        return (text == null || text.equals("YYYY/MM/DD")) ? "" : text;
+    }
+
+    public String getDateToText() {
+        String text = dateToInputPanel.getText();
+        return (text == null || text.equals("YYYY/MM/DD")) ? "" : text;
     }
 
     @Override
