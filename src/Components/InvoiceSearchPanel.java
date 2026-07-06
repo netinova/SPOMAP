@@ -3,6 +3,7 @@ package Components;
 import Model.AppState;
 import Model.UserType;
 import Util.ColorPalette;
+import Util.Validator.ValidationResult;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -27,6 +28,10 @@ public class InvoiceSearchPanel extends JPanel {
 
     private SimpleSearchField invoiceIdSearch;
     private SimpleSearchField userIdSearch;
+    private RoundedInputText dateFromInputPanel;
+    private RoundedInputText dateToInputPanel;
+    private FormTextFiledPanel dateFromPanel;
+    private FormTextFiledPanel dateToPanel;
 
     private EventListenerList listenerList = new EventListenerList();
     private boolean isAdmin;
@@ -34,6 +39,17 @@ public class InvoiceSearchPanel extends JPanel {
     public InvoiceSearchPanel() {
         this.isAdmin = false;
         setupUI();
+    }
+
+    public interface ValidationListener {
+
+        ValidationResult onValidation(String value);
+    }
+
+    private ValidationListener listener;
+
+    public void addValidationListener(ValidationListener listener) {
+        this.listener = listener;
     }
 
     private void setupUI() {
@@ -49,8 +65,6 @@ public class InvoiceSearchPanel extends JPanel {
         mainPanel.setOpaque(false);
         mainPanel.setBackground(ColorPalette.BG_MAIN);
         mainPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 15, 10));
-
-        
 
         userIdSearch = new SimpleSearchField("Search by User ID");
         userIdSearch.addActionListener(e -> fireSearchEvent());
@@ -68,6 +82,36 @@ public class InvoiceSearchPanel extends JPanel {
         // datePicker.addActionListener(e -> fireSearchEvent());
         // mainPanel.add(datePicker);
 
+        dateFromInputPanel = new RoundedInputText("YYYY/MM/DD", 4);
+        dateFromInputPanel.setPreferredSize(new Dimension(50 * 4, 50));
+        dateFromInputPanel.setMaximumSize(new Dimension(50 * 4, 50));
+        dateFromPanel = new FormTextFiledPanel("From", dateFromInputPanel, null);
+        dateFromPanel.setPreferredSize(new Dimension(50 * 4, 75));
+        dateFromInputPanel.addActionListener(e -> {
+            var result = listener.onValidation(e.getActionCommand());
+            if (!result.isValid())
+                dateFromPanel.setError(result.getErrorMessage());
+            else
+                dateFromPanel.clearError();
+        });
+
+        mainPanel.add(dateFromInputPanel);
+
+        dateToInputPanel = new RoundedInputText("YYYY/MM/DD", 4);
+        dateToPanel = new FormTextFiledPanel("To", dateToInputPanel, null);
+        dateToInputPanel.setPreferredSize(new Dimension(50 * 4, 50));
+        dateToInputPanel.setMaximumSize(new Dimension(50 * 4, 50));
+        dateToPanel.setPreferredSize(new Dimension(50 * 4, 75));
+        dateToInputPanel.addActionListener(e -> {
+            var result = listener.onValidation(e.getActionCommand());
+            if (!result.isValid())
+                dateToPanel.setError(result.getErrorMessage());
+            else
+                dateToPanel.clearError();
+        });
+
+        mainPanel.add(dateToInputPanel);
+
         add(mainPanel, BorderLayout.CENTER);
     }
 
@@ -84,7 +128,6 @@ public class InvoiceSearchPanel extends JPanel {
             }
         }
     }
-
 
     public void setAdminMode(boolean isAdmin) {
         if (this.isAdmin != isAdmin) {

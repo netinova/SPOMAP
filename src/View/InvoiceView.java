@@ -24,6 +24,8 @@ import Components.ProductInfoPanel;
 import Components.QuantityCartPanel;
 import Components.StockLabel;
 import Components.TechnicalSpecsPanel;
+import Components.InvoiceSearchPanel.ValidationListener;
+import Controller.InvoiceController;
 import Model.AppState;
 import Model.UserType;
 import Util.ColorPalette;
@@ -33,8 +35,18 @@ public class InvoiceView extends JPanel {
     private JPanel contentPanel;
     private InvoiceSearchPanel invoiceSearchPanel;
 
-    public InvoiceView() {
+    private InvoiceController controller;
+
+    public InvoiceView(InvoiceController controller) {
+
+        this.controller = controller;
+
         setupUI();
+        attachEvents();
+    }
+
+    private void attachEvents() {
+        invoiceSearchPanel.addValidationListener(value -> controller.validationDate(value));
     }
 
     private void setupUI() {

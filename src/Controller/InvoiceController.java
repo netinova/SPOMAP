@@ -1,5 +1,6 @@
 package Controller;
 
+import Util.Validator;
 import View.InvoiceView;
 
 public class InvoiceController {
@@ -20,6 +21,10 @@ public class InvoiceController {
 
     public void setView(InvoiceView view) {
         this.view = view;
+    }
+
+    public Validator.ValidationResult validationDate(String date) {
+        return Validator.validationDate(date);
     }
 
 }

@@ -46,7 +46,7 @@ public class Main {
         UserProfileView userProfileView = new UserProfileView(appController.getProfileController());
         ProductView productView = new ProductView(appController.getProductController(), products);
         ShoppingCartView shoppingCartView = new ShoppingCartView(appController.getShoppingCartController());
-        InvoiceView invoiceView = new InvoiceView();
+        InvoiceView invoiceView = new InvoiceView(appController.getInvoiceController());
 
         MultiViewPanel multiViewPanel = new MultiViewPanel(shopView, authenticationView, userProfileView, productView,
                 shoppingCartView, invoiceView);
