@@ -57,60 +57,69 @@ public class InvoiceSearchPanel extends JPanel {
         setBackground(ColorPalette.BG_MAIN);
         setLayout(new BorderLayout());
         setBorder(new EmptyBorder(10, 15, 10, 15));
-        setPreferredSize(new Dimension(800, 90));
-        setMinimumSize(new Dimension(600, 90));
+        setPreferredSize(new Dimension(800, 100)); // slightly taller for error labels
+        setMinimumSize(new Dimension(600, 100));
 
-        // Main container with flow layout
         JPanel mainPanel = new JPanel();
         mainPanel.setOpaque(false);
-        mainPanel.setBackground(ColorPalette.BG_MAIN);
-        mainPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 15, 10));
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
 
-        userIdSearch = new SimpleSearchField("Search by User ID");
-        userIdSearch.addActionListener(e -> fireSearchEvent());
-        mainPanel.add(userIdSearch);
+        JPanel searchContainer = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 0));
+        searchContainer.setOpaque(false);
+        searchContainer.setAlignmentY(Component.CENTER_ALIGNMENT); // vertical centring
+        searchContainer.setBorder(BorderFactory.createEmptyBorder(19, 0, 0, 0));
 
         invoiceIdSearch = new SimpleSearchField("Search by Invoice ID");
         invoiceIdSearch.addActionListener(e -> fireSearchEvent());
-        mainPanel.add(invoiceIdSearch);
+        searchContainer.add(invoiceIdSearch);
 
-        // User ID Search (only for admin)
-        userIdSearch.setVisible(isAdmin);
-        userIdSearch.setEnabled(isAdmin);
+        if (isAdmin) {
+            userIdSearch = new SimpleSearchField("Search by User ID");
+            userIdSearch.addActionListener(e -> fireSearchEvent());
+            searchContainer.add(userIdSearch);
+        }
 
-        // datePicker = new MiniDatePicker();
-        // datePicker.addActionListener(e -> fireSearchEvent());
-        // mainPanel.add(datePicker);
+        // ----- 2. Date inputs container (fixed width, centred) -----
+        JPanel dateContainer = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 0));
+        dateContainer.setOpaque(false);
+        dateContainer.setAlignmentY(Component.CENTER_ALIGNMENT);
 
         dateFromInputPanel = new RoundedInputText("YYYY/MM/DD", 4);
-        dateFromInputPanel.setPreferredSize(new Dimension(50 * 4, 50));
-        dateFromInputPanel.setMaximumSize(new Dimension(50 * 4, 50));
+        dateFromInputPanel.setPreferredSize(new Dimension(200, 50));
         dateFromPanel = new FormTextFiledPanel("From", dateFromInputPanel, null);
-        dateFromPanel.setPreferredSize(new Dimension(50 * 4, 75));
+        dateFromPanel.setPreferredSize(new Dimension(200, 75));
         dateFromInputPanel.addActionListener(e -> {
-            var result = listener.onValidation(e.getActionCommand());
-            if (!result.isValid())
-                dateFromPanel.setError(result.getErrorMessage());
-            else
-                dateFromPanel.clearError();
+            if (listener != null) { // guard against null before listener is attached
+                var result = listener.onValidation(e.getActionCommand());
+                if (!result.isValid())
+                    dateFromPanel.setError(result.getErrorMessage());
+                else
+                    dateFromPanel.clearError();
+            }
         });
-
-        mainPanel.add(dateFromInputPanel);
+        dateContainer.add(dateFromPanel);
 
         dateToInputPanel = new RoundedInputText("YYYY/MM/DD", 4);
+        dateToInputPanel.setPreferredSize(new Dimension(200, 50));
         dateToPanel = new FormTextFiledPanel("To", dateToInputPanel, null);
-        dateToInputPanel.setPreferredSize(new Dimension(50 * 4, 50));
-        dateToInputPanel.setMaximumSize(new Dimension(50 * 4, 50));
-        dateToPanel.setPreferredSize(new Dimension(50 * 4, 75));
+        dateToPanel.setPreferredSize(new Dimension(200, 75));
         dateToInputPanel.addActionListener(e -> {
-            var result = listener.onValidation(e.getActionCommand());
-            if (!result.isValid())
-                dateToPanel.setError(result.getErrorMessage());
-            else
-                dateToPanel.clearError();
+            if (listener != null) {
+                var result = listener.onValidation(e.getActionCommand());
+                if (!result.isValid())
+                    dateToPanel.setError(result.getErrorMessage());
+                else
+                    dateToPanel.clearError();
+            }
         });
+        dateContainer.add(dateToPanel);
 
-        mainPanel.add(dateToInputPanel);
+        // ----- Assemble the row with glue for centring -----
+        mainPanel.add(Box.createHorizontalGlue());
+        mainPanel.add(searchContainer);
+        mainPanel.add(Box.createHorizontalStrut(30)); // gap between search and dates
+        mainPanel.add(dateContainer);
+        mainPanel.add(Box.createHorizontalGlue());
 
         add(mainPanel, BorderLayout.CENTER);
     }
