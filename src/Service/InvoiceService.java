@@ -14,8 +14,9 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class InvoiceService {
@@ -177,5 +178,27 @@ public class InvoiceService {
 
     public int getInvoiceCount() {
         return readAllInvoices().size();
+    }
+
+    public Map<String, Double> getTotalPurchaseByUserId(String userId) {
+        List<Invoice> invoices = getInvoicesByUserId(userId);
+        if (invoices.isEmpty()) {
+            return new LinkedHashMap<>();
+        }
+
+        invoices.sort(Comparator.comparing(Invoice::getInvoiceDate));
+
+        Map<YearMonth, Double> monthlyTotals = new TreeMap<>();
+        for (Invoice inv : invoices) {
+            monthlyTotals.merge(YearMonth.from(inv.getInvoiceDate()), inv.getFinalPrice(), Double::sum);
+        }
+
+        Map<String, Double> result = new LinkedHashMap<>();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
+        for (Map.Entry<YearMonth, Double> entry : monthlyTotals.entrySet()) {
+            result.put(entry.getKey().format(formatter), entry.getValue());
+        }
+
+        return result;
     }
 }

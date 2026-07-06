@@ -309,4 +309,10 @@ public class UserProfileView extends JPanel {
         logShopPanel.setProductSalesMap(productSales);
         logShopPanel.refreshViewChartProduct();
     }
+
+    public void setInfoMonthlyChartUserProfile(List<String> date, List<Double> purchase) {
+        profileMainView.setPurchaseForMonthly(purchase);
+        profileMainView.setDateForMonthly(date);
+        profileMainView.refreshViewChartMonthly();
+    }
 }

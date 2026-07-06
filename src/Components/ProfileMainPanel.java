@@ -2,6 +2,10 @@ package Components;
 
 import Model.UserType;
 import Util.ColorPalette;
+import org.knowm.xchart.CategoryChart;
+import org.knowm.xchart.CategoryChartBuilder;
+import org.knowm.xchart.CategorySeries;
+import org.knowm.xchart.XChartPanel;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -11,6 +15,8 @@ import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
+import java.util.List;
 
 public class ProfileMainPanel extends JPanel {
 
@@ -38,11 +44,21 @@ public class ProfileMainPanel extends JPanel {
     private JLabel membershipIdLabel;
     private JLabel creditLabel;
     private JLabel debitLabel;
+    private JLabel rank1Label;
+    private JLabel rank2Label;
+    private JLabel rank3Label;
+    private JLabel moneySaveValueLabel;
+    private JLabel ordersNumberLabel;
 
     private JPanel primePanel;
     private JPanel adminPanel;
     private JPanel logoutPanel;
     private JPanel quickAction;
+    private JPanel statusPanel;
+
+    private CategoryChart categoryChartMonthly;
+    private List<String> dateForMonthly;
+    private List<Double> purchaseForMonthly;
 
     private EventListenerList listenerList = new EventListenerList();
 
@@ -103,6 +119,11 @@ public class ProfileMainPanel extends JPanel {
         adminPanel.setAlignmentX(LEFT_ALIGNMENT);
         adminPanel.setVisible(false);
         this.add(adminPanel);
+
+        this.add(Box.createVerticalStrut(25));
+        statusPanel = createRowStatusProductUser();
+        statusPanel.setAlignmentX(LEFT_ALIGNMENT);
+        this.add(statusPanel);
 
         this.add(Box.createVerticalStrut(25));
         quickAction = createQuickActionPanel();
@@ -332,6 +353,7 @@ public class ProfileMainPanel extends JPanel {
         RoundedPanel panel = new RoundedPanel(borderRadius, ColorPalette.BG_SECONDARY, ColorPalette.ACCENT_WARNING);
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBorder(new EmptyBorder(20, 30, 20, 30));
+        panel.setPreferredSize(new Dimension(400,0));
         panel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 200));
 
         JLabel title = new JLabel("Quick Actions");
@@ -377,12 +399,184 @@ public class ProfileMainPanel extends JPanel {
         return panel;
     }
 
+    // Status panel
+    public JPanel createRowStatusProductUser(){
+        JPanel panel = new JPanel(new GridBagLayout());
+        panel.setOpaque(false);
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weighty = 1;
+        gbc.insets = new Insets(0, 0, 0, 10);
+
+        gbc.gridx = 0;
+        gbc.weightx = 1;
+        panel.add(crateStatusPanel(), gbc);
+
+        gbc.gridx = 1;
+        gbc.insets = new Insets(0, 10, 0, 0);
+        panel.add(createMonthlyBarChart(), gbc);
+
+        panel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panel.setMaximumSize(new Dimension(Integer.MAX_VALUE,
+                panel.getPreferredSize().height));
+
+        return panel;
+    }
+
+    private JPanel createMonthlyBarChart() {
+        RoundedPanel panel = new RoundedPanel(borderRadius, ColorPalette.BG_SECONDARY, ColorPalette.BORDER);
+        panel.setLayout(new BorderLayout());
+        panel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        panel.setPreferredSize(new Dimension(600, 470));
+
+        java.util.List<String> months = Arrays.asList("");
+        List<Double> purchase = Arrays.asList(0.0);
+
+        categoryChartMonthly = new CategoryChartBuilder()
+                .width(400)
+                .height(340)
+                .title("Monthly Revenue")
+                .xAxisTitle("Month")
+                .yAxisTitle("Revenue ($)")
+                .build();
+
+        //custom style
+        categoryChartMonthly.getStyler().setChartBackgroundColor(ColorPalette.BG_SECONDARY);
+        categoryChartMonthly.getStyler().setPlotBackgroundColor(ColorPalette.BG_SECONDARY);
+        categoryChartMonthly.getStyler().setAnnotationTextFontColor(ColorPalette.TEXT_PRIMARY);
+        categoryChartMonthly.getStyler().setChartTitleFontColor(ColorPalette.TEXT_PRIMARY);
+        categoryChartMonthly.getStyler().setChartFontColor(ColorPalette.TEXT_PRIMARY);
+        categoryChartMonthly.getStyler().setXAxisTitleColor(ColorPalette.TEXT_PRIMARY);
+        categoryChartMonthly.getStyler().setYAxisTitleColor(ColorPalette.TEXT_PRIMARY);
+        categoryChartMonthly.getStyler().setLegendBackgroundColor(ColorPalette.BG_SECONDARY);
+        categoryChartMonthly.getStyler().setAxisTickLabelsColor(ColorPalette.TEXT_PRIMARY);
+        categoryChartMonthly.getStyler().setSeriesColors(new Color[]{ColorPalette.ACCENT_PRIMARY, ColorPalette.ACCENT_WARNING});
+        categoryChartMonthly.getStyler().setDefaultSeriesRenderStyle(CategorySeries.CategorySeriesRenderStyle.Bar);
+
+        categoryChartMonthly.addSeries("Purchase", months, purchase);
+
+        XChartPanel<CategoryChart> chartPanel = new XChartPanel<>(categoryChartMonthly);
+        panel.add(chartPanel, BorderLayout.CENTER);
+
+        return panel;
+    }
+
+    private JPanel crateStatusPanel() {
+        RoundedPanel panel = new RoundedPanel(borderRadius, ColorPalette.BG_SECONDARY, ColorPalette.BORDER);
+        panel.setLayout(new BoxLayout(panel,BoxLayout.Y_AXIS));
+        panel.setBorder(new EmptyBorder(20,20,20,20));
+
+        RoundedPanel ranking = new RoundedPanel(borderRadius, ColorPalette.BG_TERTIARY, ColorPalette.BORDER);
+        ranking.setBorder(new EmptyBorder(5,8,5,8));
+        ranking.setLayout(new BoxLayout(ranking,BoxLayout.Y_AXIS));
+
+        JLabel title = new JLabel("Ranking");
+        title.setFont(new Font("Arial", Font.BOLD, 18));
+        title.setForeground(ColorPalette.TEXT_PRIMARY);
+        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        ranking.add(Box.createVerticalStrut(10));
+        ranking.add(title);
+        ranking.add(Box.createVerticalStrut(25));
+        ranking.add(createLineRank("1",ColorPalette.BG_MAIN));
+        rank1Label=tempLabel;
+        ranking.add(Box.createVerticalStrut(5));
+        ranking.add(createLineRank("2",ColorPalette.BG_TERTIARY));
+        rank2Label=tempLabel;
+        ranking.add(Box.createVerticalStrut(5));
+        ranking.add(createLineRank("3",ColorPalette.BG_MAIN));
+        rank3Label=tempLabel;
+        ranking.add(Box.createVerticalStrut(3));
+        panel.add(ranking);
+        panel.add(Box.createVerticalStrut(30));
+
+        panel.add(createLineStatus("Money saved"));
+        moneySaveValueLabel = tempLabel;
+        panel.add(Box.createVerticalStrut(30));
+        panel.add(createLineStatus("Order Number"));
+        ordersNumberLabel = tempLabel;
+        panel.add(Box.createVerticalStrut(30));
+
+        return panel;
+    }
+
+    private JPanel createLineRank(String rank , Color backGroundColor){
+        RoundedPanel rankPanel = new RoundedPanel(10, backGroundColor, ColorPalette.BORDER);
+        rankPanel.setBackground(backGroundColor);
+        rankPanel.setBorder(new EmptyBorder(10,15,10,15));
+        rankPanel.setPreferredSize(new Dimension(150, 50));
+        rankPanel.setLayout(new BoxLayout(rankPanel, BoxLayout.X_AXIS));
+
+        JLabel rankLabel = new JLabel(rank);
+        rankLabel.setFont(new Font("Arial", Font.PLAIN, 15));
+        rankLabel.setForeground(ColorPalette.TEXT_PRIMARY);
+        rankLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        JLabel rankValue = new JLabel("----");
+        rankValue.setFont(new Font("Arial", Font.PLAIN, 15));
+        rankValue.setForeground(ColorPalette.TEXT_PRIMARY);
+        rankValue.setAlignmentX(Component.RIGHT_ALIGNMENT);
+        tempLabel = rankValue;
+
+        rankPanel.add(rankLabel);
+        rankPanel.add(Box.createHorizontalGlue());
+        rankPanel.add(rankValue);
+
+        return rankPanel;
+    }
+
+    public JPanel createLineStatus(String key){
+        RoundedPanel panel = new RoundedPanel(borderRadius, ColorPalette.BG_TERTIARY, ColorPalette.BORDER);
+        panel.setLayout(new BoxLayout(panel,BoxLayout.X_AXIS));
+        panel.setPreferredSize(new Dimension(150, 50));
+        panel.setBorder(new EmptyBorder(20,20,20,20));
+
+        JLabel keyLabel = new JLabel(key);
+        keyLabel.setFont(new Font("Arial", Font.PLAIN, 15));
+        keyLabel.setForeground(ColorPalette.TEXT_PRIMARY);
+        keyLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        panel.add(keyLabel);
+        panel.add(Box.createHorizontalGlue());
+
+        JLabel valueLabel = new JLabel("----");
+        valueLabel.setFont(new Font("Arial", Font.PLAIN, 15));
+        valueLabel.setForeground(ColorPalette.TEXT_PRIMARY);
+        valueLabel.setAlignmentX(Component.RIGHT_ALIGNMENT);
+        panel.add(valueLabel);
+        tempLabel = valueLabel;
+
+        return panel;
+    }
+
+    //setter for chart
+
+    public void setPurchaseForMonthly(List<Double> purchaseForMonthly) {
+        this.purchaseForMonthly = purchaseForMonthly;
+    }
+
+    public void setDateForMonthly(List<String > dateForMonthly) {
+        this.dateForMonthly = dateForMonthly;
+    }
+
+    public void refreshViewChartMonthly() {
+        categoryChartMonthly.updateCategorySeries("Purchase", dateForMonthly, purchaseForMonthly,null);
+        repaint();
+        revalidate();
+    }
+
+    public void loadStatusCard(){
+
+    }
+
     public void displayUser(String fullName, String userType, double balance, int cartItems, UserType type) {
         nameLabel.setText(String.format("Hi, %s", fullName));
         typeLabel.setText(userType);
         balanceValueLabel.setText(String.format("$%.2f", balance));
         cartItemsValueLabel.setText(String.valueOf(cartItems));
         totalPurchasesLabel.setText("0");// TODO: if need this property handle for side of user
+        statusPanel.setVisible(true);
 
         switch (type) {
             case ADMIN:
@@ -390,6 +584,7 @@ public class ProfileMainPanel extends JPanel {
                 statsMiddle.setVisible(false);
                 primePanel.setVisible(false);
                 quickAction.setVisible(false);
+                statusPanel.setVisible(false);
                 break;
             case PRIME:
                 primePanel.setVisible(true);

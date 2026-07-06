@@ -3,6 +3,7 @@ package Controller;
 import Components.AddProductPanel;
 import Model.*;
 import Service.AnalyticsService;
+import Service.InvoiceService;
 import Service.ProductService;
 import Service.UserService;
 import Util.PasswordHasher;
@@ -11,11 +12,9 @@ import View.UserProfileView;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class UserProfileController {
 
@@ -24,10 +23,12 @@ public class UserProfileController {
     private ProductCatalog productCatalog;
 
     private AnalyticsService analyticsService;
+    private InvoiceService invoiceService;
 
     public UserProfileController(ProductCatalog productCatalog, AnalyticsService analyticsService) {
         this.productCatalog = productCatalog;
         this.analyticsService = analyticsService;
+        invoiceService = analyticsService.getInvoiceService();
     }
 
     public void setView(UserProfileView view) {
@@ -62,6 +63,14 @@ public class UserProfileController {
                     userPrime.getMemberShipID());
 
         }
+        handleMonthlyChartProfileUser();
+    }
+
+    public void loadStatusCard(){
+        User user = AppState.getInstance().getLoggedInUser();
+        if (user==null) return;
+
+
     }
 
     // -------------------- Logout
@@ -468,6 +477,18 @@ public class UserProfileController {
             productSales.put(da.getProductName(), da.getTotalQuantitySold());
         }
         view.setProductInfo(productSales);
+    }
+
+    public void handleMonthlyChartProfileUser() {
+        User user = AppState.getInstance().getLoggedInUser();
+        if (user == null) return;
+
+        Map<String, Double> monthlyData = invoiceService.getTotalPurchaseByUserId(user.getUserId());
+
+        List<String> months = new ArrayList<>(monthlyData.keySet());
+        List<Double> purchases = new ArrayList<>(monthlyData.values());
+
+        view.setInfoMonthlyChartUserProfile(months, purchases);
     }
 
     // listener

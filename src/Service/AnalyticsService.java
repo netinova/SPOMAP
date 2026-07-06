@@ -334,6 +334,10 @@ public class AnalyticsService {
         return readAnalytics().getTotalPrimeUsers();
     }
 
+    public InvoiceService getInvoiceService() {
+        return invoiceService;
+    }
+
     public void updateAfterNewInvoice(String invoiceId) {
 
         recalculateAllAnalytics();
