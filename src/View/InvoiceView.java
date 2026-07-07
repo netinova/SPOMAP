@@ -134,10 +134,11 @@ public class InvoiceView extends JPanel {
                     && AppState.getInstance().getLoggedInUser().getUserType() == UserType.ADMIN;
 
             for (int i = 0; i < invoices.size(); i++) {
-                InvoiceCard card = new InvoiceCard(invoices.get(i), isAdmin);
+                Invoice invoice = invoices.get(i);
+                InvoiceCard card = new InvoiceCard(invoice, isAdmin);
                 card.addActionListener(e -> {
                     if ("cardClick".equals(e.getActionCommand())) {
-                        // TODO: navigate to invoice detail view
+                        controller.onInvoiceCardClick(invoice);
                     }
                 });
 

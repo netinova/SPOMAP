@@ -70,9 +70,21 @@ public class ShoppingCartItemCard extends JPanel {
         Product product = cartItem.getProduct();
 
         this.setBackground(ColorPalette.BG_SECONDARY);
-        this.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(ColorPalette.BORDER, 1),
-                BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+
+        // Add hover effect
+        addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent evt) {
+                setBorder(BorderFactory.createCompoundBorder(
+                        BorderFactory.createLineBorder(ColorPalette.ACCENT_PRIMARY, 2),
+                        BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+            }
+
+            public void mouseExited(MouseEvent evt) {
+                setBorder(BorderFactory.createCompoundBorder(
+                        BorderFactory.createLineBorder(ColorPalette.BORDER, 1),
+                        BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+            }
+        });
 
         this.setPreferredSize(new Dimension(0, FIXED_HEIGHT));
         this.setMinimumSize(new Dimension(0, FIXED_HEIGHT));

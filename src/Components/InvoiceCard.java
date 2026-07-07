@@ -50,6 +50,21 @@ public class InvoiceCard extends JPanel {
                 BorderFactory.createLineBorder(ColorPalette.BORDER, 1),
                 BorderFactory.createEmptyBorder(12, 16, 12, 16)));
 
+        // Add hover effect
+        addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent evt) {
+                setBorder(BorderFactory.createCompoundBorder(
+                        BorderFactory.createLineBorder(ColorPalette.ACCENT_PRIMARY, 2),
+                        BorderFactory.createEmptyBorder(12, 16, 12, 16)));
+            }
+
+            public void mouseExited(MouseEvent evt) {
+                setBorder(BorderFactory.createCompoundBorder(
+                        BorderFactory.createLineBorder(ColorPalette.BORDER, 1),
+                        BorderFactory.createEmptyBorder(12, 16, 12, 16)));
+            }
+        });
+
         this.setPreferredSize(new Dimension(0, FIXED_HEIGHT));
         this.setMinimumSize(new Dimension(0, FIXED_HEIGHT));
         this.setMaximumSize(new Dimension(Integer.MAX_VALUE, FIXED_HEIGHT));

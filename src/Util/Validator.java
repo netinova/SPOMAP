@@ -142,4 +142,14 @@ public class Validator {
         }
         return new ValidationResult(true, null);
     }
+
+    public static ValidationResult validationManiDate(String name) {
+        if (name == null || name.isEmpty() || name.equals("YYYY/MM/DD")) {
+            return new ValidationResult(false, "");
+        }
+        if (!name.matches(DATE_REGEX)) {
+            return new ValidationResult(false, "Invalid format for Date");
+        }
+        return new ValidationResult(true, null);
+    }
 }

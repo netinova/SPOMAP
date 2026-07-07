@@ -34,7 +34,7 @@ public class InvoiceController {
     }
 
     public Validator.ValidationResult validationDate(String date) {
-        return Validator.validationDate(date);
+        return Validator.validationManiDate(date);
     }
 
     public void handleSearch() {
@@ -90,5 +90,9 @@ public class InvoiceController {
         } catch (DateTimeParseException e) {
             return null;
         }
+    }
+
+    public void onInvoiceCardClick(Invoice invoice) {
+
     }
 }

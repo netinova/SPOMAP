@@ -1,22 +1,26 @@
 {
   "shopName" : "Spomap Shop",
   "currency" : "USD",
-  "lastUpdated" : "2026-07-06 17:31:08",
-  "analyticsStartDate" : "2026-07-06 17:31:08",
-  "totalRevenue" : 93.36,
-  "totalProfit" : 37.344,
-  "totalOrders" : 1,
-  "totalItemsSold" : 13,
-  "averageOrderValue" : 93.36,
+  "lastUpdated" : "2026-07-07 17:55:44",
+  "analyticsStartDate" : "2026-07-07 17:55:44",
+  "totalRevenue" : 150.36,
+  "totalProfit" : 60.144000000000005,
+  "totalOrders" : 2,
+  "totalItemsSold" : 15,
+  "averageOrderValue" : 75.18,
   "monthlyAnalytics" : [ {
     "month" : "2026-07",
-    "revenue" : 93.36,
-    "profit" : 37.344,
-    "orders" : 1
+    "revenue" : 150.36,
+    "profit" : 60.144000000000005,
+    "orders" : 2
   } ],
   "dailyAnalytics" : [ {
     "date" : "2026-07-02",
     "revenue" : 93.36,
+    "orders" : 1
+  }, {
+    "date" : "2026-07-06",
+    "revenue" : 57.0,
     "orders" : 1
   } ],
   "totalCustomers" : 9,
@@ -31,9 +35,9 @@
   }, {
     "productId" : "PRD_000006",
     "productName" : "Headphones",
-    "totalQuantitySold" : 3,
-    "totalRevenue" : 85.5,
-    "totalOrdersContaining" : 1
+    "totalQuantitySold" : 5,
+    "totalRevenue" : 142.5,
+    "totalOrdersContaining" : 2
   }, {
     "productId" : "PRD_000004",
     "productName" : "YamBoul",
