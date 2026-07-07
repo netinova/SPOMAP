@@ -62,15 +62,10 @@ public class InvoiceController {
 
         if (invoiceDetailView != null) {
             invoiceDetailView.getSavePdfButton().addActionListener(e -> handleSavePdf());
-            // Refund button – no action (kept as requested)
+            // Refund button
         }
     }
 
-    /**
-     * Load invoices for the currently logged-in user.
-     * Admins see all invoices; other users see only their own.
-     * Call this when the invoice list view is first opened.
-     */
     public void loadInvoicesForCurrentUser() {
         var loggedUser = AppState.getInstance().getLoggedInUser();
         if (loggedUser == null || invoiceView == null) {
