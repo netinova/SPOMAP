@@ -34,4 +34,16 @@
   } ],
   "invoiceDate" : "2026-07-06 17:32:41",
   "status" : "Paid"
+}, {
+  "invoiceId" : "INV_000003",
+  "userId" : "USR_000007",
+  "items" : [ {
+    "productId" : "PRD_000009",
+    "productName" : "CORSAIR Vengeance RGB DDR5 RAM 32GB (2x16GB) 6400MHz",
+    "unitPrice" : 499.55,
+    "quantity" : 2,
+    "discount" : 0.0
+  } ],
+  "invoiceDate" : "2026-07-07 21:58:17",
+  "status" : "Paid"
 } ]
