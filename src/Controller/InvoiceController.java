@@ -100,7 +100,6 @@ public class InvoiceController {
         if (invoiceView == null)
             return;
 
-        // Store the invoice for the detail view and navigate
         invoiceDetailView.setInvoice(invoice);
 
         if (listener != null) {
