@@ -5,6 +5,7 @@ import Model.ShoppingCart;
 import Service.InvoiceService;
 import View.ShopView;
 import View.AuthenticationView;
+import View.InvoiceDetailView;
 import View.InvoiceView;
 import View.NavigationView;
 import View.SidebarView;
@@ -49,7 +50,8 @@ public class AppController {
 
     public void setViews(ShopView shopView, NavigationView navigationView,
             SidebarView sidebarView, MultiViewPanel multiViewPanel,
-            AuthenticationView authenticationView, UserProfileView userProfileView, InvoiceView invoiceView) {
+            AuthenticationView authenticationView, UserProfileView userProfileView, InvoiceView invoiceView,
+            InvoiceDetailView invoiceDetailView) {
 
         this.multiViewPanel = multiViewPanel;
 
@@ -58,7 +60,7 @@ public class AppController {
         navigationController.setShopView(shopView);
         authenticationController.setView(authenticationView);
         profileController.setView(userProfileView);
-        invoiceController.setView(invoiceView);
+        invoiceController.setView(invoiceView, invoiceDetailView);
 
         // Set up view switching listeners
         navigationController.setOnChangeViewListener(viewId -> {

@@ -10,15 +10,18 @@ import java.util.List;
 import Model.AppState;
 import Model.Invoice;
 import Model.UserType;
+import Model.ViewType;
 import Service.InvoiceService;
 import Util.Validator;
+import View.InvoiceDetailView;
 import View.InvoiceView;
 
 public class InvoiceController {
 
     @SuppressWarnings("unused")
     private OnChangeViewListener listener;
-    private InvoiceView view;
+    private InvoiceView invoiceView;
+    private InvoiceDetailView invoiceDetailView;
     private InvoiceService invoiceService;
 
     public InvoiceController(InvoiceService invoiceService) {
@@ -29,8 +32,9 @@ public class InvoiceController {
         this.listener = listener;
     }
 
-    public void setView(InvoiceView view) {
-        this.view = view;
+    public void setView(InvoiceView invoiceView, InvoiceDetailView invoiceDetailView) {
+        this.invoiceView = invoiceView;
+        this.invoiceDetailView = invoiceDetailView;
     }
 
     public Validator.ValidationResult validationDate(String date) {
@@ -38,13 +42,13 @@ public class InvoiceController {
     }
 
     public void handleSearch() {
-        if (view == null || invoiceService == null)
+        if (invoiceView == null || invoiceService == null)
             return;
 
-        String invoiceId = view.getSearchInvoiceId();
-        String userId = view.getSearchUserId();
-        String dateFromStr = view.getSearchDateFrom();
-        String dateToStr = view.getSearchDateTo();
+        String invoiceId = invoiceView.getSearchInvoiceId();
+        String userId = invoiceView.getSearchUserId();
+        String dateFromStr = invoiceView.getSearchDateFrom();
+        String dateToStr = invoiceView.getSearchDateTo();
 
         var loggedUser = AppState.getInstance().getLoggedInUser();
         if (loggedUser == null)
@@ -65,7 +69,7 @@ public class InvoiceController {
         LocalDateTime dateTo = parseDateEndOfDay(dateToStr);
 
         List<Invoice> results = invoiceService.searchInvoices(invoiceId, userId, dateFrom, dateTo);
-        view.displayInvoices(results);
+        invoiceView.displayInvoices(results);
     }
 
     private LocalDateTime parseDate(String dateStr) {
@@ -93,6 +97,14 @@ public class InvoiceController {
     }
 
     public void onInvoiceCardClick(Invoice invoice) {
+        if (invoiceView == null)
+            return;
 
+        // Store the invoice for the detail view and navigate
+        invoiceDetailView.setInvoice(invoice);
+
+        if (listener != null) {
+            listener.changeView(ViewType.INVOICE_DETAIL.getViewId());
+        }
     }
 }

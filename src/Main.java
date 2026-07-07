@@ -13,6 +13,7 @@ import Service.ProductService;
 import Service.UserService;
 import Util.Stopwatch;
 import View.AuthenticationView;
+import View.InvoiceDetailView;
 import View.InvoiceView;
 import View.NavigationView;
 import View.ProductView;
@@ -51,12 +52,13 @@ public class Main {
         ProductView productView = new ProductView(appController.getProductController(), products);
         ShoppingCartView shoppingCartView = new ShoppingCartView(appController.getShoppingCartController());
         InvoiceView invoiceView = new InvoiceView(appController.getInvoiceController());
+        InvoiceDetailView invoiceDetailView = new InvoiceDetailView(appController.getInvoiceController());
 
         MultiViewPanel multiViewPanel = new MultiViewPanel(shopView, authenticationView, userProfileView, productView,
-                shoppingCartView, invoiceView);
+                shoppingCartView, invoiceView, invoiceDetailView);
 
         appController.setViews(shopView, navigationView, sidebarView, multiViewPanel, authenticationView,
-                userProfileView, invoiceView);
+                userProfileView, invoiceView, invoiceDetailView);
 
         MainFrame mainFrame = new MainFrame(appController, sidebarView, navigationView, multiViewPanel);
 

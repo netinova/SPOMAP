@@ -11,7 +11,8 @@ public enum ViewType {
     AUTH("authView", "Authentication"),
     SHOPPING_CART("shoppingCartView", "Shopping Cart"),
     USER("userView", "User Profile"),
-    INVOICE("invoiceView", "invoices display");
+    INVOICE("invoiceView", "invoices display"),
+    INVOICE_DETAIL("invoiceDetailView", "Invoice Details");
 
     private final String viewId;
     private final String displayName;

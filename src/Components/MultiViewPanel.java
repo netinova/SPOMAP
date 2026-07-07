@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 import Util.ColorPalette;
+import Model.Invoice;
 import Model.ViewType;
 import View.*;
 
@@ -19,16 +20,18 @@ public class MultiViewPanel extends JPanel {
     private ProductView productView;
     private ShoppingCartView shoppingCartView;
     private InvoiceView invoiceView;
+    private InvoiceDetailView invoiceDetailView;
 
     public MultiViewPanel(ShopView shopView, AuthenticationView authenticationView, UserProfileView userProfileView,
             ProductView productView,
-            ShoppingCartView shoppingCartView, InvoiceView invoiceView) {
+            ShoppingCartView shoppingCartView, InvoiceView invoiceView, InvoiceDetailView invoiceDetailView) {
         this.shopView = shopView;
         this.authenticationView = authenticationView;
         this.userProfileView = userProfileView;
         this.productView = productView;
         this.shoppingCartView = shoppingCartView;
         this.invoiceView = invoiceView;
+        this.invoiceDetailView = invoiceDetailView;
         setupUI();
     }
 
@@ -48,7 +51,7 @@ public class MultiViewPanel extends JPanel {
         this.add(productView, ViewType.PRODUCT.getViewId());
         this.add(shoppingCartView, ViewType.SHOPPING_CART.getViewId());
         this.add(invoiceView, ViewType.INVOICE.getViewId());
-
+        this.add(invoiceDetailView, ViewType.INVOICE_DETAIL.getViewId());
         // Show shop view by default
         cardLayout.show(this, ViewType.SHOP.getViewId());
     }
