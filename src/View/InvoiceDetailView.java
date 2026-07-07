@@ -26,7 +26,10 @@ import javax.swing.plaf.basic.BasicScrollBarUI;
 
 import Components.RoundedButton;
 import Controller.InvoiceController;
+import Model.AppState;
 import Model.Invoice;
+import Model.User;
+import Model.UserType;
 import Util.ColorPalette;
 
 public class InvoiceDetailView extends JPanel {
@@ -43,7 +46,22 @@ public class InvoiceDetailView extends JPanel {
 
     public InvoiceDetailView(InvoiceController controller) {
         this.controller = controller;
+
+        // In InvoiceDetailView constructor or setupUI, after creating refundButton
+        AppState.getInstance().addListener(evt -> {
+            if (AppState.PROP_USER.equals(evt.getPropertyName())) {
+                updateRefundButtonState();
+            }
+        });
+
         setupUI();
+    }
+
+    private void updateRefundButtonState() {
+        User currentUser = AppState.getInstance().getLoggedInUser();
+        boolean isPrime = currentUser != null && currentUser.getUserType() == UserType.PRIME;
+        refundButton.setVisible(isPrime);
+        refundButton.setEnabled(isPrime);
     }
 
     public void setInvoice(Invoice invoice) {
@@ -52,6 +70,7 @@ public class InvoiceDetailView extends JPanel {
             titleLabel.setText("Invoice #" + invoice.getInvoiceId());
         }
         controller.generatePdfPreviewImage(invoice);
+        updateRefundButtonState();
     }
 
     public void setPreviewImage(BufferedImage image) {
