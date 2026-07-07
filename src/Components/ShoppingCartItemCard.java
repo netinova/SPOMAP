@@ -70,6 +70,9 @@ public class ShoppingCartItemCard extends JPanel {
         Product product = cartItem.getProduct();
 
         this.setBackground(ColorPalette.BG_SECONDARY);
+        setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(ColorPalette.BORDER, 1),
+                BorderFactory.createEmptyBorder(10, 10, 10, 10)));
 
         // Add hover effect
         addMouseListener(new MouseAdapter() {

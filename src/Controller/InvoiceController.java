@@ -66,9 +66,27 @@ public class InvoiceController {
         }
     }
 
+    /**
+     * Load invoices for the currently logged-in user.
+     * Admins see all invoices; other users see only their own.
+     * Call this when the invoice list view is first opened.
+     */
+    public void loadInvoicesForCurrentUser() {
+        var loggedUser = AppState.getInstance().getLoggedInUser();
+        if (loggedUser == null || invoiceView == null) {
+            return;
+        }
+
+        String userId = (loggedUser.getUserType() != UserType.ADMIN)
+                ? loggedUser.getUserId()
+                : null;
+
+        List<Invoice> results = invoiceService.searchInvoices(null, userId, null, null);
+        invoiceView.displayInvoices(results);
+    }
+
     public void generatePdfPreviewImage(Invoice invoice) {
         try {
-
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             generatePdfToStream(invoice, baos);
             byte[] pdfBytes = baos.toByteArray();
@@ -79,7 +97,6 @@ public class InvoiceController {
             pdfDoc.close();
 
             invoiceDetailView.setPreviewImage(image);
-
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(invoiceDetailView,
@@ -287,12 +304,14 @@ public class InvoiceController {
 
         if (loggedUser.getUserType() != UserType.ADMIN) {
             userId = loggedUser.getUserId();
-        } else if (userId == null || userId.isEmpty()) {
-            userId = null;
         }
+
+        if (loggedUser.getUserType() == UserType.ADMIN && (userId == null || userId.isEmpty()))
+            userId = null;
 
         if (invoiceId == null || invoiceId.isEmpty())
             invoiceId = null;
+
         if (userId == null || userId.isEmpty())
             userId = null;
 

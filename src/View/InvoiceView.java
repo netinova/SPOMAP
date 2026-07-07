@@ -87,7 +87,7 @@ public class InvoiceView extends JPanel {
     public void changeLayout() {
         boolean isAdmin = AppState.getInstance().getLoggedInUser().getUserType() == UserType.ADMIN;
         invoiceSearchPanel.setAdminMode(isAdmin);
-        controller.handleSearch();
+        controller.loadInvoicesForCurrentUser();
     }
 
     public String getSearchInvoiceId() {
