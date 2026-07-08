@@ -396,6 +396,7 @@ public class LogShopPanel extends JPanel {
         categoryChartMonthly.getStyler().setYAxisTitleColor(ColorPalette.TEXT_PRIMARY);
         categoryChartMonthly.getStyler().setLegendBackgroundColor(ColorPalette.BG_SECONDARY);
         categoryChartMonthly.getStyler().setAxisTickLabelsColor(ColorPalette.TEXT_PRIMARY);
+        categoryChartMonthly.getStyler().setDecimalPattern("#,##0.00");
         categoryChartMonthly.getStyler().setSeriesColors(new Color[]{ColorPalette.ACCENT_PRIMARY, ColorPalette.ACCENT_WARNING});
         categoryChartMonthly.getStyler().setDefaultSeriesRenderStyle(CategorySeries.CategorySeriesRenderStyle.Bar);
 

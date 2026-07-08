@@ -46,7 +46,6 @@ public class AppController {
         this.authenticationController = new AuthenticationController();
         this.shoppingCartController = new ShoppingCartController(productCatalog, this.invoiceService);
         this.productController = new ProductController();
-        this.profileController = new UserProfileController(productCatalog);
         this.invoiceController = new InvoiceController(this.invoiceService);
 
         this.profileController = new UserProfileController(productCatalog, this.analyticsService);

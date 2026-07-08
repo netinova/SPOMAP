@@ -1,34 +1,38 @@
 {
   "shopName" : "Spomap Shop",
   "currency" : "USD",
-  "lastUpdated" : "2026-07-08 04:32:20",
-  "analyticsStartDate" : "2026-07-08 04:32:20",
-  "totalRevenue" : 151.36,
-  "totalProfit" : 60.54400000000001,
-  "totalOrders" : 3,
-  "totalItemsSold" : 19,
-  "averageOrderValue" : 50.45333333333334,
+  "lastUpdated" : "2026-07-08 05:05:44",
+  "analyticsStartDate" : "2026-07-08 05:05:44",
+  "totalRevenue" : 1721.769258,
+  "totalProfit" : 688.7077032,
+  "totalOrders" : 4,
+  "totalItemsSold" : 21,
+  "averageOrderValue" : 430.4423145,
   "monthlyAnalytics" : [ {
     "month" : "2026-07",
-    "revenue" : 151.36,
-    "profit" : 60.54400000000001,
-    "orders" : 3
+    "revenue" : 1721.769258,
+    "profit" : 688.7077032,
+    "orders" : 4
   } ],
   "dailyAnalytics" : [ {
     "date" : "2026-07-02",
     "revenue" : 93.36,
     "orders" : 1
   }, {
-    "date" : "2026-07-04",
-    "revenue" : 20.0,
+    "date" : "2026-07-06",
+    "revenue" : 57.0,
     "orders" : 1
   }, {
-    "date" : "2026-07-05",
-    "revenue" : 38.0,
+    "date" : "2026-07-07",
+    "revenue" : 999.1,
+    "orders" : 1
+  }, {
+    "date" : "2026-07-08",
+    "revenue" : 572.309258,
     "orders" : 1
   } ],
   "totalCustomers" : 9,
-  "returningCustomers" : 3,
+  "returningCustomers" : 2,
   "totalPrimeUsers" : 2,
   "productAnalytics" : [ {
     "productId" : "PRD_000001",
@@ -37,17 +41,11 @@
     "totalRevenue" : 6.3,
     "totalOrdersContaining" : 1
   }, {
-    "productId" : "PRD_000012",
-    "productName" : "toilet paper",
-    "totalQuantitySold" : 4,
-    "totalRevenue" : 38.0,
-    "totalOrdersContaining" : 1
-  }, {
     "productId" : "PRD_000006",
     "productName" : "Headphones",
-    "totalQuantitySold" : 3,
-    "totalRevenue" : 85.5,
-    "totalOrdersContaining" : 1
+    "totalQuantitySold" : 5,
+    "totalRevenue" : 142.5,
+    "totalOrdersContaining" : 2
   }, {
     "productId" : "PRD_000004",
     "productName" : "YamBoul",
@@ -55,10 +53,16 @@
     "totalRevenue" : 1.56,
     "totalOrdersContaining" : 1
   }, {
-    "productId" : "PRD_000000",
-    "productName" : "Game board Koodeta COUP+",
-    "totalQuantitySold" : 2,
-    "totalRevenue" : 20.0,
+    "productId" : "PRD_000009",
+    "productName" : "CORSAIR Vengeance RGB DDR5 RAM 32GB (2x16GB) 6400MHz",
+    "totalQuantitySold" : 3,
+    "totalRevenue" : 1498.65,
+    "totalOrdersContaining" : 2
+  }, {
+    "productId" : "PRD_000011",
+    "productName" : "TAMASHII NATIONS - Naruto Shippuden",
+    "totalQuantitySold" : 3,
+    "totalRevenue" : 72.759258,
     "totalOrdersContaining" : 1
   } ]
 }

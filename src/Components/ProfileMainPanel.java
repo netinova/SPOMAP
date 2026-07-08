@@ -450,6 +450,7 @@ public class ProfileMainPanel extends JPanel {
         categoryChartMonthly.getStyler().setLegendBackgroundColor(ColorPalette.BG_SECONDARY);
         categoryChartMonthly.getStyler().setAxisTickLabelsColor(ColorPalette.TEXT_PRIMARY);
         categoryChartMonthly.getStyler().setSeriesColors(new Color[]{ColorPalette.ACCENT_PRIMARY, ColorPalette.ACCENT_WARNING});
+        categoryChartMonthly.getStyler().setDecimalPattern("#,##0.00");
         categoryChartMonthly.getStyler().setDefaultSeriesRenderStyle(CategorySeries.CategorySeriesRenderStyle.Bar);
 
         categoryChartMonthly.addSeries("Purchase", months, purchase);
@@ -570,7 +571,7 @@ public class ProfileMainPanel extends JPanel {
             rank2Label.setText(name1);
         if (name2!=null)
             rank3Label.setText(name2);
-        moneySaveValueLabel.setText(String.format("$%f",saveAmount));
+        moneySaveValueLabel.setText(String.format("$%.2f",saveAmount));
         totalPurchasesLabel.setText(String.valueOf(totalPouches));
     }
 

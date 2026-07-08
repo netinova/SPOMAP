@@ -46,4 +46,22 @@
   } ],
   "invoiceDate" : "2026-07-07 21:58:17",
   "status" : "Paid"
+}, {
+  "invoiceId" : "INV_000004",
+  "userId" : "USR_000001",
+  "items" : [ {
+    "productId" : "PRD_000011",
+    "productName" : "TAMASHII NATIONS - Naruto Shippuden",
+    "unitPrice" : 32.89,
+    "quantity" : 3,
+    "discount" : 26.26
+  }, {
+    "productId" : "PRD_000009",
+    "productName" : "CORSAIR Vengeance RGB DDR5 RAM 32GB (2x16GB) 6400MHz",
+    "unitPrice" : 499.55,
+    "quantity" : 1,
+    "discount" : 0.0
+  } ],
+  "invoiceDate" : "2026-07-08 05:00:23",
+  "status" : "Paid"
 } ]
