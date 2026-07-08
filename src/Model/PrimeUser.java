@@ -73,11 +73,6 @@ public class PrimeUser extends User {
         return creditAmount;
     }
 
-    @Override
-    public double getBalance() {
-        return balance+creditAmount-debitAmount;
-    }
-
     public void addCredit(double amount) {
         this.creditAmount += amount;
         System.out.println("Added $" + amount + " to credit");

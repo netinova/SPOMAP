@@ -1,12 +1,7 @@
 package Service;
 
 import Controller.AppController;
-import Model.AppState;
-import Model.Invoice;
-import Model.InvoiceItem;
-import Model.InvoiceStatus;
-import Model.Product;
-import Model.ProductCatalog;
+import Model.*;
 import Util.LocalDateTimeDeserializer;
 import Util.LocalDateTimeSerializer;
 
@@ -252,5 +247,27 @@ public class InvoiceService {
 
     public int getInvoiceCountForUser(String userId) {
         return (int) getInvoicesByUserId(userId).size();
+    }
+
+    public boolean refundInvoice(String invoiceId, ProductCatalog productCatalog) {
+        Invoice invoice = getInvoiceById(invoiceId);
+        double refundAmount = invoice.getFinalPrice();
+
+        for (InvoiceItem item : invoice.getItems()) {
+            Product product = productCatalog.getProductById(item.getProductId());
+            if (product != null) {
+                product.addStock(item.getQuantity());
+            }
+        }
+
+        User user = AppState.getInstance().getLoggedInUser();
+        PrimeUser prime = (PrimeUser) user;
+
+        prime.addCredit(refundAmount);
+        UserService.savePrimeUser(AppState.getInstance().primeUsersList);
+
+        updateInvoiceStatus(invoiceId,InvoiceStatus.Refunded);
+
+        return true;
     }
 }

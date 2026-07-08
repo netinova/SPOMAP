@@ -79,6 +79,10 @@ public class Product implements Purchasable {
         }
     }
 
+    public void addStock(int number){
+        stockQuantity+=number;
+    }
+
     public double getDiscount() {
         return discount;
     }

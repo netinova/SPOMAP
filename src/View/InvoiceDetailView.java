@@ -57,11 +57,12 @@ public class InvoiceDetailView extends JPanel {
         setupUI();
     }
 
-    private void updateRefundButtonState() {
+    public void updateRefundButtonState() {
         User currentUser = AppState.getInstance().getLoggedInUser();
         boolean isPrime = currentUser != null && currentUser.getUserType() == UserType.PRIME;
         refundButton.setVisible(isPrime);
-        refundButton.setEnabled(isPrime);
+        if (selectedInvoice!=null)
+            refundButton.setEnabled(controller.getStatusInvoice(selectedInvoice));
     }
 
     public void setInvoice(Invoice invoice) {

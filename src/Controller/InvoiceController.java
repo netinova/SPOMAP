@@ -17,6 +17,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import Model.*;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.rendering.PDFRenderer;
 
@@ -31,11 +32,6 @@ import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 
-import Model.AppState;
-import Model.Invoice;
-import Model.InvoiceItem;
-import Model.UserType;
-import Model.ViewType;
 import Service.InvoiceService;
 import Util.Validator;
 import View.InvoiceDetailView;
@@ -47,9 +43,11 @@ public class InvoiceController {
     private InvoiceView invoiceView;
     private InvoiceDetailView invoiceDetailView;
     private InvoiceService invoiceService;
+    private ProductCatalog productCatalog;
 
-    public InvoiceController(InvoiceService invoiceService) {
+    public InvoiceController(InvoiceService invoiceService, ProductCatalog productCatalog) {
         this.invoiceService = invoiceService;
+        this.productCatalog = productCatalog;
     }
 
     public void setOnChangeViewListener(OnChangeViewListener listener) {
@@ -62,7 +60,7 @@ public class InvoiceController {
 
         if (invoiceDetailView != null) {
             invoiceDetailView.getSavePdfButton().addActionListener(e -> handleSavePdf());
-            // Refund button
+            invoiceDetailView.getRefundButton().addActionListener(e -> handleRefund());
         }
     }
 
@@ -284,6 +282,19 @@ public class InvoiceController {
         return Validator.validationManiDate(date);
     }
 
+    private void handleRefund() {
+        if (invoiceView == null || invoiceService == null)
+            return;
+        Invoice invoice = invoiceDetailView.getSelectedInvoice();
+        boolean result = invoiceService.refundInvoice(invoice.getInvoiceId(), productCatalog);
+        if (result) {
+            System.out.println("refund successful");
+            invoice.setStatus(InvoiceStatus.Refunded);
+            invoiceDetailView.setInvoice(invoice);
+        }
+
+    }
+
     public void handleSearch() {
         if (invoiceView == null || invoiceService == null)
             return;
@@ -345,6 +356,11 @@ public class InvoiceController {
         invoiceDetailView.setInvoice(invoice);
         if (listener != null) {
             listener.changeView(ViewType.INVOICE_DETAIL.getViewId());
+            invoiceDetailView.updateRefundButtonState();
         }
+    }
+
+    public boolean getStatusInvoice(Invoice selectedInvoice) {
+        return selectedInvoice.getStatus().equals(InvoiceStatus.Paid);
     }
 }

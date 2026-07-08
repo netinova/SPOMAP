@@ -57,6 +57,16 @@ public class ProductCatalog {
         return new ArrayList<>(products); // Return copy for immutability
     }
 
+    @JsonIgnore
+    public Product getProductById(String productId) {
+        for (Product p : products) {
+            if (p.getId().equals(productId)) {
+                return p;
+            }
+        }
+        return null;
+    }
+
     public void setSelectedProduct(Product product) {
         this.selectedProduct = product;
         support.firePropertyChange(PROP_SELECTED, null, product);

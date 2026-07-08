@@ -18,10 +18,10 @@
     "lastName" : "asd",
     "password" : "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
     "registerDate" : "2026-06-09 16:30:38",
-    "balance" : 123102.2,
+    "balance" : 125368.4,
     "userType" : "PRIME",
     "memberShipID" : "PRM_000002",
-    "creditAmount" : 0.0,
+    "creditAmount" : 496.80000000000007,
     "debitAmount" : 0.0
   } ]
 }

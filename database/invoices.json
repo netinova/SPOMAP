@@ -64,4 +64,40 @@
   } ],
   "invoiceDate" : "2026-07-08 05:00:23",
   "status" : "Paid"
+}, {
+  "invoiceId" : "INV_000005",
+  "userId" : "USR_000008",
+  "items" : [ {
+    "productId" : "PRD_000006",
+    "productName" : "Headphones",
+    "unitPrice" : 30.0,
+    "quantity" : 2,
+    "discount" : 5.0
+  } ],
+  "invoiceDate" : "2026-07-08 05:37:28",
+  "status" : "Refunded"
+}, {
+  "invoiceId" : "INV_000006",
+  "userId" : "USR_000008",
+  "items" : [ {
+    "productId" : "PRD_000001",
+    "productName" : "barbari bread",
+    "unitPrice" : 1.0,
+    "quantity" : 2,
+    "discount" : 10.0
+  } ],
+  "invoiceDate" : "2026-07-08 05:54:05",
+  "status" : "Refunded"
+}, {
+  "invoiceId" : "INV_000007",
+  "userId" : "USR_000008",
+  "items" : [ {
+    "productId" : "PRD_000000",
+    "productName" : "Game board Koodeta COUP+",
+    "unitPrice" : 20.0,
+    "quantity" : 3,
+    "discount" : 50.0
+  } ],
+  "invoiceDate" : "2026-07-08 06:22:16",
+  "status" : "Refunded"
 } ]
