@@ -315,4 +315,8 @@ public class UserProfileView extends JPanel {
         profileMainView.setDateForMonthly(date);
         profileMainView.refreshViewChartMonthly();
     }
+
+    public void loadUserStatusCard(String name, String name1, String name2, double saveAmount, int totalPouches) {
+        profileMainView.loadStatusCard(name , name1, name2, saveAmount, totalPouches);
+    }
 }

@@ -10,7 +10,6 @@ import org.knowm.xchart.XChartPanel;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.EventListenerList;
-import javax.swing.plaf.basic.BasicScrollBarUI;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -324,7 +323,6 @@ public class ProfileMainPanel extends JPanel {
         manageUserBtn.setForeground(ColorPalette.TEXT_PRIMARY);
         btnPanel.add(manageUserBtn);
         btnPanel.add(Box.createHorizontalStrut(10));
-//        panel.add(Box.createHorizontalStrut(10));
 
         logShopBtn = new RoundedButton("Status Shop", borderRadius);
         logShopBtn.setPreferredSize(new Dimension(250, 70));
@@ -334,7 +332,6 @@ public class ProfileMainPanel extends JPanel {
         logShopBtn.setForeground(ColorPalette.TEXT_PRIMARY);
         btnPanel.add(logShopBtn);
         btnPanel.add(Box.createHorizontalStrut(10));
-//        panel.add(Box.createHorizontalStrut(10));
 
         addProductBtn = new RoundedButton("Add Product", borderRadius);
         addProductBtn.setPreferredSize(new Dimension(250, 70));
@@ -480,13 +477,13 @@ public class ProfileMainPanel extends JPanel {
         ranking.add(Box.createVerticalStrut(10));
         ranking.add(title);
         ranking.add(Box.createVerticalStrut(25));
-        ranking.add(createLineRank("1",ColorPalette.BG_MAIN));
+        ranking.add(createLineRank("1  ",ColorPalette.BG_MAIN));
         rank1Label=tempLabel;
         ranking.add(Box.createVerticalStrut(5));
-        ranking.add(createLineRank("2",ColorPalette.BG_TERTIARY));
+        ranking.add(createLineRank("2  ",ColorPalette.BG_SECONDARY));
         rank2Label=tempLabel;
         ranking.add(Box.createVerticalStrut(5));
-        ranking.add(createLineRank("3",ColorPalette.BG_MAIN));
+        ranking.add(createLineRank("3  ",ColorPalette.BG_MAIN));
         rank3Label=tempLabel;
         ranking.add(Box.createVerticalStrut(3));
         panel.add(ranking);
@@ -566,8 +563,15 @@ public class ProfileMainPanel extends JPanel {
         revalidate();
     }
 
-    public void loadStatusCard(){
-
+    public void loadStatusCard(String name, String name1, String name2, double saveAmount, int totalPouches) {
+        if (name!=null)
+            rank1Label.setText(name);
+        if (name1!=null)
+            rank2Label.setText(name1);
+        if (name2!=null)
+            rank3Label.setText(name2);
+        moneySaveValueLabel.setText(String.format("$%f",saveAmount));
+        totalPurchasesLabel.setText(String.valueOf(totalPouches));
     }
 
     public void displayUser(String fullName, String userType, double balance, int cartItems, UserType type) {

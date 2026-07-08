@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class MangeUserProfilePanel extends JPanel {
     private RoundedInputText firstNameField;
@@ -350,6 +351,7 @@ public class MangeUserProfilePanel extends JPanel {
             double creditAmount, double debitAmount) {
         kickButton.setVisible(true);
         convertButton.setVisible(true);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 
         if (memberShipCode == null) {
             memberShipIdPanel.setVisible(false);
@@ -374,7 +376,7 @@ public class MangeUserProfilePanel extends JPanel {
         phoneNumberField.setText(phoneNumber);
         userIdField.setText(userId);
         userTypeField.setText(userType);
-        registerField.setText(registerDate.toString());
+        registerField.setText(registerDate.format(formatter));
         showInformationUser();
     }
 

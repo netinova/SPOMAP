@@ -12,7 +12,6 @@ import View.UserProfileView;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -64,13 +63,23 @@ public class UserProfileController {
 
         }
         handleMonthlyChartProfileUser();
+        if (!user.getUserType().isAdmin())
+            loadStatusCard();
     }
 
     public void loadStatusCard(){
         User user = AppState.getInstance().getLoggedInUser();
         if (user==null) return;
 
+        List<Map.Entry<Product, Integer>> ranking = invoiceService.getTopPurchasedProducts(user.getUserId(),3);
+        double saveAmount = invoiceService.getTotalSavingsByUser(user.getUserId());
+        int totalPouches = invoiceService.getInvoiceCountForUser(user.getUserId());
 
+        String rank1 = ranking.size() > 0 ? ranking.get(0).getKey().getName() : null;
+        String rank2 = ranking.size() > 1 ? ranking.get(1).getKey().getName() : null;
+        String rank3 = ranking.size() > 2 ? ranking.get(2).getKey().getName() : null;
+
+        view.loadUserStatusCard(rank1, rank2, rank3, saveAmount , totalPouches);
     }
 
     // -------------------- Logout

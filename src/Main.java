@@ -41,9 +41,6 @@ public class Main {
 
         AppController appController = new AppController(products, invoiceService, analyticsService);
 
-        UIManager.put("ToolTip.foreground", ColorPalette.TEXT_PRIMARY);
-        UIManager.put("ToolTip.background", ColorPalette.BG_TERTIARY);
-
         ShopView shopView = new ShopView(appController.getShopController(), products);
         NavigationView navigationView = new NavigationView(appController.getNavigationController());
         SidebarView sidebarView = new SidebarView(appController.getSidebarController());
