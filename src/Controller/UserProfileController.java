@@ -2,11 +2,18 @@ package Controller;
 
 import Components.AddProductPanel;
 import Model.*;
+import Service.AnalyticsService;
+import Service.InvoiceService;
 import Service.ProductService;
 import Service.UserService;
 import Util.PasswordHasher;
 import Util.Validator;
 import View.UserProfileView;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 public class UserProfileController {
 
@@ -14,8 +21,13 @@ public class UserProfileController {
     private OnChangeViewListener listener;
     private ProductCatalog productCatalog;
 
-    public UserProfileController(ProductCatalog productCatalog) {
+    private AnalyticsService analyticsService;
+    private InvoiceService invoiceService;
+
+    public UserProfileController(ProductCatalog productCatalog, AnalyticsService analyticsService) {
         this.productCatalog = productCatalog;
+        this.analyticsService = analyticsService;
+        invoiceService = analyticsService.getInvoiceService();
     }
 
     public void setView(UserProfileView view) {
@@ -50,6 +62,24 @@ public class UserProfileController {
                     userPrime.getMemberShipID());
 
         }
+        handleMonthlyChartProfileUser();
+        if (!user.getUserType().isAdmin())
+            loadStatusCard();
+    }
+
+    public void loadStatusCard(){
+        User user = AppState.getInstance().getLoggedInUser();
+        if (user==null) return;
+
+        List<Map.Entry<Product, Integer>> ranking = invoiceService.getTopPurchasedProducts(user.getUserId(),3);
+        double saveAmount = invoiceService.getTotalSavingsByUser(user.getUserId());
+        int totalPouches = invoiceService.getInvoiceCountForUser(user.getUserId());
+
+        String rank1 = ranking.size() > 0 ? ranking.get(0).getKey().getName() : null;
+        String rank2 = ranking.size() > 1 ? ranking.get(1).getKey().getName() : null;
+        String rank3 = ranking.size() > 2 ? ranking.get(2).getKey().getName() : null;
+
+        view.loadUserStatusCard(rank1, rank2, rank3, saveAmount , totalPouches);
     }
 
     // -------------------- Logout
@@ -94,6 +124,10 @@ public class UserProfileController {
 
     public Validator.ValidationResult validationFileAddress(String name) {
         return Validator.validationImageAddress(name);
+    }
+
+    public Validator.ValidationResult validationDate(String date) {
+        return Validator.validationDate(date);
     }
 
     public boolean fullValidator(String fName, String lName, String phoneNumber, String currentPassword,
@@ -376,6 +410,96 @@ public class UserProfileController {
         showMainPage();
     }
 
+    // status Shop
+    public int getCountPrimeUser() {
+        return analyticsService.getPrimeUserCount();
+    }
+
+    public double getRevenue() {
+        return analyticsService.getAnalytics().getTotalRevenue();
+    }
+
+    public double getProfit() {
+        return analyticsService.getAnalytics().getTotalProfit();
+    }
+
+    public int getCustomer() {
+        return analyticsService.getAnalytics().getTotalCustomers();
+    }
+
+    public int getOrders() {
+        return analyticsService.getAnalytics().getTotalOrders();
+    }
+
+    public int getItemSold() {
+        return analyticsService.getAnalytics().getTotalItemsSold();
+    }
+
+    public double getAverageOrder() {
+        return analyticsService.getAnalytics().getAverageOrderValue();
+    }
+
+    public String getLastUpdate() {
+        LocalDateTime date = analyticsService.getAnalytics().getLastUpdated();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        return date.format(formatter);
+    }
+
+    public void handleMonthlyChart() {
+        List<ShopAnalytics.MonthlyAnalytics> monthlyAnalytics = analyticsService.getAnalytics().getMonthlyAnalytics();
+        List<String> date = new ArrayList<>();
+        List<Double> revenue = new ArrayList<>();
+        List<Double> profit = new ArrayList<>();
+        for (ShopAnalytics.MonthlyAnalytics da : monthlyAnalytics) {
+            date.add(da.getMonth());
+            profit.add(da.getProfit());
+            revenue.add(da.getRevenue());
+        }
+        view.setInfoMonthlyChart(date, revenue, profit);
+
+    }
+
+    public void handleDailyChart(String from, String to) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        LocalDate dateFrom = LocalDate.parse(from, formatter);
+        LocalDate dateTo = LocalDate.parse(to, formatter);
+
+        ShopAnalytics analytics = analyticsService.getAnalyticsForDateRange(dateFrom.atStartOfDay(),
+                dateTo.atTime(23, 59, 59));
+        if (analytics == null)
+            return;
+
+        List<ShopAnalytics.DailyAnalytics> dailyAnalytics = analytics.getDailyAnalytics();
+        List<String> date = new ArrayList<>();
+        List<Double> revenue = new ArrayList<>();
+        for (ShopAnalytics.DailyAnalytics da : dailyAnalytics) {
+            date.add(da.getDate());
+            revenue.add(da.getRevenue());
+        }
+        view.setInfoDailyChart(date, revenue);
+    }
+
+    public void handleProductChart() {
+        List<ShopAnalytics.ProductAnalytics> productAnalytics = analyticsService.getAnalytics().getProductAnalytics();
+        Map<String, Integer> productSales = new HashMap<>();
+        for (ShopAnalytics.ProductAnalytics da : productAnalytics) {
+            productSales.put(da.getProductName(), da.getTotalQuantitySold());
+        }
+        view.setProductInfo(productSales);
+    }
+
+    public void handleMonthlyChartProfileUser() {
+        User user = AppState.getInstance().getLoggedInUser();
+        if (user == null) return;
+
+        Map<String, Double> monthlyData = invoiceService.getTotalPurchaseByUserId(user.getUserId());
+
+        List<String> months = new ArrayList<>(monthlyData.keySet());
+        List<Double> purchases = new ArrayList<>(monthlyData.values());
+
+        view.setInfoMonthlyChartUserProfile(months, purchases);
+    }
+
     // listener
     public void onNameProductChange(String newValue) {
         System.out.println("name product: " + newValue);
@@ -405,4 +529,5 @@ public class UserProfileController {
     public void showMainPage() {
         view.showMainProfile();
     }
+
 }

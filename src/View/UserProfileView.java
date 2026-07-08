@@ -10,6 +10,8 @@ import javax.swing.plaf.basic.BasicScrollBarUI;
 
 import java.awt.*;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
 
 public class UserProfileView extends JPanel {
 
@@ -18,6 +20,7 @@ public class UserProfileView extends JPanel {
     private ChargeWalletPanel chargeWalletPanel;
     private MangeUserProfilePanel mangeUserProfilePanel;
     private AddProductPanel productPanel;
+    private LogShopPanel logShopPanel;
 
     private CardLayout cardLayout;
     private JPanel cardPanel;
@@ -45,11 +48,13 @@ public class UserProfileView extends JPanel {
         chargeWalletPanel = new ChargeWalletPanel();
         mangeUserProfilePanel = new MangeUserProfilePanel();
         productPanel = new AddProductPanel();
+        logShopPanel = new LogShopPanel();
 
         userProfileEditPanel.setController(controller);
         chargeWalletPanel.setController(controller);
         mangeUserProfilePanel.setController(controller);
         productPanel.setController(controller);
+        logShopPanel.setController(controller);
 
         // scroll
         JScrollPane profileScroll = new JScrollPane(profileMainView);
@@ -60,11 +65,20 @@ public class UserProfileView extends JPanel {
         profileScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         styleScrollBar(profileScroll.getVerticalScrollBar());
 
+        JScrollPane logShopScrollPane = new JScrollPane(logShopPanel);
+        logShopScrollPane.setBorder(null);
+        logShopScrollPane.setOpaque(false);
+        logShopScrollPane.getViewport().setOpaque(false);
+        logShopScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        logShopScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        styleScrollBar(logShopScrollPane.getVerticalScrollBar());
+
         cardPanel.add(profileScroll, "MAIN");
         cardPanel.add(userProfileEditPanel, "EDIT_PROFILE");
         cardPanel.add(chargeWalletPanel, "CHARGE_WALLET");
         cardPanel.add(mangeUserProfilePanel, "MANAGE_USERS");
         cardPanel.add(productPanel,"ADD_PRODUCT");
+        cardPanel.add(logShopScrollPane,"LOG_SHOP");
 
         this.add(cardPanel, BorderLayout.CENTER);
     }
@@ -82,7 +96,7 @@ public class UserProfileView extends JPanel {
                 case ProfileMainPanel.CHARGE_WALLET_PROP -> showChargeWallet();
                 case ProfileMainPanel.EDIT_PROFILE_PROP -> showEditProfile();
                 case ProfileMainPanel.MANAGE_USER_PROP -> showMangeUsers();
-                case ProfileMainPanel.LOG_SHOP_PROP -> System.out.println("Clicked status shop");
+                case ProfileMainPanel.LOG_SHOP_PROP -> showLogShop();
                 case ProfileMainPanel.ADD_PRODUCT_PROP -> showProductPanel();
                 case ProfileMainPanel.SHOPPING_CART_PROP -> controller.showShoppingCart();
             }
@@ -146,11 +160,11 @@ public class UserProfileView extends JPanel {
     }
 
     // show errors edit panel
+
     public void showPhoneError(String error) {
         if (userProfileEditPanel != null)
             userProfileEditPanel.showPhoneError(error);
     }
-
     public void showFirstNameError(String error) {
         if (userProfileEditPanel != null)
             userProfileEditPanel.showFirstNameError(error);
@@ -177,10 +191,10 @@ public class UserProfileView extends JPanel {
     }
 
     // load Data
+
     public void displayUser(String fullName, String userType, double balance, int cartItems, UserType type) {
         profileMainView.displayUser(fullName, userType, balance, cartItems, type);
     }
-
     public void displayPrimeUser(double creditAmount, double debitAmount, String memberShipID) {
         profileMainView.displayPrimeUser(creditAmount, debitAmount, memberShipID);
     }
@@ -201,8 +215,8 @@ public class UserProfileView extends JPanel {
                                     String memberShipCode, double creditAmount, double debitAmount) {
         mangeUserProfilePanel.loadData(firstName, lastName, phoneNumber, userId, userType , registerDate , memberShipCode , creditAmount , debitAmount);
     }
-    // switch view
 
+    // switch view
     public void showEditProfile() {
         controller.loadEditProfile();
         cardLayout.show(cardPanel, "EDIT_PROFILE");
@@ -224,6 +238,12 @@ public class UserProfileView extends JPanel {
 
     public void showProductPanel(){
         cardLayout.show(cardPanel, "ADD_PRODUCT");
+    }
+
+    private void showLogShop() {
+        logShopPanel.refreshFullView();
+        controller.handleProductChart();
+        cardLayout.show(cardPanel, "LOG_SHOP");
     }
 
     private void styleScrollBar(JScrollBar bar) {
@@ -270,5 +290,33 @@ public class UserProfileView extends JPanel {
         });
         bar.setPreferredSize(new Dimension(8, 0));
         bar.setUnitIncrement(16);
+    }
+
+    public void setInfoDailyChart(List<String> date, List<Double> revenue) {
+        logShopPanel.setDateForDaily(date);
+        logShopPanel.setRevenueForDaily(revenue);
+        logShopPanel.refreshViewChartDaily();
+    }
+
+    public void setInfoMonthlyChart(List<String> date, List<Double> revenue, List<Double> profit) {
+        logShopPanel.setDateForMonthly(date);
+        logShopPanel.setProfitForMonthly(profit);
+        logShopPanel.setRevenueForMonthly(revenue);
+        logShopPanel.refreshViewChartMonthly();
+    }
+
+    public void setProductInfo(Map<String, Integer> productSales) {
+        logShopPanel.setProductSalesMap(productSales);
+        logShopPanel.refreshViewChartProduct();
+    }
+
+    public void setInfoMonthlyChartUserProfile(List<String> date, List<Double> purchase) {
+        profileMainView.setPurchaseForMonthly(purchase);
+        profileMainView.setDateForMonthly(date);
+        profileMainView.refreshViewChartMonthly();
+    }
+
+    public void loadUserStatusCard(String name, String name1, String name2, double saveAmount, int totalPouches) {
+        profileMainView.loadStatusCard(name , name1, name2, saveAmount, totalPouches);
     }
 }

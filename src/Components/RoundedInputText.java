@@ -26,11 +26,12 @@ public class RoundedInputText extends JTextField {
     private EventListenerList listenerList = new EventListenerList();
     private boolean isUpdatingPlaceholder = false;
     private String placeHolder;
+    private Color colorBG;
 
     public interface EnterKeyListener {
+
         void onEnterPressed(String text);
     }
-
     private EnterKeyListener enterKeyListener;
 
     public RoundedInputText(String placeHolder, int size) {
@@ -125,12 +126,15 @@ public class RoundedInputText extends JTextField {
         }
     }
 
+    public void setColorBG(Color colorBG) {
+        this.colorBG = colorBG;
+    }
+
     public void setActivePlaceHolder(boolean activePlaceHolder) {
         this.activePlaceHolder = activePlaceHolder;
         isUpdatingPlaceholder = true;
         setText(placeHolder);
         isUpdatingPlaceholder = false;
-        activePlaceHolder = true;
         setForeground(ColorPalette.TEXT_PLACEHOLDER);
     }
 
@@ -148,7 +152,10 @@ public class RoundedInputText extends JTextField {
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         // Draw rounded background
-        g2.setBackground(ColorPalette.BG_TERTIARY);
+        if (colorBG!=null) {
+            g2.setColor(colorBG);
+            g2.fillRoundRect(0, 0, getWidth(), getHeight(), cornerRadius, cornerRadius);
+        }
 
         // Draw border
         g2.setColor(ColorPalette.BORDER);

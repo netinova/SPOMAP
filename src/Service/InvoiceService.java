@@ -1,7 +1,12 @@
 package Service;
 
+import Controller.AppController;
+import Model.AppState;
 import Model.Invoice;
+import Model.InvoiceItem;
 import Model.InvoiceStatus;
+import Model.Product;
+import Model.ProductCatalog;
 import Util.LocalDateTimeDeserializer;
 import Util.LocalDateTimeSerializer;
 
@@ -12,8 +17,9 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class InvoiceService {
@@ -100,7 +106,7 @@ public class InvoiceService {
             return null;
 
         currentInvoices.add(invoice);
-        writeAllInvoices(currentInvoices);
+        writeAllInvoices(currentInvoices);// TODO: use def updateAfterNewInvoice for analytic
         return invoice.getInvoiceId();
     }
 
@@ -191,5 +197,60 @@ public class InvoiceService {
 
     public int getInvoiceCount() {
         return readAllInvoices().size();
+    }
+
+    public Map<String, Double> getTotalPurchaseByUserId(String userId) {
+        List<Invoice> invoices = getInvoicesByUserId(userId);
+        if (invoices.isEmpty()) {
+            return new LinkedHashMap<>();
+        }
+
+        invoices.sort(Comparator.comparing(Invoice::getInvoiceDate));
+
+        Map<YearMonth, Double> monthlyTotals = new TreeMap<>();
+        for (Invoice inv : invoices) {
+            monthlyTotals.merge(YearMonth.from(inv.getInvoiceDate()), inv.getFinalPrice(), Double::sum);
+        }
+
+        Map<String, Double> result = new LinkedHashMap<>();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
+        for (Map.Entry<YearMonth, Double> entry : monthlyTotals.entrySet()) {
+            result.put(entry.getKey().format(formatter), entry.getValue());
+        }
+
+        return result;
+    }
+
+    public List<Map.Entry<Product, Integer>> getTopPurchasedProducts(String userId, int n) {
+        List<Invoice> invoices = getInvoicesByUserId(userId);
+
+        Map<String, Integer> productQuantities = new HashMap<>();
+        for (Invoice inv : invoices) {
+            for (InvoiceItem item : inv.getItems()) {
+                productQuantities.merge(item.getProductId(), item.getQuantity(), Integer::sum);
+            }
+        }
+
+        ProductCatalog catalog = ProductService.loadProducts();
+        Map<String, Product> productMap = catalog.getProducts().stream()
+                .collect(Collectors.toMap(Product::getId, p -> p));
+
+        return productQuantities.entrySet().stream()
+                .filter(e -> productMap.containsKey(e.getKey()))
+                .sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
+                .limit(n)
+                .map(e -> new AbstractMap.SimpleEntry<>(productMap.get(e.getKey()), e.getValue()))
+                .collect(Collectors.toList());
+    }
+
+    public double getTotalSavingsByUser(String userId) {
+        return getInvoicesByUserId(userId).stream()
+                .flatMap(inv -> inv.getItems().stream())
+                .mapToDouble(item -> item.getUnitPrice() * item.getQuantity() * item.getDiscount() / 100.0)
+                .sum();
+    }
+
+    public int getInvoiceCountForUser(String userId) {
+        return (int) getInvoicesByUserId(userId).size();
     }
 }

@@ -12,6 +12,7 @@ import Model.UserLists.UserPrimeList;
 import Service.ProductService;
 import Service.UserService;
 import Util.Stopwatch;
+import Util.ColorPalette;
 import View.AuthenticationView;
 import View.InvoiceDetailView;
 import View.InvoiceView;
@@ -24,6 +25,7 @@ import View.UserProfileView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -41,8 +43,9 @@ public class Main {
         ProductCatalog products = new ProductCatalog();
 
         InvoiceService invoiceService = new InvoiceService();
+        AnalyticsService analyticsService = new AnalyticsService(invoiceService);
 
-        AppController appController = new AppController(products, invoiceService);
+        AppController appController = new AppController(products, invoiceService, analyticsService);
 
         ShopView shopView = new ShopView(appController.getShopController(), products);
         NavigationView navigationView = new NavigationView(appController.getNavigationController());
@@ -81,7 +84,6 @@ public class Main {
         AppState.getInstance().primeUsersList = primeUsersList;
         AppState.getInstance().adminUsersList = adminUsersList;
 
-        AnalyticsService analyticsService = new AnalyticsService(invoiceService);
         analyticsService.recalculateAllAnalytics();
 
         System.out.println("Time took to load and build data: " + stopWatch.elapsedTime());

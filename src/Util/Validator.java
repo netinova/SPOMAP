@@ -30,8 +30,7 @@ public class Validator {
     }
 
     public static ValidationResult validatePhone(String phone) {
-        if (phone == null || phone.isEmpty() || phone.equals("09xxxxxxxxx")
-                || phone.equals("Username / Phone number")) {
+        if (phone == null || phone.isEmpty() || phone.equals("09xxxxxxxxx") || phone.equals("Username / Phone number")) {
             return new ValidationResult(false, "Phone number is required");
         }
         if (!phone.matches(PHONE_REGEX)) {

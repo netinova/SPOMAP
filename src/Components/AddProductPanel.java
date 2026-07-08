@@ -4,13 +4,7 @@ import Controller.UserProfileController;
 import Model.ProductColor;
 import Util.ColorPalette;
 
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JFileChooser;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollBar;
-import javax.swing.JScrollPane;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.plaf.basic.BasicScrollBarUI;
@@ -47,6 +41,8 @@ public class AddProductPanel extends JPanel {
     private FormTextFiledPanel namePanel;
     private FormTextFiledPanel pricePanel;
     private FormTextFiledPanel discountPanel;
+
+    private File selectedFile;
 
     //    private ColorMultiSelect colorMultiSelect;
     private ColorSelectorPanel colorMultiSelect;
@@ -103,7 +99,8 @@ public class AddProductPanel extends JPanel {
     private void setupUI() {
         cardLayout = new CardLayout();
         cardPanel = new JPanel(cardLayout);
-        cardPanel.setOpaque(false);
+//        cardPanel.setOpaque(false);
+        cardPanel.setBackground(ColorPalette.BG_MAIN);
         cardPanel.add(buildFormPage(), "FORM");
         cardPanel.add(buildSpecPage(), "ADD_SPEC");
         cardPanel.add(buildImagePage(), "ADD_IMAGE");
@@ -112,8 +109,16 @@ public class AddProductPanel extends JPanel {
     }
 
     private JPanel buildFormPage() {
+        JPanel borderPanel = new JPanel();
+        borderPanel.setBackground(ColorPalette.BG_MAIN);
+        borderPanel.setLayout(new BorderLayout());
+        borderPanel.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createEmptyBorder(10, 10, 10, 10),
+                BorderFactory.createLineBorder(ColorPalette.BORDER)));
+
         JPanel content = new JPanel(new GridBagLayout());
-        content.setOpaque(false);
+//        content.setOpaque(false);
+        content.setBackground(ColorPalette.BG_SECONDARY);
         content.setBorder(new EmptyBorder(30, 40, 30, 40));
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -139,28 +144,38 @@ public class AddProductPanel extends JPanel {
         //row 1
         gbc.gridy = 1;
         nameField = new RoundedInputText("Product name", 5);
+        nameField.setColorBG(ColorPalette.BG_MAIN);
+        nameField.repaint();
         namePanel = new FormTextFiledPanel("Name", nameField, NAME_PROP);
         gbc.gridx = 0;
         content.add(namePanel, gbc);
 
         priceField = new RoundedInputText("e.g. 10.99", 5);
+        priceField.setColorBG(ColorPalette.BG_MAIN);
+        priceField.repaint();
         pricePanel = new FormTextFiledPanel("Price", priceField, PRICE_PROP);
         gbc.gridx = 1;
         content.add(pricePanel, gbc);
 
         gbc.gridy = 2;
         discountField = new RoundedInputText("0 - 100", 5);
+        discountField.setColorBG(ColorPalette.BG_MAIN);
+        discountField.repaint();
         discountPanel = new FormTextFiledPanel("Discount %", discountField, DISCOUNT_PROP);
         gbc.gridx = 0;
         content.add(discountPanel, gbc);
 
         manufacturerField = new RoundedInputText("Manufacturer", 5);
+        manufacturerField.setColorBG(ColorPalette.BG_MAIN);
+        manufacturerField.repaint();
         FormTextFiledPanel manufacturerPanel = new FormTextFiledPanel("Manufacturer", manufacturerField, "manufacturer");
         gbc.gridx = 1;
         content.add(manufacturerPanel, gbc);
 
         gbc.gridy = 3;
         descriptionField = new RoundedInputText("Explain about product", 5);
+        descriptionField.setColorBG(ColorPalette.BG_MAIN);
+        descriptionField.repaint();
         FormTextFiledPanel descriptionPanel = new FormTextFiledPanel("Description", descriptionField, "thumbnail");
         gbc.gridx = 0;
         gbc.gridwidth = 2;
@@ -194,7 +209,7 @@ public class AddProductPanel extends JPanel {
 
         RoundedButton addSpecBtn = new RoundedButton("+ Add Spec", 12);
         addSpecBtn.setPreferredSize(new Dimension(130, 34));
-        addSpecBtn.setBackground(ColorPalette.SELECTION_BG);
+        addSpecBtn.setBackground(ColorPalette.BG_TERTIARY);
         addSpecBtn.setForeground(ColorPalette.TEXT_PRIMARY);
         addSpecBtn.addActionListener(e -> cardLayout.show(cardPanel, "ADD_SPEC"));
 
@@ -217,7 +232,7 @@ public class AddProductPanel extends JPanel {
 
         RoundedButton addImageBtn = new RoundedButton("+ Add Image", 12);
         addImageBtn.setPreferredSize(new Dimension(130, 34));
-        addImageBtn.setBackground(ColorPalette.SELECTION_BG);
+        addImageBtn.setBackground(ColorPalette.BG_TERTIARY);
         addImageBtn.setForeground(ColorPalette.TEXT_PRIMARY);
         addImageBtn.addActionListener(e -> cardLayout.show(cardPanel, "ADD_IMAGE"));
 
@@ -250,18 +265,20 @@ public class AddProductPanel extends JPanel {
         gbc.insets = new Insets(20, 6, 10, 6);
         content.add(btnRow, gbc);
 
+        borderPanel.add(content, BorderLayout.CENTER);
+
         // scroll
-        JScrollPane scroll = new JScrollPane(content);
-        scroll.setBorder(null);
-        scroll.setOpaque(false);
-        scroll.getViewport().setOpaque(false);
-        scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        styleScrollBar(scroll.getVerticalScrollBar());
+        JScrollPane scrollPane = new JScrollPane(borderPanel);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+        scrollPane.setBorder(null);
+        scrollPane.setBackground(ColorPalette.BG_MAIN);
+        styleScrollBar(scrollPane.getVerticalScrollBar());
 
         JPanel page = new JPanel(new BorderLayout());
         page.setOpaque(false);
-        page.add(scroll, BorderLayout.CENTER);
+        page.add(scrollPane, BorderLayout.CENTER);
         return page;
     }
 
@@ -269,7 +286,7 @@ public class AddProductPanel extends JPanel {
         JPanel page = new JPanel(new GridBagLayout());
         page.setOpaque(false);
 
-        RoundedPanel container = new RoundedPanel(25, ColorPalette.BG_MAIN, ColorPalette.BORDER);
+        RoundedPanel container = new RoundedPanel(25, ColorPalette.BG_SECONDARY, ColorPalette.BORDER);
         container.setLayout(new GridBagLayout());
         container.setBorder(new EmptyBorder(40, 50, 40, 50));
 
@@ -288,6 +305,8 @@ public class AddProductPanel extends JPanel {
         container.add(title, gbc);
 
         specKeyField = new RoundedInputText("e.g. Mass", 5);
+        specKeyField.setColorBG(ColorPalette.BG_MAIN);
+        specKeyField.repaint();
         specKeyPanel = new FormTextFiledPanel("Key", specKeyField, "specKey");
         specKeyField.addActionListener(e -> {
             var result = controller.validationQuery(specKeyField.getText(), "e.g. Mass");
@@ -301,6 +320,8 @@ public class AddProductPanel extends JPanel {
         container.add(specKeyPanel, gbc);
 
         specValueField = new RoundedInputText("e.g. 250g", 5);
+        specValueField.setColorBG(ColorPalette.BG_MAIN);
+        specValueField.repaint();
         specValuePanel = new FormTextFiledPanel("Value", specValueField, "specValue");
         specValueField.addActionListener(e -> {
             var result = controller.validationQuery(specValueField.getText(), "e.g. Mass");
@@ -381,7 +402,7 @@ public class AddProductPanel extends JPanel {
         JPanel page = new JPanel(new GridBagLayout());
         page.setOpaque(false);
 
-        RoundedPanel container = new RoundedPanel(25, ColorPalette.BG_MAIN, ColorPalette.BORDER);
+        RoundedPanel container = new RoundedPanel(25, ColorPalette.BG_SECONDARY, ColorPalette.BORDER);
         container.setLayout(new GridBagLayout());
         container.setBorder(new EmptyBorder(40, 50, 40, 50));
 
@@ -407,6 +428,8 @@ public class AddProductPanel extends JPanel {
         pathPanel.setOpaque(false);
 
         imagePathField = new RoundedInputText("database/pictures/...", 5);
+        imagePathField.setColorBG(ColorPalette.BG_MAIN);
+        imagePathField.repaint();
         imagePathField.setPreferredSize(new Dimension(0, 40));
         imagePathField.setEnabled(false);
         pathPanel.add(imagePathField, BorderLayout.CENTER);
@@ -423,22 +446,9 @@ public class AddProductPanel extends JPanel {
 
             int result = chooser.showOpenDialog(this);
             if (result == JFileChooser.APPROVE_OPTION) {
-                File selectedFile = chooser.getSelectedFile();
-                try {
-                    File copyFile = new File("database/pictures");
-                    if (!copyFile.exists())
-                        copyFile.mkdirs();
-
-                    File destFile = new File(copyFile, selectedFile.getName());
-
-                    // copy file
-                    copy(selectedFile.toPath(), destFile.toPath(),
-                            java.nio.file.StandardCopyOption.REPLACE_EXISTING);
-                    String relativePath = "database/pictures/" + selectedFile.getName();
-                    imagePathField.setText(relativePath);
-                } catch (Exception ex) {
-                    System.out.println("Error copying file: " + ex.getMessage());
-                }
+                selectedFile = chooser.getSelectedFile();
+                String relativePath = "database/pictures/" + selectedFile.getName();
+                imagePathField.setText(relativePath);
             }
         });
         pathPanel.add(browseBtn, BorderLayout.EAST);
@@ -476,6 +486,20 @@ public class AddProductPanel extends JPanel {
                 imagePathPanel.clearError();
 
             if (tempStatus) {
+                try {
+                    File copyFile = new File("database/pictures");
+                    if (!copyFile.exists())
+                        copyFile.mkdirs();
+
+                    File destFile = new File(copyFile, selectedFile.getName());
+
+                    // copy file
+                    copy(selectedFile.toPath(), destFile.toPath(),
+                            java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+                } catch (Exception ex) {
+                    System.out.println("Error copying file: " + ex.getMessage());
+                }
+
                 productImages.add(path);
                 refreshImages();
                 imagePathField.setActivePlaceHolder(true);

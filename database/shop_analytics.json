@@ -1,30 +1,34 @@
 {
   "shopName" : "Spomap Shop",
   "currency" : "USD",
-  "lastUpdated" : "2026-07-07 21:57:10",
-  "analyticsStartDate" : "2026-07-07 21:57:10",
-  "totalRevenue" : 150.36,
-  "totalProfit" : 60.144000000000005,
-  "totalOrders" : 2,
-  "totalItemsSold" : 15,
-  "averageOrderValue" : 75.18,
+  "lastUpdated" : "2026-07-08 04:32:20",
+  "analyticsStartDate" : "2026-07-08 04:32:20",
+  "totalRevenue" : 151.36,
+  "totalProfit" : 60.54400000000001,
+  "totalOrders" : 3,
+  "totalItemsSold" : 19,
+  "averageOrderValue" : 50.45333333333334,
   "monthlyAnalytics" : [ {
     "month" : "2026-07",
-    "revenue" : 150.36,
-    "profit" : 60.144000000000005,
-    "orders" : 2
+    "revenue" : 151.36,
+    "profit" : 60.54400000000001,
+    "orders" : 3
   } ],
   "dailyAnalytics" : [ {
     "date" : "2026-07-02",
     "revenue" : 93.36,
     "orders" : 1
   }, {
-    "date" : "2026-07-06",
-    "revenue" : 57.0,
+    "date" : "2026-07-04",
+    "revenue" : 20.0,
+    "orders" : 1
+  }, {
+    "date" : "2026-07-05",
+    "revenue" : 38.0,
     "orders" : 1
   } ],
   "totalCustomers" : 9,
-  "returningCustomers" : 1,
+  "returningCustomers" : 3,
   "totalPrimeUsers" : 2,
   "productAnalytics" : [ {
     "productId" : "PRD_000001",
@@ -33,16 +37,28 @@
     "totalRevenue" : 6.3,
     "totalOrdersContaining" : 1
   }, {
+    "productId" : "PRD_000012",
+    "productName" : "toilet paper",
+    "totalQuantitySold" : 4,
+    "totalRevenue" : 38.0,
+    "totalOrdersContaining" : 1
+  }, {
     "productId" : "PRD_000006",
     "productName" : "Headphones",
-    "totalQuantitySold" : 5,
-    "totalRevenue" : 142.5,
-    "totalOrdersContaining" : 2
+    "totalQuantitySold" : 3,
+    "totalRevenue" : 85.5,
+    "totalOrdersContaining" : 1
   }, {
     "productId" : "PRD_000004",
     "productName" : "YamBoul",
     "totalQuantitySold" : 3,
     "totalRevenue" : 1.56,
+    "totalOrdersContaining" : 1
+  }, {
+    "productId" : "PRD_000000",
+    "productName" : "Game board Koodeta COUP+",
+    "totalQuantitySold" : 2,
+    "totalRevenue" : 20.0,
     "totalOrdersContaining" : 1
   } ]
 }

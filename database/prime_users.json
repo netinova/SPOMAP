@@ -1,6 +1,6 @@
 {
   "users" : [ {
-    "userId" : "USR_000010",
+    "userId" : "USR_000009",
     "phoneNumber" : "09123123357",
     "firstName" : "asd",
     "lastName" : "asd",
@@ -12,7 +12,7 @@
     "creditAmount" : 0.0,
     "debitAmount" : 0.0
   }, {
-    "userId" : "USR_000007",
+    "userId" : "USR_000008",
     "phoneNumber" : "09123456789",
     "firstName" : "asd",
     "lastName" : "asd",
