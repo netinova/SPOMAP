@@ -47,6 +47,7 @@ public class ProfileMainPanel extends JPanel {
     private JLabel rank2Label;
     private JLabel rank3Label;
     private JLabel moneySaveValueLabel;
+    @SuppressWarnings("unused")
     private JLabel ordersNumberLabel;
 
     private JPanel primePanel;
@@ -84,7 +85,6 @@ public class ProfileMainPanel extends JPanel {
     public static final String SHOPPING_CART_PROP = "shoppingCart";
     public static final String INVOICE_PROP = "invoice";
     public static final String SETTING_PROP = "setting";
-
 
     public ProfileMainPanel() {
         setupUI();
@@ -312,7 +312,7 @@ public class ProfileMainPanel extends JPanel {
         panel.add(Box.createVerticalStrut(8));
 
         JPanel btnPanel = new JPanel();
-        btnPanel.setLayout(new FlowLayout(FlowLayout.CENTER,15,30));
+        btnPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 15, 30));
         btnPanel.setOpaque(false);
 
         manageUserBtn = new RoundedButton("Manage Users", borderRadius);
@@ -350,7 +350,7 @@ public class ProfileMainPanel extends JPanel {
         RoundedPanel panel = new RoundedPanel(borderRadius, ColorPalette.BG_SECONDARY, ColorPalette.ACCENT_WARNING);
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBorder(new EmptyBorder(20, 30, 20, 30));
-        panel.setPreferredSize(new Dimension(400,0));
+        panel.setPreferredSize(new Dimension(400, 0));
         panel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 200));
 
         JLabel title = new JLabel("Quick Actions");
@@ -362,7 +362,7 @@ public class ProfileMainPanel extends JPanel {
         panel.add(Box.createVerticalStrut(8));
 
         JPanel btnPanel = new JPanel();
-        btnPanel.setLayout(new FlowLayout(FlowLayout.CENTER,15,30));
+        btnPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 15, 30));
         btnPanel.setOpaque(false);
 
         viewInvoiceBtn = new RoundedButton("View Invoices", borderRadius);
@@ -397,7 +397,7 @@ public class ProfileMainPanel extends JPanel {
     }
 
     // Status panel
-    public JPanel createRowStatusProductUser(){
+    public JPanel createRowStatusProductUser() {
         JPanel panel = new JPanel(new GridBagLayout());
         panel.setOpaque(false);
 
@@ -439,7 +439,7 @@ public class ProfileMainPanel extends JPanel {
                 .yAxisTitle("Revenue ($)")
                 .build();
 
-        //custom style
+        // custom style
         categoryChartMonthly.getStyler().setChartBackgroundColor(ColorPalette.BG_SECONDARY);
         categoryChartMonthly.getStyler().setPlotBackgroundColor(ColorPalette.BG_SECONDARY);
         categoryChartMonthly.getStyler().setAnnotationTextFontColor(ColorPalette.TEXT_PRIMARY);
@@ -449,7 +449,8 @@ public class ProfileMainPanel extends JPanel {
         categoryChartMonthly.getStyler().setYAxisTitleColor(ColorPalette.TEXT_PRIMARY);
         categoryChartMonthly.getStyler().setLegendBackgroundColor(ColorPalette.BG_SECONDARY);
         categoryChartMonthly.getStyler().setAxisTickLabelsColor(ColorPalette.TEXT_PRIMARY);
-        categoryChartMonthly.getStyler().setSeriesColors(new Color[]{ColorPalette.ACCENT_PRIMARY, ColorPalette.ACCENT_WARNING});
+        categoryChartMonthly.getStyler()
+                .setSeriesColors(new Color[] { ColorPalette.ACCENT_PRIMARY, ColorPalette.ACCENT_WARNING });
         categoryChartMonthly.getStyler().setDecimalPattern("#,##0.00");
         categoryChartMonthly.getStyler().setDefaultSeriesRenderStyle(CategorySeries.CategorySeriesRenderStyle.Bar);
 
@@ -463,12 +464,12 @@ public class ProfileMainPanel extends JPanel {
 
     private JPanel crateStatusPanel() {
         RoundedPanel panel = new RoundedPanel(borderRadius, ColorPalette.BG_SECONDARY, ColorPalette.BORDER);
-        panel.setLayout(new BoxLayout(panel,BoxLayout.Y_AXIS));
-        panel.setBorder(new EmptyBorder(20,20,20,20));
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setBorder(new EmptyBorder(20, 20, 20, 20));
 
         RoundedPanel ranking = new RoundedPanel(borderRadius, ColorPalette.BG_TERTIARY, ColorPalette.BORDER);
-        ranking.setBorder(new EmptyBorder(5,8,5,8));
-        ranking.setLayout(new BoxLayout(ranking,BoxLayout.Y_AXIS));
+        ranking.setBorder(new EmptyBorder(5, 8, 5, 8));
+        ranking.setLayout(new BoxLayout(ranking, BoxLayout.Y_AXIS));
 
         JLabel title = new JLabel("Ranking");
         title.setFont(new Font("Arial", Font.BOLD, 18));
@@ -478,14 +479,14 @@ public class ProfileMainPanel extends JPanel {
         ranking.add(Box.createVerticalStrut(10));
         ranking.add(title);
         ranking.add(Box.createVerticalStrut(25));
-        ranking.add(createLineRank("1  ",ColorPalette.BG_MAIN));
-        rank1Label=tempLabel;
+        ranking.add(createLineRank("1  ", ColorPalette.BG_MAIN));
+        rank1Label = tempLabel;
         ranking.add(Box.createVerticalStrut(5));
-        ranking.add(createLineRank("2  ",ColorPalette.BG_SECONDARY));
-        rank2Label=tempLabel;
+        ranking.add(createLineRank("2  ", ColorPalette.BG_SECONDARY));
+        rank2Label = tempLabel;
         ranking.add(Box.createVerticalStrut(5));
-        ranking.add(createLineRank("3  ",ColorPalette.BG_MAIN));
-        rank3Label=tempLabel;
+        ranking.add(createLineRank("3  ", ColorPalette.BG_MAIN));
+        rank3Label = tempLabel;
         ranking.add(Box.createVerticalStrut(3));
         panel.add(ranking);
         panel.add(Box.createVerticalStrut(30));
@@ -500,10 +501,10 @@ public class ProfileMainPanel extends JPanel {
         return panel;
     }
 
-    private JPanel createLineRank(String rank , Color backGroundColor){
+    private JPanel createLineRank(String rank, Color backGroundColor) {
         RoundedPanel rankPanel = new RoundedPanel(10, backGroundColor, ColorPalette.BORDER);
         rankPanel.setBackground(backGroundColor);
-        rankPanel.setBorder(new EmptyBorder(10,15,10,15));
+        rankPanel.setBorder(new EmptyBorder(10, 15, 10, 15));
         rankPanel.setPreferredSize(new Dimension(150, 50));
         rankPanel.setLayout(new BoxLayout(rankPanel, BoxLayout.X_AXIS));
 
@@ -525,11 +526,11 @@ public class ProfileMainPanel extends JPanel {
         return rankPanel;
     }
 
-    public JPanel createLineStatus(String key){
+    public JPanel createLineStatus(String key) {
         RoundedPanel panel = new RoundedPanel(borderRadius, ColorPalette.BG_TERTIARY, ColorPalette.BORDER);
-        panel.setLayout(new BoxLayout(panel,BoxLayout.X_AXIS));
+        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
         panel.setPreferredSize(new Dimension(150, 50));
-        panel.setBorder(new EmptyBorder(20,20,20,20));
+        panel.setBorder(new EmptyBorder(20, 20, 20, 20));
 
         JLabel keyLabel = new JLabel(key);
         keyLabel.setFont(new Font("Arial", Font.PLAIN, 15));
@@ -548,30 +549,30 @@ public class ProfileMainPanel extends JPanel {
         return panel;
     }
 
-    //setter for chart
+    // setter for chart
 
     public void setPurchaseForMonthly(List<Double> purchaseForMonthly) {
         this.purchaseForMonthly = purchaseForMonthly;
     }
 
-    public void setDateForMonthly(List<String > dateForMonthly) {
+    public void setDateForMonthly(List<String> dateForMonthly) {
         this.dateForMonthly = dateForMonthly;
     }
 
     public void refreshViewChartMonthly() {
-        categoryChartMonthly.updateCategorySeries("Purchase", dateForMonthly, purchaseForMonthly,null);
+        categoryChartMonthly.updateCategorySeries("Purchase", dateForMonthly, purchaseForMonthly, null);
         repaint();
         revalidate();
     }
 
     public void loadStatusCard(String name, String name1, String name2, double saveAmount, int totalPouches) {
-        if (name!=null)
+        if (name != null)
             rank1Label.setText(name);
-        if (name1!=null)
+        if (name1 != null)
             rank2Label.setText(name1);
-        if (name2!=null)
+        if (name2 != null)
             rank3Label.setText(name2);
-        moneySaveValueLabel.setText(String.format("$%.2f",saveAmount));
+        moneySaveValueLabel.setText(String.format("$%.2f", saveAmount));
         totalPurchasesLabel.setText(String.valueOf(totalPouches));
     }
 
@@ -617,7 +618,6 @@ public class ProfileMainPanel extends JPanel {
         revalidate();
         repaint();
     }
-
 
     private void attachEvents() {
         logOut.addActionListener(e -> fireActionEvent(LOGOUT_PROP));

@@ -21,10 +21,12 @@ public class MultiViewPanel extends JPanel {
     private ShoppingCartView shoppingCartView;
     private InvoiceView invoiceView;
     private InvoiceDetailView invoiceDetailView;
+    private SettingView settingView;
 
     public MultiViewPanel(ShopView shopView, AuthenticationView authenticationView, UserProfileView userProfileView,
             ProductView productView,
-            ShoppingCartView shoppingCartView, InvoiceView invoiceView, InvoiceDetailView invoiceDetailView) {
+            ShoppingCartView shoppingCartView, InvoiceView invoiceView, InvoiceDetailView invoiceDetailView,
+            SettingView settingView) {
         this.shopView = shopView;
         this.authenticationView = authenticationView;
         this.userProfileView = userProfileView;
@@ -32,6 +34,7 @@ public class MultiViewPanel extends JPanel {
         this.shoppingCartView = shoppingCartView;
         this.invoiceView = invoiceView;
         this.invoiceDetailView = invoiceDetailView;
+        this.settingView = settingView;
         setupUI();
     }
 
@@ -52,6 +55,7 @@ public class MultiViewPanel extends JPanel {
         this.add(shoppingCartView, ViewType.SHOPPING_CART.getViewId());
         this.add(invoiceView, ViewType.INVOICE.getViewId());
         this.add(invoiceDetailView, ViewType.INVOICE_DETAIL.getViewId());
+        this.add(settingView, ViewType.SETTING.getViewId());
         // Show shop view by default
         cardLayout.show(this, ViewType.SHOP.getViewId());
     }

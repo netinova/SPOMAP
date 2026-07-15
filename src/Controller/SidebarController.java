@@ -30,6 +30,7 @@ public class SidebarController {
                 break;
             case 2:
                 System.out.println("clicked on settings");
+                listener.changeView(ViewType.SETTING.getViewId());
                 break;
             default:
                 break;

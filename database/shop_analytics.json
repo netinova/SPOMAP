@@ -1,17 +1,17 @@
 {
   "shopName" : "Spomap Shop",
   "currency" : "USD",
-  "lastUpdated" : "2026-07-15 18:50:29",
-  "analyticsStartDate" : "2026-07-15 18:50:29",
-  "totalRevenue" : 1786.420258,
-  "totalProfit" : 714.5681032,
+  "lastUpdated" : "2026-07-15 19:58:48",
+  "analyticsStartDate" : "2026-07-15 19:58:48",
+  "totalRevenue" : 1848.3190820000002,
+  "totalProfit" : 739.3276328000002,
   "totalOrders" : 7,
-  "totalItemsSold" : 28,
-  "averageOrderValue" : 255.20289400000001,
+  "totalItemsSold" : 27,
+  "averageOrderValue" : 264.0455831428572,
   "monthlyAnalytics" : [ {
     "month" : "2026-07",
-    "revenue" : 1786.420258,
-    "profit" : 714.5681032,
+    "revenue" : 1848.319082,
+    "profit" : 739.3276328,
     "orders" : 7
   } ],
   "dailyAnalytics" : [ {
@@ -32,7 +32,7 @@
     "orders" : 1
   }, {
     "date" : "2026-07-15",
-    "revenue" : 64.65100000000001,
+    "revenue" : 126.54982400000002,
     "orders" : 3
   } ],
   "totalCustomers" : 9,
@@ -49,12 +49,6 @@
     "productName" : "Headphones",
     "totalQuantitySold" : 5,
     "totalRevenue" : 142.5,
-    "totalOrdersContaining" : 2
-  }, {
-    "productId" : "PRD_000000",
-    "productName" : "Game board Koodeta COUP+",
-    "totalQuantitySold" : 4,
-    "totalRevenue" : 40.0,
     "totalOrdersContaining" : 2
   }, {
     "productId" : "PRD_000004",
@@ -79,6 +73,18 @@
     "productName" : "TAMASHII NATIONS - Naruto Shippuden",
     "totalQuantitySold" : 3,
     "totalRevenue" : 72.759258,
+    "totalOrdersContaining" : 1
+  }, {
+    "productId" : "PRD_000000",
+    "productName" : "Game board Koodeta COUP+",
+    "totalQuantitySold" : 2,
+    "totalRevenue" : 20.0,
+    "totalOrdersContaining" : 1
+  }, {
+    "productId" : "PRD_000008",
+    "productName" : "WD 2TB My Passport",
+    "totalQuantitySold" : 1,
+    "totalRevenue" : 81.898824,
     "totalOrdersContaining" : 1
   } ]
 }

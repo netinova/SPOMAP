@@ -1,5 +1,6 @@
 import Components.MultiViewPanel;
 import Controller.AppController;
+import Controller.SettingController;
 import Model.AppState;
 import Model.Product;
 import Model.ProductCatalog;
@@ -18,6 +19,7 @@ import View.InvoiceDetailView;
 import View.InvoiceView;
 import View.NavigationView;
 import View.ProductView;
+import View.SettingView;
 import View.ShopView;
 import View.ShoppingCartView;
 import View.SidebarView;
@@ -56,9 +58,10 @@ public class Main {
         ShoppingCartView shoppingCartView = new ShoppingCartView(appController.getShoppingCartController());
         InvoiceView invoiceView = new InvoiceView(appController.getInvoiceController());
         InvoiceDetailView invoiceDetailView = new InvoiceDetailView(appController.getInvoiceController());
+        SettingView settingView = new SettingView(appController.getSettingController());
 
         MultiViewPanel multiViewPanel = new MultiViewPanel(shopView, authenticationView, userProfileView, productView,
-                shoppingCartView, invoiceView, invoiceDetailView);
+                shoppingCartView, invoiceView, invoiceDetailView, settingView);
 
         appController.setViews(shopView, navigationView, sidebarView, multiViewPanel, authenticationView,
                 userProfileView, invoiceView, invoiceDetailView);
