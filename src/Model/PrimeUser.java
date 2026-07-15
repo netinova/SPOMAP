@@ -41,30 +41,6 @@ public class PrimeUser extends User {
         System.out.println("add to balance $" + amount);
     }
 
-    public void withdrawCash(double amount) {
-        if (creditAmount>=amount){
-            creditAmount-=amount;
-            amount=0;
-            System.out.println("remove from credit amount $" + amount);
-        }
-        else{
-            amount-=creditAmount;
-            creditAmount=0;
-            System.out.println("remove from credit amount $" + amount);
-        }
-        if (amount==0) return;
-
-        if (balance >= amount) {
-            deductBalance(amount);
-            System.out.println("remove from balance $" + amount);
-        } else {
-            amount-=balance;
-            balance=0;
-            debitAmount -= amount;
-            System.out.println("remove from debitAmount/balance $" + amount);
-        }
-    }
-
     public double getDebitAmount() {
         return debitAmount;
     }
@@ -86,6 +62,46 @@ public class PrimeUser extends User {
     @Override
     @JsonIgnore
     public boolean canPurchase(double totalAmount) {
-        return creditAmount - debitAmount + balance >= totalAmount;
+        return true;
+    }
+
+    @Override
+    public void addBalance(double amount) {
+        if (debitAmount>=0){
+            if (debitAmount>=amount)
+                debitAmount-=amount;
+            else{
+                amount-= debitAmount;
+                debitAmount=0;
+                balance+=amount;
+            }
+            return;
+        }
+        super.addBalance(amount);
+    }
+
+    @Override
+    public void deductBalance(double amount) {
+        if (creditAmount>=amount){
+            creditAmount-=amount;
+            amount=0;
+            System.out.println("remove from credit amount $" + amount);
+        }
+        else{
+            amount-=creditAmount;
+            creditAmount=0;
+            System.out.println("remove from credit amount $" + amount);
+        }
+        if (amount==0) return;
+
+        if (balance >= amount) {
+            deductBalance(amount);
+            System.out.println("remove from balance $" + amount);
+        } else {
+            amount-=balance;
+            balance=0;
+            debitAmount += amount;
+            System.out.println("remove from debitAmount/balance $" + amount);
+        }
     }
 }

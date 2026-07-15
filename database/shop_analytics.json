@@ -1,18 +1,18 @@
 {
   "shopName" : "Spomap Shop",
   "currency" : "USD",
-  "lastUpdated" : "2026-07-08 06:21:37",
-  "analyticsStartDate" : "2026-07-08 06:21:37",
-  "totalRevenue" : 1721.769258,
-  "totalProfit" : 688.7077032,
-  "totalOrders" : 4,
-  "totalItemsSold" : 21,
-  "averageOrderValue" : 430.4423145,
+  "lastUpdated" : "2026-07-15 18:50:29",
+  "analyticsStartDate" : "2026-07-15 18:50:29",
+  "totalRevenue" : 1786.420258,
+  "totalProfit" : 714.5681032,
+  "totalOrders" : 7,
+  "totalItemsSold" : 28,
+  "averageOrderValue" : 255.20289400000001,
   "monthlyAnalytics" : [ {
     "month" : "2026-07",
-    "revenue" : 1721.769258,
-    "profit" : 688.7077032,
-    "orders" : 4
+    "revenue" : 1786.420258,
+    "profit" : 714.5681032,
+    "orders" : 7
   } ],
   "dailyAnalytics" : [ {
     "date" : "2026-07-02",
@@ -30,9 +30,13 @@
     "date" : "2026-07-08",
     "revenue" : 572.309258,
     "orders" : 1
+  }, {
+    "date" : "2026-07-15",
+    "revenue" : 64.65100000000001,
+    "orders" : 3
   } ],
   "totalCustomers" : 9,
-  "returningCustomers" : 2,
+  "returningCustomers" : 3,
   "totalPrimeUsers" : 2,
   "productAnalytics" : [ {
     "productId" : "PRD_000001",
@@ -47,6 +51,12 @@
     "totalRevenue" : 142.5,
     "totalOrdersContaining" : 2
   }, {
+    "productId" : "PRD_000000",
+    "productName" : "Game board Koodeta COUP+",
+    "totalQuantitySold" : 4,
+    "totalRevenue" : 40.0,
+    "totalOrdersContaining" : 2
+  }, {
     "productId" : "PRD_000004",
     "productName" : "YamBoul",
     "totalQuantitySold" : 3,
@@ -58,6 +68,12 @@
     "totalQuantitySold" : 3,
     "totalRevenue" : 1498.65,
     "totalOrdersContaining" : 2
+  }, {
+    "productId" : "PRD_000002",
+    "productName" : "Hoody Palangi",
+    "totalQuantitySold" : 3,
+    "totalRevenue" : 24.651000000000003,
+    "totalOrdersContaining" : 1
   }, {
     "productId" : "PRD_000011",
     "productName" : "TAMASHII NATIONS - Naruto Shippuden",

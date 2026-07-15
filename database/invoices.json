@@ -100,4 +100,52 @@
   } ],
   "invoiceDate" : "2026-07-08 06:22:16",
   "status" : "Refunded"
+}, {
+  "invoiceId" : "INV_000008",
+  "userId" : "USR_000001",
+  "items" : [ {
+    "productId" : "PRD_000000",
+    "productName" : "Game board Koodeta COUP+",
+    "unitPrice" : 20.0,
+    "quantity" : 2,
+    "discount" : 50.0
+  } ],
+  "invoiceDate" : "2026-07-15 18:42:51",
+  "status" : "Paid"
+}, {
+  "invoiceId" : "INV_000009",
+  "userId" : "USR_000008",
+  "items" : [ {
+    "productId" : "PRD_000002",
+    "productName" : "Hoody Palangi",
+    "unitPrice" : 8.3,
+    "quantity" : 3,
+    "discount" : 1.0
+  } ],
+  "invoiceDate" : "2026-07-15 18:47:46",
+  "status" : "Paid"
+}, {
+  "invoiceId" : "INV_000010",
+  "userId" : "USR_000008",
+  "items" : [ {
+    "productId" : "PRD_000000",
+    "productName" : "Game board Koodeta COUP+",
+    "unitPrice" : 20.0,
+    "quantity" : 2,
+    "discount" : 50.0
+  } ],
+  "invoiceDate" : "2026-07-15 18:49:51",
+  "status" : "Refunded"
+}, {
+  "invoiceId" : "INV_000011",
+  "userId" : "USR_000008",
+  "items" : [ {
+    "productId" : "PRD_000008",
+    "productName" : "WD 2TB My Passport",
+    "unitPrice" : 84.72,
+    "quantity" : 1,
+    "discount" : 3.33
+  } ],
+  "invoiceDate" : "2026-07-15 18:53:21",
+  "status" : "Paid"
 } ]

@@ -86,8 +86,8 @@ public class Main {
 
         analyticsService.recalculateAllAnalytics();
 
-        System.out.println("Time took to load and build data: " + stopWatch.elapsedTime());
-
         mainFrame.setVisible(true);
+
+        System.out.println("Time took to load and build data: " + stopWatch.elapsedTime());
     }
 }
