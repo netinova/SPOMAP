@@ -11,8 +11,6 @@ import Model.Theme;
 import Model.UserLists.UserAdminList;
 import Model.UserLists.UserNormalList;
 import Model.UserLists.UserPrimeList;
-import Service.AnalyticsService;
-import Service.InvoiceService;
 import Service.ProductService;
 import Service.UserService;
 import Util.ColorPalette;
@@ -20,7 +18,6 @@ import Util.Stopwatch;
 import View.*;
 
 import javax.swing.*;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;

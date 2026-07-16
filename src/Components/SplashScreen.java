@@ -52,11 +52,9 @@ public class SplashScreen extends JWindow {
 
         bottomPanel.add(Box.createVerticalStrut(8));
 
-        progressBar = new JProgressBar(0, 100);
+        progressBar = new RoundedProgressBar(20);
         progressBar.setValue(0);
         progressBar.setStringPainted(true);
-        progressBar.setBackground(ColorPalette.getInstance().getBgTertiary());
-        progressBar.setForeground(ColorPalette.getInstance().getAccentPrimary());
         progressBar.setAlignmentX(Component.CENTER_ALIGNMENT);
         progressBar.setMaximumSize(new Dimension(imageIcon.getIconWidth(), 20));
         bottomPanel.add(progressBar);
