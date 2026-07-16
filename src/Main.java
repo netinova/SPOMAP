@@ -1,7 +1,13 @@
 import Components.MultiViewPanel;
 import Components.SplashScreen;
 import Controller.AppController;
-import Model.*;
+import Model.AppState;
+import Model.Product;
+import Model.ProductCatalog;
+import Service.AnalyticsService;
+import Service.InvoiceService;
+import Service.ThemeService;
+import Model.Theme;
 import Model.UserLists.UserAdminList;
 import Model.UserLists.UserNormalList;
 import Model.UserLists.UserPrimeList;
@@ -36,6 +42,14 @@ public class Main {
 
                 publish(new ProgressUpdate("Initializing services...", 5));
                 ProductCatalog products = new ProductCatalog();
+
+        ThemeService themeService = new ThemeService();
+        Theme defaultTheme = themeService.loadThemeByName("default dark");
+        if (defaultTheme == null) {
+            defaultTheme = Theme.defaultDark();
+            themeService.saveTheme(defaultTheme);
+        }
+        ColorPalette.getInstance().applyTheme(defaultTheme);
                 InvoiceService invoiceService = new InvoiceService();
                 AnalyticsService analyticsService = new AnalyticsService(invoiceService);
                 AppController appController = new AppController(products, invoiceService, analyticsService);
@@ -82,6 +96,8 @@ public class Main {
 
                 publish(new ProgressUpdate("Done!", 100));
                 System.out.println("Time took to load and build data: " + stopWatch.elapsedTime());
+
+        //ColorPalette.getInstance().setBgSecondary(new Color(0xF44336));
                 return mainFrame;
             }
 

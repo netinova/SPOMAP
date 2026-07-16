@@ -1,5 +1,6 @@
 package Util;
 
+import Model.Theme;
 import java.awt.Color;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -77,6 +78,9 @@ public final class ColorPalette {
     }
 
     public void setBgSecondary(Color bgSecondary) {
+        if (this.bgSecondary.equals(bgSecondary)) {
+            return;
+        }
         Color old = this.bgSecondary;
         this.bgSecondary = bgSecondary;
         support.firePropertyChange("bgSecondary", old, bgSecondary);
@@ -87,6 +91,9 @@ public final class ColorPalette {
     }
 
     public void setBgTertiary(Color bgTertiary) {
+        if (this.bgTertiary.equals(bgTertiary)) {
+            return;
+        }
         Color old = this.bgTertiary;
         this.bgTertiary = bgTertiary;
         support.firePropertyChange("bgTertiary", old, bgTertiary);
@@ -99,6 +106,9 @@ public final class ColorPalette {
     }
 
     public void setBorder(Color border) {
+        if (this.border.equals(border)) {
+            return;
+        }
         Color old = this.border;
         this.border = border;
         support.firePropertyChange("border", old, border);
@@ -111,6 +121,9 @@ public final class ColorPalette {
     }
 
     public void setTextPrimary(Color textPrimary) {
+        if (this.textPrimary.equals(textPrimary)) {
+            return;
+        }
         Color old = this.textPrimary;
         this.textPrimary = textPrimary;
         support.firePropertyChange("textPrimary", old, textPrimary);
@@ -121,6 +134,9 @@ public final class ColorPalette {
     }
 
     public void setTextMuted(Color textMuted) {
+        if (this.textMuted.equals(textMuted)) {
+            return;
+        }
         Color old = this.textMuted;
         this.textMuted = textMuted;
         support.firePropertyChange("textMuted", old, textMuted);
@@ -131,6 +147,9 @@ public final class ColorPalette {
     }
 
     public void setTextPlaceholder(Color textPlaceholder) {
+        if (this.textPlaceholder.equals(textPlaceholder)) {
+            return;
+        }
         Color old = this.textPlaceholder;
         this.textPlaceholder = textPlaceholder;
         support.firePropertyChange("textPlaceholder", old, textPlaceholder);
@@ -143,6 +162,9 @@ public final class ColorPalette {
     }
 
     public void setAccentPrimary(Color accentPrimary) {
+        if (this.accentPrimary.equals(accentPrimary)) {
+            return;
+        }
         Color old = this.accentPrimary;
         this.accentPrimary = accentPrimary;
         support.firePropertyChange("accentPrimary", old, accentPrimary);
@@ -153,6 +175,9 @@ public final class ColorPalette {
     }
 
     public void setAccentSuccess(Color accentSuccess) {
+        if (this.accentSuccess.equals(accentSuccess)) {
+            return;
+        }
         Color old = this.accentSuccess;
         this.accentSuccess = accentSuccess;
         support.firePropertyChange("accentSuccess", old, accentSuccess);
@@ -163,6 +188,9 @@ public final class ColorPalette {
     }
 
     public void setAccentWarning(Color accentWarning) {
+        if (this.accentWarning.equals(accentWarning)) {
+            return;
+        }
         Color old = this.accentWarning;
         this.accentWarning = accentWarning;
         support.firePropertyChange("accentWarning", old, accentWarning);
@@ -173,6 +201,9 @@ public final class ColorPalette {
     }
 
     public void setAccentDanger(Color accentDanger) {
+        if (this.accentDanger.equals(accentDanger)) {
+            return;
+        }
         Color old = this.accentDanger;
         this.accentDanger = accentDanger;
         support.firePropertyChange("accentDanger", old, accentDanger);
@@ -183,6 +214,9 @@ public final class ColorPalette {
     }
 
     public void setAccentConfirm(Color accentConfirm) {
+        if (this.accentConfirm.equals(accentConfirm)) {
+            return;
+        }
         Color old = this.accentConfirm;
         this.accentConfirm = accentConfirm;
         support.firePropertyChange("accentConfirm", old, accentConfirm);
@@ -195,6 +229,9 @@ public final class ColorPalette {
     }
 
     public void setSelectionBg(Color selectionBg) {
+        if (this.selectionBg.equals(selectionBg)) {
+            return;
+        }
         Color old = this.selectionBg;
         this.selectionBg = selectionBg;
         support.firePropertyChange("selectionBg", old, selectionBg);
@@ -207,6 +244,9 @@ public final class ColorPalette {
     }
 
     public void setButtonNormal(Color buttonNormal) {
+        if (this.buttonNormal.equals(buttonNormal)) {
+            return;
+        }
         Color old = this.buttonNormal;
         this.buttonNormal = buttonNormal;
         support.firePropertyChange("buttonNormal", old, buttonNormal);
@@ -217,6 +257,9 @@ public final class ColorPalette {
     }
 
     public void setButtonHover(Color buttonHover) {
+        if (this.buttonHover.equals(buttonHover)) {
+            return;
+        }
         Color old = this.buttonHover;
         this.buttonHover = buttonHover;
         support.firePropertyChange("buttonHover", old, buttonHover);
@@ -227,8 +270,46 @@ public final class ColorPalette {
     }
 
     public void setButtonPressed(Color buttonPressed) {
+        if (this.buttonPressed.equals(buttonPressed)) {
+            return;
+        }
         Color old = this.buttonPressed;
         this.buttonPressed = buttonPressed;
         support.firePropertyChange("buttonPressed", old, buttonPressed);
+    }
+
+    public void applyTheme(Theme theme) {
+        if (theme == null) {
+            return;
+        }
+
+        setBgMain(parseColor(theme.getBgMain(), bgMain));
+        setBgSecondary(parseColor(theme.getBgSecondary(), bgSecondary));
+        setBgTertiary(parseColor(theme.getBgTertiary(), bgTertiary));
+        setBorder(parseColor(theme.getBorder(), border));
+        setTextPrimary(parseColor(theme.getTextPrimary(), textPrimary));
+        setTextMuted(parseColor(theme.getTextMuted(), textMuted));
+        setTextPlaceholder(parseColor(theme.getTextPlaceholder(), textPlaceholder));
+        setAccentPrimary(parseColor(theme.getAccentPrimary(), accentPrimary));
+        setAccentSuccess(parseColor(theme.getAccentSuccess(), accentSuccess));
+        setAccentWarning(parseColor(theme.getAccentWarning(), accentWarning));
+        setAccentDanger(parseColor(theme.getAccentDanger(), accentDanger));
+        setAccentConfirm(parseColor(theme.getAccentConfirm(), accentConfirm));
+        setSelectionBg(parseColor(theme.getSelectionBg(), selectionBg));
+        setButtonNormal(parseColor(theme.getButtonNormal(), buttonNormal));
+        setButtonHover(parseColor(theme.getButtonHover(), buttonHover));
+        setButtonPressed(parseColor(theme.getButtonPressed(), buttonPressed));
+    }
+
+    private static Color parseColor(String hex, Color fallback) {
+        if (hex == null || hex.isBlank()) {
+            return fallback;
+        }
+
+        try {
+            return Color.decode(hex);
+        } catch (NumberFormatException e) {
+            return fallback;
+        }
     }
 }

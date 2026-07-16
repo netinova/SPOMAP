@@ -1,0 +1,21 @@
+[
+  {
+    "name": "default dark",
+    "bgMain": "#1E1E1E",
+    "bgSecondary": "#2D2D2D",
+    "bgTertiary": "#3C3C3C",
+    "border": "#555555",
+    "textPrimary": "#E0E0E0",
+    "textMuted": "#A0A0A0",
+    "textPlaceholder": "#616161",
+    "accentPrimary": "#4F9EFF",
+    "accentSuccess": "#6FCF97",
+    "accentWarning": "#F2994A",
+    "accentDanger": "#C74B44",
+    "accentConfirm": "#5B9E5F",
+    "selectionBg": "#3A6EA5",
+    "buttonNormal": "#3C3C3C",
+    "buttonHover": "#6BB0FF",
+    "buttonPressed": "#3A7BC8"
+  }
+]
