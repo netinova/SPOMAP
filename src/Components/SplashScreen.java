@@ -46,7 +46,7 @@ public class SplashScreen extends JWindow {
         bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.Y_AXIS));
 
         statusLabel = new JLabel("Starting...", SwingConstants.CENTER);
-        statusLabel.setForeground(Color.WHITE);
+        statusLabel.setForeground(ColorPalette.getInstance().getTextPrimary());
         statusLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         bottomPanel.add(statusLabel);
 

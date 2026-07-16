@@ -41,6 +41,10 @@ public class ProductCatalog {
         support.addPropertyChangeListener(listener);
     }
 
+    public void updateView() {
+        support.firePropertyChange(PROP_PRODUCTS, null, new ArrayList<>(products));
+    }
+
     public void addProduct(Product product) {
         products.add(product);
         indexesBuilt = false;
@@ -116,7 +120,7 @@ public class ProductCatalog {
             if (p.getManufacturer() != null && !p.getManufacturer().isEmpty()) {
                 String lowerManufacturer = p.getManufacturer().toLowerCase();
                 manufacturerIndex.computeIfAbsent(lowerManufacturer, k -> new HashSet<>()).add(i);
-                
+
                 String[] manufacturerWords = lowerManufacturer.split("[\\s_]+");
                 for (String word : manufacturerWords) {
                     if (!word.isEmpty()) {
@@ -189,7 +193,6 @@ public class ProductCatalog {
         return matches;
     }
 
-
     private Set<Integer> searchInColor(String keyword) {
         Set<Integer> matches = new HashSet<>();
 
@@ -208,7 +211,6 @@ public class ProductCatalog {
 
         return matches;
     }
-
 
     private Set<Integer> searchInManufacturer(String keyword) {
         Set<Integer> matches = new HashSet<>();

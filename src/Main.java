@@ -27,8 +27,11 @@ public class Main {
     private record ProgressUpdate(String status, int percent) {
     }
 
-    public static void main(String[] args) {
+    // Create a record to pass loaded data back from the background thread
+    private record LoadedData(AppController controller, ProductCatalog catalog) {
+    }
 
+    public static void main(String[] args) {
         Locale.setDefault(Locale.US);
 
         ThemeService themeService = new ThemeService();
@@ -42,48 +45,24 @@ public class Main {
         SplashScreen splash = new SplashScreen();
         splash.setVisible(true);
 
-        SwingWorker<MainFrame, ProgressUpdate> worker = new SwingWorker<>() {
+        SwingWorker<LoadedData, ProgressUpdate> worker = new SwingWorker<>() {
             @Override
-            protected MainFrame doInBackground() throws Exception {
+            protected LoadedData doInBackground() throws Exception {
                 var stopWatch = new Stopwatch();
 
                 publish(new ProgressUpdate("Initializing services...", 5));
                 ProductCatalog products = new ProductCatalog();
-
                 InvoiceService invoiceService = new InvoiceService();
                 AnalyticsService analyticsService = new AnalyticsService(invoiceService);
                 AppController appController = new AppController(products, invoiceService, analyticsService);
 
-                publish(new ProgressUpdate("Building views...", 20));
-                ShopView shopView = new ShopView(appController.getShopController(), products);
-                NavigationView navigationView = new NavigationView(appController.getNavigationController());
-                SidebarView sidebarView = new SidebarView(appController.getSidebarController());
-                AuthenticationView authenticationView = new AuthenticationView(
-                        appController.getAuthenticationController());
-                UserProfileView userProfileView = new UserProfileView(appController.getProfileController());
-                ProductView productView = new ProductView(appController.getProductController(), products);
-                ShoppingCartView shoppingCartView = new ShoppingCartView(appController.getShoppingCartController());
-                InvoiceView invoiceView = new InvoiceView(appController.getInvoiceController());
-                InvoiceDetailView invoiceDetailView = new InvoiceDetailView(appController.getInvoiceController());
-                SettingView settingView = new SettingView(appController.getSettingController());
-
-                MultiViewPanel multiViewPanel = new MultiViewPanel(shopView, authenticationView, userProfileView,
-                        productView,
-                        shoppingCartView, invoiceView, invoiceDetailView, settingView);
-
-                appController.setViews(shopView, navigationView, sidebarView, multiViewPanel, authenticationView,
-                        userProfileView, invoiceView, invoiceDetailView);
-
-                publish(new ProgressUpdate("Creating main window...", 40));
-                MainFrame mainFrame = new MainFrame(appController, sidebarView, navigationView, multiViewPanel);
-
-                publish(new ProgressUpdate("Loading products...", 55));
+                publish(new ProgressUpdate("Loading products...", 40)); // Changed to 40%
                 ProductCatalog temp = ProductService.loadProducts();
                 for (Product product : temp.getProducts())
                     products.addProduct(product);
                 products.buildIndexes();
 
-                publish(new ProgressUpdate("Loading users...", 75));
+                publish(new ProgressUpdate("Loading users...", 70)); // Changed to 70%
                 UserNormalList normalUsersList = UserService.loadNormalUser();
                 UserPrimeList primeUsersList = UserService.loadPrimeUser();
                 UserAdminList adminUsersList = UserService.loadAdminUser();
@@ -99,10 +78,11 @@ public class Main {
                 publish(new ProgressUpdate("Calculating analytics...", 90));
                 analyticsService.recalculateAllAnalytics();
 
-                publish(new ProgressUpdate("Done!", 100));
-                System.out.println("Time took to load and build data: " + stopWatch.elapsedTime());
+                publish(new ProgressUpdate("Building UI...", 99));
+                System.out.println("Time took to load data: " + stopWatch.elapsedTime());
 
-                return mainFrame;
+                // Return data, NOT the UI
+                return new LoadedData(appController, products);
             }
 
             @Override
@@ -115,19 +95,44 @@ public class Main {
             @Override
             protected void done() {
                 try {
-                    MainFrame frame = get();
-                    Timer timer = new Timer(500, e -> {
-                        splash.dispose();
-                        frame.setVisible(true);
+                    LoadedData data = get();
+
+                    ShopView shopView = new ShopView(data.controller.getShopController(), data.catalog);
+                    NavigationView navigationView = new NavigationView(data.controller.getNavigationController());
+                    SidebarView sidebarView = new SidebarView(data.controller.getSidebarController());
+                    AuthenticationView authenticationView = new AuthenticationView(
+                            data.controller.getAuthenticationController());
+                    UserProfileView userProfileView = new UserProfileView(data.controller.getProfileController());
+                    ProductView productView = new ProductView(data.controller.getProductController(), data.catalog);
+                    ShoppingCartView shoppingCartView = new ShoppingCartView(
+                            data.controller.getShoppingCartController());
+                    InvoiceView invoiceView = new InvoiceView(data.controller.getInvoiceController());
+                    InvoiceDetailView invoiceDetailView = new InvoiceDetailView(data.controller.getInvoiceController());
+                    SettingView settingView = new SettingView(data.controller.getSettingController());
+
+                    MultiViewPanel multiViewPanel = new MultiViewPanel(shopView, authenticationView, userProfileView,
+                            productView, shoppingCartView, invoiceView, invoiceDetailView, settingView);
+
+                    data.controller.setViews(shopView, navigationView, sidebarView, multiViewPanel, authenticationView,
+                            userProfileView, invoiceView, invoiceDetailView);
+
+                    MainFrame mainFrame = new MainFrame(data.controller, sidebarView, navigationView, multiViewPanel);
+
+                    data.catalog.updateView();
+
+                    SwingUtilities.invokeLater(() -> {
+                        mainFrame.setVisible(true);
+
+                        SwingUtilities.invokeLater(() -> {
+                            splash.dispose();
+                        });
                     });
-                    timer.setRepeats(false);
-                    timer.start();
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         };
-
         worker.execute();
     }
 }
