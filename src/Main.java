@@ -27,7 +27,6 @@ public class Main {
     private record ProgressUpdate(String status, int percent) {
     }
 
-    // Create a record to pass loaded data back from the background thread
     private record LoadedData(AppController controller, ProductCatalog catalog) {
     }
 
@@ -81,7 +80,6 @@ public class Main {
                 publish(new ProgressUpdate("Building UI...", 99));
                 System.out.println("Time took to load data: " + stopWatch.elapsedTime());
 
-                // Return data, NOT the UI
                 return new LoadedData(appController, products);
             }
 
