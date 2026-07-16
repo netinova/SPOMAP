@@ -1,89 +1,113 @@
 import Components.MultiViewPanel;
+import Components.SplashScreen;
 import Controller.AppController;
-import Model.AppState;
-import Model.Product;
-import Model.ProductCatalog;
-import Service.AnalyticsService;
-import Service.InvoiceService;
+import Model.*;
 import Model.UserLists.UserAdminList;
 import Model.UserLists.UserNormalList;
 import Model.UserLists.UserPrimeList;
+import Service.AnalyticsService;
+import Service.InvoiceService;
 import Service.ProductService;
 import Service.UserService;
 import Util.ColorPalette;
 import Util.Stopwatch;
-import View.AuthenticationView;
-import View.InvoiceDetailView;
-import View.InvoiceView;
-import View.NavigationView;
-import View.ProductView;
-import View.SettingView;
-import View.ShopView;
-import View.ShoppingCartView;
-import View.SidebarView;
-import View.UserProfileView;
+import View.*;
 
-import java.awt.Color;
+import javax.swing.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
 
-        var stopWatch = new Stopwatch();
+    private record ProgressUpdate(String status, int percent) {}
+
+    public static void main(String[] args) {
 
         Locale.setDefault(Locale.US);
+        SplashScreen splash = new SplashScreen();
+        splash.setVisible(true);
 
-        ProductCatalog products = new ProductCatalog();
+        SwingWorker<MainFrame, ProgressUpdate> worker = new SwingWorker<>() {
+            @Override
+            protected MainFrame doInBackground() throws Exception {
+                var stopWatch = new Stopwatch();
 
-        InvoiceService invoiceService = new InvoiceService();
-        AnalyticsService analyticsService = new AnalyticsService(invoiceService);
+                publish(new ProgressUpdate("Initializing services...", 5));
+                ProductCatalog products = new ProductCatalog();
+                InvoiceService invoiceService = new InvoiceService();
+                AnalyticsService analyticsService = new AnalyticsService(invoiceService);
+                AppController appController = new AppController(products, invoiceService, analyticsService);
 
-        AppController appController = new AppController(products, invoiceService, analyticsService);
+                publish(new ProgressUpdate("Building views...", 20));
+                ShopView shopView = new ShopView(appController.getShopController(), products);
+                NavigationView navigationView = new NavigationView(appController.getNavigationController());
+                SidebarView sidebarView = new SidebarView(appController.getSidebarController());
+                AuthenticationView authenticationView = new AuthenticationView(appController.getAuthenticationController());
+                UserProfileView userProfileView = new UserProfileView(appController.getProfileController());
+                ProductView productView = new ProductView(appController.getProductController(), products);
+                ShoppingCartView shoppingCartView = new ShoppingCartView(appController.getShoppingCartController());
+                InvoiceView invoiceView = new InvoiceView(appController.getInvoiceController());
+                InvoiceDetailView invoiceDetailView = new InvoiceDetailView(appController.getInvoiceController());
+                SettingView settingView = new SettingView(appController.getSettingController());
 
-        ShopView shopView = new ShopView(appController.getShopController(), products);
-        NavigationView navigationView = new NavigationView(appController.getNavigationController());
-        SidebarView sidebarView = new SidebarView(appController.getSidebarController());
-        AuthenticationView authenticationView = new AuthenticationView(appController.getAuthenticationController());
-        UserProfileView userProfileView = new UserProfileView(appController.getProfileController());
-        ProductView productView = new ProductView(appController.getProductController(), products);
-        ShoppingCartView shoppingCartView = new ShoppingCartView(appController.getShoppingCartController());
-        InvoiceView invoiceView = new InvoiceView(appController.getInvoiceController());
-        InvoiceDetailView invoiceDetailView = new InvoiceDetailView(appController.getInvoiceController());
-        SettingView settingView = new SettingView(appController.getSettingController());
+                MultiViewPanel multiViewPanel = new MultiViewPanel(shopView, authenticationView, userProfileView, productView,
+                        shoppingCartView, invoiceView, invoiceDetailView, settingView);
 
-        MultiViewPanel multiViewPanel = new MultiViewPanel(shopView, authenticationView, userProfileView, productView,
-                shoppingCartView, invoiceView, invoiceDetailView, settingView);
+                appController.setViews(shopView, navigationView, sidebarView, multiViewPanel, authenticationView,
+                        userProfileView, invoiceView, invoiceDetailView);
 
-        appController.setViews(shopView, navigationView, sidebarView, multiViewPanel, authenticationView,
-                userProfileView, invoiceView, invoiceDetailView);
+                publish(new ProgressUpdate("Creating main window...", 40));
+                MainFrame mainFrame = new MainFrame(appController, sidebarView, navigationView, multiViewPanel);
 
-        MainFrame mainFrame = new MainFrame(appController, sidebarView, navigationView, multiViewPanel);
+                publish(new ProgressUpdate("Loading products...", 55));
+                ProductCatalog temp = ProductService.loadProducts();
+                for (Product product : temp.getProducts()) products.addProduct(product);
+                products.buildIndexes();
 
-        ProductCatalog temp = ProductService.loadProducts();
-        for (Product product : temp.getProducts()) {
-            products.addProduct(product);
-        }
+                publish(new ProgressUpdate("Loading users...", 75));
+                UserNormalList normalUsersList = UserService.loadNormalUser();
+                UserPrimeList primeUsersList = UserService.loadPrimeUser();
+                UserAdminList adminUsersList = UserService.loadAdminUser();
+                if (primeUsersList == null) primeUsersList = new UserPrimeList(new ArrayList<>());
+                if (normalUsersList == null) normalUsersList = new UserNormalList(new ArrayList<>());
 
-        products.buildIndexes();
+                AppState.getInstance().normalUsersList = normalUsersList;
+                AppState.getInstance().primeUsersList = primeUsersList;
+                AppState.getInstance().adminUsersList = adminUsersList;
 
-        UserNormalList normalUsersList = UserService.loadNormalUser();
-        UserPrimeList primeUsersList = UserService.loadPrimeUser();
-        UserAdminList adminUsersList = UserService.loadAdminUser();
-        if (primeUsersList == null)
-            primeUsersList = new UserPrimeList(new ArrayList<>());
-        if (normalUsersList == null)
-            normalUsersList = new UserNormalList(new ArrayList<>());
+                publish(new ProgressUpdate("Calculating analytics...", 90));
+                analyticsService.recalculateAllAnalytics();
 
-        AppState.getInstance().normalUsersList = normalUsersList;
-        AppState.getInstance().primeUsersList = primeUsersList;
-        AppState.getInstance().adminUsersList = adminUsersList;
+                publish(new ProgressUpdate("Done!", 100));
+                System.out.println("Time took to load and build data: " + stopWatch.elapsedTime());
+                return mainFrame;
+            }
 
-        analyticsService.recalculateAllAnalytics();
+            @Override
+            protected void process(List<ProgressUpdate> proses) {
+                ProgressUpdate latest = proses.getLast();
+                splash.setStatus(latest.status());
+                splash.setProgress(latest.percent());
+            }
 
-        mainFrame.setVisible(true);
+            @Override
+            protected void done() {
+                try {
+                    MainFrame frame = get();
+                    Timer timer = new Timer(500, e -> {
+                        splash.dispose();
+                        frame.setVisible(true);
+                    });
+                    timer.setRepeats(false);
+                    timer.start();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
 
-        System.out.println("Time took to load and build data: " + stopWatch.elapsedTime());
+        worker.execute();
     }
 }
