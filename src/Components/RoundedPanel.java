@@ -1,6 +1,7 @@
 package Components;
 
 import Util.ColorPalette;
+import Util.UIUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,6 +17,11 @@ public class RoundedPanel extends JPanel {
         this.BGColor = BGColor;
         this.borderColor = borderColor;
         this.setOpaque(false);
+        ColorPalette.getInstance().addPropertyChangeListener(e -> {
+            removeAll();
+            revalidate();
+            repaint();
+        });
     }
 
     @Override

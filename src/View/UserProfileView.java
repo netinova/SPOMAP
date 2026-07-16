@@ -4,9 +4,9 @@ import Components.*;
 import Controller.UserProfileController;
 import Model.UserType;
 import Util.ColorPalette;
+import Util.UIUtils;
 
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicScrollBarUI;
 
 import java.awt.*;
 import java.time.LocalDateTime;
@@ -32,10 +32,18 @@ public class UserProfileView extends JPanel {
 
         setupUI();
         attachEvents();
+
+        ColorPalette.getInstance().addPropertyChangeListener(e -> {
+            removeAll();
+            setupUI();
+            attachEvents();
+            revalidate();
+            repaint();
+        });
     }
 
     private void setupUI() {
-        setBackground(ColorPalette.BG_MAIN);
+        setBackground(ColorPalette.getInstance().getBgMain());
         setLayout(new BorderLayout());
 
         cardLayout = new CardLayout();
@@ -63,7 +71,7 @@ public class UserProfileView extends JPanel {
         profileScroll.getViewport().setOpaque(false);
         profileScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         profileScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        styleScrollBar(profileScroll.getVerticalScrollBar());
+        UIUtils.styleScrollBar(profileScroll.getVerticalScrollBar());
 
         JScrollPane logShopScrollPane = new JScrollPane(logShopPanel);
         logShopScrollPane.setBorder(null);
@@ -71,14 +79,14 @@ public class UserProfileView extends JPanel {
         logShopScrollPane.getViewport().setOpaque(false);
         logShopScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         logShopScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        styleScrollBar(logShopScrollPane.getVerticalScrollBar());
+        UIUtils.styleScrollBar(logShopScrollPane.getVerticalScrollBar());
 
         cardPanel.add(profileScroll, "MAIN");
         cardPanel.add(userProfileEditPanel, "EDIT_PROFILE");
         cardPanel.add(chargeWalletPanel, "CHARGE_WALLET");
         cardPanel.add(mangeUserProfilePanel, "MANAGE_USERS");
-        cardPanel.add(productPanel,"ADD_PRODUCT");
-        cardPanel.add(logShopScrollPane,"LOG_SHOP");
+        cardPanel.add(productPanel, "ADD_PRODUCT");
+        cardPanel.add(logShopScrollPane, "LOG_SHOP");
 
         this.add(cardPanel, BorderLayout.CENTER);
     }
@@ -130,8 +138,8 @@ public class UserProfileView extends JPanel {
 
         // Manage User
         mangeUserProfilePanel.addActionListener(e -> {
-            switch (e.getActionCommand()){
-                case MangeUserProfilePanel.CANCEL_MANAGE_PROP ->mangeUserProfilePanel.showSearchView();
+            switch (e.getActionCommand()) {
+                case MangeUserProfilePanel.CANCEL_MANAGE_PROP -> mangeUserProfilePanel.showSearchView();
                 case MangeUserProfilePanel.KICK_PROP -> System.out.println("On kick click");
                 case MangeUserProfilePanel.CONVERT_TO_PRIME_PROP -> System.out.println("On Convert click");
                 case MangeUserProfilePanel.CANCEL_PROP -> controller.onCancelClick();
@@ -140,7 +148,7 @@ public class UserProfileView extends JPanel {
             }
         });
 
-        //add Product
+        // add Product
         productPanel.addPropertyChangeListener(evt -> {
             if (evt.getPropertyName().equals(AddProductPanel.NAME_PROP))
                 controller.onNameProductChange(evt.getNewValue().toString());
@@ -165,6 +173,7 @@ public class UserProfileView extends JPanel {
         if (userProfileEditPanel != null)
             userProfileEditPanel.showPhoneError(error);
     }
+
     public void showFirstNameError(String error) {
         if (userProfileEditPanel != null)
             userProfileEditPanel.showFirstNameError(error);
@@ -195,6 +204,7 @@ public class UserProfileView extends JPanel {
     public void displayUser(String fullName, String userType, double balance, int cartItems, UserType type) {
         profileMainView.displayUser(fullName, userType, balance, cartItems, type);
     }
+
     public void displayPrimeUser(double creditAmount, double debitAmount, String memberShipID) {
         profileMainView.displayPrimeUser(creditAmount, debitAmount, memberShipID);
     }
@@ -211,9 +221,11 @@ public class UserProfileView extends JPanel {
         mangeUserProfilePanel.loadView();
     }
 
-    public void loadInformationUser(String firstName, String lastName, String phoneNumber, String userId, String  userType, LocalDateTime registerDate,
-                                    String memberShipCode, double creditAmount, double debitAmount) {
-        mangeUserProfilePanel.loadData(firstName, lastName, phoneNumber, userId, userType , registerDate , memberShipCode , creditAmount , debitAmount);
+    public void loadInformationUser(String firstName, String lastName, String phoneNumber, String userId,
+            String userType, LocalDateTime registerDate,
+            String memberShipCode, double creditAmount, double debitAmount) {
+        mangeUserProfilePanel.loadData(firstName, lastName, phoneNumber, userId, userType, registerDate, memberShipCode,
+                creditAmount, debitAmount);
     }
 
     // switch view
@@ -236,7 +248,7 @@ public class UserProfileView extends JPanel {
         cardLayout.show(cardPanel, "MANAGE_USERS");
     }
 
-    public void showProductPanel(){
+    public void showProductPanel() {
         cardLayout.show(cardPanel, "ADD_PRODUCT");
     }
 
@@ -244,52 +256,6 @@ public class UserProfileView extends JPanel {
         logShopPanel.refreshFullView();
         controller.handleProductChart();
         cardLayout.show(cardPanel, "LOG_SHOP");
-    }
-
-    private void styleScrollBar(JScrollBar bar) {
-        bar.setUI(new BasicScrollBarUI() {
-            @Override
-            protected void configureScrollBarColors() {
-                this.trackColor = ColorPalette.BG_MAIN;
-                this.thumbColor = ColorPalette.BG_TERTIARY;
-            }
-
-            @Override
-            protected JButton createDecreaseButton(int o) {
-                return zeroBtn();
-            }
-
-            @Override
-            protected JButton createIncreaseButton(int o) {
-                return zeroBtn();
-            }
-
-            private JButton zeroBtn() {
-                JButton b = new JButton();
-                b.setPreferredSize(new Dimension(0, 0));
-                b.setMinimumSize(new Dimension(0, 0));
-                b.setMaximumSize(new Dimension(0, 0));
-                return b;
-            }
-
-            @Override
-            protected void paintThumb(Graphics g, JComponent c, Rectangle r) {
-                if (r.isEmpty() || !scrollbar.isEnabled()) return;
-                Graphics2D g2 = (Graphics2D) g.create();
-                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                g2.setColor(thumbColor);
-                g2.fillRoundRect(r.x, r.y, r.width - 1, r.height - 1, 8, 8);
-                g2.dispose();
-            }
-
-            @Override
-            protected void paintTrack(Graphics g, JComponent c, Rectangle r) {
-                g.setColor(trackColor);
-                g.fillRect(r.x, r.y, r.width, r.height);
-            }
-        });
-        bar.setPreferredSize(new Dimension(8, 0));
-        bar.setUnitIncrement(16);
     }
 
     public void setInfoDailyChart(List<String> date, List<Double> revenue) {
@@ -317,6 +283,6 @@ public class UserProfileView extends JPanel {
     }
 
     public void loadUserStatusCard(String name, String name1, String name2, double saveAmount, int totalPouches) {
-        profileMainView.loadStatusCard(name , name1, name2, saveAmount, totalPouches);
+        profileMainView.loadStatusCard(name, name1, name2, saveAmount, totalPouches);
     }
 }

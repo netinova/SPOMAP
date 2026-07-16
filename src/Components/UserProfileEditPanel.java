@@ -3,6 +3,7 @@ package Components;
 
 import Controller.UserProfileController;
 import Util.ColorPalette;
+import Util.UIUtils;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -47,7 +48,6 @@ public class UserProfileEditPanel extends JPanel {
     public static final String SAVE_PROP = "save";
     public static final String CANCEL_PROP = "cancel";
 
-
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         support.addPropertyChangeListener(listener);
     }
@@ -57,6 +57,17 @@ public class UserProfileEditPanel extends JPanel {
     }
 
     public UserProfileEditPanel() {
+        setupUI();
+
+        ColorPalette.getInstance().addPropertyChangeListener(e -> {
+            removeAll();
+            setupUI();
+            revalidate();
+            repaint();
+        });
+    }
+
+    private void setupUI() {
         setOpaque(false);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBorder(new EmptyBorder(10, 320, 10, 320));
@@ -82,13 +93,13 @@ public class UserProfileEditPanel extends JPanel {
         });
         this.add(firstNamePanel);
 
-
         // Last Name
         lastNameField = new RoundedInputText("Last Name", 5);
         lastNamePanel = new FormTextFiledPanel("Last Name", lastNameField, L_NAME_PROP);
         lastNameField.addActionListener(e -> {
             if (controller != null) {
-                var result = controller.validateLastName(lastNameField.getText());// TODO: for saving FName and LName, first character upper case
+                var result = controller.validateLastName(lastNameField.getText());// TODO: for saving FName and LName,
+                                                                                  // first character upper case
                 if (result.isValid())
                     lastNamePanel.clearError();
                 else
@@ -99,7 +110,6 @@ public class UserProfileEditPanel extends JPanel {
             }
         });
         this.add(lastNamePanel);
-
 
         // Phone Number
         phoneNumberField = new RoundedInputText("Username / Phone number", 5);
@@ -138,7 +148,8 @@ public class UserProfileEditPanel extends JPanel {
             }
 
             private void validator() {
-                currentPassword = (new String(currentPasswordField.getPassword()).equals("Current Password")) ? "" : new String(currentPasswordField.getPassword());
+                currentPassword = (new String(currentPasswordField.getPassword()).equals("Current Password")) ? ""
+                        : new String(currentPasswordField.getPassword());
                 support.firePropertyChange(PASSWORD_CURRENT_PROP, null, currentPassword);
             }
         });
@@ -163,7 +174,8 @@ public class UserProfileEditPanel extends JPanel {
             }
 
             public void validator() {
-                newPassword = (new String(newPasswordField.getPassword()).equals("Password")) ? "" : new String(newPasswordField.getPassword());
+                newPassword = (new String(newPasswordField.getPassword()).equals("Password")) ? ""
+                        : new String(newPasswordField.getPassword());
                 var result = controller.validatePassword(newPassword);
                 if (result.isValid() || currentPassword.isEmpty())
                     newPasswordPanel.clearError();
@@ -174,7 +186,6 @@ public class UserProfileEditPanel extends JPanel {
             }
         });
         this.add(newPasswordPanel);
-
 
         confirmPasswordField = new RoundedInputPassword("Repeat Password", 5);
         confirmPasswordPanel = new FormTextFiledPanel("Confirm Password", confirmPasswordField, "confirmPassword");
@@ -195,7 +206,8 @@ public class UserProfileEditPanel extends JPanel {
             }
 
             public void validator() {
-                confirmPassword = (new String(confirmPasswordField.getPassword()).equals("Repeat Password")) ? "" : new String(confirmPasswordField.getPassword());
+                confirmPassword = (new String(confirmPasswordField.getPassword()).equals("Repeat Password")) ? ""
+                        : new String(confirmPasswordField.getPassword());
                 var result = controller.validateConfirmPassword(newPassword, confirmPassword);
                 if (result.isValid() || newPassword.isEmpty())
                     confirmPasswordPanel.clearError();
@@ -210,13 +222,15 @@ public class UserProfileEditPanel extends JPanel {
         JPanel buttonPanel = createButtons();
         this.add(buttonPanel);
         saveButton.addActionListener(e -> {
-            if (controller.fullValidator(firstNameField.getText(), lastNameField.getText(), phoneNumberField.getText(), currentPassword, newPassword, confirmPassword)) {
-                boolean statusEdit= controller.editProfileHandler(firstNameField.getText(), lastNameField.getText(), phoneNumberField.getText(), newPassword);
+            if (controller.fullValidator(firstNameField.getText(), lastNameField.getText(), phoneNumberField.getText(),
+                    currentPassword, newPassword, confirmPassword)) {
+                boolean statusEdit = controller.editProfileHandler(firstNameField.getText(), lastNameField.getText(),
+                        phoneNumberField.getText(), newPassword);
                 if (statusEdit) {
                     controller.loadProfile();
                     controller.showMainPage();
                 }
-            }//TODO : change information user
+            } // TODO : change information user
 
             support.firePropertyChange(SAVE_PROP, null, null);
         });
@@ -233,14 +247,14 @@ public class UserProfileEditPanel extends JPanel {
 
         saveButton = new RoundedButton("Save", 15);
         saveButton.setPreferredSize(new Dimension(100, 30));
-        saveButton.setBackground(new Color(75, 173, 79));
-        saveButton.setForeground(Color.WHITE);
+        saveButton.setBackground(ColorPalette.getInstance().getAccentConfirm());
+        saveButton.setForeground(ColorPalette.getInstance().getTextPrimary());
 
         cancelButton = new RoundedButton("Cancel", 15);
         cancelButton.setPreferredSize(new Dimension(100, 30));
-        cancelButton.setBackground(new Color(0xde3c2f));
-        cancelButton.setHoverColor(new Color(0xAD3225));
-        cancelButton.setForeground(ColorPalette.TEXT_PRIMARY);
+        cancelButton.setBackground(ColorPalette.getInstance().getAccentDanger());
+        cancelButton.setHoverColor(ColorPalette.getInstance().getAccentDanger());
+        cancelButton.setForeground(ColorPalette.getInstance().getTextPrimary());
 
         buttonPanel.add(saveButton);
         buttonPanel.add(cancelButton);
@@ -256,13 +270,13 @@ public class UserProfileEditPanel extends JPanel {
 
         firstNameField.setActivePlaceHolder(false);
         firstNameField.setText(fName);
-        firstNameField.setForeground(ColorPalette.TEXT_PRIMARY);
+        firstNameField.setForeground(ColorPalette.getInstance().getTextPrimary());
         lastNameField.setActivePlaceHolder(false);
         lastNameField.setText(lName);
-        lastNameField.setForeground(ColorPalette.TEXT_PRIMARY);
+        lastNameField.setForeground(ColorPalette.getInstance().getTextPrimary());
         phoneNumberField.setActivePlaceHolder(false);
         phoneNumberField.setText(phoneNumber);
-        phoneNumberField.setForeground(ColorPalette.TEXT_PRIMARY);
+        phoneNumberField.setForeground(ColorPalette.getInstance().getTextPrimary());
     }
 
     // Getters for form data
@@ -282,7 +296,7 @@ public class UserProfileEditPanel extends JPanel {
         return newPassword;
     }
 
-    //error handler
+    // error handler
     public void showPhoneError(String error) {
         phoneNumberPanel.setError(error);
     }

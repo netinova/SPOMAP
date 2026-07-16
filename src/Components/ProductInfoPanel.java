@@ -14,6 +14,7 @@ import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
 import Util.ColorPalette;
+import Util.UIUtils;
 
 public class ProductInfoPanel extends JPanel {
 
@@ -25,13 +26,24 @@ public class ProductInfoPanel extends JPanel {
     private static final int DESCRIPTION_MAX_WIDTH = 500;
 
     public ProductInfoPanel() {
-        this.setBackground(ColorPalette.BG_MAIN);
+        setupUI();
+        ColorPalette.getInstance().addPropertyChangeListener(e -> {
+            removeAll();
+            setupUI();
+            revalidate();
+            repaint();
+        });
+    }
+
+    private void setupUI() {
+        removeAll();
+        this.setBackground(ColorPalette.getInstance().getBgMain());
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setBorder(BorderFactory.createEmptyBorder(20, 25, 20, 25));
 
         nameLabel = new JLabel("Product Name");
         nameLabel.setFont(NAME_FONT);
-        nameLabel.setForeground(ColorPalette.TEXT_PRIMARY);
+        nameLabel.setForeground(ColorPalette.getInstance().getTextPrimary());
         nameLabel.setAlignmentX(LEFT_ALIGNMENT);
         this.add(nameLabel);
 
@@ -39,8 +51,8 @@ public class ProductInfoPanel extends JPanel {
 
         descriptionArea = new JTextArea("Product description...");
         descriptionArea.setFont(DESC_FONT);
-        descriptionArea.setForeground(ColorPalette.TEXT_MUTED);
-        descriptionArea.setBackground(ColorPalette.BG_MAIN); // match panel background
+        descriptionArea.setForeground(ColorPalette.getInstance().getTextMuted());
+        descriptionArea.setBackground(ColorPalette.getInstance().getBgMain());
         descriptionArea.setEditable(false);
         descriptionArea.setFocusable(false);
         descriptionArea.setLineWrap(true);

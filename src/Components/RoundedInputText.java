@@ -1,6 +1,7 @@
 package Components;
 
 import Util.ColorPalette;
+import Util.UIUtils;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -32,21 +33,22 @@ public class RoundedInputText extends JTextField {
 
         void onEnterPressed(String text);
     }
+
     private EnterKeyListener enterKeyListener;
 
     public RoundedInputText(String placeHolder, int size) {
         this.setFont(new Font("Arial", Font.PLAIN, 3 * size));
-        this.setCaretColor(ColorPalette.TEXT_PRIMARY);
+        this.setCaretColor(ColorPalette.getInstance().getTextPrimary());
         super.setPreferredSize(new Dimension(40 * size, 5 * size));
         this.setOpaque(false);
         this.placeHolder = placeHolder;
         this.cornerRadius = size * 5;
         this.setBorder(new EmptyBorder(5, 10, 5, 5));
         this.setMargin(new Insets(5, 10, 5, 5));
-        this.setBackground(ColorPalette.BG_SECONDARY);
+        this.setBackground(ColorPalette.getInstance().getBgSecondary());
         this.setText(placeHolder);
         activePlaceHolder = true;
-        this.setForeground(ColorPalette.TEXT_PLACEHOLDER);
+        this.setForeground(ColorPalette.getInstance().getTextPlaceholder());
 
         this.getDocument().addDocumentListener(new DocumentListener() {
             @Override
@@ -90,7 +92,7 @@ public class RoundedInputText extends JTextField {
                     setText("");
                     isUpdatingPlaceholder = false;
                     activePlaceHolder = false;
-                    setForeground(ColorPalette.TEXT_PRIMARY);
+                    setForeground(ColorPalette.getInstance().getTextPrimary());
                 }
             }
 
@@ -101,10 +103,21 @@ public class RoundedInputText extends JTextField {
                     setText(placeHolder);
                     isUpdatingPlaceholder = false;
                     activePlaceHolder = true;
-                    setForeground(ColorPalette.TEXT_PLACEHOLDER);
+                    setForeground(ColorPalette.getInstance().getTextPlaceholder());
                 }
             }
 
+        });
+        ColorPalette.getInstance().addPropertyChangeListener(e -> {
+            this.setCaretColor(ColorPalette.getInstance().getTextPrimary());
+            this.setBackground(ColorPalette.getInstance().getBgSecondary());
+            if (activePlaceHolder) {
+                this.setForeground(ColorPalette.getInstance().getTextPlaceholder());
+            } else {
+                this.setForeground(ColorPalette.getInstance().getTextPrimary());
+            }
+            revalidate();
+            repaint();
         });
     }
 
@@ -135,7 +148,7 @@ public class RoundedInputText extends JTextField {
         isUpdatingPlaceholder = true;
         setText(placeHolder);
         isUpdatingPlaceholder = false;
-        setForeground(ColorPalette.TEXT_PLACEHOLDER);
+        setForeground(ColorPalette.getInstance().getTextPlaceholder());
     }
 
     private void fireSearchEvent() {
@@ -152,13 +165,13 @@ public class RoundedInputText extends JTextField {
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         // Draw rounded background
-        if (colorBG!=null) {
+        if (colorBG != null) {
             g2.setColor(colorBG);
             g2.fillRoundRect(0, 0, getWidth(), getHeight(), cornerRadius, cornerRadius);
         }
 
         // Draw border
-        g2.setColor(ColorPalette.BORDER);
+        g2.setColor(ColorPalette.getInstance().getBorder());
         g2.draw(new RoundRectangle2D.Double(0, 0, getWidth() - 1, getHeight() - 1, cornerRadius, cornerRadius));
 
         g2.dispose();

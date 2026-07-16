@@ -1,31 +1,24 @@
 package View;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.GridLayout;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
-import javax.swing.plaf.basic.BasicScrollBarUI;
 
 import Components.ProductCard;
 import Controller.ShopController;
 import Model.Product;
 import Model.ProductCatalog;
 import Util.ColorPalette;
+import Util.UIUtils;
 
 public class ShopView extends JPanel implements PropertyChangeListener {
 
@@ -39,18 +32,25 @@ public class ShopView extends JPanel implements PropertyChangeListener {
 
         setupUI();
 
+        ColorPalette.getInstance().addPropertyChangeListener(e -> {
+            removeAll();
+            setupUI();
+            revalidate();
+            repaint();
+        });
+
         model.addListener(this); // subscribing to model
     }
 
     private void setupUI() {
-        this.setBackground(ColorPalette.BG_MAIN);
+        this.setBackground(ColorPalette.getInstance().getBgMain());
         this.setLayout(new BorderLayout());
         ;
 
         // productGrid
         productGrid = new JPanel();
         productGrid.setLayout(new GridLayout(0, 3, 10, 10));
-        productGrid.setBackground(ColorPalette.BG_MAIN);
+        productGrid.setBackground(ColorPalette.getInstance().getBgMain());
         productGrid.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         // wrapping the grid in a scroll pane
@@ -62,58 +62,7 @@ public class ShopView extends JPanel implements PropertyChangeListener {
 
         // Custom scrollbar styling
         JScrollBar verticalBar = scrollPane.getVerticalScrollBar();
-        verticalBar.setUI(new BasicScrollBarUI() {
-            @Override
-            protected void configureScrollBarColors() {
-                this.trackColor = ColorPalette.BG_MAIN;
-                this.thumbColor = ColorPalette.BG_TERTIARY;
-            }
-
-            @Override
-            protected JButton createDecreaseButton(int orientation) {
-                return createZeroButton();
-            }
-
-            @Override
-            protected JButton createIncreaseButton(int orientation) {
-                return createZeroButton();
-            }
-
-            private JButton createZeroButton() {
-                JButton button = new JButton();
-                button.setPreferredSize(new Dimension(0, 0));
-                button.setMinimumSize(new Dimension(0, 0));
-                button.setMaximumSize(new Dimension(0, 0));
-                return button;
-            }
-
-            @Override
-            protected void paintThumb(Graphics g, JComponent c, Rectangle thumbBounds) {
-                if (thumbBounds.isEmpty() || !scrollbar.isEnabled())
-                    return;
-
-                Graphics2D g2 = (Graphics2D) g.create();
-                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-                // Round the corners of the thumb
-                int arc = 8;
-                g2.setColor(thumbColor);
-                g2.fillRoundRect(thumbBounds.x, thumbBounds.y, thumbBounds.width - 1, thumbBounds.height - 1, arc, arc);
-
-                g2.dispose();
-            }
-
-            @Override
-            protected void paintTrack(Graphics g, JComponent c, Rectangle trackBounds) {
-                Graphics2D g2 = (Graphics2D) g.create();
-                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                g2.setColor(trackColor);
-                g2.fillRect(trackBounds.x, trackBounds.y, trackBounds.width, trackBounds.height);
-                g2.dispose();
-            }
-        });
-        verticalBar.setPreferredSize(new Dimension(8, 0));
-        verticalBar.setUnitIncrement(16);
+        UIUtils.styleScrollBar(verticalBar);
 
         this.add(scrollPane, BorderLayout.CENTER);
     }

@@ -22,6 +22,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import Util.ColorPalette;
+import Util.UIUtils;
 import Controller.AuthenticationController;
 
 public class SingUpPanel extends JPanel {
@@ -67,10 +68,15 @@ public class SingUpPanel extends JPanel {
     public static final String SING_UP_PROP = "singUp";
     public static final String SWITCH_LOGIN_PROP = "logIn";
 
-
     public SingUpPanel() {
         setupUI();
         createComponents();
+        ColorPalette.getInstance().addPropertyChangeListener(e -> {
+            removeAll();
+            setupUI();
+            revalidate();
+            repaint();
+        });
     }
 
     private void setupUI() {
@@ -91,7 +97,7 @@ public class SingUpPanel extends JPanel {
         Image resizeLogo = logo.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
         logo = new ImageIcon(resizeLogo);
         JLabel logoLabel = new JLabel("Sing Up");
-        logoLabel.setForeground(ColorPalette.TEXT_PRIMARY);
+        logoLabel.setForeground(ColorPalette.getInstance().getTextPrimary());
         logoLabel.setFont(new Font("Calibri (Body)", Font.BOLD, 40));
         logoLabel.setIcon(logo);
         logoLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -240,7 +246,7 @@ public class SingUpPanel extends JPanel {
         this.add(confirmPasswordPanel, gbc);
 
         gbc.gridx = 1;
-        String[] optionFoundUS = {"Select an option", "Google", "Social Media", "Friend", "Advertisement", "Other"};
+        String[] optionFoundUS = { "Select an option", "Google", "Social Media", "Friend", "Advertisement", "Other" };
         foundUSComboBox = new RoundedComboBox<String>(optionFoundUS);
         foundUSComboBox.setMinimumSize(new Dimension(300, 40));
         foundUsPanel = new FormTextFiledPanel("How did you find us?", foundUSComboBox, "findUs");
@@ -276,7 +282,7 @@ public class SingUpPanel extends JPanel {
 
         JLabel orLabel = new JLabel("or");
         orLabel.setFont(new Font("Arial", Font.PLAIN, 14));
-        orLabel.setForeground(ColorPalette.TEXT_MUTED);
+        orLabel.setForeground(ColorPalette.getInstance().getTextMuted());
         orLabel.setHorizontalAlignment(SwingConstants.CENTER);
         orLabel.setPreferredSize(new Dimension(40, 45));
 
@@ -304,7 +310,6 @@ public class SingUpPanel extends JPanel {
         logInButton.addActionListener(e -> {
             support.firePropertyChange(SWITCH_LOGIN_PROP, null, null);
         });
-
 
         buttonPanel.add(Box.createHorizontalGlue());
         buttonPanel.add(singUpButton);
@@ -396,11 +401,11 @@ public class SingUpPanel extends JPanel {
         Graphics2D g2 = (Graphics2D) g.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        g2.setColor(ColorPalette.BG_MAIN);
+        g2.setColor(ColorPalette.getInstance().getBgMain());
         g2.fillRoundRect(0, 0, getWidth(), getHeight(), cornerRadius, cornerRadius);
 
         // Draw border
-        g2.setColor(ColorPalette.BORDER);
+        g2.setColor(ColorPalette.getInstance().getBorder());
         g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, cornerRadius, cornerRadius);
 
         g2.dispose();

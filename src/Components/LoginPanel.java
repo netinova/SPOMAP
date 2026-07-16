@@ -2,6 +2,7 @@ package Components;
 
 import Controller.AuthenticationController;
 import Util.ColorPalette;
+import Util.UIUtils;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -32,10 +33,15 @@ public class LoginPanel extends JPanel {
     public static final String USERNAME_PROP = "username";
     public static final String PASSWORD_PROP = "password";
 
-
     public LoginPanel() {
         setupUI();
         createComponents();
+        ColorPalette.getInstance().addPropertyChangeListener(e -> {
+            removeAll();
+            setupUI();
+            revalidate();
+            repaint();
+        });
     }
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {
@@ -59,12 +65,12 @@ public class LoginPanel extends JPanel {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(5, 20, 5, 20);
 
-        //logo Image
+        // logo Image
         ImageIcon logo = new ImageIcon("icons/SPOMAP_Default_White color.png");
         Image resizeLogo = logo.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
         logo = new ImageIcon(resizeLogo);
         JLabel logoLabel = new JLabel("Log In");
-        logoLabel.setForeground(ColorPalette.TEXT_PRIMARY);
+        logoLabel.setForeground(ColorPalette.getInstance().getTextPrimary());
         logoLabel.setFont(new Font("Calibri (Body)", Font.BOLD, 50));
         logoLabel.setIcon(logo);
         logoLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -83,12 +89,12 @@ public class LoginPanel extends JPanel {
             String username = usernameInput.getText();
             if (authController != null) {
                 var result = authController.validatePhoneNumber(username);
-                    if (!result.isValid()) {
+                if (!result.isValid()) {
                     usernamePanel.setError(result.getErrorMessage());
                 } else {
                     usernamePanel.clearError();
                 }
-                support.firePropertyChange(USERNAME_PROP , null , username);
+                support.firePropertyChange(USERNAME_PROP, null, username);
             }
         });
         this.add(usernamePanel, gbc);
@@ -123,13 +129,13 @@ public class LoginPanel extends JPanel {
                     } else {
                         passwordPanel.clearError();
                     }
-                    support.firePropertyChange(PASSWORD_PROP , null , password);
+                    support.firePropertyChange(PASSWORD_PROP, null, password);
                 }
             }
         });
         this.add(passwordPanel, gbc);
 
-        //submit Button
+        // submit Button
         loginButton = new RoundedButton("Log in", 25);
         loginButton.setPreferredSize(new Dimension(280, 45));
 
@@ -139,7 +145,7 @@ public class LoginPanel extends JPanel {
 
         gbc.gridy = 4;
         JLabel orTextLabel = new JLabel("or");
-        orTextLabel.setForeground(ColorPalette.TEXT_MUTED);
+        orTextLabel.setForeground(ColorPalette.getInstance().getTextMuted());
         orTextLabel.setHorizontalAlignment(SwingConstants.CENTER);
         orTextLabel.setFont(new Font("Arial", Font.PLAIN, 17));
         this.add(orTextLabel, gbc);
@@ -151,7 +157,7 @@ public class LoginPanel extends JPanel {
         this.add(signUpButton, gbc);
 
         loginButton.addActionListener(e -> {
-            if (authController != null){
+            if (authController != null) {
                 String username = usernameInput.getText();
                 String password = new String(passwordInput.getPassword());
 
@@ -167,10 +173,9 @@ public class LoginPanel extends JPanel {
         });
     }
 
-
     // getters
 
-    public String  getUsernameInput() {
+    public String getUsernameInput() {
         return usernameInput.getText();
     }
 
@@ -178,18 +183,16 @@ public class LoginPanel extends JPanel {
         return new String(passwordInput.getPassword());
     }
 
-
-
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        g2.setColor(ColorPalette.BG_MAIN);
+        g2.setColor(ColorPalette.getInstance().getBgMain());
         g2.fillRoundRect(0, 0, getWidth(), getHeight(), cornerRadius, cornerRadius);
 
         // Draw border
-        g2.setColor(ColorPalette.BORDER);
+        g2.setColor(ColorPalette.getInstance().getBorder());
         g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, cornerRadius, cornerRadius);
 
         g2.dispose();
@@ -205,7 +208,6 @@ public class LoginPanel extends JPanel {
         usernamePanel.clearError();
         passwordPanel.clearError();
     }
-
 
     public void showUsernameError(String error) {
         usernamePanel.setError(error);

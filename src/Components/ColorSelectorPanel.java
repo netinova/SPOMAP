@@ -2,6 +2,7 @@ package Components;
 
 import Model.ProductColor;
 import Util.ColorPalette;
+import Util.UIUtils;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -44,8 +45,8 @@ public class ColorSelectorPanel extends JPanel {
     private static final int ITEM_HEIGHT = CIRCLE_DIAMETER + LABEL_HEIGHT + 6;
 
     private static final int CIRCLE_PADDING = 10;
-    private static final Color BORDER_UNSELECTED = ColorPalette.BORDER;
-    private static final Color BORDER_SELECTED = ColorPalette.ACCENT_PRIMARY;
+    private static final Color BORDER_UNSELECTED = ColorPalette.getInstance().getBorder();
+    private static final Color BORDER_SELECTED = ColorPalette.getInstance().getAccentPrimary();
     private static final int LABEL_VISIBLE_MS = 2500;
 
     public interface ColorSelectionListener {
@@ -53,6 +54,17 @@ public class ColorSelectorPanel extends JPanel {
     }
 
     public ColorSelectorPanel() {
+        setupUI();
+        ColorPalette.getInstance().addPropertyChangeListener(e -> {
+            removeAll();
+            setupUI();
+            revalidate();
+            repaint();
+        });
+    }
+
+    private void setupUI() {
+        removeAll();
         setLayout(new WrapLayout(FlowLayout.LEFT, CIRCLE_PADDING, 6));
         setBorder(new EmptyBorder(10, 10, 10, 10));
         setOpaque(false);
@@ -89,7 +101,7 @@ public class ColorSelectorPanel extends JPanel {
             }
         }
 
-        if (selectionMode==SelectionMode.SINGLE)
+        if (selectionMode == SelectionMode.SINGLE)
             setSelectedColors(Objects.requireNonNull(colors)[0]);
 
         revalidate();
@@ -115,7 +127,6 @@ public class ColorSelectorPanel extends JPanel {
         updateCircles();
         notifyListeners();
     }
-
 
     private void updateCircles() {
         for (ColorCircle circle : circles) {
@@ -264,7 +275,7 @@ public class ColorSelectorPanel extends JPanel {
             if (labelAlpha > 0.01f) {
                 String text = productColor.name();
                 g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, labelAlpha));
-                g2.setColor(ColorPalette.TEXT_PRIMARY);
+                g2.setColor(ColorPalette.getInstance().getTextPrimary());
                 FontMetrics fm = g2.getFontMetrics();
                 int textWidth = fm.stringWidth(text);
                 int textX = (getWidth() - textWidth) / 2;

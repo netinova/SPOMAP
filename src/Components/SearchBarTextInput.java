@@ -1,6 +1,7 @@
 package Components;
 
 import Util.ColorPalette;
+import Util.UIUtils;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -45,15 +46,15 @@ public class SearchBarTextInput extends JTextField {
     public SearchBarTextInput(String placeHolder, int size) {
 
         this.setFont(new Font("Arial", Font.PLAIN, 3 * size));
-        this.setCaretColor(ColorPalette.TEXT_PRIMARY);
+        this.setCaretColor(ColorPalette.getInstance().getTextPrimary());
         super.setPreferredSize(new Dimension(80 * size, 5 * size));
         this.setOpaque(false);
         this.setBorder(new EmptyBorder(5, 0, 5, 0));
         this.setMargin(new Insets(5, 0, 5, 0));
-        this.setBackground(ColorPalette.BG_SECONDARY);
+        this.setBackground(ColorPalette.getInstance().getBgSecondary());
         this.setText(placeHolder);
         activePlaceHolder = true;
-        this.setForeground(ColorPalette.TEXT_PLACEHOLDER);
+        this.setForeground(ColorPalette.getInstance().getTextPlaceholder());
 
         this.getDocument().addDocumentListener(new DocumentListener() {
             @Override
@@ -97,7 +98,7 @@ public class SearchBarTextInput extends JTextField {
                     setText("");
                     isUpdatingPlaceholder = false;
                     activePlaceHolder = false;
-                    setForeground(ColorPalette.TEXT_PRIMARY);
+                    setForeground(ColorPalette.getInstance().getTextPrimary());
                 }
             }
 
@@ -108,10 +109,21 @@ public class SearchBarTextInput extends JTextField {
                     setText(placeHolder);
                     isUpdatingPlaceholder = false;
                     activePlaceHolder = true;
-                    setForeground(ColorPalette.TEXT_PLACEHOLDER);
+                    setForeground(ColorPalette.getInstance().getTextPlaceholder());
                 }
             }
 
+        });
+        ColorPalette.getInstance().addPropertyChangeListener(e -> {
+            this.setCaretColor(ColorPalette.getInstance().getTextPrimary());
+            this.setBackground(ColorPalette.getInstance().getBgSecondary());
+            if (activePlaceHolder) {
+                this.setForeground(ColorPalette.getInstance().getTextPlaceholder());
+            } else {
+                this.setForeground(ColorPalette.getInstance().getTextPrimary());
+            }
+            revalidate();
+            repaint();
         });
     }
 
@@ -137,7 +149,8 @@ public class SearchBarTextInput extends JTextField {
         fireActionEvent();
     }
 
-        // Debounced search event - waits for user to stop typing before triggering search
+    // Debounced search event - waits for user to stop typing before triggering
+    // search
     private void scheduleSearchEvent() {
         executor.schedule(() -> {
             SwingUtilities.invokeLater(() -> {
@@ -152,7 +165,7 @@ public class SearchBarTextInput extends JTextField {
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         // Draw rounded background
-        g2.setBackground(ColorPalette.BG_TERTIARY);
+        g2.setBackground(ColorPalette.getInstance().getBgTertiary());
 
         g2.dispose();
 

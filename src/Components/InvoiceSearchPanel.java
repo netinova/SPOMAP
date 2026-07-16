@@ -3,6 +3,7 @@ package Components;
 import Model.AppState;
 import Model.UserType;
 import Util.ColorPalette;
+import Util.UIUtils;
 import Util.Validator.ValidationResult;
 
 import javax.swing.*;
@@ -39,6 +40,12 @@ public class InvoiceSearchPanel extends JPanel {
     public InvoiceSearchPanel() {
         this.isAdmin = false;
         setupUI();
+        ColorPalette.getInstance().addPropertyChangeListener(e -> {
+            removeAll();
+            setupUI();
+            revalidate();
+            repaint();
+        });
     }
 
     public interface ValidationListener {
@@ -53,7 +60,7 @@ public class InvoiceSearchPanel extends JPanel {
     }
 
     private void setupUI() {
-        setBackground(ColorPalette.BG_SECONDARY);
+        setBackground(ColorPalette.getInstance().getBgSecondary());
         setLayout(new BorderLayout());
 
         JPanel mainPanel = new JPanel();

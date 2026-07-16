@@ -21,6 +21,7 @@ import javax.swing.SwingConstants;
 
 import Model.Product;
 import Util.ColorPalette;
+import Util.UIUtils;
 
 public class ProductCard extends JPanel {
     private ImageIcon productImage;
@@ -35,25 +36,29 @@ public class ProductCard extends JPanel {
 
     public ProductCard(Product product) {
         this.product = product;
-        this.setLayout(new BorderLayout());
-        this.setBackground(ColorPalette.BG_SECONDARY);
-        this.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(ColorPalette.BORDER, 1),
-                BorderFactory.createEmptyBorder(0, 0, 0, 0)));
-        this.setPreferredSize(new Dimension(220, 320));
-        this.setMaximumSize(new Dimension(220, 320));
 
-        // Add hover effect
+        setupUI();
+        attachEvents();
+        ColorPalette.getInstance().addPropertyChangeListener(e -> {
+            removeAll();
+            setupUI();
+            attachEvents();
+            revalidate();
+            repaint();
+        });
+    }
+
+    private void attachEvents() {
         addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent evt) {
                 setBorder(BorderFactory.createCompoundBorder(
-                        BorderFactory.createLineBorder(ColorPalette.ACCENT_PRIMARY, 2),
+                        BorderFactory.createLineBorder(ColorPalette.getInstance().getAccentPrimary(), 2),
                         BorderFactory.createEmptyBorder(0, 0, 0, 0)));
             }
 
             public void mouseExited(MouseEvent evt) {
                 setBorder(BorderFactory.createCompoundBorder(
-                        BorderFactory.createLineBorder(ColorPalette.BORDER, 1),
+                        BorderFactory.createLineBorder(ColorPalette.getInstance().getBorder(), 1),
                         BorderFactory.createEmptyBorder(0, 0, 0, 0)));
             }
 
@@ -61,15 +66,24 @@ public class ProductCard extends JPanel {
                 fireActionEvent();
             }
         });
+    }
 
-        // Image Panel
+    private void setupUI() {
+        removeAll();
+        this.setLayout(new BorderLayout());
+        this.setBackground(ColorPalette.getInstance().getBgSecondary());
+        this.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(ColorPalette.getInstance().getBorder(), 1),
+                BorderFactory.createEmptyBorder(0, 0, 0, 0)));
+        this.setPreferredSize(new Dimension(220, 320));
+        this.setMaximumSize(new Dimension(220, 320));
+
         imagePanel = new JPanel(new BorderLayout());
-        imagePanel.setBackground(ColorPalette.BG_SECONDARY);
+        imagePanel.setBackground(ColorPalette.getInstance().getBgSecondary());
         imagePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         String location = product.getThumbnail();
 
-        // Load and scale image
         String imagePath = (location == null || location.isEmpty())
                 ? "icons/Product_placeholder.png"
                 : location;
@@ -84,9 +98,8 @@ public class ProductCard extends JPanel {
 
         add(imagePanel, BorderLayout.CENTER);
 
-        // Details Panel
         detailsPanel = new JPanel(new GridBagLayout());
-        detailsPanel.setBackground(ColorPalette.BG_SECONDARY);
+        detailsPanel.setBackground(ColorPalette.getInstance().getBgSecondary());
         detailsPanel.setBorder(BorderFactory.createEmptyBorder(5, 12, 15, 12));
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -96,31 +109,28 @@ public class ProductCard extends JPanel {
         gbc.weightx = 1.0;
         gbc.insets = new Insets(5, 0, 5, 0);
 
-        // Product Name
         this.productName = new JLabel(product.getName());
         this.productName.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        this.productName.setForeground(ColorPalette.TEXT_PRIMARY);
+        this.productName.setForeground(ColorPalette.getInstance().getTextPrimary());
         this.productName.setHorizontalAlignment(SwingConstants.CENTER);
         detailsPanel.add(this.productName, gbc);
 
         gbc.gridy = 1;
 
         this.pricePanel = new JPanel();
-        this.pricePanel.setBackground(ColorPalette.BG_SECONDARY);
+        this.pricePanel.setBackground(ColorPalette.getInstance().getBgSecondary());
         this.pricePanel.setLayout(new BorderLayout());
         detailsPanel.add(this.pricePanel, gbc);
 
-        // Product Price
         this.productPrice = new JLabel(String.format("$%.2f", product.getPrice()));
         this.productPrice.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        this.productPrice.setForeground(ColorPalette.ACCENT_PRIMARY);
+        this.productPrice.setForeground(ColorPalette.getInstance().getAccentPrimary());
         this.productPrice.setHorizontalAlignment(SwingConstants.CENTER);
         this.pricePanel.add(productPrice, BorderLayout.CENTER);
 
-        // Product Discount
         this.productDiscount = new JLabel(String.format("%%%.0f", product.getDiscount()));
         this.productDiscount.setFont(new Font("Segoe UI", Font.ITALIC, 16));
-        this.productDiscount.setForeground(ColorPalette.ACCENT_SUCCESS);
+        this.productDiscount.setForeground(ColorPalette.getInstance().getAccentSuccess());
         this.productDiscount.setHorizontalAlignment(SwingConstants.CENTER);
         if (product.getDiscount() == 0.0) {
             this.productDiscount.setVisible(false);

@@ -2,6 +2,7 @@ package Components;
 
 import Controller.UserProfileController;
 import Util.ColorPalette;
+import Util.UIUtils;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -25,10 +26,10 @@ public class MangeUserProfilePanel extends JPanel {
     private RoundedInputText debitField;
     private RoundedInputText searchUserField;
 
-    private final CardLayout cardLayout;
-    private final JPanel cardPanel;
-    private final JPanel searchUserPanel;
-    private final JPanel informationPanel;
+    private CardLayout cardLayout;
+    private JPanel cardPanel;
+    private JPanel searchUserPanel;
+    private JPanel informationPanel;
     private JPanel btnPanelSearch;
 
     private FormTextFiledPanel memberShipIdPanel;
@@ -70,6 +71,19 @@ public class MangeUserProfilePanel extends JPanel {
     }
 
     public MangeUserProfilePanel() {
+        setupUI();
+        attachEvents();
+        ColorPalette.getInstance().addPropertyChangeListener(e -> {
+            removeAll();
+            setupUI();
+            attachEvents();
+            revalidate();
+            repaint();
+        });
+    }
+
+    private void setupUI() {
+        removeAll();
         setOpaque(false);
         setLayout(new GridBagLayout());
         setBorder(new EmptyBorder(20, 20, 20, 20));
@@ -102,7 +116,8 @@ public class MangeUserProfilePanel extends JPanel {
         panel.setOpaque(false);
         panel.setLayout(new GridBagLayout());
 
-        RoundedPanel container = new RoundedPanel(30, ColorPalette.BG_MAIN, ColorPalette.BORDER);
+        RoundedPanel container = new RoundedPanel(30, ColorPalette.getInstance().getBgMain(),
+                ColorPalette.getInstance().getBorder());
         container.setBorder(new EmptyBorder(40, 30, 40, 30));
         container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
         container.setPreferredSize(new Dimension(350, 300));
@@ -110,7 +125,7 @@ public class MangeUserProfilePanel extends JPanel {
 
         JLabel titleLabel = new JLabel("Search User");
         titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 24));
-        titleLabel.setForeground(ColorPalette.TEXT_PRIMARY);
+        titleLabel.setForeground(ColorPalette.getInstance().getTextPrimary());
         titleLabel.setAlignmentX(CENTER_ALIGNMENT);
         container.add(titleLabel);
         container.add(Box.createVerticalStrut(30));
@@ -141,14 +156,14 @@ public class MangeUserProfilePanel extends JPanel {
 
         searchButton = new RoundedButton("Search", 15);
         searchButton.setPreferredSize(new Dimension(120, 40));
-        searchButton.setBackground(new Color(75, 173, 79));
-        searchButton.setForeground(Color.WHITE);
+        searchButton.setBackground(ColorPalette.getInstance().getAccentConfirm());
+        searchButton.setForeground(ColorPalette.getInstance().getTextPrimary());
 
         cancelButton = new RoundedButton("Cancel", 15);
         cancelButton.setPreferredSize(new Dimension(120, 40));
-        cancelButton.setBackground(new Color(0xde3c2f));
-        cancelButton.setHoverColor(new Color(0xAD3225));
-        cancelButton.setForeground(ColorPalette.TEXT_PRIMARY);
+        cancelButton.setBackground(ColorPalette.getInstance().getAccentDanger());
+        cancelButton.setHoverColor(ColorPalette.getInstance().getAccentDanger());
+        cancelButton.setForeground(ColorPalette.getInstance().getTextPrimary());
 
         buttonPanel.add(searchButton);
         buttonPanel.add(cancelButton);
@@ -162,7 +177,8 @@ public class MangeUserProfilePanel extends JPanel {
         panel.setOpaque(false);
         panel.setLayout(new GridBagLayout());
 
-        RoundedPanel container = new RoundedPanel(30, ColorPalette.BG_MAIN, ColorPalette.BORDER);
+        RoundedPanel container = new RoundedPanel(30, ColorPalette.getInstance().getBgMain(),
+                ColorPalette.getInstance().getBorder());
         container.setBorder(new EmptyBorder(40, 30, 40, 30));
         container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
         container.setPreferredSize(new Dimension(1400, 450));
@@ -176,7 +192,7 @@ public class MangeUserProfilePanel extends JPanel {
 
         JLabel titleLabel = new JLabel("User Status");
         titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 24));
-        titleLabel.setForeground(ColorPalette.TEXT_PRIMARY);
+        titleLabel.setForeground(ColorPalette.getInstance().getTextPrimary());
         titleLabel.setHorizontalAlignment(JLabel.CENTER);
 
         gbc.gridx = 0;
@@ -193,7 +209,7 @@ public class MangeUserProfilePanel extends JPanel {
 
         firstNameField = new RoundedInputText("", 5);
         firstNameField.setEnabled(false);
-        firstNameField.setForeground(ColorPalette.TEXT_PRIMARY);
+        firstNameField.setForeground(ColorPalette.getInstance().getTextPrimary());
         firstNameField.setMinimumSize(new Dimension(250, 40));
         FormTextFiledPanel firstNamePanel = new FormTextFiledPanel("First Name", firstNameField, "firstName");
 
@@ -203,7 +219,7 @@ public class MangeUserProfilePanel extends JPanel {
 
         lastNameField = new RoundedInputText("", 5);
         lastNameField.setEnabled(false);
-        lastNameField.setForeground(ColorPalette.TEXT_PRIMARY);
+        lastNameField.setForeground(ColorPalette.getInstance().getTextPrimary());
         lastNameField.setMinimumSize(new Dimension(250, 40));
         FormTextFiledPanel lastNamePanel = new FormTextFiledPanel("Last Name", lastNameField, "lastName");
         container.add(lastNamePanel, gbc);
@@ -211,7 +227,7 @@ public class MangeUserProfilePanel extends JPanel {
         gbc.gridx = 2;
         phoneNumberField = new RoundedInputText("", 5);
         phoneNumberField.setEnabled(false);
-        phoneNumberField.setForeground(ColorPalette.TEXT_PRIMARY);
+        phoneNumberField.setForeground(ColorPalette.getInstance().getTextPrimary());
         phoneNumberField.setMinimumSize(new Dimension(250, 40));
         FormTextFiledPanel phonePanel = new FormTextFiledPanel("Phone Number", phoneNumberField, "phone");
         container.add(phonePanel, gbc);
@@ -221,7 +237,7 @@ public class MangeUserProfilePanel extends JPanel {
 
         userIdField = new RoundedInputText("", 5);
         userIdField.setEnabled(false);
-        userIdField.setForeground(ColorPalette.TEXT_PRIMARY);
+        userIdField.setForeground(ColorPalette.getInstance().getTextPrimary());
         userIdField.setMinimumSize(new Dimension(250, 40));
         FormTextFiledPanel userIdPanel = new FormTextFiledPanel("User ID", userIdField, "userId");
         container.add(userIdPanel, gbc);
@@ -229,7 +245,7 @@ public class MangeUserProfilePanel extends JPanel {
         gbc.gridx = 1;
         userTypeField = new RoundedInputText("", 5);
         userTypeField.setEnabled(false);
-        userTypeField.setForeground(ColorPalette.TEXT_PRIMARY);
+        userTypeField.setForeground(ColorPalette.getInstance().getTextPrimary());
         userTypeField.setMinimumSize(new Dimension(250, 40));
         FormTextFiledPanel userTypePanel = new FormTextFiledPanel("User Type", userTypeField, "userType");
         container.add(userTypePanel, gbc);
@@ -237,7 +253,7 @@ public class MangeUserProfilePanel extends JPanel {
         gbc.gridx = 2;
         registerField = new RoundedInputText("", 5);
         registerField.setEnabled(false);
-        registerField.setForeground(ColorPalette.TEXT_PRIMARY);
+        registerField.setForeground(ColorPalette.getInstance().getTextPrimary());
         registerField.setMinimumSize(new Dimension(250, 40));
         FormTextFiledPanel registerDatePanel = new FormTextFiledPanel("Registered", registerField, "registerDate");
         container.add(registerDatePanel, gbc);
@@ -248,7 +264,7 @@ public class MangeUserProfilePanel extends JPanel {
 
         memberShipIdField = new RoundedInputText("", 5);
         memberShipIdField.setEnabled(false);
-        memberShipIdField.setForeground(ColorPalette.TEXT_PRIMARY);
+        memberShipIdField.setForeground(ColorPalette.getInstance().getTextPrimary());
         memberShipIdField.setMinimumSize(new Dimension(250, 40));
         memberShipIdPanel = new FormTextFiledPanel("Membership Code", memberShipIdField, "membershipCode");
         container.add(memberShipIdPanel, gbc);
@@ -256,7 +272,7 @@ public class MangeUserProfilePanel extends JPanel {
         gbc.gridx = 1;
         creditField = new RoundedInputText("", 5);
         creditField.setEnabled(false);
-        creditField.setForeground(ColorPalette.TEXT_PRIMARY);
+        creditField.setForeground(ColorPalette.getInstance().getTextPrimary());
         creditField.setMinimumSize(new Dimension(250, 40));
         creditFiledPanel = new FormTextFiledPanel("Total Credit", creditField, "credit");
         container.add(creditFiledPanel, gbc);
@@ -264,7 +280,7 @@ public class MangeUserProfilePanel extends JPanel {
         gbc.gridx = 2;
         debitField = new RoundedInputText("", 5);
         debitField.setEnabled(false);
-        debitField.setForeground(ColorPalette.TEXT_PRIMARY);
+        debitField.setForeground(ColorPalette.getInstance().getTextPrimary());
         debitField.setMinimumSize(new Dimension(250, 40));
         debitFiledPanel = new FormTextFiledPanel("Total Debit", debitField, "debit");
         container.add(debitFiledPanel, gbc);
@@ -297,24 +313,24 @@ public class MangeUserProfilePanel extends JPanel {
         // Button 1: Convert to Prime
         convertButton = new RoundedButton("Convert to Prime", 20);
         convertButton.setPreferredSize(new Dimension(230, 45));
-        convertButton.setBackground(ColorPalette.SELECTION_BG);
-        convertButton.setForeground(ColorPalette.TEXT_PRIMARY);
+        convertButton.setBackground(ColorPalette.getInstance().getSelectionBg());
+        convertButton.setForeground(ColorPalette.getInstance().getTextPrimary());
         convertButton.setFont(new Font("Arial", Font.BOLD, 13));
 
         // Button 2: Kick User
         kickButton = new RoundedButton("Kick User", 20);
         kickButton.setPreferredSize(new Dimension(230, 45));
-        kickButton.setBackground(ColorPalette.ACCENT_WARNING);
-        kickButton.setHoverColor(new Color(0xB3F2994A, true));
-        kickButton.setForeground(ColorPalette.TEXT_PRIMARY);
+        kickButton.setBackground(ColorPalette.getInstance().getAccentWarning());
+        kickButton.setHoverColor(ColorPalette.getInstance().getAccentWarning());
+        kickButton.setForeground(ColorPalette.getInstance().getTextPrimary());
         kickButton.setFont(new Font("Arial", Font.BOLD, 13));
 
         // Button 3: Cancel
         cancelMangeButton = new RoundedButton("Cancel", 20);
         cancelMangeButton.setPreferredSize(new Dimension(230, 45));
-        cancelMangeButton.setBackground(new Color(0xde3c2f));
-        cancelMangeButton.setHoverColor(new Color(0xAD3225));
-        cancelMangeButton.setForeground(ColorPalette.TEXT_PRIMARY);
+        cancelMangeButton.setBackground(ColorPalette.getInstance().getAccentDanger());
+        cancelMangeButton.setHoverColor(ColorPalette.getInstance().getAccentDanger());
+        cancelMangeButton.setForeground(ColorPalette.getInstance().getTextPrimary());
         cancelMangeButton.setFont(new Font("Arial", Font.BOLD, 13));
 
         // Add buttons to panel

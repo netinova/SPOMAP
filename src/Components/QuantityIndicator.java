@@ -9,6 +9,7 @@ import java.awt.RenderingHints;
 import javax.swing.JComponent;
 
 import Util.ColorPalette;
+import Util.UIUtils;
 
 public class QuantityIndicator extends JComponent {
 
@@ -18,7 +19,18 @@ public class QuantityIndicator extends JComponent {
     private int quantity;
 
     public QuantityIndicator(int radius) {
+        setupUI();
         this.radius = radius;
+        ColorPalette.getInstance().addPropertyChangeListener(e -> {
+            removeAll();
+            setupUI();
+            revalidate();
+            repaint();
+        });
+    }
+
+    private void setupUI() {
+
         setOpaque(false);
     }
 
@@ -36,14 +48,14 @@ public class QuantityIndicator extends JComponent {
         Graphics2D g2 = (Graphics2D) g.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        g2.setColor(ColorPalette.BG_TERTIARY);
+        g2.setColor(ColorPalette.getInstance().getBgTertiary());
         g2.fillRoundRect(0, 0, getWidth(), getHeight(), radius, radius);
 
-        g2.setColor(ColorPalette.BORDER);
+        g2.setColor(ColorPalette.getInstance().getBorder());
         g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, radius, radius);
 
         g2.setFont(QTY_FONT);
-        g2.setColor(ColorPalette.TEXT_PRIMARY);
+        g2.setColor(ColorPalette.getInstance().getTextPrimary());
         String text = String.valueOf(quantity);
         int textWidth = g2.getFontMetrics().stringWidth(text);
         int textHeight = g2.getFontMetrics().getAscent();

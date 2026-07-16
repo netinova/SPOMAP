@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import Util.ColorPalette;
+import Util.UIUtils;
 
 public class PricePanel extends JPanel {
 
@@ -30,7 +31,18 @@ public class PricePanel extends JPanel {
     private static final Font ORIGINAL_TOTAL_FONT = new Font("Segoe UI", Font.PLAIN, 14);
 
     public PricePanel() {
-        setBackground(ColorPalette.BG_MAIN);
+        setupUI();
+        ColorPalette.getInstance().addPropertyChangeListener(e -> {
+            removeAll();
+            setupUI();
+            revalidate();
+            repaint();
+        });
+    }
+
+    private void setupUI() {
+        removeAll();
+        setBackground(ColorPalette.getInstance().getBgMain());
         setLayout(new BorderLayout(20, 0));
         setBorder(BorderFactory.createEmptyBorder(10, 15, 10, 15));
 
@@ -40,7 +52,7 @@ public class PricePanel extends JPanel {
 
         unitFinalLabel = new JLabel();
         unitFinalLabel.setFont(UNIT_PRICE_FONT);
-        unitFinalLabel.setForeground(ColorPalette.ACCENT_SUCCESS);
+        unitFinalLabel.setForeground(ColorPalette.getInstance().getAccentSuccess());
         leftPanel.add(unitFinalLabel);
 
         JPanel discountRow = new JPanel();
@@ -50,14 +62,14 @@ public class PricePanel extends JPanel {
 
         unitOriginalLabel = new JLabel();
         unitOriginalLabel.setFont(UNIT_ORIGINAL_FONT);
-        unitOriginalLabel.setForeground(ColorPalette.TEXT_MUTED);
+        unitOriginalLabel.setForeground(ColorPalette.getInstance().getTextMuted());
         discountRow.add(unitOriginalLabel);
 
         discountRow.add(Box.createHorizontalStrut(8));
 
         discountBadge = new JLabel();
         discountBadge.setFont(DISCOUNT_FONT);
-        discountBadge.setForeground(ColorPalette.ACCENT_WARNING);
+        discountBadge.setForeground(ColorPalette.getInstance().getAccentWarning());
         discountRow.add(discountBadge);
 
         leftPanel.add(Box.createVerticalStrut(4));
@@ -69,13 +81,13 @@ public class PricePanel extends JPanel {
 
         totalLabel = new JLabel();
         totalLabel.setFont(TOTAL_FONT);
-        totalLabel.setForeground(ColorPalette.TEXT_PRIMARY);
+        totalLabel.setForeground(ColorPalette.getInstance().getTextPrimary());
         totalLabel.setAlignmentX(CENTER_ALIGNMENT);
         totalLabel.setHorizontalAlignment(JLabel.CENTER);
 
         originalTotalLabel = new JLabel();
         originalTotalLabel.setFont(ORIGINAL_TOTAL_FONT);
-        originalTotalLabel.setForeground(ColorPalette.TEXT_MUTED);
+        originalTotalLabel.setForeground(ColorPalette.getInstance().getTextMuted());
         originalTotalLabel.setAlignmentX(CENTER_ALIGNMENT);
         originalTotalLabel.setHorizontalAlignment(JLabel.CENTER);
 

@@ -1,6 +1,5 @@
 package View;
 
-import java.awt.Adjustable;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -20,9 +19,8 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
-import javax.swing.plaf.basic.BasicScrollBarUI;
+import Util.UIUtils;
 
 import Components.RoundedButton;
 import Controller.InvoiceController;
@@ -55,13 +53,21 @@ public class InvoiceDetailView extends JPanel {
         });
 
         setupUI();
+
+        ColorPalette.getInstance().addPropertyChangeListener(e -> {
+            removeAll();
+            setupUI();
+            updateRefundButtonState();
+            revalidate();
+            repaint();
+        });
     }
 
     public void updateRefundButtonState() {
         User currentUser = AppState.getInstance().getLoggedInUser();
         boolean isPrime = currentUser != null && currentUser.getUserType() == UserType.PRIME;
         refundButton.setVisible(isPrime);
-        if (selectedInvoice!=null)
+        if (selectedInvoice != null)
             refundButton.setEnabled(controller.getStatusInvoice(selectedInvoice));
     }
 
@@ -108,17 +114,17 @@ public class InvoiceDetailView extends JPanel {
     }
 
     private void setupUI() {
-        setBackground(ColorPalette.BG_MAIN);
+        setBackground(ColorPalette.getInstance().getBgMain());
         setLayout(new BorderLayout());
 
         JPanel contentPanel = new JPanel();
-        contentPanel.setBackground(ColorPalette.BG_MAIN);
+        contentPanel.setBackground(ColorPalette.getInstance().getBgMain());
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
         contentPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         titleLabel = new JLabel("No invoice selected");
         titleLabel.setFont(new Font("SansSerif", Font.BOLD, 22));
-        titleLabel.setForeground(ColorPalette.TEXT_PRIMARY);
+        titleLabel.setForeground(ColorPalette.getInstance().getTextPrimary());
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         contentPanel.add(titleLabel);
         contentPanel.add(Box.createVerticalStrut(10));
@@ -134,15 +140,15 @@ public class InvoiceDetailView extends JPanel {
         previewScrollPane.setMaximumSize(new Dimension(620, 800));
         previewScrollPane.setAlignmentX(Component.CENTER_ALIGNMENT);
         previewScrollPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        previewScrollPane.setBackground(ColorPalette.BG_MAIN);
+        previewScrollPane.setBackground(ColorPalette.getInstance().getBgMain());
 
-        styleScrollBar(previewScrollPane.getVerticalScrollBar());
-        styleScrollBar(previewScrollPane.getHorizontalScrollBar());
+        UIUtils.styleScrollBar(previewScrollPane.getVerticalScrollBar());
+        UIUtils.styleScrollBar(previewScrollPane.getHorizontalScrollBar(), new Dimension(0, 8));
 
         contentPanel.add(previewScrollPane);
 
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setBackground(ColorPalette.BG_MAIN);
+        buttonPanel.setBackground(ColorPalette.getInstance().getBgMain());
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         buttonPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -151,14 +157,14 @@ public class InvoiceDetailView extends JPanel {
         savePdfButton.setPreferredSize(new Dimension(150, 40));
         savePdfButton.setMaximumSize(new Dimension(150, 40));
         savePdfButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        savePdfButton.setBackground(ColorPalette.ACCENT_SUCCESS);
+        savePdfButton.setBackground(ColorPalette.getInstance().getAccentSuccess());
         savePdfButton.setHasBorder(false);
 
         refundButton = new RoundedButton("Refund", 15);
         refundButton.setPreferredSize(new Dimension(150, 40));
         refundButton.setMaximumSize(new Dimension(150, 40));
         refundButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        refundButton.setBackground(ColorPalette.ACCENT_WARNING);
+        refundButton.setBackground(ColorPalette.getInstance().getAccentWarning());
         refundButton.setHasBorder(false);
 
         buttonPanel.add(savePdfButton);
@@ -171,69 +177,11 @@ public class InvoiceDetailView extends JPanel {
         mainScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         mainScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         mainScroll.setBorder(null);
-        mainScroll.setBackground(ColorPalette.BG_MAIN);
+        mainScroll.setBackground(ColorPalette.getInstance().getBgMain());
 
-        styleScrollBar(mainScroll.getVerticalScrollBar());
-        styleScrollBar(mainScroll.getHorizontalScrollBar());
+        UIUtils.styleScrollBar(mainScroll.getVerticalScrollBar());
+        UIUtils.styleScrollBar(mainScroll.getHorizontalScrollBar(), new Dimension(0, 8));
 
         add(mainScroll, BorderLayout.CENTER);
-    }
-
-    private void styleScrollBar(JScrollBar bar) {
-        if (bar.getOrientation() == Adjustable.VERTICAL) {
-            bar.setPreferredSize(new Dimension(8, 0));
-        } else {
-            bar.setPreferredSize(new Dimension(0, 8));
-        }
-
-        bar.setUI(new BasicScrollBarUI() {
-            @Override
-            protected void configureScrollBarColors() {
-                this.trackColor = ColorPalette.BG_MAIN;
-                this.thumbColor = ColorPalette.BG_TERTIARY;
-            }
-
-            @Override
-            protected JButton createDecreaseButton(int orientation) {
-                return createZeroButton();
-            }
-
-            @Override
-            protected JButton createIncreaseButton(int orientation) {
-                return createZeroButton();
-            }
-
-            private JButton createZeroButton() {
-                JButton button = new JButton();
-                button.setPreferredSize(new Dimension(0, 0));
-                button.setMinimumSize(new Dimension(0, 0));
-                button.setMaximumSize(new Dimension(0, 0));
-                return button;
-            }
-
-            @Override
-            protected void paintThumb(Graphics g, JComponent c, Rectangle thumbBounds) {
-                if (thumbBounds.isEmpty() || !scrollbar.isEnabled())
-                    return;
-                Graphics2D g2 = (Graphics2D) g.create();
-                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                int arc = 8;
-                g2.setColor(thumbColor);
-                g2.fillRoundRect(thumbBounds.x, thumbBounds.y,
-                        thumbBounds.width - 1, thumbBounds.height - 1, arc, arc);
-                g2.dispose();
-            }
-
-            @Override
-            protected void paintTrack(Graphics g, JComponent c, Rectangle trackBounds) {
-                Graphics2D g2 = (Graphics2D) g.create();
-                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                g2.setColor(trackColor);
-                g2.fillRect(trackBounds.x, trackBounds.y,
-                        trackBounds.width, trackBounds.height);
-                g2.dispose();
-            }
-        });
-        bar.setUnitIncrement(16);
     }
 }

@@ -20,17 +20,33 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.EventListenerList;
 
 import Util.ColorPalette;
+import Util.UIUtils;
 
 public class SimpleSearchField extends JPanel {
     private int cornerRadius = 40;
     private SearchBarTextInput searchInput;
     private JLabel iconLabel;
     private EventListenerList listenerList = new EventListenerList();
+    private String placeHolder;
 
     public SimpleSearchField(String placeHolder) {
+
+        this.placeHolder = placeHolder;
+
+        setupUI();
+
+        ColorPalette.getInstance().addPropertyChangeListener(e -> {
+            removeAll();
+            setupUI();
+            revalidate();
+            repaint();
+        });
+    }
+
+    private void setupUI() {
         setOpaque(false);
 
-        this.setBackground(ColorPalette.BG_SECONDARY);
+        this.setBackground(ColorPalette.getInstance().getBgSecondary());
         this.setBorder(new EmptyBorder(0, 10, 0, 10));
 
         // search input
@@ -98,7 +114,7 @@ public class SimpleSearchField extends JPanel {
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);// soft render
 
         // Draw border
-        g2.setColor(ColorPalette.BORDER);
+        g2.setColor(ColorPalette.getInstance().getBorder());
         g2.draw(new RoundRectangle2D.Double(0, 0, getWidth() - 1, getHeight() - 1, cornerRadius, cornerRadius));
 
         g2.dispose();

@@ -36,15 +36,22 @@ public class MultiViewPanel extends JPanel {
         this.invoiceDetailView = invoiceDetailView;
         this.settingView = settingView;
         setupUI();
+
+        ColorPalette.getInstance().addPropertyChangeListener(e -> {
+            removeAll();
+            setupUI();
+            revalidate();
+            repaint();
+        });
     }
 
     private void setupUI() {
         cardLayout = new CardLayout();
         this.setLayout(cardLayout);
-        this.setBackground(ColorPalette.BG_MAIN);
+        this.setBackground(ColorPalette.getInstance().getBgMain());
 
         // border
-        Border line = BorderFactory.createLineBorder(ColorPalette.BORDER);
+        Border line = BorderFactory.createLineBorder(ColorPalette.getInstance().getBorder());
         Border etched = BorderFactory.createEtchedBorder();
         this.setBorder(BorderFactory.createCompoundBorder(line, etched));
 

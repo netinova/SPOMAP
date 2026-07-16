@@ -8,6 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import Util.ColorPalette;
+import Util.UIUtils;
 
 public class StockLabel extends JPanel {
 
@@ -15,13 +16,24 @@ public class StockLabel extends JPanel {
     private static final Font FONT = new Font("Segoe UI", Font.BOLD, 14);
 
     public StockLabel() {
+        setupUI();
+
+        ColorPalette.getInstance().addPropertyChangeListener(e -> {
+            removeAll();
+            setupUI();
+            revalidate();
+            repaint();
+        });
+    }
+
+    private void setupUI() {
         this.setLayout(new BorderLayout());
-        this.setBackground(ColorPalette.BG_SECONDARY);
+        this.setBackground(ColorPalette.getInstance().getBgSecondary());
         this.setBorder(BorderFactory.createEmptyBorder(20, 15, 20, 15));
 
         textLabel = new JLabel();
         textLabel.setFont(FONT);
-        textLabel.setForeground(ColorPalette.TEXT_PRIMARY);
+        textLabel.setForeground(ColorPalette.getInstance().getTextPrimary());
         this.add(textLabel, BorderLayout.WEST);
     }
 
@@ -33,10 +45,10 @@ public class StockLabel extends JPanel {
             } else {
                 textLabel.setText("In Stock: " + stockQuantity);
             }
-            textLabel.setForeground(ColorPalette.TEXT_PRIMARY);
+            textLabel.setForeground(ColorPalette.getInstance().getTextPrimary());
         } else {
             textLabel.setText("Out of Stock");
-            textLabel.setForeground(ColorPalette.ACCENT_WARNING);
+            textLabel.setForeground(ColorPalette.getInstance().getAccentWarning());
         }
     }
 

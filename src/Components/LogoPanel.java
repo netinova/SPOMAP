@@ -3,13 +3,12 @@ package Components;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.Dimension;
-import java.awt.Image;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import Util.ColorPalette;
+import Util.UIUtils;
 
 public class LogoPanel extends JPanel {
 
@@ -27,12 +26,19 @@ public class LogoPanel extends JPanel {
 
     public LogoPanel() {
         setupUI();
-        createComponents();
+
+        ColorPalette.getInstance().addPropertyChangeListener(e -> {
+            removeAll();
+            setupUI();
+            revalidate();
+            repaint();
+        });
     }
 
     private void setupUI() {
-        this.setBackground(ColorPalette.BG_SECONDARY);
+        this.setBackground(ColorPalette.getInstance().getBgSecondary());
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        createComponents();
     }
 
     private void createComponents() {
@@ -44,7 +50,7 @@ public class LogoPanel extends JPanel {
         buttonTimer.add(new LiveClockSidebar());
         buttonTimer.setAlignmentX(CENTER_ALIGNMENT);
         buttonTimer.setPreferredSize(new Dimension(200, 40));
-        buttonTimer.setBorder(new EmptyBorder(10,10,10,10));
+        buttonTimer.setBorder(new EmptyBorder(10, 10, 10, 10));
         this.add(buttonTimer);
 
         this.add(Box.createVerticalStrut(5));

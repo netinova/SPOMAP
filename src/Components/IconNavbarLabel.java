@@ -1,6 +1,7 @@
 package Components;
 
 import Util.ColorPalette;
+import Util.UIUtils;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -31,6 +32,13 @@ public class IconNavbarLabel extends JPanel {
 
         setupUI();
         attachEvents();
+        ColorPalette.getInstance().addPropertyChangeListener(e -> {
+            removeAll();
+            setupUI();
+            attachEvents();
+            revalidate();
+            repaint();
+        });
     }
 
     private void attachEvents() {

@@ -30,6 +30,7 @@ import javax.swing.plaf.basic.BasicButtonUI;
 
 import Components.RoundedButton;
 import Util.ColorPalette;
+import Util.UIUtils;
 
 public class QuantityCartPanel extends JPanel {
 
@@ -47,7 +48,18 @@ public class QuantityCartPanel extends JPanel {
     private boolean isOutOfStock = false;
 
     public QuantityCartPanel() {
-        setBackground(ColorPalette.BG_SECONDARY);
+        setupUI();
+        ColorPalette.getInstance().addPropertyChangeListener(e -> {
+            removeAll();
+            setupUI();
+            revalidate();
+            repaint();
+        });
+    }
+
+    private void setupUI() {
+        removeAll();
+        setBackground(ColorPalette.getInstance().getBgSecondary());
         setBorder(BorderFactory.createEmptyBorder(20, 15, 20, 15));
 
         setLayout(new GridBagLayout());
@@ -92,8 +104,8 @@ public class QuantityCartPanel extends JPanel {
 
         cartButton = new RoundedButton("Add to Cart", CORNER_RADIUS);
         cartButton.setFont(CART_FONT);
-        cartButton.setForeground(ColorPalette.TEXT_PRIMARY);
-        cartButton.setBackground(ColorPalette.ACCENT_SUCCESS);
+        cartButton.setForeground(ColorPalette.getInstance().getTextPrimary());
+        cartButton.setBackground(ColorPalette.getInstance().getAccentSuccess());
         cartButton.setPreferredSize(new Dimension(200, SQUARE_SIZE));
         cartButton.setContentAreaFilled(false);
         cartButton.setHasBorder(false);

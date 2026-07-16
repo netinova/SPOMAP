@@ -28,6 +28,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import Util.ColorPalette;
+import Util.UIUtils;
 
 public class ImageGallery extends JPanel {
 
@@ -45,12 +46,24 @@ public class ImageGallery extends JPanel {
     private JLabel[] dots;
 
     public ImageGallery() {
-        setBackground(ColorPalette.BG_MAIN);
+        imagePaths = new ArrayList<String>();
+        setupUI();
+        ColorPalette.getInstance().addPropertyChangeListener(e -> {
+            removeAll();
+            setupUI();
+            revalidate();
+            repaint();
+        });
+    }
+
+    private void setupUI() {
+        removeAll();
+        setBackground(ColorPalette.getInstance().getBgMain());
         setLayout(new BorderLayout());
         setPreferredSize(new Dimension(0, PREFERRED_HEIGHT));
 
         imagePanel = new JPanel(null);
-        imagePanel.setBackground(ColorPalette.BG_SECONDARY);
+        imagePanel.setBackground(ColorPalette.getInstance().getBgSecondary());
         imagePanel.setPreferredSize(new Dimension(0, PREFERRED_HEIGHT));
         imagePanel.addComponentListener(new ComponentAdapter() {
             @Override
@@ -79,25 +92,26 @@ public class ImageGallery extends JPanel {
 
         imagePanel.add(leftArrow);
         imagePanel.add(rightArrow);
-        
-        // Bring buttons to front so they're above the imageLabel
+
         imagePanel.setComponentZOrder(leftArrow, 0);
         imagePanel.setComponentZOrder(rightArrow, 0);
 
         add(imagePanel, BorderLayout.CENTER);
 
         dotPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 6, 6));
-        dotPanel.setBackground(ColorPalette.BG_SECONDARY);
+        dotPanel.setBackground(ColorPalette.getInstance().getBgSecondary());
         add(dotPanel, BorderLayout.SOUTH);
 
-        imagePaths = new ArrayList<String>();
+        if (!imagePaths.isEmpty()) {
+            updateDisplay();
+        }
     }
 
     private JButton createArrowButton(String text) {
         RoundedButton btn = new RoundedButton(text, 50);
         btn.setFont(btn.getFont().deriveFont(16f));
-        btn.setForeground(ColorPalette.TEXT_PRIMARY);
-        btn.setBackground(ColorPalette.BUTTON_NORMAL);
+        btn.setForeground(ColorPalette.getInstance().getTextPrimary());
+        btn.setBackground(ColorPalette.getInstance().getButtonNormal());
         btn.setFocusable(false);
         btn.setPreferredSize(ARROW_SIZE);
         btn.setSize(ARROW_SIZE);
@@ -152,7 +166,7 @@ public class ImageGallery extends JPanel {
         if (imagePaths.isEmpty()) {
             imageLabel.setIcon(null);
             imageLabel.setText("No image available");
-            imageLabel.setForeground(ColorPalette.TEXT_MUTED);
+            imageLabel.setForeground(ColorPalette.getInstance().getTextMuted());
             buildDots(0);
             return;
         }
@@ -173,7 +187,7 @@ public class ImageGallery extends JPanel {
         for (int i = 0; i < count; i++) {
             JLabel dot = new JLabel("●"); // Unicode filled circle
             dot.setFont(dot.getFont().deriveFont(16f)); // adjust size
-            dot.setForeground(ColorPalette.TEXT_MUTED);
+            dot.setForeground(ColorPalette.getInstance().getTextMuted());
             dot.setCursor(new Cursor(Cursor.HAND_CURSOR));
             final int index = i;
             dot.addMouseListener(new MouseAdapter() {
@@ -191,7 +205,8 @@ public class ImageGallery extends JPanel {
 
     private void highlightDot(int idx) {
         for (int i = 0; i < dots.length; i++) {
-            dots[i].setForeground(i == idx ? ColorPalette.ACCENT_PRIMARY : ColorPalette.TEXT_MUTED);
+            dots[i].setForeground(i == idx ? ColorPalette.getInstance().getAccentPrimary()
+                    : ColorPalette.getInstance().getTextMuted());
         }
     }
 

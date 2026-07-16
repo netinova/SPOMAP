@@ -23,6 +23,7 @@ import javax.swing.event.EventListenerList;
 import Model.Invoice;
 import Model.InvoiceStatus;
 import Util.ColorPalette;
+import Util.UIUtils;
 
 public class InvoiceCard extends JPanel {
 
@@ -38,6 +39,13 @@ public class InvoiceCard extends JPanel {
         this.showUserId = showUserId;
         setupUI();
         attachEvents();
+        ColorPalette.getInstance().addPropertyChangeListener(e -> {
+            removeAll();
+            setupUI();
+            attachEvents();
+            revalidate();
+            repaint();
+        });
     }
 
     public Invoice getInvoice() {
@@ -45,22 +53,22 @@ public class InvoiceCard extends JPanel {
     }
 
     private void setupUI() {
-        this.setBackground(ColorPalette.BG_SECONDARY);
+        this.setBackground(ColorPalette.getInstance().getBgSecondary());
         this.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(ColorPalette.BORDER, 1),
+                BorderFactory.createLineBorder(ColorPalette.getInstance().getBorder(), 1),
                 BorderFactory.createEmptyBorder(12, 16, 12, 16)));
 
         // Add hover effect
         addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent evt) {
                 setBorder(BorderFactory.createCompoundBorder(
-                        BorderFactory.createLineBorder(ColorPalette.ACCENT_PRIMARY, 2),
+                        BorderFactory.createLineBorder(ColorPalette.getInstance().getAccentPrimary(), 2),
                         BorderFactory.createEmptyBorder(12, 16, 12, 16)));
             }
 
             public void mouseExited(MouseEvent evt) {
                 setBorder(BorderFactory.createCompoundBorder(
-                        BorderFactory.createLineBorder(ColorPalette.BORDER, 1),
+                        BorderFactory.createLineBorder(ColorPalette.getInstance().getBorder(), 1),
                         BorderFactory.createEmptyBorder(12, 16, 12, 16)));
             }
         });
@@ -78,7 +86,7 @@ public class InvoiceCard extends JPanel {
 
         JLabel idLabel = new JLabel(invoice.getInvoiceId());
         idLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        idLabel.setForeground(ColorPalette.TEXT_PRIMARY);
+        idLabel.setForeground(ColorPalette.getInstance().getTextPrimary());
         idLabel.setAlignmentX(LEFT_ALIGNMENT);
         leftPanel.add(idLabel);
 
@@ -90,7 +98,7 @@ public class InvoiceCard extends JPanel {
                 : "—";
         JLabel dateLabel = new JLabel(dateStr);
         dateLabel.setFont(new Font("Segoe UI", Font.PLAIN, 12));
-        dateLabel.setForeground(ColorPalette.TEXT_MUTED);
+        dateLabel.setForeground(ColorPalette.getInstance().getTextMuted());
         dateLabel.setAlignmentX(LEFT_ALIGNMENT);
         leftPanel.add(dateLabel);
 
@@ -98,7 +106,7 @@ public class InvoiceCard extends JPanel {
             leftPanel.add(Box.createVerticalStrut(3));
             JLabel userIdLabel = new JLabel("User: " + invoice.getUserId());
             userIdLabel.setFont(new Font("Segoe UI", Font.PLAIN, 11));
-            userIdLabel.setForeground(ColorPalette.TEXT_PLACEHOLDER);
+            userIdLabel.setForeground(ColorPalette.getInstance().getTextPlaceholder());
             userIdLabel.setAlignmentX(LEFT_ALIGNMENT);
             leftPanel.add(userIdLabel);
         }
@@ -120,8 +128,8 @@ public class InvoiceCard extends JPanel {
         JLabel statusLabel = new JLabel(statusText);
         statusLabel.setFont(new Font("Segoe UI", Font.BOLD, 12));
         statusLabel.setForeground(invoice.getStatus() == InvoiceStatus.Paid
-                ? ColorPalette.ACCENT_SUCCESS
-                : ColorPalette.ACCENT_WARNING);
+                ? ColorPalette.getInstance().getAccentSuccess()
+                : ColorPalette.getInstance().getAccentWarning());
         statusLabel.setHorizontalAlignment(SwingConstants.RIGHT);
         rightPanel.add(statusLabel, gbc);
 
@@ -130,7 +138,7 @@ public class InvoiceCard extends JPanel {
         int itemCount = invoice.getItems() != null ? invoice.getItems().size() : 0;
         JLabel itemsLabel = new JLabel(itemCount + (itemCount == 1 ? " item" : " items"));
         itemsLabel.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-        itemsLabel.setForeground(ColorPalette.TEXT_MUTED);
+        itemsLabel.setForeground(ColorPalette.getInstance().getTextMuted());
         itemsLabel.setHorizontalAlignment(SwingConstants.RIGHT);
         rightPanel.add(itemsLabel, gbc);
 
@@ -139,7 +147,7 @@ public class InvoiceCard extends JPanel {
         gbc.insets = new Insets(6, 20, 0, 0);
         JLabel priceLabel = new JLabel(String.format("$%.2f", invoice.getFinalPrice()));
         priceLabel.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        priceLabel.setForeground(ColorPalette.ACCENT_PRIMARY);
+        priceLabel.setForeground(ColorPalette.getInstance().getAccentPrimary());
         priceLabel.setHorizontalAlignment(SwingConstants.RIGHT);
         rightPanel.add(priceLabel, gbc);
 

@@ -1,10 +1,8 @@
 import Components.MultiViewPanel;
 import Controller.AppController;
-import Controller.SettingController;
 import Model.AppState;
 import Model.Product;
 import Model.ProductCatalog;
-import Model.ShoppingCart;
 import Service.AnalyticsService;
 import Service.InvoiceService;
 import Model.UserLists.UserAdminList;
@@ -12,8 +10,8 @@ import Model.UserLists.UserNormalList;
 import Model.UserLists.UserPrimeList;
 import Service.ProductService;
 import Service.UserService;
-import Util.Stopwatch;
 import Util.ColorPalette;
+import Util.Stopwatch;
 import View.AuthenticationView;
 import View.InvoiceDetailView;
 import View.InvoiceView;
@@ -25,15 +23,10 @@ import View.ShoppingCartView;
 import View.SidebarView;
 import View.UserProfileView;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import javax.swing.*;
-import java.io.File;
+import java.awt.Color;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Locale;
-import java.util.Map;
 
 public class Main {
     public static void main(String[] args) throws IOException {

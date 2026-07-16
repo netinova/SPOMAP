@@ -6,6 +6,7 @@ import Components.LoginPanel;
 import Components.SingUpPanel;
 import Controller.AuthenticationController;
 import Util.ColorPalette;
+import Util.UIUtils;
 
 import java.awt.*;
 
@@ -22,6 +23,14 @@ public class AuthenticationView extends JPanel {
 
         setupUI();
         attachEvents();
+
+        ColorPalette.getInstance().addPropertyChangeListener(e -> {
+            removeAll();
+            setupUI();
+            attachEvents();
+            revalidate();
+            repaint();
+        });
     }
 
     private void attachEvents() {
@@ -60,7 +69,7 @@ public class AuthenticationView extends JPanel {
     }
 
     private void setupUI() {
-        this.setBackground(ColorPalette.BG_MAIN);
+        this.setBackground(ColorPalette.getInstance().getBgMain());
         this.setLayout(new GridBagLayout());
 
         cardLayout = new CardLayout();

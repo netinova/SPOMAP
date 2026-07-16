@@ -2,6 +2,7 @@ package Components;
 
 import Model.UserType;
 import Util.ColorPalette;
+import Util.UIUtils;
 import org.knowm.xchart.CategoryChart;
 import org.knowm.xchart.CategoryChartBuilder;
 import org.knowm.xchart.CategorySeries;
@@ -90,10 +91,17 @@ public class ProfileMainPanel extends JPanel {
         setupUI();
         createComponents();
         attachEvents();
+        ColorPalette.getInstance().addPropertyChangeListener(e -> {
+            removeAll();
+            setupUI();
+            attachEvents();
+            revalidate();
+            repaint();
+        });
     }
 
     private void setupUI() {
-        setBackground(ColorPalette.BG_MAIN);
+        setBackground(ColorPalette.getInstance().getBgMain());
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBorder(new EmptyBorder(30, 30, 30, 30));
     }
@@ -137,7 +145,8 @@ public class ProfileMainPanel extends JPanel {
     }
 
     private RoundedPanel createHeader() {
-        RoundedPanel panel = new RoundedPanel(borderRadius, ColorPalette.BG_SECONDARY, ColorPalette.BORDER);
+        RoundedPanel panel = new RoundedPanel(borderRadius, ColorPalette.getInstance().getBgSecondary(),
+                ColorPalette.getInstance().getBorder());
         panel.setLayout(new BorderLayout());
         panel.setBorder(new EmptyBorder(30, 40, 30, 40));
         panel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
@@ -157,11 +166,11 @@ public class ProfileMainPanel extends JPanel {
         namePanel.setLayout(new BoxLayout(namePanel, BoxLayout.Y_AXIS));
         nameLabel = new JLabel(String.format("Hi, %s", "UserFullName"));
         nameLabel.setFont(new Font("Arial", Font.BOLD, 22));
-        nameLabel.setForeground(ColorPalette.TEXT_PRIMARY);
+        nameLabel.setForeground(ColorPalette.getInstance().getTextPrimary());
 
         typeLabel = new JLabel("Normal User");
         typeLabel.setFont(new Font("Arial", Font.PLAIN, 13));
-        typeLabel.setForeground(ColorPalette.TEXT_MUTED);
+        typeLabel.setForeground(ColorPalette.getInstance().getTextMuted());
 
         namePanel.add(nameLabel);
         namePanel.add(typeLabel);
@@ -178,7 +187,8 @@ public class ProfileMainPanel extends JPanel {
     }
 
     private RoundedPanel createStatsMiddle() {
-        RoundedPanel panel = new RoundedPanel(borderRadius, ColorPalette.BG_SECONDARY, ColorPalette.BORDER);
+        RoundedPanel panel = new RoundedPanel(borderRadius, ColorPalette.getInstance().getBgSecondary(),
+                ColorPalette.getInstance().getBorder());
         panel.setLayout(new GridBagLayout());
         panel.setBorder(new EmptyBorder(25, 30, 25, 40));
 
@@ -212,18 +222,19 @@ public class ProfileMainPanel extends JPanel {
     }
 
     private RoundedPanel createStatCard(String label, String value) {
-        RoundedPanel card = new RoundedPanel(borderRadius, ColorPalette.BG_SECONDARY, ColorPalette.SELECTION_BG);
+        RoundedPanel card = new RoundedPanel(borderRadius, ColorPalette.getInstance().getBgSecondary(),
+                ColorPalette.getInstance().getSelectionBg());
         card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
         card.setBorder(new EmptyBorder(10, 14, 10, 14));
 
         JLabel labelComp = new JLabel(label);
         labelComp.setFont(new Font("Arial", Font.PLAIN, 12));
-        labelComp.setForeground(ColorPalette.TEXT_MUTED);
+        labelComp.setForeground(ColorPalette.getInstance().getTextMuted());
         labelComp.setAlignmentX(LEFT_ALIGNMENT);
 
         JLabel valueComp = new JLabel(value);
         valueComp.setFont(new Font("Arial", Font.BOLD, 22));
-        valueComp.setForeground(ColorPalette.ACCENT_PRIMARY);
+        valueComp.setForeground(ColorPalette.getInstance().getAccentPrimary());
         valueComp.setAlignmentX(LEFT_ALIGNMENT);
 
         card.add(labelComp);
@@ -240,9 +251,9 @@ public class ProfileMainPanel extends JPanel {
         panel.setLayout(new GridBagLayout());
 
         chargeWallet = new RoundedButton("Charge Wallet", borderRadius);
-        chargeWallet.setBackground(ColorPalette.ACCENT_SUCCESS);
-        chargeWallet.setHoverColor(new Color(0xB36FCF97, true));
-        chargeWallet.setForeground(ColorPalette.TEXT_PRIMARY);
+        chargeWallet.setBackground(ColorPalette.getInstance().getAccentSuccess());
+        chargeWallet.setHoverColor(ColorPalette.getInstance().getAccentSuccess());
+        chargeWallet.setForeground(ColorPalette.getInstance().getTextPrimary());
         chargeWallet.setFont(new Font("Arial", Font.PLAIN, 13));
         chargeWallet.setMaximumSize(new Dimension(150, 40));
         chargeWallet.setPreferredSize(new Dimension(150, 40));
@@ -257,9 +268,9 @@ public class ProfileMainPanel extends JPanel {
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
 
         logOut = new RoundedButton("Logout", borderRadius);
-        logOut.setBackground(new Color(0xde3c2f));
-        logOut.setHoverColor(new Color(0xAD3225));
-        logOut.setForeground(ColorPalette.TEXT_PRIMARY);
+        logOut.setBackground(ColorPalette.getInstance().getAccentDanger());
+        logOut.setHoverColor(ColorPalette.getInstance().getAccentDanger());
+        logOut.setForeground(ColorPalette.getInstance().getTextPrimary());
         logOut.setFont(new Font("Arial", Font.PLAIN, 12));
         logOut.setMaximumSize(new Dimension(90, 30));
         logOut.setPreferredSize(new Dimension(90, 30));
@@ -271,7 +282,8 @@ public class ProfileMainPanel extends JPanel {
     }
 
     private JPanel createPrimePanel() {
-        RoundedPanel panel = new RoundedPanel(borderRadius, ColorPalette.BG_SECONDARY, ColorPalette.ACCENT_PRIMARY);
+        RoundedPanel panel = new RoundedPanel(borderRadius, ColorPalette.getInstance().getBgSecondary(),
+                ColorPalette.getInstance().getAccentPrimary());
         panel.setLayout(new GridBagLayout());
         panel.setBorder(new EmptyBorder(20, 30, 20, 30));
         panel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
@@ -298,14 +310,15 @@ public class ProfileMainPanel extends JPanel {
     }
 
     private JPanel createAdminPanel() {
-        RoundedPanel panel = new RoundedPanel(borderRadius, ColorPalette.BG_SECONDARY, ColorPalette.ACCENT_WARNING);
+        RoundedPanel panel = new RoundedPanel(borderRadius, ColorPalette.getInstance().getBgSecondary(),
+                ColorPalette.getInstance().getAccentWarning());
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBorder(new EmptyBorder(20, 30, 20, 30));
         panel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 200));
 
         JLabel title = new JLabel("Admin Controls");
         title.setFont(new Font("Arial", Font.BOLD, 23));
-        title.setForeground(ColorPalette.TEXT_PRIMARY);
+        title.setForeground(ColorPalette.getInstance().getTextPrimary());
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.add(title);
 
@@ -319,8 +332,8 @@ public class ProfileMainPanel extends JPanel {
         manageUserBtn.setPreferredSize(new Dimension(250, 70));
         manageUserBtn.setMaximumSize(new Dimension(250, 70));
         manageUserBtn.setFont(new Font("Arial", Font.BOLD, 17));
-        manageUserBtn.setBackground(ColorPalette.ACCENT_WARNING);
-        manageUserBtn.setForeground(ColorPalette.TEXT_PRIMARY);
+        manageUserBtn.setBackground(ColorPalette.getInstance().getAccentWarning());
+        manageUserBtn.setForeground(ColorPalette.getInstance().getTextPrimary());
         btnPanel.add(manageUserBtn);
         btnPanel.add(Box.createHorizontalStrut(10));
 
@@ -328,8 +341,8 @@ public class ProfileMainPanel extends JPanel {
         logShopBtn.setPreferredSize(new Dimension(250, 70));
         logShopBtn.setMaximumSize(new Dimension(250, 70));
         logShopBtn.setFont(new Font("Arial", Font.BOLD, 17));
-        logShopBtn.setBackground(ColorPalette.ACCENT_WARNING);
-        logShopBtn.setForeground(ColorPalette.TEXT_PRIMARY);
+        logShopBtn.setBackground(ColorPalette.getInstance().getAccentWarning());
+        logShopBtn.setForeground(ColorPalette.getInstance().getTextPrimary());
         btnPanel.add(logShopBtn);
         btnPanel.add(Box.createHorizontalStrut(10));
 
@@ -337,8 +350,8 @@ public class ProfileMainPanel extends JPanel {
         addProductBtn.setPreferredSize(new Dimension(250, 70));
         addProductBtn.setMaximumSize(new Dimension(250, 70));
         addProductBtn.setFont(new Font("Arial", Font.BOLD, 17));
-        addProductBtn.setBackground(ColorPalette.ACCENT_WARNING);
-        addProductBtn.setForeground(ColorPalette.TEXT_PRIMARY);
+        addProductBtn.setBackground(ColorPalette.getInstance().getAccentWarning());
+        addProductBtn.setForeground(ColorPalette.getInstance().getTextPrimary());
         btnPanel.add(addProductBtn);
 
         panel.add(btnPanel);
@@ -347,7 +360,8 @@ public class ProfileMainPanel extends JPanel {
     }
 
     private JPanel createQuickActionPanel() {
-        RoundedPanel panel = new RoundedPanel(borderRadius, ColorPalette.BG_SECONDARY, ColorPalette.ACCENT_WARNING);
+        RoundedPanel panel = new RoundedPanel(borderRadius, ColorPalette.getInstance().getBgSecondary(),
+                ColorPalette.getInstance().getAccentWarning());
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBorder(new EmptyBorder(20, 30, 20, 30));
         panel.setPreferredSize(new Dimension(400, 0));
@@ -355,7 +369,7 @@ public class ProfileMainPanel extends JPanel {
 
         JLabel title = new JLabel("Quick Actions");
         title.setFont(new Font("Arial", Font.BOLD, 23));
-        title.setForeground(ColorPalette.TEXT_PRIMARY);
+        title.setForeground(ColorPalette.getInstance().getTextPrimary());
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.add(title);
 
@@ -369,8 +383,8 @@ public class ProfileMainPanel extends JPanel {
         viewInvoiceBtn.setPreferredSize(new Dimension(250, 70));
         viewInvoiceBtn.setMaximumSize(new Dimension(250, 70));
         viewInvoiceBtn.setFont(new Font("Arial", Font.BOLD, 17));
-        viewInvoiceBtn.setBackground(ColorPalette.ACCENT_WARNING);
-        viewInvoiceBtn.setForeground(ColorPalette.TEXT_PRIMARY);
+        viewInvoiceBtn.setBackground(ColorPalette.getInstance().getAccentWarning());
+        viewInvoiceBtn.setForeground(ColorPalette.getInstance().getTextPrimary());
         btnPanel.add(viewInvoiceBtn);
         btnPanel.add(Box.createHorizontalStrut(10));
 
@@ -378,8 +392,8 @@ public class ProfileMainPanel extends JPanel {
         shoppingCartBtn.setPreferredSize(new Dimension(250, 70));
         shoppingCartBtn.setMaximumSize(new Dimension(250, 70));
         shoppingCartBtn.setFont(new Font("Arial", Font.BOLD, 17));
-        shoppingCartBtn.setBackground(ColorPalette.ACCENT_WARNING);
-        shoppingCartBtn.setForeground(ColorPalette.TEXT_PRIMARY);
+        shoppingCartBtn.setBackground(ColorPalette.getInstance().getAccentWarning());
+        shoppingCartBtn.setForeground(ColorPalette.getInstance().getTextPrimary());
         btnPanel.add(shoppingCartBtn);
         btnPanel.add(Box.createHorizontalStrut(10));
 
@@ -387,8 +401,8 @@ public class ProfileMainPanel extends JPanel {
         settingBtn.setPreferredSize(new Dimension(250, 70));
         settingBtn.setMaximumSize(new Dimension(250, 70));
         settingBtn.setFont(new Font("Arial", Font.BOLD, 17));
-        settingBtn.setBackground(ColorPalette.ACCENT_WARNING);
-        settingBtn.setForeground(ColorPalette.TEXT_PRIMARY);
+        settingBtn.setBackground(ColorPalette.getInstance().getAccentWarning());
+        settingBtn.setForeground(ColorPalette.getInstance().getTextPrimary());
         btnPanel.add(settingBtn);
 
         panel.add(btnPanel);
@@ -423,7 +437,8 @@ public class ProfileMainPanel extends JPanel {
     }
 
     private JPanel createMonthlyBarChart() {
-        RoundedPanel panel = new RoundedPanel(borderRadius, ColorPalette.BG_SECONDARY, ColorPalette.BORDER);
+        RoundedPanel panel = new RoundedPanel(borderRadius, ColorPalette.getInstance().getBgSecondary(),
+                ColorPalette.getInstance().getBorder());
         panel.setLayout(new BorderLayout());
         panel.setBorder(new EmptyBorder(10, 10, 10, 10));
         panel.setPreferredSize(new Dimension(600, 470));
@@ -440,17 +455,18 @@ public class ProfileMainPanel extends JPanel {
                 .build();
 
         // custom style
-        categoryChartMonthly.getStyler().setChartBackgroundColor(ColorPalette.BG_SECONDARY);
-        categoryChartMonthly.getStyler().setPlotBackgroundColor(ColorPalette.BG_SECONDARY);
-        categoryChartMonthly.getStyler().setAnnotationTextFontColor(ColorPalette.TEXT_PRIMARY);
-        categoryChartMonthly.getStyler().setChartTitleFontColor(ColorPalette.TEXT_PRIMARY);
-        categoryChartMonthly.getStyler().setChartFontColor(ColorPalette.TEXT_PRIMARY);
-        categoryChartMonthly.getStyler().setXAxisTitleColor(ColorPalette.TEXT_PRIMARY);
-        categoryChartMonthly.getStyler().setYAxisTitleColor(ColorPalette.TEXT_PRIMARY);
-        categoryChartMonthly.getStyler().setLegendBackgroundColor(ColorPalette.BG_SECONDARY);
-        categoryChartMonthly.getStyler().setAxisTickLabelsColor(ColorPalette.TEXT_PRIMARY);
+        categoryChartMonthly.getStyler().setChartBackgroundColor(ColorPalette.getInstance().getBgSecondary());
+        categoryChartMonthly.getStyler().setPlotBackgroundColor(ColorPalette.getInstance().getBgSecondary());
+        categoryChartMonthly.getStyler().setAnnotationTextFontColor(ColorPalette.getInstance().getTextPrimary());
+        categoryChartMonthly.getStyler().setChartTitleFontColor(ColorPalette.getInstance().getTextPrimary());
+        categoryChartMonthly.getStyler().setChartFontColor(ColorPalette.getInstance().getTextPrimary());
+        categoryChartMonthly.getStyler().setXAxisTitleColor(ColorPalette.getInstance().getTextPrimary());
+        categoryChartMonthly.getStyler().setYAxisTitleColor(ColorPalette.getInstance().getTextPrimary());
+        categoryChartMonthly.getStyler().setLegendBackgroundColor(ColorPalette.getInstance().getBgSecondary());
+        categoryChartMonthly.getStyler().setAxisTickLabelsColor(ColorPalette.getInstance().getTextPrimary());
         categoryChartMonthly.getStyler()
-                .setSeriesColors(new Color[] { ColorPalette.ACCENT_PRIMARY, ColorPalette.ACCENT_WARNING });
+                .setSeriesColors(new Color[] { ColorPalette.getInstance().getAccentPrimary(),
+                        ColorPalette.getInstance().getAccentWarning() });
         categoryChartMonthly.getStyler().setDecimalPattern("#,##0.00");
         categoryChartMonthly.getStyler().setDefaultSeriesRenderStyle(CategorySeries.CategorySeriesRenderStyle.Bar);
 
@@ -463,29 +479,31 @@ public class ProfileMainPanel extends JPanel {
     }
 
     private JPanel crateStatusPanel() {
-        RoundedPanel panel = new RoundedPanel(borderRadius, ColorPalette.BG_SECONDARY, ColorPalette.BORDER);
+        RoundedPanel panel = new RoundedPanel(borderRadius, ColorPalette.getInstance().getBgSecondary(),
+                ColorPalette.getInstance().getBorder());
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBorder(new EmptyBorder(20, 20, 20, 20));
 
-        RoundedPanel ranking = new RoundedPanel(borderRadius, ColorPalette.BG_TERTIARY, ColorPalette.BORDER);
+        RoundedPanel ranking = new RoundedPanel(borderRadius, ColorPalette.getInstance().getBgTertiary(),
+                ColorPalette.getInstance().getBorder());
         ranking.setBorder(new EmptyBorder(5, 8, 5, 8));
         ranking.setLayout(new BoxLayout(ranking, BoxLayout.Y_AXIS));
 
         JLabel title = new JLabel("Ranking");
         title.setFont(new Font("Arial", Font.BOLD, 18));
-        title.setForeground(ColorPalette.TEXT_PRIMARY);
+        title.setForeground(ColorPalette.getInstance().getTextPrimary());
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         ranking.add(Box.createVerticalStrut(10));
         ranking.add(title);
         ranking.add(Box.createVerticalStrut(25));
-        ranking.add(createLineRank("1  ", ColorPalette.BG_MAIN));
+        ranking.add(createLineRank("1  ", ColorPalette.getInstance().getBgMain()));
         rank1Label = tempLabel;
         ranking.add(Box.createVerticalStrut(5));
-        ranking.add(createLineRank("2  ", ColorPalette.BG_SECONDARY));
+        ranking.add(createLineRank("2  ", ColorPalette.getInstance().getBgSecondary()));
         rank2Label = tempLabel;
         ranking.add(Box.createVerticalStrut(5));
-        ranking.add(createLineRank("3  ", ColorPalette.BG_MAIN));
+        ranking.add(createLineRank("3  ", ColorPalette.getInstance().getBgMain()));
         rank3Label = tempLabel;
         ranking.add(Box.createVerticalStrut(3));
         panel.add(ranking);
@@ -502,7 +520,7 @@ public class ProfileMainPanel extends JPanel {
     }
 
     private JPanel createLineRank(String rank, Color backGroundColor) {
-        RoundedPanel rankPanel = new RoundedPanel(10, backGroundColor, ColorPalette.BORDER);
+        RoundedPanel rankPanel = new RoundedPanel(10, backGroundColor, ColorPalette.getInstance().getBorder());
         rankPanel.setBackground(backGroundColor);
         rankPanel.setBorder(new EmptyBorder(10, 15, 10, 15));
         rankPanel.setPreferredSize(new Dimension(150, 50));
@@ -510,12 +528,12 @@ public class ProfileMainPanel extends JPanel {
 
         JLabel rankLabel = new JLabel(rank);
         rankLabel.setFont(new Font("Arial", Font.PLAIN, 15));
-        rankLabel.setForeground(ColorPalette.TEXT_PRIMARY);
+        rankLabel.setForeground(ColorPalette.getInstance().getTextPrimary());
         rankLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         JLabel rankValue = new JLabel("----");
         rankValue.setFont(new Font("Arial", Font.PLAIN, 15));
-        rankValue.setForeground(ColorPalette.TEXT_PRIMARY);
+        rankValue.setForeground(ColorPalette.getInstance().getTextPrimary());
         rankValue.setAlignmentX(Component.RIGHT_ALIGNMENT);
         tempLabel = rankValue;
 
@@ -527,21 +545,22 @@ public class ProfileMainPanel extends JPanel {
     }
 
     public JPanel createLineStatus(String key) {
-        RoundedPanel panel = new RoundedPanel(borderRadius, ColorPalette.BG_TERTIARY, ColorPalette.BORDER);
+        RoundedPanel panel = new RoundedPanel(borderRadius, ColorPalette.getInstance().getBgTertiary(),
+                ColorPalette.getInstance().getBorder());
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
         panel.setPreferredSize(new Dimension(150, 50));
         panel.setBorder(new EmptyBorder(20, 20, 20, 20));
 
         JLabel keyLabel = new JLabel(key);
         keyLabel.setFont(new Font("Arial", Font.PLAIN, 15));
-        keyLabel.setForeground(ColorPalette.TEXT_PRIMARY);
+        keyLabel.setForeground(ColorPalette.getInstance().getTextPrimary());
         keyLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         panel.add(keyLabel);
         panel.add(Box.createHorizontalGlue());
 
         JLabel valueLabel = new JLabel("----");
         valueLabel.setFont(new Font("Arial", Font.PLAIN, 15));
-        valueLabel.setForeground(ColorPalette.TEXT_PRIMARY);
+        valueLabel.setForeground(ColorPalette.getInstance().getTextPrimary());
         valueLabel.setAlignmentX(Component.RIGHT_ALIGNMENT);
         panel.add(valueLabel);
         tempLabel = valueLabel;

@@ -7,20 +7,16 @@ import Util.ColorPalette;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.plaf.basic.BasicScrollBarUI;
+import Util.UIUtils;
+
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.File;
@@ -44,7 +40,7 @@ public class AddProductPanel extends JPanel {
 
     private File selectedFile;
 
-    //    private ColorMultiSelect colorMultiSelect;
+    // private ColorMultiSelect colorMultiSelect;
     private ColorSelectorPanel colorMultiSelect;
 
     // specs
@@ -56,7 +52,7 @@ public class AddProductPanel extends JPanel {
     private FormTextFiledPanel specKeyPanel;
     private FormTextFiledPanel specValuePanel;
 
-    //image
+    // image
     private final List<String> productImages = new ArrayList<>();
     private JPanel imagesListPanel;
 
@@ -80,7 +76,6 @@ public class AddProductPanel extends JPanel {
     public static final String MANUFACTURER_PROP = "manufacturer";
     public static final String DESCRIPTION_PROP = "description";
 
-
     public void setController(UserProfileController controller) {
         this.controller = controller;
     }
@@ -90,17 +85,24 @@ public class AddProductPanel extends JPanel {
     }
 
     public AddProductPanel() {
-        setOpaque(false);
-        setLayout(new BorderLayout());
         setupUI();
         attachEvents();
+        ColorPalette.getInstance().addPropertyChangeListener(e -> {
+            removeAll();
+            setupUI();
+            attachEvents();
+            revalidate();
+            repaint();
+        });
     }
 
     private void setupUI() {
+        setOpaque(false);
+        setLayout(new BorderLayout());
         cardLayout = new CardLayout();
         cardPanel = new JPanel(cardLayout);
-//        cardPanel.setOpaque(false);
-        cardPanel.setBackground(ColorPalette.BG_MAIN);
+        // cardPanel.setOpaque(false);
+        cardPanel.setBackground(ColorPalette.getInstance().getBgMain());
         cardPanel.add(buildFormPage(), "FORM");
         cardPanel.add(buildSpecPage(), "ADD_SPEC");
         cardPanel.add(buildImagePage(), "ADD_IMAGE");
@@ -110,15 +112,15 @@ public class AddProductPanel extends JPanel {
 
     private JPanel buildFormPage() {
         JPanel borderPanel = new JPanel();
-        borderPanel.setBackground(ColorPalette.BG_MAIN);
+        borderPanel.setBackground(ColorPalette.getInstance().getBgMain());
         borderPanel.setLayout(new BorderLayout());
         borderPanel.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createEmptyBorder(10, 10, 10, 10),
-                BorderFactory.createLineBorder(ColorPalette.BORDER)));
+                BorderFactory.createLineBorder(ColorPalette.getInstance().getBorder())));
 
         JPanel content = new JPanel(new GridBagLayout());
-//        content.setOpaque(false);
-        content.setBackground(ColorPalette.BG_SECONDARY);
+        // content.setOpaque(false);
+        content.setBackground(ColorPalette.getInstance().getBgSecondary());
         content.setBorder(new EmptyBorder(30, 40, 30, 40));
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -128,7 +130,7 @@ public class AddProductPanel extends JPanel {
 
         JLabel title = new JLabel("Add New Product");
         title.setFont(new Font("Segoe UI", Font.BOLD, 22));
-        title.setForeground(ColorPalette.TEXT_PRIMARY);
+        title.setForeground(ColorPalette.getInstance().getTextPrimary());
         title.setHorizontalAlignment(JLabel.CENTER);
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -141,17 +143,17 @@ public class AddProductPanel extends JPanel {
         gbc.weightx = 0.5;
         gbc.insets = new Insets(4, 6, 4, 6);
 
-        //row 1
+        // row 1
         gbc.gridy = 1;
         nameField = new RoundedInputText("Product name", 5);
-        nameField.setColorBG(ColorPalette.BG_MAIN);
+        nameField.setColorBG(ColorPalette.getInstance().getBgMain());
         nameField.repaint();
         namePanel = new FormTextFiledPanel("Name", nameField, NAME_PROP);
         gbc.gridx = 0;
         content.add(namePanel, gbc);
 
         priceField = new RoundedInputText("e.g. 10.99", 5);
-        priceField.setColorBG(ColorPalette.BG_MAIN);
+        priceField.setColorBG(ColorPalette.getInstance().getBgMain());
         priceField.repaint();
         pricePanel = new FormTextFiledPanel("Price", priceField, PRICE_PROP);
         gbc.gridx = 1;
@@ -159,22 +161,23 @@ public class AddProductPanel extends JPanel {
 
         gbc.gridy = 2;
         discountField = new RoundedInputText("0 - 100", 5);
-        discountField.setColorBG(ColorPalette.BG_MAIN);
+        discountField.setColorBG(ColorPalette.getInstance().getBgMain());
         discountField.repaint();
         discountPanel = new FormTextFiledPanel("Discount %", discountField, DISCOUNT_PROP);
         gbc.gridx = 0;
         content.add(discountPanel, gbc);
 
         manufacturerField = new RoundedInputText("Manufacturer", 5);
-        manufacturerField.setColorBG(ColorPalette.BG_MAIN);
+        manufacturerField.setColorBG(ColorPalette.getInstance().getBgMain());
         manufacturerField.repaint();
-        FormTextFiledPanel manufacturerPanel = new FormTextFiledPanel("Manufacturer", manufacturerField, "manufacturer");
+        FormTextFiledPanel manufacturerPanel = new FormTextFiledPanel("Manufacturer", manufacturerField,
+                "manufacturer");
         gbc.gridx = 1;
         content.add(manufacturerPanel, gbc);
 
         gbc.gridy = 3;
         descriptionField = new RoundedInputText("Explain about product", 5);
-        descriptionField.setColorBG(ColorPalette.BG_MAIN);
+        descriptionField.setColorBG(ColorPalette.getInstance().getBgMain());
         descriptionField.repaint();
         FormTextFiledPanel descriptionPanel = new FormTextFiledPanel("Description", descriptionField, "thumbnail");
         gbc.gridx = 0;
@@ -196,7 +199,7 @@ public class AddProductPanel extends JPanel {
         gbc.insets = new Insets(2, 6, 4, 6);
         content.add(colorMultiSelect, gbc);
 
-        //Spec
+        // Spec
         gbc.gridy = 6;
         gbc.insets = new Insets(14, 6, 2, 6);
         content.add(createLabel("Technical Specs"), gbc);
@@ -209,8 +212,8 @@ public class AddProductPanel extends JPanel {
 
         RoundedButton addSpecBtn = new RoundedButton("+ Add Spec", 12);
         addSpecBtn.setPreferredSize(new Dimension(130, 34));
-        addSpecBtn.setBackground(ColorPalette.BG_TERTIARY);
-        addSpecBtn.setForeground(ColorPalette.TEXT_PRIMARY);
+        addSpecBtn.setBackground(ColorPalette.getInstance().getBgTertiary());
+        addSpecBtn.setForeground(ColorPalette.getInstance().getTextPrimary());
         addSpecBtn.addActionListener(e -> cardLayout.show(cardPanel, "ADD_SPEC"));
 
         JPanel specBtnPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -232,8 +235,8 @@ public class AddProductPanel extends JPanel {
 
         RoundedButton addImageBtn = new RoundedButton("+ Add Image", 12);
         addImageBtn.setPreferredSize(new Dimension(130, 34));
-        addImageBtn.setBackground(ColorPalette.BG_TERTIARY);
-        addImageBtn.setForeground(ColorPalette.TEXT_PRIMARY);
+        addImageBtn.setBackground(ColorPalette.getInstance().getBgTertiary());
+        addImageBtn.setForeground(ColorPalette.getInstance().getTextPrimary());
         addImageBtn.addActionListener(e -> cardLayout.show(cardPanel, "ADD_IMAGE"));
 
         JPanel imageBtnPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -249,14 +252,14 @@ public class AddProductPanel extends JPanel {
 
         saveBtn = new RoundedButton("Add Product", 15);
         saveBtn.setPreferredSize(new Dimension(140, 40));
-        saveBtn.setBackground(new Color(75, 173, 79));
-        saveBtn.setForeground(Color.WHITE);
+        saveBtn.setBackground(ColorPalette.getInstance().getAccentConfirm());
+        saveBtn.setForeground(ColorPalette.getInstance().getTextPrimary());
 
         cancelBtn = new RoundedButton("Cancel", 15);
         cancelBtn.setPreferredSize(new Dimension(120, 40));
-        cancelBtn.setBackground(new Color(0xde3c2f));
-        cancelBtn.setHoverColor(new Color(0xAD3225));
-        cancelBtn.setForeground(ColorPalette.TEXT_PRIMARY);
+        cancelBtn.setBackground(ColorPalette.getInstance().getAccentDanger());
+        cancelBtn.setHoverColor(ColorPalette.getInstance().getAccentDanger());
+        cancelBtn.setForeground(ColorPalette.getInstance().getTextPrimary());
 
         btnRow.add(saveBtn);
         btnRow.add(cancelBtn);
@@ -273,8 +276,8 @@ public class AddProductPanel extends JPanel {
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         scrollPane.setBorder(null);
-        scrollPane.setBackground(ColorPalette.BG_MAIN);
-        styleScrollBar(scrollPane.getVerticalScrollBar());
+        scrollPane.setBackground(ColorPalette.getInstance().getBgMain());
+        UIUtils.styleScrollBar(scrollPane.getVerticalScrollBar());
 
         JPanel page = new JPanel(new BorderLayout());
         page.setOpaque(false);
@@ -286,7 +289,8 @@ public class AddProductPanel extends JPanel {
         JPanel page = new JPanel(new GridBagLayout());
         page.setOpaque(false);
 
-        RoundedPanel container = new RoundedPanel(25, ColorPalette.BG_SECONDARY, ColorPalette.BORDER);
+        RoundedPanel container = new RoundedPanel(25, ColorPalette.getInstance().getBgSecondary(),
+                ColorPalette.getInstance().getBorder());
         container.setLayout(new GridBagLayout());
         container.setBorder(new EmptyBorder(40, 50, 40, 50));
 
@@ -297,7 +301,7 @@ public class AddProductPanel extends JPanel {
 
         JLabel title = new JLabel("Add Technical Spec");
         title.setFont(new Font("Segoe UI", Font.BOLD, 20));
-        title.setForeground(ColorPalette.TEXT_PRIMARY);
+        title.setForeground(ColorPalette.getInstance().getTextPrimary());
         title.setHorizontalAlignment(JLabel.CENTER);
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -305,7 +309,7 @@ public class AddProductPanel extends JPanel {
         container.add(title, gbc);
 
         specKeyField = new RoundedInputText("e.g. Mass", 5);
-        specKeyField.setColorBG(ColorPalette.BG_MAIN);
+        specKeyField.setColorBG(ColorPalette.getInstance().getBgMain());
         specKeyField.repaint();
         specKeyPanel = new FormTextFiledPanel("Key", specKeyField, "specKey");
         specKeyField.addActionListener(e -> {
@@ -320,7 +324,7 @@ public class AddProductPanel extends JPanel {
         container.add(specKeyPanel, gbc);
 
         specValueField = new RoundedInputText("e.g. 250g", 5);
-        specValueField.setColorBG(ColorPalette.BG_MAIN);
+        specValueField.setColorBG(ColorPalette.getInstance().getBgMain());
         specValueField.repaint();
         specValuePanel = new FormTextFiledPanel("Value", specValueField, "specValue");
         specValueField.addActionListener(e -> {
@@ -338,13 +342,13 @@ public class AddProductPanel extends JPanel {
 
         RoundedButton confirmSpecBtn = new RoundedButton("Add", 15);
         confirmSpecBtn.setPreferredSize(new Dimension(110, 38));
-        confirmSpecBtn.setBackground(new Color(75, 173, 79));
-        confirmSpecBtn.setForeground(Color.WHITE);
+        confirmSpecBtn.setBackground(ColorPalette.getInstance().getAccentConfirm());
+        confirmSpecBtn.setForeground(ColorPalette.getInstance().getTextPrimary());
 
         RoundedButton backSpecBtn = new RoundedButton("Back", 15);
         backSpecBtn.setPreferredSize(new Dimension(110, 38));
-        backSpecBtn.setBackground(ColorPalette.BG_TERTIARY);
-        backSpecBtn.setForeground(ColorPalette.TEXT_PRIMARY);
+        backSpecBtn.setBackground(ColorPalette.getInstance().getBgTertiary());
+        backSpecBtn.setForeground(ColorPalette.getInstance().getTextPrimary());
 
         btnRow.add(confirmSpecBtn);
         btnRow.add(backSpecBtn);
@@ -402,7 +406,8 @@ public class AddProductPanel extends JPanel {
         JPanel page = new JPanel(new GridBagLayout());
         page.setOpaque(false);
 
-        RoundedPanel container = new RoundedPanel(25, ColorPalette.BG_SECONDARY, ColorPalette.BORDER);
+        RoundedPanel container = new RoundedPanel(25, ColorPalette.getInstance().getBgSecondary(),
+                ColorPalette.getInstance().getBorder());
         container.setLayout(new GridBagLayout());
         container.setBorder(new EmptyBorder(40, 50, 40, 50));
 
@@ -413,7 +418,7 @@ public class AddProductPanel extends JPanel {
 
         JLabel title = new JLabel("Add Product Image");
         title.setFont(new Font("Segoe UI", Font.BOLD, 20));
-        title.setForeground(ColorPalette.TEXT_PRIMARY);
+        title.setForeground(ColorPalette.getInstance().getTextPrimary());
         title.setHorizontalAlignment(JLabel.CENTER);
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -428,7 +433,7 @@ public class AddProductPanel extends JPanel {
         pathPanel.setOpaque(false);
 
         imagePathField = new RoundedInputText("database/pictures/...", 5);
-        imagePathField.setColorBG(ColorPalette.BG_MAIN);
+        imagePathField.setColorBG(ColorPalette.getInstance().getBgMain());
         imagePathField.repaint();
         imagePathField.setPreferredSize(new Dimension(0, 40));
         imagePathField.setEnabled(false);
@@ -463,13 +468,13 @@ public class AddProductPanel extends JPanel {
 
         RoundedButton confirmImageBtn = new RoundedButton("Add", 15);
         confirmImageBtn.setPreferredSize(new Dimension(110, 38));
-        confirmImageBtn.setBackground(new Color(75, 173, 79));
-        confirmImageBtn.setForeground(Color.WHITE);
+        confirmImageBtn.setBackground(ColorPalette.getInstance().getAccentConfirm());
+        confirmImageBtn.setForeground(ColorPalette.getInstance().getTextPrimary());
 
         RoundedButton backImageBtn = new RoundedButton("Back", 15);
         backImageBtn.setPreferredSize(new Dimension(110, 38));
-        backImageBtn.setBackground(ColorPalette.BG_TERTIARY);
-        backImageBtn.setForeground(ColorPalette.TEXT_PRIMARY);
+        backImageBtn.setBackground(ColorPalette.getInstance().getBgTertiary());
+        backImageBtn.setForeground(ColorPalette.getInstance().getTextPrimary());
 
         btnRow.add(confirmImageBtn);
         btnRow.add(backImageBtn);
@@ -538,13 +543,13 @@ public class AddProductPanel extends JPanel {
 
             JLabel label = new JLabel(entry.getKey() + ": " + entry.getValue());
             label.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-            label.setForeground(ColorPalette.TEXT_PRIMARY);
+            label.setForeground(ColorPalette.getInstance().getTextPrimary());
 
             RoundedButton removeBtn = new RoundedButton("×", 25);
             removeBtn.setPreferredSize(new Dimension(25, 25));
-            removeBtn.setBackground(new Color(0xde3c2f));
-            removeBtn.setHoverColor(new Color(0xC6DE3C2F, true));
-            removeBtn.setForeground(ColorPalette.TEXT_PRIMARY);
+            removeBtn.setBackground(ColorPalette.getInstance().getAccentDanger());
+            removeBtn.setHoverColor(ColorPalette.getInstance().getAccentDanger());
+            removeBtn.setForeground(ColorPalette.getInstance().getTextPrimary());
             removeBtn.setBorder(new EmptyBorder(0, 0, 0, 0));
             removeBtn.setFont(new Font("Segoe UI", Font.PLAIN, 13));
             removeBtn.setHasBorder(false);
@@ -580,13 +585,13 @@ public class AddProductPanel extends JPanel {
 
             JLabel label = new JLabel(path);
             label.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-            label.setForeground(ColorPalette.TEXT_PRIMARY);
+            label.setForeground(ColorPalette.getInstance().getTextPrimary());
 
             RoundedButton removeBtn = new RoundedButton("×", 25);
             removeBtn.setPreferredSize(new Dimension(25, 25));
-            removeBtn.setBackground(new Color(0xde3c2f));
-            removeBtn.setHoverColor(new Color(0xC6DE3C2F, true));
-            removeBtn.setForeground(ColorPalette.TEXT_PRIMARY);
+            removeBtn.setBackground(ColorPalette.getInstance().getAccentDanger());
+            removeBtn.setHoverColor(ColorPalette.getInstance().getAccentDanger());
+            removeBtn.setForeground(ColorPalette.getInstance().getTextPrimary());
             removeBtn.setBorder(new EmptyBorder(0, 0, 0, 0));
             removeBtn.setFont(new Font("Segoe UI", Font.PLAIN, 13));
             removeBtn.setHasBorder(false);
@@ -610,54 +615,8 @@ public class AddProductPanel extends JPanel {
     private JLabel createLabel(String text) {
         JLabel lbl = new JLabel(text);
         lbl.setFont(new Font("Segoe UI", Font.BOLD, 13));
-        lbl.setForeground(ColorPalette.TEXT_MUTED);
+        lbl.setForeground(ColorPalette.getInstance().getTextMuted());
         return lbl;
-    }
-
-    private void styleScrollBar(JScrollBar bar) {
-        bar.setUI(new BasicScrollBarUI() {
-            @Override
-            protected void configureScrollBarColors() {
-                this.trackColor = ColorPalette.BG_MAIN;
-                this.thumbColor = ColorPalette.BG_TERTIARY;
-            }
-
-            @Override
-            protected JButton createDecreaseButton(int o) {
-                return zeroBtn();
-            }
-
-            @Override
-            protected JButton createIncreaseButton(int o) {
-                return zeroBtn();
-            }
-
-            private JButton zeroBtn() {
-                JButton b = new JButton();
-                b.setPreferredSize(new Dimension(0, 0));
-                b.setMinimumSize(new Dimension(0, 0));
-                b.setMaximumSize(new Dimension(0, 0));
-                return b;
-            }
-
-            @Override
-            protected void paintThumb(Graphics g, JComponent c, Rectangle r) {
-                if (r.isEmpty() || !scrollbar.isEnabled()) return;
-                Graphics2D g2 = (Graphics2D) g.create();
-                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                g2.setColor(thumbColor);
-                g2.fillRoundRect(r.x, r.y, r.width - 1, r.height - 1, 8, 8);
-                g2.dispose();
-            }
-
-            @Override
-            protected void paintTrack(Graphics g, JComponent c, Rectangle r) {
-                g.setColor(trackColor);
-                g.fillRect(r.x, r.y, r.width, r.height);
-            }
-        });
-        bar.setPreferredSize(new Dimension(8, 0));
-        bar.setUnitIncrement(16);
     }
 
     public String getProductName() {
@@ -745,7 +704,8 @@ public class AddProductPanel extends JPanel {
             var result = controller.validateDouble(discountField.getText());
             if (!result.isValid())
                 discountPanel.setError(result.getErrorMessage());
-            else if (Double.parseDouble(discountField.getText()) > 100 || Double.parseDouble(discountField.getText()) < 0)
+            else if (Double.parseDouble(discountField.getText()) > 100
+                    || Double.parseDouble(discountField.getText()) < 0)
                 discountPanel.setError("Must be between 0 and 100");
             else
                 discountPanel.clearError();

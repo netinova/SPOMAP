@@ -22,6 +22,7 @@ import javax.swing.event.EventListenerList;
 import Model.CartItem;
 import Model.Product;
 import Util.ColorPalette;
+import Util.UIUtils;
 
 public class ShoppingCartItemCard extends JPanel {
 
@@ -44,6 +45,13 @@ public class ShoppingCartItemCard extends JPanel {
         this.cartItem = cartItem;
         setupUI();
         attachEvents();
+        ColorPalette.getInstance().addPropertyChangeListener(e -> {
+            removeAll();
+            setupUI();
+            attachEvents();
+            revalidate();
+            repaint();
+        });
     }
 
     public CartItem getCartItem() {
@@ -69,22 +77,22 @@ public class ShoppingCartItemCard extends JPanel {
     private void setupUI() {
         Product product = cartItem.getProduct();
 
-        this.setBackground(ColorPalette.BG_SECONDARY);
+        this.setBackground(ColorPalette.getInstance().getBgSecondary());
         setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(ColorPalette.BORDER, 1),
+                BorderFactory.createLineBorder(ColorPalette.getInstance().getBorder(), 1),
                 BorderFactory.createEmptyBorder(10, 10, 10, 10)));
 
         // Add hover effect
         addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent evt) {
                 setBorder(BorderFactory.createCompoundBorder(
-                        BorderFactory.createLineBorder(ColorPalette.ACCENT_PRIMARY, 2),
+                        BorderFactory.createLineBorder(ColorPalette.getInstance().getAccentPrimary(), 2),
                         BorderFactory.createEmptyBorder(10, 10, 10, 10)));
             }
 
             public void mouseExited(MouseEvent evt) {
                 setBorder(BorderFactory.createCompoundBorder(
-                        BorderFactory.createLineBorder(ColorPalette.BORDER, 1),
+                        BorderFactory.createLineBorder(ColorPalette.getInstance().getBorder(), 1),
                         BorderFactory.createEmptyBorder(10, 10, 10, 10)));
             }
         });
@@ -96,7 +104,7 @@ public class ShoppingCartItemCard extends JPanel {
         this.setLayout(new BorderLayout());
 
         JPanel imagePanel = new JPanel(new BorderLayout());
-        imagePanel.setBackground(ColorPalette.BG_SECONDARY);
+        imagePanel.setBackground(ColorPalette.getInstance().getBgSecondary());
         imagePanel.setPreferredSize(new Dimension(THUMB_SIZE, THUMB_SIZE));
 
         String location = product.getThumbnail();
@@ -121,7 +129,7 @@ public class ShoppingCartItemCard extends JPanel {
 
         JLabel nameLabel = new JLabel(product.getName());
         nameLabel.setFont(new Font("Segoe UI", Font.BOLD, 15));
-        nameLabel.setForeground(ColorPalette.TEXT_PRIMARY);
+        nameLabel.setForeground(ColorPalette.getInstance().getTextPrimary());
         nameLabel.setAlignmentX(LEFT_ALIGNMENT);
         textPanel.add(nameLabel);
 
@@ -132,7 +140,7 @@ public class ShoppingCartItemCard extends JPanel {
         descArea.setLineWrap(true);
         descArea.setWrapStyleWord(true);
         descArea.setOpaque(false);
-        descArea.setForeground(ColorPalette.TEXT_MUTED);
+        descArea.setForeground(ColorPalette.getInstance().getTextMuted());
         descArea.setFont(new Font("Segoe UI", Font.PLAIN, 13));
         descArea.setBorder(null);
         descArea.setFocusable(false);
@@ -187,7 +195,7 @@ public class ShoppingCartItemCard extends JPanel {
         availableSection.setAlignmentY(CENTER_ALIGNMENT);
         availableLabel = new JLabel();
         availableLabel.setFont(new Font("Segoe UI", Font.PLAIN, 12));
-        availableLabel.setForeground(ColorPalette.TEXT_MUTED);
+        availableLabel.setForeground(ColorPalette.getInstance().getTextMuted());
         availableSection.add(availableLabel);
 
         int qty = cartItem.getQuantity();
@@ -200,7 +208,7 @@ public class ShoppingCartItemCard extends JPanel {
             JLabel originalLabel = new JLabel(
                     String.format("<html><strike>$%.2f</strike></html>", originalSubtotal));
             originalLabel.setFont(new Font("Segoe UI", Font.PLAIN, 12));
-            originalLabel.setForeground(ColorPalette.TEXT_MUTED);
+            originalLabel.setForeground(ColorPalette.getInstance().getTextMuted());
             originalLabel.setAlignmentX(LEFT_ALIGNMENT);
             priceSection.add(originalLabel);
 
@@ -211,21 +219,21 @@ public class ShoppingCartItemCard extends JPanel {
 
             JLabel discountedLabel = new JLabel(String.format("$%.2f", discountedSubtotal));
             discountedLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
-            discountedLabel.setForeground(ColorPalette.ACCENT_PRIMARY);
+            discountedLabel.setForeground(ColorPalette.getInstance().getAccentPrimary());
             discountedRow.add(discountedLabel);
 
             discountedRow.add(Box.createHorizontalStrut(6));
 
             JLabel badge = new JLabel(String.format("-%d%%", (int) product.getDiscount()));
             badge.setFont(new Font("Segoe UI", Font.BOLD, 11));
-            badge.setForeground(ColorPalette.ACCENT_WARNING);
+            badge.setForeground(ColorPalette.getInstance().getAccentWarning());
             discountedRow.add(badge);
 
             priceSection.add(discountedRow);
         } else {
             JLabel singleLabel = new JLabel(String.format("$%.2f", originalSubtotal));
             singleLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
-            singleLabel.setForeground(ColorPalette.ACCENT_PRIMARY);
+            singleLabel.setForeground(ColorPalette.getInstance().getAccentPrimary());
             singleLabel.setAlignmentX(LEFT_ALIGNMENT);
             priceSection.add(singleLabel);
         }
@@ -244,7 +252,7 @@ public class ShoppingCartItemCard extends JPanel {
         removeButton.setPreferredSize(new Dimension(SQUARE_SIZE, SQUARE_SIZE));
         removeButton.setMaximumSize(new Dimension(SQUARE_SIZE, SQUARE_SIZE));
         removeButton.setMinimumSize(new Dimension(SQUARE_SIZE, SQUARE_SIZE));
-        removeButton.setBackground(ColorPalette.ACCENT_WARNING);
+        removeButton.setBackground(ColorPalette.getInstance().getAccentWarning());
         controlsBar.add(removeButton);
 
         rightPanel.add(controlsBar, BorderLayout.SOUTH);

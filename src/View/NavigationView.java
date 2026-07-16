@@ -4,6 +4,7 @@ import Components.IconNavbarLabel;
 import Components.SearchFiled;
 import Controller.NavigationController;
 import Util.ColorPalette;
+import Util.UIUtils;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -26,6 +27,13 @@ public class NavigationView extends JPanel {
         setupUI();
         attachEvents();
 
+        ColorPalette.getInstance().addPropertyChangeListener(e -> {
+            removeAll();
+            setupUI();
+            attachEvents();
+            revalidate();
+            repaint();
+        });
     }
 
     private void attachEvents() {
@@ -54,12 +62,12 @@ public class NavigationView extends JPanel {
 
     private void setupUI() {
         this.setLayout(new GridBagLayout());
-        this.setBackground(ColorPalette.BG_SECONDARY);
+        this.setBackground(ColorPalette.getInstance().getBgSecondary());
         this.setPreferredSize(new Dimension(0, 60));
         this.setMinimumSize(new Dimension(0, 60));
 
         // border
-        Border line = BorderFactory.createLineBorder(ColorPalette.BORDER);
+        Border line = BorderFactory.createLineBorder(ColorPalette.getInstance().getBorder());
         Border etched = BorderFactory.createEtchedBorder();
         this.setBorder(BorderFactory.createCompoundBorder(line, etched));
 

@@ -28,6 +28,7 @@ import javax.swing.plaf.basic.BasicComboPopup;
 import javax.swing.plaf.basic.ComboPopup;
 
 import Util.ColorPalette;
+import Util.UIUtils;
 
 public class RoundedComboBox<T> extends JComboBox<T> {
 
@@ -36,8 +37,8 @@ public class RoundedComboBox<T> extends JComboBox<T> {
 
     public RoundedComboBox(T[] items) {
         super(items);
-        this.setBackground(ColorPalette.BG_TERTIARY);
-        this.setForeground(ColorPalette.TEXT_PRIMARY);
+        this.setBackground(ColorPalette.getInstance().getBgTertiary());
+        this.setForeground(ColorPalette.getInstance().getTextPrimary());
         this.setPreferredSize(new Dimension(130, 30));
         this.setCursor(new Cursor(Cursor.HAND_CURSOR));
         this.setFocusable(false);
@@ -55,7 +56,7 @@ public class RoundedComboBox<T> extends JComboBox<T> {
                 JLabel label = (JLabel) super.getListCellRendererComponent(
                         list, value, index, isSelected, cellHasFocus);
 
-                label.setForeground(ColorPalette.TEXT_PRIMARY);
+                label.setForeground(ColorPalette.getInstance().getTextPrimary());
                 label.setBorder(BorderFactory.createEmptyBorder(4, 8, 4, 8));
 
                 if (isSelected) {
@@ -69,14 +70,14 @@ public class RoundedComboBox<T> extends JComboBox<T> {
                             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                                     RenderingHints.VALUE_ANTIALIAS_ON);
 
-                            g2.setColor(ColorPalette.BUTTON_HOVER);
+                            g2.setColor(ColorPalette.getInstance().getButtonHover());
                             int arc = 15;
                             g2.fillRoundRect(0, 0, getWidth(), getHeight(), arc, arc);
                             g2.dispose();
                             super.paintComponent(g);
                         }
                     };
-                    label.setForeground(ColorPalette.TEXT_PRIMARY);
+                    label.setForeground(ColorPalette.getInstance().getTextPrimary());
                     label.setBorder(BorderFactory.createEmptyBorder(4, 8, 4, 8));
                     label.setOpaque(false);
                 } else {
@@ -87,6 +88,12 @@ public class RoundedComboBox<T> extends JComboBox<T> {
             }
         });
 
+        ColorPalette.getInstance().addPropertyChangeListener(e -> {
+            this.setBackground(ColorPalette.getInstance().getBgTertiary());
+            this.setForeground(ColorPalette.getInstance().getTextPrimary());
+            revalidate();
+            repaint();
+        });
     }
 
     private class ArrowButton extends JButton {
@@ -100,8 +107,8 @@ public class RoundedComboBox<T> extends JComboBox<T> {
             this.setFont(this.getFont().deriveFont(10f));
             this.setBorder(new EmptyBorder(10, 20, 10, 20));
             this.setPreferredSize(new Dimension(20, 20));
-            this.setForeground(ColorPalette.TEXT_PRIMARY);
-            this.setBackground(ColorPalette.BG_TERTIARY);
+            this.setForeground(ColorPalette.getInstance().getTextPrimary());
+            this.setBackground(ColorPalette.getInstance().getBgTertiary());
             this.setBorder(null);
 
             this.addMouseListener(new MouseAdapter() {
@@ -138,9 +145,9 @@ public class RoundedComboBox<T> extends JComboBox<T> {
 
             // Draw rounded background
             if (mousePressed) {
-                g2.setColor(ColorPalette.BUTTON_PRESSED);
+                g2.setColor(ColorPalette.getInstance().getButtonPressed());
             } else if (mouseOver) {
-                g2.setColor(ColorPalette.BUTTON_HOVER);
+                g2.setColor(ColorPalette.getInstance().getButtonHover());
             } else {
                 g2.setColor(getBackground());
             }
@@ -180,7 +187,7 @@ public class RoundedComboBox<T> extends JComboBox<T> {
                     scroller.setViewportBorder(null);
                     scroller.setOpaque(false);
                     scroller.getViewport().setOpaque(false);
-                    scroller.getViewport().setBackground(ColorPalette.BG_TERTIARY);
+                    scroller.getViewport().setBackground(ColorPalette.getInstance().getBgTertiary());
                     return scroller;
                 }
 
@@ -202,11 +209,11 @@ public class RoundedComboBox<T> extends JComboBox<T> {
                     int h = getHeight();
 
                     // Fill background
-                    g2.setColor(ColorPalette.BG_TERTIARY);
+                    g2.setColor(ColorPalette.getInstance().getBgTertiary());
                     g2.fillRoundRect(0, 0, w, h, popupArc, popupArc);
 
                     // Draw border
-                    g2.setColor(ColorPalette.BORDER);
+                    g2.setColor(ColorPalette.getInstance().getBorder());
                     g2.drawRoundRect(0, 0, w - 1, h - 1, popupArc, popupArc);
 
                     g2.dispose();
@@ -270,17 +277,17 @@ public class RoundedComboBox<T> extends JComboBox<T> {
             int arc = 20; // corner radius
 
             if (mousePressed) {
-                g2.setColor(ColorPalette.BUTTON_PRESSED);
+                g2.setColor(ColorPalette.getInstance().getButtonPressed());
             } else if (mouseOver) {
-                g2.setColor(ColorPalette.BUTTON_HOVER);
+                g2.setColor(ColorPalette.getInstance().getButtonHover());
             } else {
-                g2.setColor(ColorPalette.BG_TERTIARY);
+                g2.setColor(ColorPalette.getInstance().getBgTertiary());
             }
 
             g2.fillRoundRect(0, 0, w, h, arc, arc);
 
             // Border
-            g2.setColor(ColorPalette.BORDER);
+            g2.setColor(ColorPalette.getInstance().getBorder());
             g2.drawRoundRect(0, 0, w - 1, h - 1, arc, arc);
 
             g2.dispose();
@@ -293,11 +300,11 @@ public class RoundedComboBox<T> extends JComboBox<T> {
             Color t = g.getColor();
 
             if (mousePressed) {
-                g.setColor(ColorPalette.BUTTON_PRESSED);
+                g.setColor(ColorPalette.getInstance().getButtonPressed());
             } else if (mouseOver) {
-                g.setColor(ColorPalette.BUTTON_HOVER);
+                g.setColor(ColorPalette.getInstance().getButtonHover());
             } else {
-                g.setColor(ColorPalette.BG_TERTIARY);
+                g.setColor(ColorPalette.getInstance().getBgTertiary());
             }
 
             g.fillRect(bounds.x, bounds.y, bounds.width, bounds.height);
@@ -314,7 +321,7 @@ public class RoundedComboBox<T> extends JComboBox<T> {
             if (selected != null) {
                 String text = selected.toString();
                 g2.setFont(comboBox.getFont());
-                g2.setColor(ColorPalette.TEXT_PRIMARY);
+                g2.setColor(ColorPalette.getInstance().getTextPrimary());
 
                 FontMetrics fm = g2.getFontMetrics();
                 int y = bounds.y + ((bounds.height - fm.getHeight()) / 2) + fm.getAscent();

@@ -1,6 +1,7 @@
 package Components;
 
 import Util.ColorPalette;
+import Util.UIUtils;
 
 import javax.swing.JLabel;
 import javax.swing.Timer;
@@ -19,11 +20,21 @@ public class LiveJLabelNumber extends JLabel {
 
     public LiveJLabelNumber(int target) {
         this.target = target;
+        setupUI();
+        startCounting();
+        ColorPalette.getInstance().addPropertyChangeListener(e -> {
+            removeAll();
+            setupUI();
+            revalidate();
+            repaint();
+        });
+    }
+
+    private void setupUI() {
         setOpaque(false);
         setFont(new Font("Arial", Font.PLAIN, 13));
-        setForeground(ColorPalette.TEXT_PRIMARY);
+        setForeground(ColorPalette.getInstance().getTextPrimary());
         setText("0");
-        startCounting();
     }
 
     public void setTarget(int target) {

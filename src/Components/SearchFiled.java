@@ -1,6 +1,7 @@
 package Components;
 
 import Util.ColorPalette;
+import Util.UIUtils;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -26,14 +27,46 @@ public class SearchFiled extends JPanel {
     private EventListenerList listenerList = new EventListenerList();
 
     public SearchFiled() {
+        setupUI();
+        attachEvents();
+        ColorPalette.getInstance().addPropertyChangeListener(e -> {
+            removeAll();
+            setupUI();
+            attachEvents();
+            revalidate();
+            repaint();
+        });
+    }
+
+    private void setupUI() {
         setOpaque(false);
 
-        this.setBackground(ColorPalette.BG_SECONDARY);
+        this.setBackground(ColorPalette.getInstance().getBgSecondary());
         this.setBorder(new EmptyBorder(0, 10, 0, 10));
 
         // search input
         searchInput = new SearchBarTextInput("Search", 5);
 
+        // search Icon
+        iconLabel = new JLabel();
+        ImageIcon searchLogo = new ImageIcon("icons/search.png");
+        Image scaledIcon = searchLogo.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+        searchLogo = new ImageIcon(scaledIcon);
+        iconLabel.setIcon(searchLogo);
+        iconLabel.setBorder(new EmptyBorder(0, 0, 0, 0));
+        iconLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+        // comboBox
+        String[] searchOptions = { "All", "Name", "Color", "Manufacturer" };
+        comboBox = new RoundedComboBox<String>(searchOptions);
+        comboBox.setSelectedIndex(1);
+
+        this.add(iconLabel);
+        this.add(searchInput);
+        this.add(comboBox);
+    }
+
+    private void attachEvents() {
         // Add ActionListener for live search (every character)
         searchInput.addActionListener(e -> {
             fireSearchEvent(searchInput.getText());
@@ -46,14 +79,6 @@ public class SearchFiled extends JPanel {
             transferFocus();
         });
 
-        // search Icon
-        iconLabel = new JLabel();
-        ImageIcon searchLogo = new ImageIcon("icons/search.png");
-        Image scaledIcon = searchLogo.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-        searchLogo = new ImageIcon(scaledIcon);
-        iconLabel.setIcon(searchLogo);
-        iconLabel.setBorder(new EmptyBorder(0, 0, 0, 0));
-        iconLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
         iconLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -61,15 +86,6 @@ public class SearchFiled extends JPanel {
                     System.out.println(searchInput.getText()); // Redirect to Shop item
             }
         });
-
-        // comboBox
-        String[] searchOptions = { "All", "Name", "Color", "Manufacturer" };
-        comboBox = new RoundedComboBox<String>(searchOptions);
-        comboBox.setSelectedIndex(1);
-
-        this.add(iconLabel);
-        this.add(searchInput);
-        this.add(comboBox);
     }
 
     public String getSelectedSearchType() {
@@ -103,7 +119,7 @@ public class SearchFiled extends JPanel {
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);// soft render
 
         // Draw border
-        g2.setColor(ColorPalette.BORDER);
+        g2.setColor(ColorPalette.getInstance().getBorder());
         g2.draw(new RoundRectangle2D.Double(0, 0, getWidth() - 1, getHeight() - 1, cornerRadius, cornerRadius));
 
         g2.dispose();

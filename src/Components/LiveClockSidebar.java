@@ -1,6 +1,7 @@
 package Components;
 
 import Util.ColorPalette;
+import Util.UIUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,16 +10,25 @@ import java.time.format.DateTimeFormatter;
 
 public class LiveClockSidebar extends JLabel {
     public LiveClockSidebar() {
-
-        this.setOpaque(false);
-        this.setText("-- : -- : --");
-        setFont(new Font("Arial",Font.BOLD,15));
-        setForeground(ColorPalette.TEXT_MUTED);
-
-        Timer timer = new Timer(1000, e->{
+        setupUI();
+        Timer timer = new Timer(1000, e -> {
             updateTime();
         });
-           timer.start();
+        timer.start();
+
+        ColorPalette.getInstance().addPropertyChangeListener(e -> {
+            removeAll();
+            setupUI();
+            revalidate();
+            repaint();
+        });
+    }
+
+    private void setupUI() {
+        this.setOpaque(false);
+        this.setText("-- : -- : --");
+        setFont(new Font("Arial", Font.BOLD, 15));
+        setForeground(ColorPalette.getInstance().getTextMuted());
     }
     private void updateTime(){
         LocalDateTime time = LocalDateTime.now();

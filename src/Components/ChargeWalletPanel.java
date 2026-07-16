@@ -2,6 +2,7 @@ package Components;
 
 import Controller.UserProfileController;
 import Util.ColorPalette;
+import Util.UIUtils;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -40,14 +41,23 @@ public class ChargeWalletPanel extends JPanel {
     }
 
     public ChargeWalletPanel() {
+        setupUI();
+
+        ColorPalette.getInstance().addPropertyChangeListener(e -> {
+            removeAll();
+            setupUI();
+            revalidate();
+            repaint();
+        });
+    }
+
+    private void setupUI() {
+        removeAll();
         setOpaque(false);
         setLayout(new GridBagLayout());
 
-        createPanel();
-    }
-
-    private void createPanel() {
-        RoundedPanel container = new RoundedPanel(30, ColorPalette.BG_MAIN, ColorPalette.BORDER);
+        RoundedPanel container = new RoundedPanel(30, ColorPalette.getInstance().getBgMain(),
+                ColorPalette.getInstance().getBorder());
         container.setBorder(new EmptyBorder(40, 30, 40, 30));
         container.setOpaque(false);
         container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
@@ -55,14 +65,14 @@ public class ChargeWalletPanel extends JPanel {
 
         JLabel titleLabel = new JLabel("Charge Wallet");
         titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 24));
-        titleLabel.setForeground(ColorPalette.TEXT_PRIMARY);
+        titleLabel.setForeground(ColorPalette.getInstance().getTextPrimary());
         titleLabel.setAlignmentX(CENTER_ALIGNMENT);
         container.add(titleLabel);
         container.add(Box.createVerticalStrut(30));
 
         balanceInputText = new RoundedInputText("", 5);
         balanceInputText.setEnabled(false);
-        balanceInputText.setForeground(ColorPalette.TEXT_MUTED);
+        balanceInputText.setForeground(ColorPalette.getInstance().getTextMuted());
         balanceInputFiled = new FormTextFiledPanel("Balance", balanceInputText, BALANCE_PROP);
         balanceInputFiled.setAlignmentX(CENTER_ALIGNMENT);
 
@@ -94,7 +104,7 @@ public class ChargeWalletPanel extends JPanel {
             if (result.isValid())
                 support.firePropertyChange(CHARGE_PROP, null, Double.valueOf(amountInputText.getText()));
         });
-        
+
         cancelBtn.addActionListener(e -> {
             controller.showMainPage();
             support.firePropertyChange(CANCEL_PROP, null, null);
@@ -108,7 +118,6 @@ public class ChargeWalletPanel extends JPanel {
         gbc.weighty = 1;
         gbc.anchor = GridBagConstraints.CENTER;
         this.add(container, gbc);
-
     }
 
     private JPanel crateBtn() {
@@ -117,14 +126,14 @@ public class ChargeWalletPanel extends JPanel {
 
         chargeBtn = new RoundedButton("Charge", 15);
         chargeBtn.setPreferredSize(new Dimension(120, 40));
-        chargeBtn.setBackground(new Color(75, 173, 79));
-        chargeBtn.setForeground(Color.WHITE);
+        chargeBtn.setBackground(ColorPalette.getInstance().getAccentConfirm());
+        chargeBtn.setForeground(ColorPalette.getInstance().getTextPrimary());
 
         cancelBtn = new RoundedButton("Cancel", 15);
         cancelBtn.setPreferredSize(new Dimension(120, 40));
-        cancelBtn.setBackground(new Color(0xde3c2f));
-        cancelBtn.setHoverColor(new Color(0xAD3225));
-        cancelBtn.setForeground(ColorPalette.TEXT_PRIMARY);
+        cancelBtn.setBackground(ColorPalette.getInstance().getAccentDanger());
+        cancelBtn.setHoverColor(ColorPalette.getInstance().getAccentDanger());
+        cancelBtn.setForeground(ColorPalette.getInstance().getTextPrimary());
 
         buttonPanel.add(chargeBtn);
         buttonPanel.add(cancelBtn);

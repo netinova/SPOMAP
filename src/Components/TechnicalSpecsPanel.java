@@ -24,6 +24,7 @@ import javax.swing.SwingConstants;
 import Model.Product;
 import Model.ProductColor;
 import Util.ColorPalette;
+import Util.UIUtils;
 
 /**
  * A collapsible panel that shows all technical specifications of a Product,
@@ -38,7 +39,18 @@ public class TechnicalSpecsPanel extends JPanel {
     private static final Font ROW_FONT = new Font("Segoe UI", Font.PLAIN, 13);
 
     public TechnicalSpecsPanel() {
-        this.setBackground(ColorPalette.BG_SECONDARY);
+        setupUI();
+        ColorPalette.getInstance().addPropertyChangeListener(e -> {
+            removeAll();
+            setupUI();
+            revalidate();
+            repaint();
+        });
+
+    }
+
+    private void setupUI() {
+        this.setBackground(ColorPalette.getInstance().getBgSecondary());
         this.setLayout(new BorderLayout());
         this.setBorder(BorderFactory.createEmptyBorder(20, 25, 20, 25));
         this.setVisible(true);
@@ -47,16 +59,15 @@ public class TechnicalSpecsPanel extends JPanel {
         // Title
         titleLabel = new JLabel("TECHNICAL SPECIFICATIONS");
         titleLabel.setFont(TITLE_FONT);
-        titleLabel.setForeground(ColorPalette.TEXT_PRIMARY);
+        titleLabel.setForeground(ColorPalette.getInstance().getTextPrimary());
         titleLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 12, 0));
         this.add(titleLabel, BorderLayout.NORTH);
 
         // Inner grid panel (expands in CENTER)
         specsInnerPanel = new JPanel(new GridBagLayout());
-        specsInnerPanel.setBackground(ColorPalette.BG_SECONDARY);
-        specsInnerPanel.setBorder(BorderFactory.createLineBorder(ColorPalette.BORDER, 1));
+        specsInnerPanel.setBackground(ColorPalette.getInstance().getBgSecondary());
+        specsInnerPanel.setBorder(BorderFactory.createLineBorder(ColorPalette.getInstance().getBorder(), 1));
         this.add(specsInnerPanel, BorderLayout.CENTER);
-
     }
 
     @Override
@@ -113,13 +124,14 @@ public class TechnicalSpecsPanel extends JPanel {
         for (Map.Entry<String, String> entry : allSpecs.entrySet()) {
             JLabel keyLabel = new JLabel(entry.getKey() + ":");
             keyLabel.setFont(ROW_FONT);
-            keyLabel.setForeground(ColorPalette.TEXT_PRIMARY);
+            keyLabel.setForeground(ColorPalette.getInstance().getTextPrimary());
 
             JLabel valueLabel = new JLabel(entry.getValue());
             valueLabel.setFont(ROW_FONT);
-            valueLabel.setForeground(ColorPalette.TEXT_MUTED);
+            valueLabel.setForeground(ColorPalette.getInstance().getTextMuted());
 
-            Color rowColor = oddRow ? ColorPalette.BG_TERTIARY : ColorPalette.BG_SECONDARY;
+            Color rowColor = oddRow ? ColorPalette.getInstance().getBgTertiary()
+                    : ColorPalette.getInstance().getBgSecondary();
             keyLabel.setOpaque(true);
             keyLabel.setBackground(rowColor);
             valueLabel.setOpaque(true);

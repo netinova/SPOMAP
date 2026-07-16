@@ -3,12 +3,8 @@ package View;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -16,14 +12,11 @@ import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
-import javax.swing.plaf.basic.BasicScrollBarUI;
 
 import Components.RoundedButton;
 import Components.ShoppingCartItemCard;
@@ -32,6 +25,7 @@ import Model.AppState;
 import Model.CartItem;
 import Model.ShoppingCart;
 import Util.ColorPalette;
+import Util.UIUtils;
 
 public class ShoppingCartView extends JPanel implements PropertyChangeListener {
 
@@ -49,6 +43,13 @@ public class ShoppingCartView extends JPanel implements PropertyChangeListener {
     public ShoppingCartView(ShoppingCartController controller) {
         this.controller = controller;
         setupUI();
+
+        ColorPalette.getInstance().addPropertyChangeListener(e -> {
+            removeAll();
+            setupUI();
+            revalidate();
+            repaint();
+        });
     }
 
     public void subscribeToModel(ShoppingCart cart) {
@@ -67,11 +68,11 @@ public class ShoppingCartView extends JPanel implements PropertyChangeListener {
     }
 
     void setupUI() {
-        this.setBackground(ColorPalette.BG_MAIN);
+        this.setBackground(ColorPalette.getInstance().getBgMain());
         this.setLayout(new BorderLayout());
 
         itemsGrid = new JPanel();
-        itemsGrid.setBackground(ColorPalette.BG_MAIN);
+        itemsGrid.setBackground(ColorPalette.getInstance().getBgMain());
         itemsGrid.setLayout(new GridBagLayout());
         itemsGrid.setBorder(BorderFactory.createEmptyBorder(5, 10, 10, 10));
 
@@ -81,11 +82,11 @@ public class ShoppingCartView extends JPanel implements PropertyChangeListener {
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         scrollPane.setBorder(null);
-        scrollPane.setBackground(ColorPalette.BG_MAIN);
+        scrollPane.setBackground(ColorPalette.getInstance().getBgMain());
 
         // Custom scrollbar styling
         JScrollBar verticalBar = scrollPane.getVerticalScrollBar();
-        styleScrollBar(verticalBar);
+        UIUtils.styleScrollBar(verticalBar);
 
         this.add(scrollPane, BorderLayout.CENTER);
 
@@ -95,9 +96,9 @@ public class ShoppingCartView extends JPanel implements PropertyChangeListener {
     private JPanel createSummaryPanel() {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setBackground(ColorPalette.BG_SECONDARY);
+        panel.setBackground(ColorPalette.getInstance().getBgSecondary());
         panel.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createMatteBorder(1, 0, 0, 0, ColorPalette.BORDER),
+                BorderFactory.createMatteBorder(1, 0, 0, 0, ColorPalette.getInstance().getBorder()),
                 BorderFactory.createEmptyBorder(15, 20, 15, 20)));
 
         Font labelFont = new Font("Segoe UI", Font.PLAIN, 14);
@@ -106,37 +107,37 @@ public class ShoppingCartView extends JPanel implements PropertyChangeListener {
 
         rawPriceValue = new JLabel("$0.00");
         rawPriceValue.setFont(valueFont);
-        rawPriceValue.setForeground(ColorPalette.TEXT_MUTED);
+        rawPriceValue.setForeground(ColorPalette.getInstance().getTextMuted());
         rawPriceValue.setHorizontalAlignment(JLabel.TRAILING);
 
         discountValue = new JLabel("-$0.00");
         discountValue.setFont(valueFont);
-        discountValue.setForeground(ColorPalette.ACCENT_SUCCESS);
+        discountValue.setForeground(ColorPalette.getInstance().getAccentSuccess());
         discountValue.setHorizontalAlignment(JLabel.TRAILING);
 
         finalPriceValue = new JLabel("$0.00");
         finalPriceValue.setFont(finalValueFont);
-        finalPriceValue.setForeground(ColorPalette.TEXT_PRIMARY);
+        finalPriceValue.setForeground(ColorPalette.getInstance().getTextPrimary());
         finalPriceValue.setHorizontalAlignment(JLabel.TRAILING);
 
         JLabel rawLabel = new JLabel("Raw Price");
         rawLabel.setFont(labelFont);
-        rawLabel.setForeground(ColorPalette.TEXT_MUTED);
+        rawLabel.setForeground(ColorPalette.getInstance().getTextMuted());
 
         JLabel discountLabel = new JLabel("Discounts");
         discountLabel.setFont(labelFont);
-        discountLabel.setForeground(ColorPalette.TEXT_MUTED);
+        discountLabel.setForeground(ColorPalette.getInstance().getTextMuted());
 
         JLabel finalLabel = new JLabel("Final Price");
         finalLabel.setFont(finalValueFont);
-        finalLabel.setForeground(ColorPalette.TEXT_PRIMARY);
+        finalLabel.setForeground(ColorPalette.getInstance().getTextPrimary());
 
         panel.add(createSummaryRow(rawLabel, rawPriceValue));
         panel.add(Box.createVerticalStrut(4));
         panel.add(createSummaryRow(discountLabel, discountValue));
 
         JSeparator separator = new JSeparator();
-        separator.setForeground(ColorPalette.BORDER);
+        separator.setForeground(ColorPalette.getInstance().getBorder());
         separator.setMaximumSize(new Dimension(Integer.MAX_VALUE, 1));
         panel.add(Box.createVerticalStrut(6));
         panel.add(separator);
@@ -148,8 +149,8 @@ public class ShoppingCartView extends JPanel implements PropertyChangeListener {
 
         payButton = new RoundedButton("Pay", 12);
         payButton.setHasBorder(false);
-        payButton.setBackground(ColorPalette.ACCENT_SUCCESS);
-        payButton.setForeground(ColorPalette.TEXT_PRIMARY);
+        payButton.setBackground(ColorPalette.getInstance().getAccentSuccess());
+        payButton.setForeground(ColorPalette.getInstance().getTextPrimary());
         payButton.setFont(new Font("Segoe UI", Font.BOLD, 18));
         payButton.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
         payButton.setMaximumSize(new Dimension(Integer.MAX_VALUE, 50));
@@ -215,7 +216,7 @@ public class ShoppingCartView extends JPanel implements PropertyChangeListener {
 
             JLabel emptyLabel = new JLabel("The shopping cart is empty right now");
             emptyLabel.setFont(new Font("Segoe UI", Font.PLAIN, 18));
-            emptyLabel.setForeground(ColorPalette.TEXT_MUTED);
+            emptyLabel.setForeground(ColorPalette.getInstance().getTextMuted());
             emptyPanel.add(emptyLabel);
 
             itemsGrid.add(emptyPanel, gbc);
@@ -275,63 +276,6 @@ public class ShoppingCartView extends JPanel implements PropertyChangeListener {
             ArrayList<CartItem> newItems = (ArrayList<CartItem>) evt.getNewValue();
             displayItems(newItems);
         }
-    }
-
-    private void styleScrollBar(JScrollBar bar) {
-
-        bar.setUI(new BasicScrollBarUI() {
-            @Override
-            protected void configureScrollBarColors() {
-                this.trackColor = ColorPalette.BG_MAIN;
-                this.thumbColor = ColorPalette.BG_TERTIARY;
-            }
-
-            @Override
-            protected JButton createDecreaseButton(int orientation) {
-                return createZeroButton();
-            }
-
-            @Override
-            protected JButton createIncreaseButton(int orientation) {
-                return createZeroButton();
-            }
-
-            private JButton createZeroButton() {
-                JButton button = new JButton();
-                button.setPreferredSize(new Dimension(0, 0));
-                button.setMinimumSize(new Dimension(0, 0));
-                button.setMaximumSize(new Dimension(0, 0));
-                return button;
-            }
-
-            @Override
-            protected void paintThumb(Graphics g, JComponent c, Rectangle thumbBounds) {
-                if (thumbBounds.isEmpty() || !scrollbar.isEnabled())
-                    return;
-
-                Graphics2D g2 = (Graphics2D) g.create();
-                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-                // Round the corners of the thumb
-                int arc = 8;
-                g2.setColor(thumbColor);
-                g2.fillRoundRect(thumbBounds.x, thumbBounds.y, thumbBounds.width - 1, thumbBounds.height - 1, arc, arc);
-
-                g2.dispose();
-            }
-
-            @Override
-            protected void paintTrack(Graphics g, JComponent c, Rectangle trackBounds) {
-                Graphics2D g2 = (Graphics2D) g.create();
-                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                g2.setColor(trackColor);
-                g2.fillRect(trackBounds.x, trackBounds.y, trackBounds.width, trackBounds.height);
-                g2.dispose();
-            }
-        });
-        bar.setPreferredSize(new Dimension(8, 0));
-        bar.setUnitIncrement(16);
-
     }
 
 }

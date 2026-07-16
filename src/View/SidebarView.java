@@ -13,6 +13,7 @@ import Components.CopyrightPanel;
 import Components.SideNavbarPanel;
 import Controller.SidebarController;
 import Util.ColorPalette;
+import Util.UIUtils;
 
 public class SidebarView extends JPanel {
 
@@ -26,6 +27,14 @@ public class SidebarView extends JPanel {
         this.sideNavbarPanel = new SideNavbarPanel(this.controller);
         setupUI();
         attachEvents();
+
+        ColorPalette.getInstance().addPropertyChangeListener(e -> {
+            removeAll();
+            setupUI();
+            attachEvents();
+            revalidate();
+            repaint();
+        });
     }
 
     private void attachEvents() {
@@ -41,10 +50,10 @@ public class SidebarView extends JPanel {
         this.setPreferredSize(new Dimension(100, 0));
         this.setMinimumSize(new Dimension(100, 0));
         this.setLayout(new GridBagLayout());
-        this.setBackground(ColorPalette.BG_SECONDARY);
+        this.setBackground(ColorPalette.getInstance().getBgSecondary());
 
         // border
-        Border line = BorderFactory.createLineBorder(ColorPalette.BORDER);
+        Border line = BorderFactory.createLineBorder(ColorPalette.getInstance().getBorder());
         Border etched = BorderFactory.createEtchedBorder();
         this.setBorder(BorderFactory.createCompoundBorder(line, etched));
 

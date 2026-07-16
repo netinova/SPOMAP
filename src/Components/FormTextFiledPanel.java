@@ -1,6 +1,7 @@
 package Components;
 
 import Util.ColorPalette;
+import Util.UIUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,38 +16,49 @@ public class FormTextFiledPanel extends JPanel {
     private JComponent component;
     private PropertyChangeSupport support;
     private String propertyName;
+    private String title;
 
     public FormTextFiledPanel(String title, JComponent component, String propertyName) {
 
         this.component = component;
         this.propertyName = propertyName;
+        this.title = title;
         this.support = new PropertyChangeSupport(this);
+        setupUI();
+        addInputListener();
+        ColorPalette.getInstance().addPropertyChangeListener(e -> {
+            removeAll();
+            setupUI();
+            revalidate();
+            repaint();
+        });
+    }
+
+    private void setupUI() {
+        removeAll();
         setOpaque(false);
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setPreferredSize(new Dimension(300, 90));
 
-        // Label
         label = new JLabel(title);
         label.setFont(new Font("Arial", Font.PLAIN, 14));
-        label.setForeground(ColorPalette.TEXT_MUTED);
+        label.setForeground(ColorPalette.getInstance().getTextMuted());
         label.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         component.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         errorLabel = new JLabel(" ");
         errorLabel.setFont(new Font("Arial", Font.PLAIN, 10));
-        errorLabel.setForeground(ColorPalette.ACCENT_WARNING);
+        errorLabel.setForeground(ColorPalette.getInstance().getAccentWarning());
         errorLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         this.add(Box.createVerticalStrut(5));
         this.add(label);
         this.add(Box.createVerticalStrut(5));
-        // Inputs
         this.add(component);
         this.add(Box.createVerticalStrut(5));
         this.add(errorLabel);
 
-        addInputListener();
     }
 
     private void addInputListener() {

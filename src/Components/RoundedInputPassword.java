@@ -1,6 +1,7 @@
 package Components;
 
 import Util.ColorPalette;
+import Util.UIUtils;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -17,18 +18,18 @@ public class RoundedInputPassword extends JPasswordField {
     public RoundedInputPassword(String placeHolder, int size) {
         this.setFont(new Font("Arial", Font.PLAIN, 3 * size));
         this.setEchoChar((char) 0);
-        this.setCaretColor(ColorPalette.TEXT_PRIMARY);
+        this.setCaretColor(ColorPalette.getInstance().getTextPrimary());
         super.setPreferredSize(new Dimension(40 * size, 5 * size));
         this.setOpaque(false);
         this.placeHolder = placeHolder;
         this.cornerRadius = size * 5;
         this.setBorder(new EmptyBorder(5, 10, 5, 5));
         this.setMargin(new Insets(5, 10, 5, 5));
-        this.setBackground(ColorPalette.BG_SECONDARY);
+        this.setBackground(ColorPalette.getInstance().getBgSecondary());
         this.setText(placeHolder);
         activePlaceHolder = true;
-//        char[] Password = this.getPassword();
-        this.setForeground(ColorPalette.TEXT_PLACEHOLDER);
+        // char[] Password = this.getPassword();
+        this.setForeground(ColorPalette.getInstance().getTextPlaceholder());
         this.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -37,7 +38,7 @@ public class RoundedInputPassword extends JPasswordField {
                     setText("");
                     setEchoChar('•');
                     activePlaceHolder = false;
-                    setForeground(ColorPalette.TEXT_PRIMARY);
+                    setForeground(ColorPalette.getInstance().getTextPrimary());
                 }
             }
 
@@ -48,9 +49,20 @@ public class RoundedInputPassword extends JPasswordField {
                     setEchoChar((char) 0);
                     setText(placeHolder);
                     activePlaceHolder = true;
-                    setForeground(ColorPalette.TEXT_PLACEHOLDER);
+                    setForeground(ColorPalette.getInstance().getTextPlaceholder());
                 }
             }
+        });
+        ColorPalette.getInstance().addPropertyChangeListener(e -> {
+            this.setCaretColor(ColorPalette.getInstance().getTextPrimary());
+            this.setBackground(ColorPalette.getInstance().getBgSecondary());
+            if (activePlaceHolder) {
+                this.setForeground(ColorPalette.getInstance().getTextPlaceholder());
+            } else {
+                this.setForeground(ColorPalette.getInstance().getTextPrimary());
+            }
+            revalidate();
+            repaint();
         });
     }
 
@@ -59,7 +71,7 @@ public class RoundedInputPassword extends JPasswordField {
         setEchoChar((char) 0);
         setText(placeHolder);
         activePlaceHolder = true;
-        setForeground(ColorPalette.TEXT_PLACEHOLDER);
+        setForeground(ColorPalette.getInstance().getTextPlaceholder());
     }
 
     public void setCornerRadius(int cornerRadius) {
@@ -72,10 +84,10 @@ public class RoundedInputPassword extends JPasswordField {
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         // Draw rounded background
-        g2.setBackground(ColorPalette.BG_TERTIARY);
+        g2.setBackground(ColorPalette.getInstance().getBgTertiary());
 
         // Draw border
-        g2.setColor(ColorPalette.BORDER);
+        g2.setColor(ColorPalette.getInstance().getBorder());
         g2.draw(new RoundRectangle2D.Double(0, 0, getWidth() - 1, getHeight() - 1, cornerRadius, cornerRadius));
 
         g2.dispose();

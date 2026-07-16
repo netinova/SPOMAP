@@ -6,6 +6,7 @@ import javax.swing.*;
 
 import Controller.SidebarController;
 import Util.ColorPalette;
+import Util.UIUtils;
 
 public class SideNavbarPanel extends JPanel {
 
@@ -15,12 +16,18 @@ public class SideNavbarPanel extends JPanel {
 
         this.controller = controller;
         setupUI();
-        createComponents();
+        ColorPalette.getInstance().addPropertyChangeListener(e -> {
+            removeAll();
+            setupUI();
+            revalidate();
+            repaint();
+        });
     }
 
     private void setupUI() {
-        this.setBackground(ColorPalette.BG_SECONDARY);
+        this.setBackground(ColorPalette.getInstance().getBgSecondary());
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        createComponents();
     }
 
     private void createComponents() {
