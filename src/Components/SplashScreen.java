@@ -12,8 +12,19 @@ public class SplashScreen extends JWindow {
     private JProgressBar progressBar;
 
     public SplashScreen() {
+        setupUI();
+
+        ColorPalette.getInstance().addPropertyChangeListener(e -> {
+            removeAll();
+            setupUI();
+            revalidate();
+            repaint();
+        });
+    }
+
+    private void setupUI() {
         JPanel content = new JPanel(new BorderLayout());
-        content.setBackground(new Color(0x262626));//TODO: set BG_MAIN
+        content.setBackground(ColorPalette.getInstance().getBgMain());
         content.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         Image image = Toolkit.getDefaultToolkit().createImage("icons/SPOMAP_BG_White.png");
@@ -44,8 +55,8 @@ public class SplashScreen extends JWindow {
         progressBar = new JProgressBar(0, 100);
         progressBar.setValue(0);
         progressBar.setStringPainted(true);
-        progressBar.setBackground(Color.gray);//TODO: BG_TERTIARY
-        progressBar.setForeground(new Color(0x19A6F3));//TODO: ACCENT_PRIMARY
+        progressBar.setBackground(ColorPalette.getInstance().getBgTertiary());
+        progressBar.setForeground(ColorPalette.getInstance().getAccentPrimary());
         progressBar.setAlignmentX(Component.CENTER_ALIGNMENT);
         progressBar.setMaximumSize(new Dimension(imageIcon.getIconWidth(), 20));
         bottomPanel.add(progressBar);

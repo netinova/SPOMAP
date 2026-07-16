@@ -27,11 +27,21 @@ import java.util.Locale;
 
 public class Main {
 
-    private record ProgressUpdate(String status, int percent) {}
+    private record ProgressUpdate(String status, int percent) {
+    }
 
     public static void main(String[] args) {
 
         Locale.setDefault(Locale.US);
+
+        ThemeService themeService = new ThemeService();
+        Theme defaultTheme = themeService.loadThemeByName("default dark");
+        if (defaultTheme == null) {
+            defaultTheme = Theme.defaultDark();
+            themeService.saveTheme(defaultTheme);
+        }
+        ColorPalette.getInstance().applyTheme(defaultTheme);
+
         SplashScreen splash = new SplashScreen();
         splash.setVisible(true);
 
@@ -43,13 +53,6 @@ public class Main {
                 publish(new ProgressUpdate("Initializing services...", 5));
                 ProductCatalog products = new ProductCatalog();
 
-        ThemeService themeService = new ThemeService();
-        Theme defaultTheme = themeService.loadThemeByName("default dark");
-        if (defaultTheme == null) {
-            defaultTheme = Theme.defaultDark();
-            themeService.saveTheme(defaultTheme);
-        }
-        ColorPalette.getInstance().applyTheme(defaultTheme);
                 InvoiceService invoiceService = new InvoiceService();
                 AnalyticsService analyticsService = new AnalyticsService(invoiceService);
                 AppController appController = new AppController(products, invoiceService, analyticsService);
@@ -58,7 +61,8 @@ public class Main {
                 ShopView shopView = new ShopView(appController.getShopController(), products);
                 NavigationView navigationView = new NavigationView(appController.getNavigationController());
                 SidebarView sidebarView = new SidebarView(appController.getSidebarController());
-                AuthenticationView authenticationView = new AuthenticationView(appController.getAuthenticationController());
+                AuthenticationView authenticationView = new AuthenticationView(
+                        appController.getAuthenticationController());
                 UserProfileView userProfileView = new UserProfileView(appController.getProfileController());
                 ProductView productView = new ProductView(appController.getProductController(), products);
                 ShoppingCartView shoppingCartView = new ShoppingCartView(appController.getShoppingCartController());
@@ -66,7 +70,8 @@ public class Main {
                 InvoiceDetailView invoiceDetailView = new InvoiceDetailView(appController.getInvoiceController());
                 SettingView settingView = new SettingView(appController.getSettingController());
 
-                MultiViewPanel multiViewPanel = new MultiViewPanel(shopView, authenticationView, userProfileView, productView,
+                MultiViewPanel multiViewPanel = new MultiViewPanel(shopView, authenticationView, userProfileView,
+                        productView,
                         shoppingCartView, invoiceView, invoiceDetailView, settingView);
 
                 appController.setViews(shopView, navigationView, sidebarView, multiViewPanel, authenticationView,
@@ -77,15 +82,18 @@ public class Main {
 
                 publish(new ProgressUpdate("Loading products...", 55));
                 ProductCatalog temp = ProductService.loadProducts();
-                for (Product product : temp.getProducts()) products.addProduct(product);
+                for (Product product : temp.getProducts())
+                    products.addProduct(product);
                 products.buildIndexes();
 
                 publish(new ProgressUpdate("Loading users...", 75));
                 UserNormalList normalUsersList = UserService.loadNormalUser();
                 UserPrimeList primeUsersList = UserService.loadPrimeUser();
                 UserAdminList adminUsersList = UserService.loadAdminUser();
-                if (primeUsersList == null) primeUsersList = new UserPrimeList(new ArrayList<>());
-                if (normalUsersList == null) normalUsersList = new UserNormalList(new ArrayList<>());
+                if (primeUsersList == null)
+                    primeUsersList = new UserPrimeList(new ArrayList<>());
+                if (normalUsersList == null)
+                    normalUsersList = new UserNormalList(new ArrayList<>());
 
                 AppState.getInstance().normalUsersList = normalUsersList;
                 AppState.getInstance().primeUsersList = primeUsersList;
@@ -97,7 +105,6 @@ public class Main {
                 publish(new ProgressUpdate("Done!", 100));
                 System.out.println("Time took to load and build data: " + stopWatch.elapsedTime());
 
-        //ColorPalette.getInstance().setBgSecondary(new Color(0xF44336));
                 return mainFrame;
             }
 
