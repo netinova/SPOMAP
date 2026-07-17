@@ -14,7 +14,7 @@ public class MainFrame extends JFrame {
 
     private SidebarView sidebarView;
     private MainPanel mainPanel;
-    ImageIcon iconProgram = new ImageIcon("icons/SPOMAP_BGblack_LogoWhite1000x1000.png");
+    ImageIcon iconProgram = new ImageIcon("icons/logo_svg/SPOMAP_BGblack_LogoWhite1000x1000.svg");
 
     public MainFrame(AppController appController, SidebarView sidebarView,
             NavigationView navigationView, MultiViewPanel multiViewPanel) {

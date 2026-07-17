@@ -74,7 +74,7 @@ public class Validator {
 
     public static ValidationResult validateLoginPassword(String password) {
         if (password == null || password.isEmpty() || password.equals("Password")) {
-            return new ValidationResult(false, "Please confirm your password");
+            return new ValidationResult(false, "Please is required");
         }
         return new ValidationResult(true, null);
     }

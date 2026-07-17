@@ -2,6 +2,7 @@ package Components;
 
 import Controller.UserProfileController;
 import Util.ColorPalette;
+import Util.UIUtils;
 import org.knowm.xchart.CategoryChart;
 import org.knowm.xchart.CategoryChartBuilder;
 import org.knowm.xchart.CategorySeries;
@@ -9,10 +10,7 @@ import org.knowm.xchart.PieChart;
 import org.knowm.xchart.PieChartBuilder;
 import org.knowm.xchart.XChartPanel;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -446,10 +444,11 @@ public class LogShopPanel extends JPanel {
     }
 
     private JPanel createProductPieChart() {
-        RoundedPanel panel = new RoundedPanel(borderRadius, ColorPalette.getInstance().getBgSecondary(),
-                ColorPalette.getInstance().getBorder());
+        JPanel panel = new JPanel();
+        panel.setBackground(ColorPalette.getInstance().getBgSecondary());
         panel.setLayout(new BorderLayout());
-        panel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        panel.setPreferredSize(new Dimension(500, 400));
+        panel.setBorder(BorderFactory.createCompoundBorder(new EmptyBorder(10, 10, 10, 10),null));
 
         Map<String, Integer> productSales = new LinkedHashMap<>();
         productSales.put("Product A", 120);
@@ -477,7 +476,31 @@ public class LogShopPanel extends JPanel {
         XChartPanel<PieChart> chartPanel = new XChartPanel<>(pieChart);
         panel.add(chartPanel, BorderLayout.CENTER);
 
-        return panel;
+        // wrapping the grid in a scroll pane
+        JScrollPane scrollPane = new JScrollPane(panel);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setPreferredSize(new Dimension(500, 400));
+        scrollPane.setMaximumSize(new Dimension(500, 400));
+        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+        scrollPane.setBorder(null);
+        scrollPane.setOpaque(false);
+        scrollPane.getViewport().setOpaque(false);
+//        scrollPane.setBackground(ColorPalette.getInstance().getBgMain());
+
+        // Custom scrollbar styling
+        JScrollBar verticalBar = scrollPane.getVerticalScrollBar();
+        UIUtils.styleScrollBar(verticalBar);
+
+        RoundedPanel resultPanel = new RoundedPanel(borderRadius, ColorPalette.getInstance().getBgSecondary(),
+                ColorPalette.getInstance().getBorder());
+        resultPanel.setOpaque(false);
+        resultPanel.setLayout(new BorderLayout());;
+        resultPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        resultPanel.setPreferredSize(new Dimension(450, 350));
+        resultPanel.add(scrollPane, BorderLayout.CENTER);
+
+        return resultPanel;
     }
 
     public void setDateForDaily(List<String> dateForDaily) {
