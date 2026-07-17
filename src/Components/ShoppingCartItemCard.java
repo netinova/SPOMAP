@@ -169,7 +169,7 @@ public class ShoppingCartItemCard extends JPanel {
         ImageIcon minusIcon = UIUtils.loadAndScaleSVG("icons/minus.svg", 20, 20, null);
         ImageIcon plusIcon = UIUtils.loadAndScaleSVG("icons/plus.svg", 20, 20, null);
         ImageIcon trashIcon = UIUtils.loadAndScaleSVG("icons/trash.svg", 20, 20,
-                ColorPalette.getInstance().getBgSecondary());
+                ColorPalette.getInstance().getBgTertiary());
 
         minusButton = new RoundedButton(null, CORNER_RADIUS);
         minusButton.setIcon(minusIcon);

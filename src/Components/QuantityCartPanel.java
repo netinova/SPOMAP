@@ -98,7 +98,7 @@ public class QuantityCartPanel extends JPanel {
         cartButton.setContentAreaFilled(false);
         cartButton.setHasBorder(false);
         ImageIcon cartIcon = UIUtils.loadAndScaleSVG("icons/shopping_cart.svg", 20, 20,
-                ColorPalette.getInstance().getBgSecondary());
+                ColorPalette.getInstance().getTextPrimary());
         cartButton.setIcon(cartIcon);
         cartButton.setIconTextGap(12);
         cartButton.setHorizontalTextPosition(SwingConstants.RIGHT);
