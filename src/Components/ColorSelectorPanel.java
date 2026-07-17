@@ -44,8 +44,6 @@ public class ColorSelectorPanel extends JPanel {
     private static final int ITEM_HEIGHT = CIRCLE_DIAMETER + LABEL_HEIGHT + 6;
 
     private static final int CIRCLE_PADDING = 10;
-    private static final Color BORDER_UNSELECTED = ColorPalette.getInstance().getBorder();
-    private static final Color BORDER_SELECTED = ColorPalette.getInstance().getAccentPrimary();
     private static final int LABEL_VISIBLE_MS = 2500;
 
     public interface ColorSelectionListener {
@@ -265,11 +263,12 @@ public class ColorSelectorPanel extends JPanel {
             g2.fillOval(circleX, circleY, CIRCLE_DIAMETER - 1, CIRCLE_DIAMETER - 1);
 
             // Border
-            g2.setColor(selected ? BORDER_SELECTED : BORDER_UNSELECTED);
+            g2.setColor(
+                    selected ? ColorPalette.getInstance().getAccentPrimary() : ColorPalette.getInstance().getBorder());
             g2.setStroke(new BasicStroke(1.5f));
             g2.drawOval(circleX, circleY, CIRCLE_DIAMETER - 1, CIRCLE_DIAMETER - 1);
 
-            // Label under circle (fading)
+            // Label under circle
             if (labelAlpha > 0.01f) {
                 String text = productColor.name();
                 g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, labelAlpha));
