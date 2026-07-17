@@ -247,5 +247,24 @@
     "buttonNormal": "#251A3A",
     "buttonHover": "#9C4DFF",
     "buttonPressed": "#7B3FCB"
+  },
+  {
+    "name": "Arctic Frost",
+    "bgMain": "#0B1A24",
+    "bgSecondary": "#102333",
+    "bgTertiary": "#162D40",
+    "border": "#2A4A5E",
+    "textPrimary": "#DFF3FC",
+    "textMuted": "#91BCCF",
+    "textPlaceholder": "#5E8297",
+    "accentPrimary": "#5CDBFA",
+    "accentSuccess": "#4DD0B6",
+    "accentWarning": "#F4C262",
+    "accentDanger": "#FF6E7A",
+    "accentConfirm": "#2CCD9C",
+    "selectionBg": "#1E445A",
+    "buttonNormal": "#162D40",
+    "buttonHover": "#3E8BAB",
+    "buttonPressed": "#2D687F"
   }
 ]

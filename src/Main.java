@@ -59,13 +59,13 @@ public class Main {
                 AnalyticsService analyticsService = new AnalyticsService(invoiceService);
                 AppController appController = new AppController(products, invoiceService, analyticsService);
 
-                publish(new ProgressUpdate("Loading products...", 40)); // Changed to 40%
+                publish(new ProgressUpdate("Loading products...", 40));
                 ProductCatalog temp = ProductService.loadProducts();
                 for (Product product : temp.getProducts())
                     products.addProduct(product);
                 products.buildIndexes();
 
-                publish(new ProgressUpdate("Loading users...", 70)); // Changed to 70%
+                publish(new ProgressUpdate("Loading users...", 70));
                 UserNormalList normalUsersList = UserService.loadNormalUser();
                 UserPrimeList primeUsersList = UserService.loadPrimeUser();
                 UserAdminList adminUsersList = UserService.loadAdminUser();
