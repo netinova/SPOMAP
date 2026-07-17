@@ -7,6 +7,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.EventListenerList;
+
+import com.formdev.flatlaf.extras.FlatSVGIcon;
+
 import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -18,6 +21,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.geom.RoundRectangle2D;
+import java.io.File;
 
 public class SearchFiled extends JPanel {
 
@@ -50,9 +54,14 @@ public class SearchFiled extends JPanel {
 
         // search Icon
         iconLabel = new JLabel();
-        ImageIcon searchLogo = new ImageIcon("icons/search.png");
-        Image scaledIcon = searchLogo.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-        searchLogo = new ImageIcon(scaledIcon);
+        File svgFile = new File("icons/search.svg");
+        FlatSVGIcon searchLogo = new FlatSVGIcon(svgFile).derive(23, 23);
+
+        if (!searchLogo.hasFound()) {
+            System.err.println("SVG not found: " + svgFile.getAbsolutePath());
+        }
+        searchLogo.setColorFilter(new FlatSVGIcon.ColorFilter(c -> ColorPalette.getInstance().getAccentPrimary()));
+
         iconLabel.setIcon(searchLogo);
         iconLabel.setBorder(new EmptyBorder(0, 0, 0, 0));
         iconLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));

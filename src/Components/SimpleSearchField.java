@@ -20,6 +20,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.EventListenerList;
 
 import Util.ColorPalette;
+import Util.UIUtils;
 
 public class SimpleSearchField extends JPanel {
     private int cornerRadius = 40;
@@ -66,9 +67,7 @@ public class SimpleSearchField extends JPanel {
 
         // search Icon
         iconLabel = new JLabel();
-        ImageIcon searchLogo = new ImageIcon("icons/search.png");
-        Image scaledIcon = searchLogo.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-        searchLogo = new ImageIcon(scaledIcon);
+        ImageIcon searchLogo = UIUtils.loadAndScaleSVG("icons/search.svg", 20, 20, null);
         iconLabel.setIcon(searchLogo);
         iconLabel.setBorder(new EmptyBorder(0, 0, 0, 0));
         iconLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));

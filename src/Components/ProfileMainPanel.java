@@ -2,6 +2,8 @@ package Components;
 
 import Model.UserType;
 import Util.ColorPalette;
+import Util.UIUtils;
+
 import org.knowm.xchart.CategoryChart;
 import org.knowm.xchart.CategoryChartBuilder;
 import org.knowm.xchart.CategorySeries;
@@ -167,9 +169,8 @@ public class ProfileMainPanel extends JPanel {
         userInfo.setOpaque(false);
         userInfo.setLayout(new BoxLayout(userInfo, BoxLayout.X_AXIS));
 
-        ImageIcon userIcon = new ImageIcon("icons/male_user.png");
-        Image scaledIcon = userIcon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
-        JLabel iconLabel = new JLabel(new ImageIcon(scaledIcon));
+        ImageIcon userIcon = UIUtils.loadAndScaleSVG("icons/user.svg", 40, 40, null);
+        JLabel iconLabel = new JLabel(userIcon);
         userInfo.add(iconLabel);
         userInfo.add(Box.createHorizontalStrut(12));
 

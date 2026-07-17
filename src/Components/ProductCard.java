@@ -9,9 +9,12 @@ import java.awt.Insets;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.event.EventListenerList;
+
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -83,13 +86,17 @@ public class ProductCard extends JPanel {
 
         String location = product.getThumbnail();
 
-        String imagePath = (location == null || location.isEmpty())
-                ? "icons/Product_placeholder.png"
-                : location;
+        if (location == null || location.isEmpty()) {
+            File svgFile = new File("icons/Product_placeholder.svg");
+            productImage = new FlatSVGIcon(svgFile).derive(200, 200);
 
-        productImage = new ImageIcon(imagePath);
-        Image scaledImage = productImage.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
-        productImage = new ImageIcon(scaledImage);
+            ((FlatSVGIcon) productImage)
+                    .setColorFilter(new FlatSVGIcon.ColorFilter(c -> ColorPalette.getInstance().getAccentPrimary()));
+        } else {
+            productImage = new ImageIcon(location);
+            Image scaledImage = productImage.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+            productImage = new ImageIcon(scaledImage);
+        }
 
         JLabel imageLabel = new JLabel(productImage, SwingConstants.CENTER);
         imageLabel.setHorizontalAlignment(SwingConstants.CENTER);

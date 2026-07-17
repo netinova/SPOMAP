@@ -1,5 +1,6 @@
 package Components;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -17,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import Util.ColorPalette;
+import Util.UIUtils;
 
 public class QuantityCartPanel extends JPanel {
 
@@ -59,8 +61,8 @@ public class QuantityCartPanel extends JPanel {
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.X_AXIS));
         leftPanel.setOpaque(false);
 
-        ImageIcon minusIcon = loadAndScaleImage("icons/minus.png", 20, 20);
-        ImageIcon plusIcon = loadAndScaleImage("icons/plus.png", 20, 20);
+        ImageIcon minusIcon = UIUtils.loadAndScaleSVG("icons/minus.svg", 20, 20, null);
+        ImageIcon plusIcon = UIUtils.loadAndScaleSVG("icons/plus.svg", 20, 20, null);
 
         minusButton = new RoundedButton(null, CORNER_RADIUS);
         minusButton.setIcon(minusIcon);
@@ -95,7 +97,7 @@ public class QuantityCartPanel extends JPanel {
         cartButton.setPreferredSize(new Dimension(200, SQUARE_SIZE));
         cartButton.setContentAreaFilled(false);
         cartButton.setHasBorder(false);
-        ImageIcon cartIcon = loadAndScaleImage("icons/shopping_cart.png", 20, 20);
+        ImageIcon cartIcon = UIUtils.loadAndScaleSVG("icons/shopping_cart.svg", 20, 20, null);
         cartButton.setIcon(cartIcon);
         cartButton.setIconTextGap(12);
         cartButton.setHorizontalTextPosition(SwingConstants.RIGHT);
@@ -156,26 +158,6 @@ public class QuantityCartPanel extends JPanel {
 
     public void addCartListener(ActionListener listener) {
         cartButton.addActionListener(listener);
-    }
-
-    private ImageIcon loadAndScaleImage(String path, int maxWidth, int maxHeight) {
-        ImageIcon originalIcon = new ImageIcon(path);
-        Image originalImage = originalIcon.getImage();
-
-        int originalWidth = originalImage.getWidth(null);
-        int originalHeight = originalImage.getHeight(null);
-
-        // Calculate scaling factor to fit within max dimensions while preserving aspect
-        // ratio
-        double widthRatio = (double) maxWidth / originalWidth;
-        double heightRatio = (double) maxHeight / originalHeight;
-        double scaleFactor = Math.min(widthRatio, heightRatio);
-
-        int scaledWidth = (int) (originalWidth * scaleFactor);
-        int scaledHeight = (int) (originalHeight * scaleFactor);
-
-        Image scaledIcon = originalImage.getScaledInstance(scaledWidth, scaledHeight, Image.SCALE_SMOOTH);
-        return new ImageIcon(scaledIcon);
     }
 
 }

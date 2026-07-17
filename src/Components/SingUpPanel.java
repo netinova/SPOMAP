@@ -93,9 +93,7 @@ public class SingUpPanel extends JPanel {
         gbc.insets = new Insets(3, 20, 3, 20);
 
         // logo Image
-        ImageIcon logo = new ImageIcon("icons/SPOMAP_Default_White color.png");
-        Image resizeLogo = logo.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
-        logo = new ImageIcon(resizeLogo);
+        ImageIcon logo = UIUtils.loadAndScaleSVG("icons/logo_svg/SPOMAP_BG_White.svg", 100, 100, null);
         JLabel logoLabel = new JLabel("Sing Up");
         logoLabel.setForeground(ColorPalette.getInstance().getTextPrimary());
         logoLabel.setFont(new Font("Calibri (Body)", Font.BOLD, 40));

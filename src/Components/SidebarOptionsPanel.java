@@ -2,16 +2,23 @@ package Components;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+
+import com.formdev.flatlaf.extras.FlatSVGIcon;
+
+import Util.ColorPalette;
+
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.io.File;
 
 public class SidebarOptionsPanel extends JPanel {
 
-    public interface SidebarButtonListener{
+    public interface SidebarButtonListener {
         void onButtonFactorsClick();
+
         void onSettingsClick();
     }
 
@@ -35,43 +42,51 @@ public class SidebarOptionsPanel extends JPanel {
     private void crateComponents() {
         GridBagConstraints gbc = new GridBagConstraints();
 
-        // add button ========factors
-        ImageIcon factorIcon = new ImageIcon("icons/factor.png");
-        Image factorImage = factorIcon.getImage().getScaledInstance(20,20,Image.SCALE_SMOOTH);
-        ImageIcon scaledFactorIcon = new ImageIcon(factorImage);
-        RoundedButton factorButton = new RoundedButton("",rounded);
+        RoundedButton factorButton = new RoundedButton("", rounded);
+        File svgFile = new File("icons/invoice.svg");
+        FlatSVGIcon factorIcon = new FlatSVGIcon(svgFile).derive(35, 35);
+
+        if (!factorIcon.hasFound()) {
+            System.err.println("SVG not found: " + svgFile.getAbsolutePath());
+        }
+        factorIcon.setColorFilter(new FlatSVGIcon.ColorFilter(c -> ColorPalette.getInstance().getAccentPrimary()));
+
         factorButton.setPreferredSize(new Dimension(45, 45));
 
-        gbc.gridx=0;
-        gbc.gridy=0;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
         gbc.fill = GridBagConstraints.NONE;
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.weightx = 1;
         gbc.weighty = 0;
         gbc.insets = new Insets(10, 10, 10, 10);
 
-        factorButton.setIcon(scaledFactorIcon);
-        this.add(factorButton , gbc);
+        factorButton.setIcon(factorIcon);
+        this.add(factorButton, gbc);
 
-        factorButton.addActionListener(e->{
-            if (listener!=null){
+        factorButton.addActionListener(e -> {
+            if (listener != null) {
                 listener.onButtonFactorsClick();
             }
         });
 
-        // add button ======== Prime User
-        ImageIcon settingsIcon = new ImageIcon("icons/settings.png");
-        Image settingsImage = settingsIcon.getImage().getScaledInstance(20,20,Image.SCALE_SMOOTH);
-        ImageIcon scaledSettingsIcon = new ImageIcon(settingsImage);
-        RoundedButton settingsButton = new RoundedButton("",rounded);
+        svgFile = new File("icons/settings.svg");
+        FlatSVGIcon settingsIcon = new FlatSVGIcon(svgFile).derive(35, 35);
+
+        if (!settingsIcon.hasFound()) {
+            System.err.println("SVG not found: " + svgFile.getAbsolutePath());
+        }
+        settingsIcon.setColorFilter(new FlatSVGIcon.ColorFilter(c -> ColorPalette.getInstance().getAccentPrimary()));
+
+        RoundedButton settingsButton = new RoundedButton("", rounded);
         settingsButton.setPreferredSize(new Dimension(45, 45));
-        settingsButton.setIcon(scaledSettingsIcon);
+        settingsButton.setIcon(settingsIcon);
 
-        gbc.gridy=1;
-        this.add(settingsButton , gbc);
+        gbc.gridy = 1;
+        this.add(settingsButton, gbc);
 
-        settingsButton.addActionListener(e->{
-            if (listener!=null){
+        settingsButton.addActionListener(e -> {
+            if (listener != null) {
                 listener.onSettingsClick();
             }
         });

@@ -11,12 +11,16 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JWindow;
 import javax.swing.SwingConstants;
+
+import com.formdev.flatlaf.extras.FlatSVGIcon;
+
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.MediaTracker;
 import java.awt.Toolkit;
+import java.io.File;
 
 public class SplashScreen extends JWindow {
 
@@ -39,15 +43,12 @@ public class SplashScreen extends JWindow {
         content.setBackground(ColorPalette.getInstance().getBgMain());
         content.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        Image image = Toolkit.getDefaultToolkit().createImage("icons/SPOMAP_BG_White.png");
-        MediaTracker tracker = new MediaTracker(new JPanel());
-        tracker.addImage(image, 0);
-        try {
-            tracker.waitForAll();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        File svgFile = new File("icons/logo_svg/SPOMAP_BG_White.svg");
+        FlatSVGIcon imageIcon = new FlatSVGIcon(svgFile).derive(300, 300);
+        if (!imageIcon.hasFound()) {
+            System.err.println("SVG not found: " + svgFile.getAbsolutePath());
         }
-        ImageIcon imageIcon = new ImageIcon(image);
+        imageIcon.setColorFilter(new FlatSVGIcon.ColorFilter(c -> ColorPalette.getInstance().getAccentPrimary()));
 
         JLabel gifLabel = new JLabel(imageIcon);
         gifLabel.setHorizontalAlignment(SwingConstants.CENTER);

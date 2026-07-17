@@ -2,21 +2,26 @@ package Components;
 
 import Util.ColorPalette;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.formdev.flatlaf.extras.FlatSVGIcon;
+
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 
 public class IconNavbarLabel extends JPanel {
 
-    private JLabel shoppingCartIcon;
-    private ImageIcon notificationLogo;
-    private JLabel userLabel;
+    private RoundedButton shoppingCartIcon;
+    private RoundedButton userLabel;
 
     public interface OnIconClickListener {
 
@@ -62,26 +67,41 @@ public class IconNavbarLabel extends JPanel {
 
     private void setupUI() {
         this.setOpaque(false);
-        this.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 0));
+        this.setLayout(new FlowLayout(FlowLayout.RIGHT, 15, 0));
+        this.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
 
         // add notification logo icon
-        shoppingCartIcon = new JLabel();
-        notificationLogo = new ImageIcon("icons/shopping_cart.png");
-        Image scaledNotificationIcon = notificationLogo.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-        notificationLogo = new ImageIcon(scaledNotificationIcon);
-        shoppingCartIcon.setIcon(notificationLogo);
+
+        shoppingCartIcon = new RoundedButton("", 45);
+        shoppingCartIcon.setPreferredSize(new Dimension(45, 45));
+
+        File svgFile = new File("icons/shopping_cart.svg");
+        FlatSVGIcon shoppingCartImage = new FlatSVGIcon(svgFile).derive(35, 35);
+
+        if (!shoppingCartImage.hasFound()) {
+            System.err.println("SVG not found: " + svgFile.getAbsolutePath());
+        }
+        shoppingCartImage
+                .setColorFilter(new FlatSVGIcon.ColorFilter(c -> ColorPalette.getInstance().getAccentPrimary()));
+
+        shoppingCartIcon.setIcon(shoppingCartImage);
         shoppingCartIcon.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        shoppingCartIcon.setBorder(new EmptyBorder(0, 0, 0, 12));
         this.add(shoppingCartIcon);
 
         // add user logo icon
-        userLabel = new JLabel();
-        ImageIcon userLogo = new ImageIcon("icons/male_user.png");
-        Image scaledUserIcon = userLogo.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-        notificationLogo = new ImageIcon(scaledUserIcon);
-        userLabel.setIcon(notificationLogo);
+        userLabel = new RoundedButton("", 45);
+        userLabel.setPreferredSize(new Dimension(45, 45));
+        svgFile = new File("icons/user.svg");
+        FlatSVGIcon userIcon = new FlatSVGIcon(svgFile).derive(35, 35);
+
+        if (!userIcon.hasFound()) {
+            System.err.println("SVG not found: " + svgFile.getAbsolutePath());
+        }
+        userIcon
+                .setColorFilter(new FlatSVGIcon.ColorFilter(c -> ColorPalette.getInstance().getAccentPrimary()));
+
+        userLabel.setIcon(userIcon);
         userLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        userLabel.setBorder(new EmptyBorder(0, 0, 0, 12));
         this.add(userLabel);
     }
 }

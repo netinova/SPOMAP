@@ -1,6 +1,7 @@
 package Components;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
@@ -8,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -19,9 +21,12 @@ import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.event.EventListenerList;
 
+import com.formdev.flatlaf.extras.FlatSVGIcon;
+
 import Model.CartItem;
 import Model.Product;
 import Util.ColorPalette;
+import Util.UIUtils;
 
 public class ShoppingCartItemCard extends JPanel {
 
@@ -107,13 +112,22 @@ public class ShoppingCartItemCard extends JPanel {
         imagePanel.setPreferredSize(new Dimension(THUMB_SIZE, THUMB_SIZE));
 
         String location = product.getThumbnail();
-        String imagePath = (location == null || location.isEmpty())
-                ? "icons/Product_placeholder.png"
-                : location;
 
-        ImageIcon icon = new ImageIcon(imagePath);
-        Image scaled = icon.getImage().getScaledInstance(THUMB_SIZE, THUMB_SIZE, Image.SCALE_SMOOTH);
-        JLabel imageLabel = new JLabel(new ImageIcon(scaled), SwingConstants.CENTER);
+        ImageIcon productImage;
+
+        if (location == null || location.isEmpty()) {
+            File svgFile = new File("icons/Product_placeholder.svg");
+            productImage = new FlatSVGIcon(svgFile).derive(THUMB_SIZE, THUMB_SIZE);
+
+            ((FlatSVGIcon) productImage)
+                    .setColorFilter(new FlatSVGIcon.ColorFilter(c -> ColorPalette.getInstance().getAccentPrimary()));
+        } else {
+            productImage = new ImageIcon(location);
+            Image scaledImage = productImage.getImage().getScaledInstance(THUMB_SIZE, THUMB_SIZE, Image.SCALE_SMOOTH);
+            productImage = new ImageIcon(scaledImage);
+        }
+
+        JLabel imageLabel = new JLabel(productImage, SwingConstants.CENTER);
         imagePanel.add(imageLabel, BorderLayout.CENTER);
 
         add(imagePanel, BorderLayout.WEST);
@@ -152,9 +166,9 @@ public class ShoppingCartItemCard extends JPanel {
         controlsBar.setLayout(new BoxLayout(controlsBar, BoxLayout.X_AXIS));
         controlsBar.setOpaque(false);
 
-        ImageIcon minusIcon = loadAndScaleImage("icons/minus.png", 20, 20);
-        ImageIcon plusIcon = loadAndScaleImage("icons/plus.png", 20, 20);
-        ImageIcon trashIcon = loadAndScaleImage("icons/trash.png", 20, 20);
+        ImageIcon minusIcon = UIUtils.loadAndScaleSVG("icons/minus.svg", 20, 20, null);
+        ImageIcon plusIcon = UIUtils.loadAndScaleSVG("icons/plus.svg", 20, 20, null);
+        ImageIcon trashIcon = UIUtils.loadAndScaleSVG("icons/trash.svg", 20, 20, null);
 
         minusButton = new RoundedButton(null, CORNER_RADIUS);
         minusButton.setIcon(minusIcon);
@@ -296,21 +310,4 @@ public class ShoppingCartItemCard extends JPanel {
         }
     }
 
-    private ImageIcon loadAndScaleImage(String path, int maxWidth, int maxHeight) {
-        ImageIcon originalIcon = new ImageIcon(path);
-        Image originalImage = originalIcon.getImage();
-
-        int originalWidth = originalImage.getWidth(null);
-        int originalHeight = originalImage.getHeight(null);
-
-        double widthRatio = (double) maxWidth / originalWidth;
-        double heightRatio = (double) maxHeight / originalHeight;
-        double scaleFactor = Math.min(widthRatio, heightRatio);
-
-        int scaledWidth = (int) (originalWidth * scaleFactor);
-        int scaledHeight = (int) (originalHeight * scaleFactor);
-
-        Image scaledIcon = originalImage.getScaledInstance(scaledWidth, scaledHeight, Image.SCALE_SMOOTH);
-        return new ImageIcon(scaledIcon);
-    }
 }

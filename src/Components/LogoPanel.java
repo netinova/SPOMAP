@@ -1,6 +1,7 @@
 package Components;
 
 import Util.ColorPalette;
+import Util.UIUtils;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -8,11 +9,20 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.formdev.flatlaf.extras.FlatSVGIcon;
+
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+
+import java.io.File;
+
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
 
 public class LogoPanel extends JPanel {
 
@@ -57,11 +67,16 @@ public class LogoPanel extends JPanel {
         buttonTimer.setBorder(new EmptyBorder(10, 10, 10, 10));
         this.add(buttonTimer);
 
-        this.add(Box.createVerticalStrut(5));
+        this.add(Box.createVerticalStrut(15));
+
         // importing and scaling icon
-        ImageIcon logoIcon = new ImageIcon("icons/SPOMAP_Default_White color.png");
-        Image scaledIcon = logoIcon.getImage().getScaledInstance(75, 75, Image.SCALE_SMOOTH);
-        logoIcon = new ImageIcon(scaledIcon);
+        File svgFile = new File("icons/logo_svg/SPOMAP_BG_White.svg");
+        FlatSVGIcon logoIcon = new FlatSVGIcon(svgFile).derive(75, 75);
+        if (!logoIcon.hasFound()) {
+            System.err.println("SVG not found: " + svgFile.getAbsolutePath());
+        }
+        logoIcon.setColorFilter(new FlatSVGIcon.ColorFilter(c -> ColorPalette.getInstance().getAccentPrimary()));
+
         JLabel iconLabel = new JLabel();
         iconLabel.setIcon(logoIcon);
         iconLabel.setAlignmentX(CENTER_ALIGNMENT);

@@ -20,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import Util.ColorPalette;
+import Util.UIUtils;
 
 public class ImageGallery extends JPanel {
 
@@ -72,8 +73,8 @@ public class ImageGallery extends JPanel {
         leftArrow = createArrowButton("");
         rightArrow = createArrowButton("");
 
-        ImageIcon leftArrowIcon = loadAndScaleImage("icons/left_arrow.png", 20, 20);
-        ImageIcon rightArrowIcon = loadAndScaleImage("icons/right_arrow.png", 20, 20);
+        ImageIcon leftArrowIcon = UIUtils.loadAndScaleSVG("icons/left_arrow.svg", 20, 20, null);
+        ImageIcon rightArrowIcon = UIUtils.loadAndScaleSVG("icons/right_arrow.svg", 20, 20, null);
 
         leftArrow.setIcon(leftArrowIcon);
         rightArrow.setIcon(rightArrowIcon);
@@ -162,7 +163,7 @@ public class ImageGallery extends JPanel {
             return;
         }
 
-        ImageIcon icon = loadAndScaleImage(imagePaths.get(currentIndex),
+        ImageIcon icon = UIUtils.loadAndScaleImage(imagePaths.get(currentIndex),
                 imagePanel.getWidth(), imagePanel.getHeight());
         imageLabel.setIcon(icon);
         imageLabel.setText(null);
@@ -199,25 +200,5 @@ public class ImageGallery extends JPanel {
             dots[i].setForeground(i == idx ? ColorPalette.getInstance().getAccentPrimary()
                     : ColorPalette.getInstance().getTextMuted());
         }
-    }
-
-    private ImageIcon loadAndScaleImage(String path, int maxWidth, int maxHeight) {
-        ImageIcon originalIcon = new ImageIcon(path);
-        Image originalImage = originalIcon.getImage();
-
-        int originalWidth = originalImage.getWidth(null);
-        int originalHeight = originalImage.getHeight(null);
-
-        // Calculate scaling factor to fit within max dimensions while preserving aspect
-        // ratio
-        double widthRatio = (double) maxWidth / originalWidth;
-        double heightRatio = (double) maxHeight / originalHeight;
-        double scaleFactor = Math.min(widthRatio, heightRatio);
-
-        int scaledWidth = (int) (originalWidth * scaleFactor);
-        int scaledHeight = (int) (originalHeight * scaleFactor);
-
-        Image scaledIcon = originalImage.getScaledInstance(scaledWidth, scaledHeight, Image.SCALE_SMOOTH);
-        return new ImageIcon(scaledIcon);
     }
 }

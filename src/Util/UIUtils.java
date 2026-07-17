@@ -3,17 +3,64 @@ package Util;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
+import java.io.File;
+import java.awt.Color;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JScrollBar;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 
+import com.formdev.flatlaf.extras.FlatSVGIcon;
+
 public final class UIUtils {
 
     private UIUtils() {
+    }
+
+    public static String toHex(Color color) {
+        return String.format("#%02X%02X%02X", color.getRed(), color.getGreen(), color.getBlue());
+    }
+
+    public static ImageIcon loadAndScaleImage(String path, int maxWidth, int maxHeight) {
+        ImageIcon originalIcon = new ImageIcon(path);
+        Image originalImage = originalIcon.getImage();
+
+        int originalWidth = originalImage.getWidth(null);
+        int originalHeight = originalImage.getHeight(null);
+
+        // Calculate scaling factor to fit within max dimensions while preserving aspect
+        // ratio
+        double widthRatio = (double) maxWidth / originalWidth;
+        double heightRatio = (double) maxHeight / originalHeight;
+        double scaleFactor = Math.min(widthRatio, heightRatio);
+
+        int scaledWidth = (int) (originalWidth * scaleFactor);
+        int scaledHeight = (int) (originalHeight * scaleFactor);
+
+        Image scaledIcon = originalImage.getScaledInstance(scaledWidth, scaledHeight, Image.SCALE_SMOOTH);
+        return new ImageIcon(scaledIcon);
+    }
+
+    public static FlatSVGIcon loadAndScaleSVG(String path, int maxWidth, int maxHeight, Color color) {
+
+        File svgFile = new File(path);
+        FlatSVGIcon svg = new FlatSVGIcon(svgFile).derive(maxWidth, maxHeight);
+
+        if (!svg.hasFound()) {
+            System.err.println("SVG not found: " + svgFile.getAbsolutePath());
+        }
+        if (color == null) {
+            svg.setColorFilter(new FlatSVGIcon.ColorFilter(c -> ColorPalette.getInstance().getAccentPrimary()));
+        } else {
+            svg.setColorFilter(new FlatSVGIcon.ColorFilter(c -> color));
+        }
+
+        return svg;
     }
 
     public static void styleScrollBar(JScrollBar bar) {
