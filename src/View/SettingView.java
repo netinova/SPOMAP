@@ -2,37 +2,49 @@ package View;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 
+import Components.ThemePickerPanel;
 import Controller.SettingController;
+import Model.ProductCatalog;
+import Service.ThemeService;
 import Util.ColorPalette;
 import Util.UIUtils;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.ScrollPane;
-import java.awt.Scrollbar;
 
 public class SettingView extends JPanel {
 
-    @SuppressWarnings("unused")
     private SettingController controller;
 
     private JPanel contentPanel;
+    private ThemePickerPanel themePickerPanel;
 
     public SettingView(SettingController controller) {
         this.controller = controller;
 
         setupUI();
+        attachEvents();
+
         ColorPalette.getInstance().addPropertyChangeListener(e -> {
             removeAll();
             setupUI();
+            attachEvents();
             revalidate();
             repaint();
+        });
+    }
+
+    private void attachEvents() {
+        // Add theme picker listener
+        themePickerPanel.addThemeSelectionListener(e -> {
+            String selectedTheme = themePickerPanel.getSelectedThemeName();
+            System.out.println("Theme selected: " + selectedTheme);
+
+            controller.changeThemeByName(selectedTheme);
         });
     }
 
@@ -40,15 +52,19 @@ public class SettingView extends JPanel {
         this.setBackground(ColorPalette.getInstance().getBgMain());
         this.setLayout(new BorderLayout());
 
-        this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
         contentPanel = new JPanel();
-        contentPanel.setBackground(ColorPalette.getInstance().getBgSecondary());
+        contentPanel.setBackground(ColorPalette.getInstance().getBgMain());
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
-        contentPanel.setBorder(
-                BorderFactory.createLineBorder(ColorPalette.getInstance().getBorder()));
+        contentPanel.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createEmptyBorder(10, 10, 10, 10),
+                BorderFactory.createLineBorder(ColorPalette.getInstance().getBorder())));
 
-        // wrapping the grid in a scroll pane
+        // Add theme picker component
+        themePickerPanel = new ThemePickerPanel();
+        themePickerPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        contentPanel.add(themePickerPanel);
+
+        // wrapping the components in a scroll pane
         JScrollPane scrollPane = new JScrollPane(contentPanel);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);

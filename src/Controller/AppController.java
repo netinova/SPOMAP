@@ -48,7 +48,7 @@ public class AppController {
         this.productController = new ProductController();
         this.invoiceController = new InvoiceController(this.invoiceService, productCatalog);
         this.profileController = new UserProfileController(productCatalog, this.analyticsService);
-        this.settingController = new SettingController();
+        this.settingController = new SettingController(productCatalog);
     }
 
     public void setViews(ShopView shopView, NavigationView navigationView,
