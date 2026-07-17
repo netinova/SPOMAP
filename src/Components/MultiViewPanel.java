@@ -49,10 +49,7 @@ public class MultiViewPanel extends JPanel {
         this.setLayout(cardLayout);
         this.setBackground(ColorPalette.getInstance().getBgMain());
 
-        // border
-        Border line = BorderFactory.createLineBorder(ColorPalette.getInstance().getBorder());
-        Border etched = BorderFactory.createEtchedBorder();
-        this.setBorder(BorderFactory.createCompoundBorder(line, etched));
+        this.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
         this.add(shopView, ViewType.SHOP.getViewId());
         this.add(authenticationView, ViewType.AUTH.getViewId());

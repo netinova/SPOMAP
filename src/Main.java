@@ -24,13 +24,6 @@ import java.util.List;
 import java.util.Locale;
 
 public class Main {
-
-    private record ProgressUpdate(String status, int percent) {
-    }
-
-    private record LoadedData(AppController controller, ProductCatalog catalog) {
-    }
-
     public static void main(String[] args) {
         Locale.setDefault(Locale.US);
 
@@ -133,5 +126,12 @@ public class Main {
             }
         };
         worker.execute();
+
+    }
+
+    private record ProgressUpdate(String status, int percent) {
+    }
+
+    private record LoadedData(AppController controller, ProductCatalog catalog) {
     }
 }

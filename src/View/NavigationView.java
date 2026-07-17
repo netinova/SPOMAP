@@ -66,12 +66,9 @@ public class NavigationView extends JPanel {
         this.setPreferredSize(new Dimension(0, 60));
         this.setMinimumSize(new Dimension(0, 60));
 
-        // border
-        Border line = BorderFactory.createLineBorder(ColorPalette.getInstance().getBorder());
-        Border etched = BorderFactory.createEtchedBorder();
-        this.setBorder(BorderFactory.createCompoundBorder(line, etched));
-
-        this.setBorder(new EmptyBorder(5, 10, 5, 10));
+        Border bottomSeparator = BorderFactory.createMatteBorder(0, 0, 1, 0,
+                ColorPalette.getInstance().getBorder());
+        this.setBorder(BorderFactory.createCompoundBorder(bottomSeparator, new EmptyBorder(5, 10, 5, 10)));
 
         GridBagConstraints gbc = new GridBagConstraints();
 

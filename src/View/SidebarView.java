@@ -51,11 +51,7 @@ public class SidebarView extends JPanel {
         this.setMinimumSize(new Dimension(100, 0));
         this.setLayout(new GridBagLayout());
         this.setBackground(ColorPalette.getInstance().getBgSecondary());
-
-        // border
-        Border line = BorderFactory.createLineBorder(ColorPalette.getInstance().getBorder());
-        Border etched = BorderFactory.createEtchedBorder();
-        this.setBorder(BorderFactory.createCompoundBorder(line, etched));
+        this.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, ColorPalette.getInstance().getBorder()));
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.NORTH;
