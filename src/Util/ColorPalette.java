@@ -283,22 +283,24 @@ public final class ColorPalette {
             return;
         }
 
-        setBgMain(parseColor(theme.getBgMain(), bgMain));
-        setBgSecondary(parseColor(theme.getBgSecondary(), bgSecondary));
-        setBgTertiary(parseColor(theme.getBgTertiary(), bgTertiary));
-        setBorder(parseColor(theme.getBorder(), border));
-        setTextPrimary(parseColor(theme.getTextPrimary(), textPrimary));
-        setTextMuted(parseColor(theme.getTextMuted(), textMuted));
-        setTextPlaceholder(parseColor(theme.getTextPlaceholder(), textPlaceholder));
-        setAccentPrimary(parseColor(theme.getAccentPrimary(), accentPrimary));
-        setAccentSuccess(parseColor(theme.getAccentSuccess(), accentSuccess));
-        setAccentWarning(parseColor(theme.getAccentWarning(), accentWarning));
-        setAccentDanger(parseColor(theme.getAccentDanger(), accentDanger));
-        setAccentConfirm(parseColor(theme.getAccentConfirm(), accentConfirm));
-        setSelectionBg(parseColor(theme.getSelectionBg(), selectionBg));
-        setButtonNormal(parseColor(theme.getButtonNormal(), buttonNormal));
-        setButtonHover(parseColor(theme.getButtonHover(), buttonHover));
-        setButtonPressed(parseColor(theme.getButtonPressed(), buttonPressed));
+        bgMain = parseColor(theme.getBgMain(), bgMain);
+        bgSecondary = parseColor(theme.getBgSecondary(), bgSecondary);
+        bgTertiary = parseColor(theme.getBgTertiary(), bgTertiary);
+        border = parseColor(theme.getBorder(), border);
+        textPrimary = parseColor(theme.getTextPrimary(), textPrimary);
+        textMuted = parseColor(theme.getTextMuted(), textMuted);
+        textPlaceholder = parseColor(theme.getTextPlaceholder(), textPlaceholder);
+        accentPrimary = parseColor(theme.getAccentPrimary(), accentPrimary);
+        accentSuccess = parseColor(theme.getAccentSuccess(), accentSuccess);
+        accentWarning = parseColor(theme.getAccentWarning(), accentWarning);
+        accentDanger = parseColor(theme.getAccentDanger(), accentDanger);
+        accentConfirm = parseColor(theme.getAccentConfirm(), accentConfirm);
+        selectionBg = parseColor(theme.getSelectionBg(), selectionBg);
+        buttonNormal = parseColor(theme.getButtonNormal(), buttonNormal);
+        buttonHover = parseColor(theme.getButtonHover(), buttonHover);
+        buttonPressed = parseColor(theme.getButtonPressed(), buttonPressed);
+
+        support.firePropertyChange("theme", null, theme);
     }
 
     private static Color parseColor(String hex, Color fallback) {

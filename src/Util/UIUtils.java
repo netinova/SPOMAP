@@ -33,14 +33,16 @@ public final class UIUtils {
         int originalWidth = originalImage.getWidth(null);
         int originalHeight = originalImage.getHeight(null);
 
-        // Calculate scaling factor to fit within max dimensions while preserving aspect
-        // ratio
+        if (originalWidth <= 0 || originalHeight <= 0 || maxWidth <= 0 || maxHeight <= 0) {
+            return originalIcon;
+        }
+
         double widthRatio = (double) maxWidth / originalWidth;
         double heightRatio = (double) maxHeight / originalHeight;
         double scaleFactor = Math.min(widthRatio, heightRatio);
 
-        int scaledWidth = (int) (originalWidth * scaleFactor);
-        int scaledHeight = (int) (originalHeight * scaleFactor);
+        int scaledWidth = Math.max(1, (int) (originalWidth * scaleFactor));
+        int scaledHeight = Math.max(1, (int) (originalHeight * scaleFactor));
 
         Image scaledIcon = originalImage.getScaledInstance(scaledWidth, scaledHeight, Image.SCALE_SMOOTH);
         return new ImageIcon(scaledIcon);

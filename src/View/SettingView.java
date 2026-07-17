@@ -1,14 +1,18 @@
 package View;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
+import javax.swing.SwingWorker;
 
+import Components.SplashScreen;
 import Components.ThemePickerPanel;
 import Controller.SettingController;
 import Model.ProductCatalog;
+import Model.Theme;
 import Service.ThemeService;
 import Util.ColorPalette;
 import Util.UIUtils;
@@ -39,10 +43,11 @@ public class SettingView extends JPanel {
     }
 
     private void attachEvents() {
-        // Add theme picker listener
         themePickerPanel.addThemeSelectionListener(e -> {
             String selectedTheme = themePickerPanel.getSelectedThemeName();
-            System.out.println("Theme selected: " + selectedTheme);
+            if (selectedTheme == null || selectedTheme.isBlank()) {
+                return;
+            }
 
             controller.changeThemeByName(selectedTheme);
         });
@@ -53,26 +58,28 @@ public class SettingView extends JPanel {
         this.setLayout(new BorderLayout());
 
         contentPanel = new JPanel();
-        contentPanel.setBackground(ColorPalette.getInstance().getBgMain());
+        contentPanel.setOpaque(true);
+        contentPanel.setBackground(ColorPalette.getInstance().getBgSecondary());
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
-        contentPanel.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createEmptyBorder(10, 10, 10, 10),
-                BorderFactory.createLineBorder(ColorPalette.getInstance().getBorder())));
+        contentPanel.setBorder(BorderFactory.createLineBorder(ColorPalette.getInstance().getBorder()));
+        contentPanel.setMaximumSize(new java.awt.Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
 
-        // Add theme picker component
         themePickerPanel = new ThemePickerPanel();
         themePickerPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         contentPanel.add(themePickerPanel);
+        contentPanel.add(Box.createVerticalGlue());
 
-        // wrapping the components in a scroll pane
         JScrollPane scrollPane = new JScrollPane(contentPanel);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         scrollPane.setBorder(null);
         scrollPane.setBackground(ColorPalette.getInstance().getBgMain());
+        scrollPane.getViewport().setBackground(ColorPalette.getInstance().getBgSecondary());
 
-        // Custom scrollbar styling
+        scrollPane.getViewport().setBackground(ColorPalette.getInstance().getBgMain());
+        scrollPane.setViewportBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
         JScrollBar verticalBar = scrollPane.getVerticalScrollBar();
         UIUtils.styleScrollBar(verticalBar);
 

@@ -6,7 +6,9 @@ import Model.Product;
 import Model.ProductCatalog;
 import Service.AnalyticsService;
 import Service.InvoiceService;
+import Service.SettingsService;
 import Service.ThemeService;
+import Model.Settings;
 import Model.Theme;
 import Model.UserLists.UserAdminList;
 import Model.UserLists.UserNormalList;
@@ -28,12 +30,20 @@ public class Main {
         Locale.setDefault(Locale.US);
 
         ThemeService themeService = new ThemeService();
-        Theme defaultTheme = themeService.loadThemeByName("default dark");
-        if (defaultTheme == null) {
-            defaultTheme = Theme.defaultDark();
-            themeService.saveTheme(defaultTheme);
+        SettingsService settingsService = new SettingsService();
+        Settings settings = settingsService.loadSettings();
+
+        String activeThemeName = settings != null && settings.getActiveThemeName() != null
+                ? settings.getActiveThemeName()
+                : "default dark";
+
+        Theme activeTheme = themeService.loadThemeByName(activeThemeName);
+        if (activeTheme == null) {
+            activeTheme = Theme.defaultDark();
+            themeService.saveTheme(activeTheme);
         }
-        ColorPalette.getInstance().applyTheme(defaultTheme);
+
+        ColorPalette.getInstance().applyTheme(activeTheme);
 
         SplashScreen splash = new SplashScreen();
         splash.setVisible(true);
@@ -109,6 +119,7 @@ public class Main {
                             userProfileView, invoiceView, invoiceDetailView);
 
                     MainFrame mainFrame = new MainFrame(data.controller, sidebarView, navigationView, multiViewPanel);
+                    data.controller.getSettingController().setMainFrame(mainFrame);
 
                     data.catalog.updateView();
 

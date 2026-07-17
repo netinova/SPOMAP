@@ -163,8 +163,17 @@ public class ImageGallery extends JPanel {
             return;
         }
 
-        ImageIcon icon = UIUtils.loadAndScaleImage(imagePaths.get(currentIndex),
-                imagePanel.getWidth(), imagePanel.getHeight());
+        int width = imagePanel.getWidth();
+        int height = imagePanel.getHeight();
+        if (width <= 0 || height <= 0) {
+            imageLabel.setIcon(null);
+            imageLabel.setText("Loading...");
+            imageLabel.setForeground(ColorPalette.getInstance().getTextMuted());
+            buildDots(imagePaths.size());
+            return;
+        }
+
+        ImageIcon icon = UIUtils.loadAndScaleImage(imagePaths.get(currentIndex), width, height);
         imageLabel.setIcon(icon);
         imageLabel.setText(null);
 
