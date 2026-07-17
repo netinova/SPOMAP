@@ -109,12 +109,11 @@ public class ColorSelectorPanel extends JPanel {
 
     private void toggleSelection(ProductColor color) {
         if (selectionMode == SelectionMode.SINGLE) {
-            if (selectedColors.size() == 1 && selectedColors.contains(color)) {// if selected
-                selectedColors.clear();
-            } else {
-                selectedColors.clear();
-                selectedColors.add(color);
+            if (selectedColors.size() == 1 && selectedColors.contains(color)) {
+                return;
             }
+            selectedColors.clear();
+            selectedColors.add(color);
         } else { // multi
             if (selectedColors.contains(color)) {
                 selectedColors.remove(color);

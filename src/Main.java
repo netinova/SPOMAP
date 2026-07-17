@@ -28,7 +28,7 @@ public class Main {
         Locale.setDefault(Locale.US);
 
         ThemeService themeService = new ThemeService();
-        Theme defaultTheme = themeService.loadThemeByName("Coffee Cream");
+        Theme defaultTheme = themeService.loadThemeByName("Vanilla Green");
         if (defaultTheme == null) {
             defaultTheme = Theme.defaultDark();
             themeService.saveTheme(defaultTheme);
