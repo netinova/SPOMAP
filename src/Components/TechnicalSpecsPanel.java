@@ -1,6 +1,5 @@
 package Components;
 
-import java.awt.Component;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -8,23 +7,16 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 
 import Model.Product;
 import Model.ProductColor;
 import Util.ColorPalette;
-import Util.UIUtils;
 
 /**
  * A collapsible panel that shows all technical specifications of a Product,

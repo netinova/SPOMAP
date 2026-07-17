@@ -1,10 +1,10 @@
 package Components;
 
 import Util.ColorPalette;
-import Util.UIUtils;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JLabel;
+import javax.swing.Timer;
+import java.awt.Font;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 

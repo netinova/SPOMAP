@@ -3,13 +3,15 @@ package Components;
 
 import Controller.UserProfileController;
 import Util.ColorPalette;
-import Util.UIUtils;
 
-import javax.swing.*;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 

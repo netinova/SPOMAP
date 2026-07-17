@@ -1,23 +1,22 @@
 package Components;
 
-import Model.AppState;
-import Model.UserType;
 import Util.ColorPalette;
-import Util.UIUtils;
 import Util.Validator.ValidationResult;
 
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JPanel;
 import javax.swing.event.EventListenerList;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.RoundRectangle2D;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Invoice search panel with live filtering capabilities.

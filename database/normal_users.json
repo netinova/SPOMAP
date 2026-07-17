@@ -62,5 +62,14 @@
     "registerDate" : "2026-06-09 16:30:38",
     "balance" : 0.0,
     "userType" : "NORMAL"
+  }, {
+    "userId" : "USR_000010",
+    "phoneNumber" : "09056545974",
+    "firstName" : "parsa",
+    "lastName" : "qelich",
+    "password" : "2c0968dabe58c67d17a07f066a9e5d9cc0ffe914f12da60aa62acc1f49bfd30c",
+    "registerDate" : "2026-07-17 02:54:23",
+    "balance" : 200.0,
+    "userType" : "NORMAL"
   } ]
 }

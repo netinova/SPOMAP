@@ -1,7 +1,6 @@
 package Controller;
 
 import Model.AppState;
-import Model.PrimeUser;
 import Model.ShoppingCart;
 import Model.User;
 import Model.ViewType;

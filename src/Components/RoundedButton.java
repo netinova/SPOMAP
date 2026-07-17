@@ -1,11 +1,15 @@
 package Components;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import javax.swing.JButton;
 import javax.swing.border.EmptyBorder;
 
 import Util.ColorPalette;
-import Util.UIUtils;
 
 public class RoundedButton extends JButton {
 

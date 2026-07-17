@@ -1,14 +1,18 @@
 package Components;
 
-import java.awt.*;
+import Util.ColorPalette;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-
-import Util.ColorPalette;
-import Util.UIUtils;
 
 public class LogoPanel extends JPanel {
 

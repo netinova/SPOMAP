@@ -2,11 +2,9 @@ package Controller;
 
 import Model.ProductCatalog;
 import Model.ViewType;
-import View.AuthenticationView;
 import View.ShopView;
 import java.util.List;
 
-import Components.MultiViewPanel;
 import Model.AppState;
 import Model.Product;
 

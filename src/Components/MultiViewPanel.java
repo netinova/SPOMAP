@@ -7,7 +7,6 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 import Util.ColorPalette;
-import Model.Invoice;
 import Model.ViewType;
 import View.*;
 

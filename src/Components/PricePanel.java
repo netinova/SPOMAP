@@ -1,7 +1,6 @@
 package Components;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Font;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -10,7 +9,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import Util.ColorPalette;
-import Util.UIUtils;
 
 public class PricePanel extends JPanel {
 

@@ -2,7 +2,6 @@ package Components;
 
 import Model.ProductColor;
 import Util.ColorPalette;
-import Util.UIUtils;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;

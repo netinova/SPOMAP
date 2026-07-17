@@ -1,7 +1,5 @@
 package Service;
 
-import Model.Invoice;
-import Model.InvoiceItem;
 import Model.Product;
 import Model.ProductCatalog;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -9,10 +7,6 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 public class ProductService {
 

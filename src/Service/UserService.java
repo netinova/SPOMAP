@@ -4,8 +4,6 @@ import Model.AdminUser;
 import Model.NormalUser;
 import Model.PrimeUser;
 import Model.User;
-import Model.UserLists;
-import Model.UserType;
 import Model.UserLists.UserAdminList;
 import Model.UserLists.UserNormalList;
 import Model.UserLists.UserPrimeList;
@@ -19,8 +17,6 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 public class UserService {
 

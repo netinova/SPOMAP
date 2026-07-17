@@ -17,7 +17,8 @@ import Util.ColorPalette;
 import Util.Stopwatch;
 import View.*;
 
-import javax.swing.*;
+import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -35,7 +36,7 @@ public class Main {
         Locale.setDefault(Locale.US);
 
         ThemeService themeService = new ThemeService();
-        Theme defaultTheme = themeService.loadThemeByName("default dark");
+        Theme defaultTheme = themeService.loadThemeByName("Ocean Green");
         if (defaultTheme == null) {
             defaultTheme = Theme.defaultDark();
             themeService.saveTheme(defaultTheme);

@@ -10,7 +10,6 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import Util.ColorPalette;
-import Util.UIUtils;
 
 public class CopyrightPanel extends JPanel {
 

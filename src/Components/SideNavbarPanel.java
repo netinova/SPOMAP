@@ -1,12 +1,11 @@
 package Components;
 
-import java.awt.*;
-
-import javax.swing.*;
-
 import Controller.SidebarController;
 import Util.ColorPalette;
-import Util.UIUtils;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JPanel;
 
 public class SideNavbarPanel extends JPanel {
 

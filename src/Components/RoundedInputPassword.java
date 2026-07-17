@@ -1,11 +1,15 @@
 package Components;
 
 import Util.ColorPalette;
-import Util.UIUtils;
 
-import javax.swing.*;
+import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Insets;
+import java.awt.RenderingHints;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.geom.RoundRectangle2D;

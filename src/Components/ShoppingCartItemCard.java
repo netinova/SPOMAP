@@ -22,7 +22,6 @@ import javax.swing.event.EventListenerList;
 import Model.CartItem;
 import Model.Product;
 import Util.ColorPalette;
-import Util.UIUtils;
 
 public class ShoppingCartItemCard extends JPanel {
 

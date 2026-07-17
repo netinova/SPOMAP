@@ -12,12 +12,17 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 
-import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import Model.*;
+import Model.AppState;
+import Model.Invoice;
+import Model.InvoiceItem;
+import Model.InvoiceStatus;
+import Model.ProductCatalog;
+import Model.UserType;
+import Model.ViewType;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.rendering.PDFRenderer;
 

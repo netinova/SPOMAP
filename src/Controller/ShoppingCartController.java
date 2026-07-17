@@ -1,7 +1,5 @@
 package Controller;
 
-import javax.swing.JOptionPane;
-
 import Model.AppState;
 import Model.CartItem;
 import Model.Invoice;

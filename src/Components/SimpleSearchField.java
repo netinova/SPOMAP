@@ -20,7 +20,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.EventListenerList;
 
 import Util.ColorPalette;
-import Util.UIUtils;
 
 public class SimpleSearchField extends JPanel {
     private int cornerRadius = 40;

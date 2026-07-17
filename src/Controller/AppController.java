@@ -1,7 +1,6 @@
 package Controller;
 
 import Model.ProductCatalog;
-import Model.ShoppingCart;
 import Service.AnalyticsService;
 import Service.InvoiceService;
 import View.ShopView;

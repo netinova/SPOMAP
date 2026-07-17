@@ -28,7 +28,6 @@ import javax.swing.plaf.basic.BasicComboPopup;
 import javax.swing.plaf.basic.ComboPopup;
 
 import Util.ColorPalette;
-import Util.UIUtils;
 
 public class RoundedComboBox<T> extends JComboBox<T> {
 

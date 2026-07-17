@@ -23,7 +23,6 @@ import javax.swing.event.EventListenerList;
 import Model.Invoice;
 import Model.InvoiceStatus;
 import Util.ColorPalette;
-import Util.UIUtils;
 
 public class InvoiceCard extends JPanel {
 

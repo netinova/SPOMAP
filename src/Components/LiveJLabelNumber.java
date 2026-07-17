@@ -1,7 +1,6 @@
 package Components;
 
 import Util.ColorPalette;
-import Util.UIUtils;
 
 import javax.swing.JLabel;
 import javax.swing.Timer;

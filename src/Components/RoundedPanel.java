@@ -1,10 +1,12 @@
 package Components;
 
 import Util.ColorPalette;
-import Util.UIUtils;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JPanel;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.geom.RoundRectangle2D;
 
 public class RoundedPanel extends JPanel {

@@ -2,15 +2,21 @@ package Components;
 
 import Controller.UserProfileController;
 import Util.ColorPalette;
-import Util.UIUtils;
 
-import javax.swing.*;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import java.awt.*;
+import java.awt.CardLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -360,6 +366,7 @@ public class MangeUserProfilePanel extends JPanel {
 
     public void loadView() {
         searchUserField.setActivePlaceHolder(true);
+        searchUserFiledPanel.clearError();
     }
 
     public void loadData(String firstName, String lastName, String phoneNumber, String userId, String userType,

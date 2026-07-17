@@ -1,18 +1,18 @@
 {
   "shopName" : "Spomap Shop",
   "currency" : "USD",
-  "lastUpdated" : "2026-07-17 02:44:01",
-  "analyticsStartDate" : "2026-07-17 02:44:01",
-  "totalRevenue" : 1848.3190820000002,
-  "totalProfit" : 739.3276328000002,
-  "totalOrders" : 7,
-  "totalItemsSold" : 27,
-  "averageOrderValue" : 264.0455831428572,
+  "lastUpdated" : "2026-07-17 04:22:45",
+  "analyticsStartDate" : "2026-07-17 04:22:45",
+  "totalRevenue" : 2050.11673,
+  "totalProfit" : 820.0466920000001,
+  "totalOrders" : 10,
+  "totalItemsSold" : 31,
+  "averageOrderValue" : 205.01167300000003,
   "monthlyAnalytics" : [ {
     "month" : "2026-07",
-    "revenue" : 1848.319082,
-    "profit" : 739.3276328,
-    "orders" : 7
+    "revenue" : 2050.11673,
+    "profit" : 820.0466920000001,
+    "orders" : 10
   } ],
   "dailyAnalytics" : [ {
     "date" : "2026-07-02",
@@ -34,9 +34,13 @@
     "date" : "2026-07-15",
     "revenue" : 126.54982400000002,
     "orders" : 3
+  }, {
+    "date" : "2026-07-17",
+    "revenue" : 201.797648,
+    "orders" : 3
   } ],
-  "totalCustomers" : 9,
-  "returningCustomers" : 3,
+  "totalCustomers" : 10,
+  "returningCustomers" : 4,
   "totalPrimeUsers" : 2,
   "productAnalytics" : [ {
     "productId" : "PRD_000001",
@@ -47,9 +51,9 @@
   }, {
     "productId" : "PRD_000006",
     "productName" : "Headphones",
-    "totalQuantitySold" : 5,
-    "totalRevenue" : 142.5,
-    "totalOrdersContaining" : 2
+    "totalQuantitySold" : 6,
+    "totalRevenue" : 171.0,
+    "totalOrdersContaining" : 3
   }, {
     "productId" : "PRD_000004",
     "productName" : "YamBoul",
@@ -61,6 +65,12 @@
     "productName" : "CORSAIR Vengeance RGB DDR5 RAM 32GB (2x16GB) 6400MHz",
     "totalQuantitySold" : 3,
     "totalRevenue" : 1498.65,
+    "totalOrdersContaining" : 2
+  }, {
+    "productId" : "PRD_000008",
+    "productName" : "WD 2TB My Passport",
+    "totalQuantitySold" : 3,
+    "totalRevenue" : 245.69647200000003,
     "totalOrdersContaining" : 2
   }, {
     "productId" : "PRD_000002",
@@ -81,10 +91,10 @@
     "totalRevenue" : 20.0,
     "totalOrdersContaining" : 1
   }, {
-    "productId" : "PRD_000008",
-    "productName" : "WD 2TB My Passport",
+    "productId" : "PRD_000012",
+    "productName" : "toilet paper",
     "totalQuantitySold" : 1,
-    "totalRevenue" : 81.898824,
+    "totalRevenue" : 9.5,
     "totalOrdersContaining" : 1
   } ]
 }

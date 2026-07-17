@@ -21,7 +21,6 @@ import javax.swing.SwingConstants;
 
 import Model.Product;
 import Util.ColorPalette;
-import Util.UIUtils;
 
 public class ProductCard extends JPanel {
     private ImageIcon productImage;

@@ -1,7 +1,5 @@
 package Components;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 
@@ -11,10 +9,8 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.swing.SwingConstants;
 
 import Util.ColorPalette;
-import Util.UIUtils;
 
 public class ProductInfoPanel extends JPanel {
 

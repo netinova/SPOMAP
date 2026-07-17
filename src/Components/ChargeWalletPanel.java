@@ -2,11 +2,17 @@ package Components;
 
 import Controller.UserProfileController;
 import Util.ColorPalette;
-import Util.UIUtils;
 
-import javax.swing.*;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 

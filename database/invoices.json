@@ -148,4 +148,40 @@
   } ],
   "invoiceDate" : "2026-07-15 18:53:21",
   "status" : "Paid"
+}, {
+  "invoiceId" : "INV_000012",
+  "userId" : "USR_000010",
+  "items" : [ {
+    "productId" : "PRD_000008",
+    "productName" : "WD 2TB My Passport",
+    "unitPrice" : 84.72,
+    "quantity" : 2,
+    "discount" : 3.33
+  } ],
+  "invoiceDate" : "2026-07-17 02:54:57",
+  "status" : "Paid"
+}, {
+  "invoiceId" : "INV_000013",
+  "userId" : "USR_000010",
+  "items" : [ {
+    "productId" : "PRD_000006",
+    "productName" : "Headphones",
+    "unitPrice" : 30.0,
+    "quantity" : 1,
+    "discount" : 5.0
+  } ],
+  "invoiceDate" : "2026-07-17 02:58:31",
+  "status" : "Paid"
+}, {
+  "invoiceId" : "INV_000014",
+  "userId" : "USR_000008",
+  "items" : [ {
+    "productId" : "PRD_000012",
+    "productName" : "toilet paper",
+    "unitPrice" : 10.0,
+    "quantity" : 1,
+    "discount" : 5.0
+  } ],
+  "invoiceDate" : "2026-07-17 03:10:14",
+  "status" : "Paid"
 } ]
