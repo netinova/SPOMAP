@@ -13,9 +13,9 @@ import javax.swing.JPanel;
 import javax.swing.event.EventListenerList;
 
 import Model.Theme;
+import Service.SettingsService;
 import Service.ThemeService;
 import Util.ColorPalette;
-
 
 public class ThemePickerPanel extends JPanel {
 
@@ -49,11 +49,10 @@ public class ThemePickerPanel extends JPanel {
         titleLabel.setAlignmentY(Component.CENTER_ALIGNMENT);
         this.add(titleLabel);
 
-   
         this.add(Box.createHorizontalStrut(16));
 
         themeComboBox = new RoundedScrollableComboBox<>(new String[] {});
-        themeComboBox.setMaxVisibleItems(5); // Show 5 items at a time
+        themeComboBox.setMaxVisibleItems(5);
         themeComboBox.setAlignmentY(Component.CENTER_ALIGNMENT);
         themeComboBox.setPreferredSize(new Dimension(180, 30));
         themeComboBox.setMaximumSize(new Dimension(180, 30));
@@ -73,8 +72,10 @@ public class ThemePickerPanel extends JPanel {
                 }
             }
 
-            // Select first theme by default
-            if (themeComboBox.getItemCount() > 0) {
+            String activeThemeName = new SettingsService().loadSettings().getActiveThemeName();
+            if (activeThemeName != null) {
+                themeComboBox.setSelectedItem(activeThemeName);
+            } else if (themeComboBox.getItemCount() > 0) {
                 themeComboBox.setSelectedIndex(0);
             }
 
@@ -89,7 +90,6 @@ public class ThemePickerPanel extends JPanel {
             listener.actionPerformed(e);
         });
     }
-
 
     public String getSelectedThemeName() {
         Object selected = themeComboBox.getSelectedItem();
