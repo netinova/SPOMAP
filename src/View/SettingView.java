@@ -48,7 +48,6 @@ public class SettingView extends JPanel {
             if (selectedTheme == null || selectedTheme.isBlank()) {
                 return;
             }
-
             controller.changeThemeByName(selectedTheme);
         });
     }

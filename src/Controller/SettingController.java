@@ -49,8 +49,8 @@ public class SettingController {
             protected void done() {
                 try {
                     Theme theme = get();
-                    changeTheme(theme);
                     saveSelectedTheme(themeName);
+                    changeTheme(theme);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 } finally {
