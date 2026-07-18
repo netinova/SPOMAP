@@ -186,7 +186,7 @@ public class ImageGallery extends JPanel {
         dotPanel.removeAll();
         dots = new JLabel[count];
         for (int i = 0; i < count; i++) {
-            JLabel dot = new JLabel("●"); // Unicode filled circle
+            JLabel dot = new JLabel("\u25CF"); // Unicode filled circle
             dot.setFont(dot.getFont().deriveFont(16f)); // adjust size
             dot.setForeground(ColorPalette.getInstance().getTextMuted());
             dot.setCursor(new Cursor(Cursor.HAND_CURSOR));

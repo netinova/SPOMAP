@@ -89,7 +89,7 @@ public class Main {
 
             @Override
             protected void process(List<ProgressUpdate> proses) {
-                ProgressUpdate latest = proses.getLast();
+                ProgressUpdate latest = proses.get(proses.size() - 1);
                 splash.setStatus(latest.status());
                 splash.setProgress(latest.percent());
             }

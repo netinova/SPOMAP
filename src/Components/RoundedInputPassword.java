@@ -40,7 +40,7 @@ public class RoundedInputPassword extends JPasswordField {
 
                 if (activePlaceHolder) {
                     setText("");
-                    setEchoChar('•');
+                    setEchoChar('\u2022');
                     activePlaceHolder = false;
                     setForeground(ColorPalette.getInstance().getTextPrimary());
                 }

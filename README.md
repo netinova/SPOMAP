@@ -1,182 +1,295 @@
-## Getting Started
+<div align="center">
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+![SPOMAP Logo](icons/logo_svg/SPOMAP_Default.svg)
 
-## Folder Structure
+# 🛍️ SPOMAP - Smart Point of Sale & Marketplace
 
-The workspace contains two folders by default, where:
+_A powerful, modern desktop application for managing your shop with ease_
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Java](https://img.shields.io/badge/Java-17%2B-orange.svg)](https://www.oracle.com/java/)
+[![Status](https://img.shields.io/badge/status-Active-success.svg)]()
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
+</div>
 
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
-
-
-# SPOMAP - E-Commerce Application
-
-A Java Swing-based e-commerce desktop application with a complete shopping experience, user authentication, and product management.
-
-## 📋 Overview
-
-SPOMAP is a desktop e-commerce application built with Java Swing following the Model-View-Controller (MVC) architecture. It provides a complete shopping experience including product browsing, shopping cart management, user authentication with different user types (Admin, Normal, Prime), and order tracking.
+---
 
 ## ✨ Features
 
-- **Product Catalog**: Browse products with detailed information, images, and specifications
-- **Search & Filter**: Advanced product search and filtering capabilities
-- **Shopping Cart**: Add/remove items, adjust quantities, and manage your cart
-- **User Authentication**: Support for multiple user types:
-  - Admin Users
-  - Normal Users
-  - Prime Users (with special benefits)
-- **Product Views**: Multiple image views per product with color variants
-- **Discount System**: Product discounts and special pricing
-- **Navigation**: Sidebar navigation and multi-view panel system
+- 🔐 **Multi-tier User System** - Admin, Prime, and Normal user roles with different permissions
+- 🛒 **Shopping Cart Management** - Easy-to-use cart with quantity controls
+- 📦 **Product Catalog** - Browse and search products with detailed technical specifications
+- 💳 **Invoice Management** - Complete billing and order tracking system
+- 👤 **User Profiles** - Manage user accounts and wallet charges
+- 🎨 **Theme Support** - Dark and light themes with customizable color schemes
+- 📊 **Shop Analytics** - Track sales and business metrics
+- 🔍 **Advanced Search** - Find products and invoices quickly
+- 💰 **Wallet System** - Charge and manage user wallets
 
-## 🏗️ Project Structure
+---
 
-```
-spomap/
-├── src/                    # Source code
-│   ├── Main.java          # Application entry point
-│   ├── MainFrame.java     # Main application window
-│   ├── Controller/        # MVC Controllers
-│   │   ├── AppController.java
-│   │   ├── AuthenticationController.java
-│   │   ├── NavigationController.java
-│   │   ├── ProductController.java
-│   │   ├── ShopController.java
-│   │   ├── ShoppingCartController.java
-│   │   └── SidebarController.java
-│   ├── Model/             # MVC Models
-│   │   ├── User.java (AdminUser, NormalUser, PrimeUser)
-│   │   ├── Product.java
-│   │   ├── ProductCatalog.java
-│   │   ├── ShoppingCart.java
-│   │   ├── CartItem.java
-│   │   └── ...
-│   ├── View/              # MVC Views
-│   │   ├── ShopView.java
-│   │   ├── ProductView.java
-│   │   ├── ShoppingCartView.java
-│   │   ├── AuthenticationView.java
-│   │   ├── NavigationView.java
-│   │   └── SidebarView.java
-│   ├── Components/        # UI Components
-│   │   └── MultiViewPanel.java
-│   ├── Service/           # Business Logic Services
-│   └── Util/              # Utility Classes
-├── lib/                    # External Dependencies
-│   ├── jackson-annotations-2.22.jar
-│   ├── jackson-core-2.21.4.jar
-│   ├── jackson-databind-2.22.0.jar
-│   └── jackson-datatype-jsr310-2.7.0.jar
-├── database/               # Data Storage
-│   ├── products.json      # Product catalog data
-│   ├── admin_users.json   # Admin user accounts
-│   ├── normal_users.json  # Normal user accounts
-│   └── pictures/          # Product images
-└── icons/                  # Application icons and UI assets
+## 📸 Screenshots
+
+<div align="center">
+
+### Shopping View
+
+![Dashboard](screenshots/SPOMAP%202026-07-18%204_06_25%20PM.png)
+
+### Product Browsing
+
+![Products](screenshots/SPOMAP%202026-07-18%204_07_50%20PM.png)
+
+### Shop Analytics
+
+![Shopping](screenshots/SPOMAP%202026-07-18%204_09_03%20PM.png)
+
+### Login Screen
+
+![Login](screenshots/Screenshot%202026-07-18%20160829.png)
+
+</div>
+
+---
+
+## 🚀 Quick Start
+
+### System Requirements
+
+- **Java Runtime Environment (JRE)** 17 or higher
+- **Operating System**: Windows, macOS, or Linux
+- **RAM**: Minimum 512 MB (recommended 1 GB)
+- **Disk Space**: ~100 MB
+
+### Installation
+
+#### Clone the Repository
+
+```bash
+git clone https://github.com/netinova/SPOMAP.git
+cd SPOMAP
 ```
 
-## 🛠️ Technologies
+---
 
-- **Language**: Java
-- **GUI Framework**: Java Swing
-- **JSON Processing**: Jackson (FasterXML)
-- **Architecture**: Model-View-Controller (MVC)
-- **Build Tool**: Compatible with standard Java build tools
-
-## 🚀 Getting Started
+## 📖 How to Run
 
 ### Prerequisites
 
-- Java Development Kit (JDK) 8 or higher
-- Jackson libraries (included in `lib/` folder)
-
-### Building the Project
-
-1. Clone the repository:
+Make sure you have Java 17+ installed:
 
 ```bash
-git clone <repository-url>
-cd spomap
+java -version
 ```
 
-2. Compile the source files:
+If not installed, download from [Oracle Java Downloads](https://www.oracle.com/java/technologies/downloads/)
+
+### Command Line
+
+#### Windows
 
 ```bash
-javac -cp "lib/*" -d bin src/*.java src/**/*.java
-```
-
-### Running the Application
-
-```bash
-java -cp "bin:lib/*" Main
-```
-
-Or on Windows:
-
-```bash
+cd path/to/SPOMAP
+javac -source 17 -target 17 -d bin -cp "lib/*;src" src/Main.java src/MainFrame.java src/Model/*.java src/Util/*.java src/Components/*.java src/Controller/*.java src/View/*.java src/Service/*.java
 java -cp "bin;lib/*" Main
 ```
 
-## 📦 Dependencies
+#### macOS / Linux
 
-The project uses the following external libraries (included in `lib/`):
+```bash
+cd path/to/SPOMAP
+javac -source 17 -target 17 -d bin -cp "lib/*:src" src/Main.java src/MainFrame.java src/Model/*.java src/Util/*.java src/Components/*.java src/Controller/*.java src/View/*.java src/Service/*.java
+java -cp "bin:lib/*" Main
+```
 
-- **Jackson Annotations** (2.22) - Metadata annotations for Jackson
-- **Jackson Core** (2.21.4) - Core JSON processing
-- **Jackson Databind** (2.22.0) - Data binding functionality
-- **Jackson Datatype JSR310** (2.7.0) - Java 8 Date/Time support
+### Using an IDE (Recommended)
 
-## 💾 Database
+1. **IntelliJ IDEA**
+   - Open the project folder
+   - Set up Java SDK (17+)
+   - Right-click `src/Main.java`
+   - Select "Run 'Main.main()'"
 
-The application uses JSON files for data storage:
+2. **VS Code**
+   - Install Extension Pack for Java
+   - Open the folder
+   - Click Run on `Main.java`
 
-- **products.json**: Contains product catalog with details like name, price, description, images, colors, manufacturer, and technical specifications
-- **admin_users.json**: Administrator account information
-- **normal_users.json**: Regular user account information
-- **pictures/**: Directory containing product images
+---
 
-## 🎨 User Types
+## 🔑 Default Credentials
 
-### Admin User
+Test the application with these demo accounts:
 
-- Full access to system features
-- Can manage products and users
+| Role   | Username    | Password |
+| ------ | ----------- | -------- |
+| Admin  | 09111111111 | 1        |
+| Prime  | 09123456789 | 1        |
+| Normal | 09123123122 | 1        |
 
-### Normal User
+> ⚠️ Change these credentials before deploying to production!
 
-- Standard shopping features
-- Browse products and manage cart
+---
 
-### Prime User
+## 📁 Project Structure
 
-- Enhanced benefits and discounts
-- Priority features
+```
+SPOMAP/
+├── src/
+│   ├── Main.java                 # Application entry point
+│   ├── MainFrame.java            # Main application window
+│   ├── Components/               # Reusable UI components
+│   ├── Controller/               # Business logic controllers
+│   ├── Model/                    # Data models
+│   ├── Service/                  # Service layer
+│   ├── Util/                     # Utility classes
+│   └── View/                     # View classes
+├── database/
+│   ├── admin_users.json         # Admin user data
+│   ├── normal_users.json        # Normal user data
+│   ├── prime_users.json         # Prime user data
+│   ├── products.json            # Product catalog
+│   ├── invoices.json            # Invoice records
+│   ├── settings.json            # Application settings
+│   ├── shop_analytics.json      # Analytics data
+│   └── themes.json              # Theme configurations
+├── lib/                          # External libraries
+├── icons/                        # Application icons
+├── screenshots/                  # Screenshot documentation
+└── README.md                     # This file
+```
 
-## 🖼️ Assets
+---
 
-The `icons/` directory contains:
+## 🎯 Key Components
 
-- Application logos (SPOMAP branding)
-- UI icons (search, cart, settings, notifications, etc.)
-- User avatars
-- Navigation elements (arrows, plus/minus buttons)
+### User Management
 
-## 📝 License
+- **Authentication System**: Secure login with role-based access control
+- **Admin Panel**: Manage users, products, and system settings
+- **User Profiles**: Edit personal information and manage preferences
 
-This project is licensed under the terms specified in the [LICENSE](LICENSE) file.
+### Shopping Features
+
+- **Product Search**: Multi-criteria search with filters
+- **Shopping Cart**: Add/remove items with quantity controls
+- **Checkout**: Complete purchase with invoice generation
+- **Order History**: View past transactions and invoices
+
+### Admin Features
+
+- **Product Management**: Add, edit, and delete products
+- **User Management**: Create and manage user accounts
+- **Analytics Dashboard**: View sales metrics and shop performance
+- **Settings Panel**: Customize application behavior
+
+### Customization
+
+- **Theme Engine**: Switch between dark and light themes
+- **Custom Themes**: Add and Modify your themes in `database/themes.json`
+- **Settings**: Store preferences in `database/settings.json`
+
+---
+
+## 🎨 Architecture
+
+### Design Pattern
+
+SPOMAP follows the **Model-View-Controller (MVC)** architecture:
+
+- **Model**: Data structures and business logic
+- **View**: GUI components and panels
+- **Controller**: Event handling and user interactions
+
+### Technology Stack
+
+- **Language**: Java 17+
+- **GUI Framework**: Swing
+- **Data Storage**: JSON (with Jackson)
+- **Build**: Manual javac compilation
+
+---
+
+## 🔐 Security
+
+- Role-based access control (Admin, Prime, Normal)
+- User authentication system
+- Secure wallet management
+- Order history protection
+
+---
+
+## 🐛 Troubleshooting
+
+### "Java is not recognized"
+
+- Install Java JDK from [oracle.com](https://www.oracle.com/java/)
+- Add Java to your system PATH
+
+### Application won't start
+
+- Verify Java version: `java -version` (should be 17+)
+- Check that all dependencies in `lib/` folder are present
+- Ensure database folder and JSON files exist
+
+### GUI looks wrong
+
+- Try different themes: Settings → Theme Picker
+- Check monitor resolution settings
+- Update your Java installation
+
+---
+
+## 📝 Development Guide
+
+### Adding a New Feature
+
+1. Create model classes in `src/Model/`
+2. Add business logic in `src/Service/`
+3. Create UI components in `src/Components/`
+4. Add controller logic in `src/Controller/`
+5. Update the main view in `src/View/`
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please feel free to submit issues and pull requests.
+Contributions are welcome! Feel free to:
 
-## 📧 Contact
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-For questions or support, please open an issue in the repository.
+---
+
+## 📞 Support & Contact
+
+- 📧 Email: [manibaghdadi484@gmail.com]
+- 🐛 Report Issues: [GitHub Issues]
+- 💬 Discussions: [GitHub Discussions]
+
+---
+
+## 🙏 Acknowledgments
+
+- Built with ❤️ using Java Swing
+- Thanks to all contributors
+- Icons designed with SVG
+
+---
+
+<div align="center">
+
+**Made by SPOMAP Team**
+
+⭐ If you found this helpful, please give us a star!
+
+</div>
