@@ -12,8 +12,11 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 
+import java.awt.Component;
+
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import Model.AppState;
@@ -115,7 +118,12 @@ public class InvoiceController {
         fileChooser.setSelectedFile(new File("Invoice_" + invoice.getInvoiceId() + ".pdf"));
         fileChooser.setFileFilter(new FileNameExtensionFilter("PDF Files", "pdf"));
 
-        if (fileChooser.showSaveDialog(invoiceDetailView) == JFileChooser.APPROVE_OPTION) {
+        Component parent = SwingUtilities.getWindowAncestor(invoiceDetailView);
+        int dialogResult = (parent != null)
+                ? fileChooser.showSaveDialog(parent)
+                : fileChooser.showSaveDialog(invoiceDetailView);
+
+        if (dialogResult == JFileChooser.APPROVE_OPTION) {
             File fileToSave = fileChooser.getSelectedFile();
             if (!fileToSave.getName().toLowerCase().endsWith(".pdf")) {
                 fileToSave = new File(fileToSave.getAbsolutePath() + ".pdf");
