@@ -9,12 +9,14 @@ import Components.MultiViewPanel;
 import Controller.AppController;
 import View.NavigationView;
 import View.SidebarView;
+import Util.ColorPalette;
+import Util.UIUtils;
 
 public class MainFrame extends JFrame {
 
     private SidebarView sidebarView;
     private MainPanel mainPanel;
-    ImageIcon iconProgram = new ImageIcon("icons/logo_svg/SPOMAP_BGblack_LogoWhite1000x1000.svg");
+    private ImageIcon iconProgram;
 
     public MainFrame(AppController appController, SidebarView sidebarView,
             NavigationView navigationView, MultiViewPanel multiViewPanel) {
@@ -22,13 +24,25 @@ public class MainFrame extends JFrame {
         this.sidebarView = sidebarView;
         this.mainPanel = new MainPanel(appController, navigationView, multiViewPanel);
 
+        iconProgram = UIUtils.loadAndScaleSVG("icons/logo_svg/SPOMAP_BGblack_LogoWhite1000x1000.svg",
+                30, 30,
+                null);
+        this.setIconImage(iconProgram.getImage());
+
         setupUI();
+
+        ColorPalette.getInstance().addPropertyChangeListener(e -> {
+            iconProgram = UIUtils.loadAndScaleSVG("icons/logo_svg/SPOMAP_BGblack_LogoWhite1000x1000.svg",
+                    30, 30,
+                    null);
+            this.setIconImage(iconProgram.getImage());
+        });
     }
 
     private void setupUI() {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("SPOMAP");
-        this.setIconImage(iconProgram.getImage());
+
         this.setSize(new Dimension(500, 300));
         this.setLocationRelativeTo(null);
         this.setLayout(new GridBagLayout());
