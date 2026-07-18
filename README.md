@@ -1,6 +1,6 @@
 <div align="center">
 
-![SPOMAP Logo](icons/logo_svg/SPOMAP_Default.svg)
+<img src="icons/logo_svg/SPOMAP_BGblack_LogoRedame.svg" alt="SPOMAP Logo" width="300"/>
 
 # 🛍️ SPOMAP - Smart Point of Sale & Marketplace
 
