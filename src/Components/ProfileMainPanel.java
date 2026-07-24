@@ -218,7 +218,7 @@ public class ProfileMainPanel extends JPanel {
         balanceValueLabel = tempLabel;
 
         gbc.gridx = 1;
-        panel.add(createStatCard("Total purchases", "0"), gbc);// TODO: add number of purchases
+        panel.add(createStatCard("Total purchases", "0"), gbc);
         totalPurchasesLabel = tempLabel;
 
         gbc.gridx = 2;
@@ -264,8 +264,8 @@ public class ProfileMainPanel extends JPanel {
         panel.setLayout(new GridBagLayout());
 
         chargeWallet = new RoundedButton("Charge Wallet", borderRadius);
-        chargeWallet.setBackground(ColorPalette.getInstance().getAccentSuccess());
-        chargeWallet.setHoverColor(ColorPalette.getInstance().getAccentSuccess());
+        chargeWallet.setBackground(ColorPalette.getInstance().getAccentConfirm());
+        chargeWallet.setHoverColor(ColorPalette.getInstance().getButtonHover());
         chargeWallet.setForeground(ColorPalette.getInstance().getTextPrimary());
         chargeWallet.setFont(new Font("Arial", Font.PLAIN, 13));
         chargeWallet.setMaximumSize(new Dimension(150, 40));

@@ -25,14 +25,4 @@ public class NormalUser extends User {
         return totalAmount <= balance;
     }
 
-    public boolean withdrawCash(double amount) {
-        if (balance >= amount) {
-            deductBalance(amount);
-            System.out.println("remove from balance $" + amount);
-            return true;
-        }
-        System.out.println("can't do this");
-        return false;
-    }
-
 }

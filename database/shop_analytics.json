@@ -1,20 +1,29 @@
 {
   "shopName" : "Spomap Shop",
   "currency" : "USD",
-  "lastUpdated" : "2026-07-18 17:56:53",
-  "analyticsStartDate" : "2026-07-18 17:56:53",
-  "totalRevenue" : 2050.11673,
-  "totalProfit" : 820.0466920000001,
-  "totalOrders" : 10,
-  "totalItemsSold" : 31,
-  "averageOrderValue" : 205.01167300000003,
+  "lastUpdated" : "2026-07-24 23:05:44",
+  "analyticsStartDate" : "2026-07-24 23:05:44",
+  "totalRevenue" : 2269.6717300000005,
+  "totalProfit" : 907.8686920000002,
+  "totalOrders" : 16,
+  "totalItemsSold" : 62,
+  "averageOrderValue" : 141.85448312500003,
   "monthlyAnalytics" : [ {
+    "month" : "2026-05",
+    "revenue" : 9.5,
+    "profit" : 3.8,
+    "orders" : 1
+  }, {
     "month" : "2026-07",
-    "revenue" : 2050.11673,
-    "profit" : 820.0466920000001,
-    "orders" : 10
+    "revenue" : 2260.17173,
+    "profit" : 904.068692,
+    "orders" : 15
   } ],
   "dailyAnalytics" : [ {
+    "date" : "2026-05-17",
+    "revenue" : 9.5,
+    "orders" : 1
+  }, {
     "date" : "2026-07-02",
     "revenue" : 93.36,
     "orders" : 1
@@ -36,18 +45,34 @@
     "orders" : 3
   }, {
     "date" : "2026-07-17",
-    "revenue" : 201.797648,
-    "orders" : 3
+    "revenue" : 192.297648,
+    "orders" : 2
+  }, {
+    "date" : "2026-07-24",
+    "revenue" : 219.555,
+    "orders" : 6
   } ],
   "totalCustomers" : 10,
   "returningCustomers" : 4,
   "totalPrimeUsers" : 2,
   "productAnalytics" : [ {
+    "productId" : "PRD_000002",
+    "productName" : "Hoody Palangi",
+    "totalQuantitySold" : 18,
+    "totalRevenue" : 147.906,
+    "totalOrdersContaining" : 4
+  }, {
     "productId" : "PRD_000001",
     "productName" : "barbari bread",
-    "totalQuantitySold" : 7,
-    "totalRevenue" : 6.3,
-    "totalOrdersContaining" : 1
+    "totalQuantitySold" : 14,
+    "totalRevenue" : 12.6,
+    "totalOrdersContaining" : 2
+  }, {
+    "productId" : "PRD_000000",
+    "productName" : "Game board Koodeta COUP+",
+    "totalQuantitySold" : 11,
+    "totalRevenue" : 110.0,
+    "totalOrdersContaining" : 3
   }, {
     "productId" : "PRD_000006",
     "productName" : "Headphones",
@@ -73,22 +98,10 @@
     "totalRevenue" : 245.69647200000003,
     "totalOrdersContaining" : 2
   }, {
-    "productId" : "PRD_000002",
-    "productName" : "Hoody Palangi",
-    "totalQuantitySold" : 3,
-    "totalRevenue" : 24.651000000000003,
-    "totalOrdersContaining" : 1
-  }, {
     "productId" : "PRD_000011",
     "productName" : "TAMASHII NATIONS - Naruto Shippuden",
     "totalQuantitySold" : 3,
     "totalRevenue" : 72.759258,
-    "totalOrdersContaining" : 1
-  }, {
-    "productId" : "PRD_000000",
-    "productName" : "Game board Koodeta COUP+",
-    "totalQuantitySold" : 2,
-    "totalRevenue" : 20.0,
     "totalOrdersContaining" : 1
   }, {
     "productId" : "PRD_000012",

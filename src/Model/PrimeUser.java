@@ -94,7 +94,7 @@ public class PrimeUser extends User {
         if (amount==0) return;
 
         if (balance >= amount) {
-            deductBalance(amount);
+            balance-=amount;
             System.out.println("remove from balance $" + amount);
         } else {
             amount-=balance;

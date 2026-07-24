@@ -8,6 +8,7 @@ import Model.ShoppingCart;
 import Model.User;
 import Model.ViewType;
 import Service.InvoiceService;
+import Service.UserService;
 
 public class ShoppingCartController {
 
@@ -92,6 +93,11 @@ public class ShoppingCartController {
 
             Invoice invoice = Invoice.fromCart(cart, user);
             invoiceService.addInvoice(invoice);
+
+            if (user.getUserType().isPrime())
+                UserService.savePrimeUser(AppState.getInstance().primeUsersList);
+            else if (!user.getUserType().isPrime() && !user.getUserType().isAdmin())
+                UserService.saveNormalUser(AppState.getInstance().normalUsersList);
 
             cart.clear();
         } else {

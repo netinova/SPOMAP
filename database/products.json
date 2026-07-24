@@ -65,8 +65,8 @@
   }, {
     "name" : "Karambit knife CS2",
     "id" : "PRD_000005",
-    "thumbnail" : "database/pictures/karambit_1.png",
-    "productImages" : [ "database/pictures/karambit_1.png", "database/pictures/karambit_2.png", "database/pictures/karambit_3.png", "database/pictures/karambit_4.png" ],
+    "thumbnail" : "database/pictures/karambit_2.png",
+    "productImages" : [ "database/pictures/karambit_2.png", "database/pictures/karambit_1.png", "database/pictures/karambit_3.png", "database/pictures/karambit_4.png" ],
     "description" : "a Knife in Cs2",
     "discount" : 0.0,
     "price" : 7000.0,
