@@ -52,18 +52,16 @@ _A powerful, modern desktop application for managing your shop with ease_
 
 ---
 
-## 🚀 Quick Start
+## 🚀 Running the Application
 
 ### System Requirements
 
-- **Java Runtime Environment (JRE)** 17 or higher
-- **Operating System**: Windows, macOS, or Linux
-- **RAM**: Minimum 512 MB (recommended 1 GB)
-- **Disk Space**: ~100 MB
+- **Java 17** or higher ([Download](https://www.oracle.com/java/technologies/downloads/))
+- **OS**: Windows, macOS, or Linux
 
-### Installation
+---
 
-#### Clone the Repository
+### 1. Get the Code
 
 ```bash
 git clone https://github.com/netinova/SPOMAP.git
@@ -72,54 +70,57 @@ cd SPOMAP
 
 ---
 
-## 📖 How to Run
+### 2. Choose Your Run Method
 
-### Prerequisites
+#### 🥇 **Recommended: Use the provided scripts**
 
-Make sure you have Java 17+ installed:
+We've included two scripts that compile and launch the app with one command:
 
-```bash
-java -version
-```
+| Platform                              | Script    | Command                            |
+| ------------------------------------- | --------- | ---------------------------------- |
+| Windows                               | `run.ps1` | `.\run.ps1` (in PowerShell)        |
+| macOS/Linux (and Git Bash on Windows) | `run.sh`  | `./run.sh` (make executable first) |
 
-If not installed, download from [Oracle Java Downloads](https://www.oracle.com/java/technologies/downloads/)
+> **For macOS/Linux**: make the script executable once:
+>
+> ```bash
+> chmod +x run.sh
+> ```
 
-### Command Line
-
-#### Windows
-
-```bash
-cd path/to/SPOMAP
-javac -source 17 -target 17 -d bin -cp "lib/*;src" src/Main.java src/MainFrame.java src/Model/*.java src/Util/*.java src/Components/*.java src/Controller/*.java src/View/*.java src/Service/*.java
-java -cp "bin;lib/*" Main
-```
-
-#### macOS / Linux
-
-```bash
-cd path/to/SPOMAP
-javac -source 17 -target 17 -d bin -cp "lib/*:src" src/Main.java src/MainFrame.java src/Model/*.java src/Util/*.java src/Components/*.java src/Controller/*.java src/View/*.java src/Service/*.java
-java -cp "bin:lib/*" Main
-```
-
-### Using an IDE (Recommended)
-
-1. **IntelliJ IDEA**
-   - Open the project folder
-   - Set up Java SDK (17+)
-   - Right-click `src/Main.java`
-   - Select "Run 'Main.main()'"
-
-2. **VS Code**
-   - Install Extension Pack for Java
-   - Open the folder
-   - Click Run on `Main.java`
+Then simply run it.
 
 ---
 
-## 🔑 Default Credentials
+#### 🥈 **Manual compilation (fallback)**
 
-Test the application with these demo accounts:
+If you prefer to run step‑by‑step, use the following commands:
+
+**Windows**
+
+```cmd
+cd path/to/SPOMAP
+javac --release 17 -d bin -cp "lib/*;src" src/Main.java src/MainFrame.java src/Model/*.java src/Util/*.java src/Components/*.java src/Controller/*.java src/View/*.java src/Service/*.java
+java -cp "bin;lib/*" Main
+```
+
+**macOS / Linux**
+
+```bash
+cd path/to/SPOMAP
+javac --release 17 -d bin -cp "lib/*:src" src/Main.java src/MainFrame.java src/Model/*.java src/Util/*.java src/Components/*.java src/Controller/*.java src/View/*.java src/Service/*.java
+java -cp "bin:lib/*" Main
+```
+
+---
+
+#### 🥉 **Using an IDE**
+
+- **IntelliJ IDEA**: Open the folder → set JDK 17 → right‑click `src/Main.java` → Run.
+- **VS Code**: Install Extension Pack for Java → open folder → click Run on `Main.java`.
+
+---
+
+### 3. Log In with Default Accounts
 
 | Role   | Username    | Password |
 | ------ | ----------- | -------- |
