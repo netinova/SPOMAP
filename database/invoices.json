@@ -256,4 +256,28 @@
   } ],
   "invoiceDate" : "2026-07-24 23:05:32",
   "status" : "Paid"
+}, {
+  "invoiceId" : "INV_000021",
+  "userId" : "USR_000008",
+  "items" : [ {
+    "productId" : "PRD_000007",
+    "productName" : "Apple Watch Ultra 2",
+    "unitPrice" : 409.0,
+    "quantity" : 3,
+    "discount" : 13.0
+  }, {
+    "productId" : "PRD_000006",
+    "productName" : "Headphones",
+    "unitPrice" : 30.0,
+    "quantity" : 7,
+    "discount" : 5.0
+  }, {
+    "productId" : "PRD_000000",
+    "productName" : "Game board Koodeta COUP+",
+    "unitPrice" : 20.0,
+    "quantity" : 6,
+    "discount" : 50.0
+  } ],
+  "invoiceDate" : "2026-07-24 23:41:25",
+  "status" : "Paid"
 } ]
