@@ -16,6 +16,10 @@ public class ShoppingCart {
         this.support.addPropertyChangeListener(listener);
     }
 
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        this.support.removePropertyChangeListener(listener);
+    }
+
     public void addProduct(Product product, int quantity) {
         for (CartItem item : items) {
             if (item.getProduct().getId().equals(product.getId())) {

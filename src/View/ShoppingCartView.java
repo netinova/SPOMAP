@@ -37,8 +37,7 @@ public class ShoppingCartView extends JPanel implements PropertyChangeListener {
     private RoundedButton payButton;
 
     private ShoppingCartController controller;
-
-    private boolean subscribed = false;
+    private ShoppingCart boundCart;
 
     public ShoppingCartView(ShoppingCartController controller) {
         this.controller = controller;
@@ -53,18 +52,25 @@ public class ShoppingCartView extends JPanel implements PropertyChangeListener {
     }
 
     public void subscribeToModel(ShoppingCart cart) {
-        cart.addPropertyChangeListener(this);
-        subscribed = true;
+        if (boundCart == cart) {
+            return;
+        }
+
+        if (boundCart != null) {
+            boundCart.removePropertyChangeListener(this);
+        }
+
+        boundCart = cart;
+        if (cart != null) {
+            cart.addPropertyChangeListener(this);
+            displayItems(cart.getItems());
+        } else
+            displayItems(new ArrayList<>());
     }
 
     public void loadCartItems() {
         ShoppingCart cart = AppState.getInstance().getCart();
-        if (cart != null) {
-            if (!subscribed) {
-                subscribeToModel(cart);
-            }
-            displayItems(cart.getItems());
-        }
+        subscribeToModel(cart);
     }
 
     void setupUI() {
