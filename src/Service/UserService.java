@@ -238,7 +238,7 @@ public class UserService {
             System.out.println("successfully login as " + user.getUserType().getDisplayName());
             return user;
         } else {
-            System.out.println("Unsuccessful login");// TODO: show error
+            System.out.println("Unsuccessful login");
             return null;
         }
     }

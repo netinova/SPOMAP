@@ -285,7 +285,6 @@ public class LogShopPanel extends JPanel {
         panel.setPreferredSize(new Dimension(450, 470));
         panel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-        // TODO: Replace with real data from monthlyAnalytics
         List<String> months = Arrays.asList("");
         List<Double> revenue = Arrays.asList(0.0);
 

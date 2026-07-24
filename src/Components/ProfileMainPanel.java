@@ -222,7 +222,7 @@ public class ProfileMainPanel extends JPanel {
         totalPurchasesLabel = tempLabel;
 
         gbc.gridx = 2;
-        panel.add(createStatCard("Cart items", "0"), gbc);// TODO: add number of products that now to list(ShapingCart)
+        panel.add(createStatCard("Cart items", "0"), gbc);//
         cartItemsValueLabel = tempLabel;
 
         gbc.gridx = 3;
@@ -613,7 +613,7 @@ public class ProfileMainPanel extends JPanel {
         typeLabel.setText(userType);
         balanceValueLabel.setText(String.format("$%.2f", balance));
         cartItemsValueLabel.setText(String.valueOf(cartItems));
-        totalPurchasesLabel.setText("0");// TODO: if need this property handle for side of user
+        totalPurchasesLabel.setText("0");
         statusPanel.setVisible(true);
 
         switch (type) {

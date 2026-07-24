@@ -190,6 +190,8 @@ public class AuthenticationController {
                 AppState.getInstance().setCart(new ShoppingCart());
                 listener.changeView(ViewType.USER.getViewId());
             }
+            else
+                view.showPhoneError("This number already have a account");
         }
 
     }
@@ -217,8 +219,10 @@ public class AuthenticationController {
                     AppState.getInstance().setLoggedInUser(user);
                     AppState.getInstance().setCart(new ShoppingCart());
                     listener.changeView(ViewType.USER.getViewId());
-                } else
+                } else {
                     System.out.println("failed to login");
+                    view.showLoginUsernameError("User or Password is invalid!");
+                }
             }
         }
     }

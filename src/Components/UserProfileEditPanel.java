@@ -100,8 +100,7 @@ public class UserProfileEditPanel extends JPanel {
         lastNamePanel = new FormTextFiledPanel("Last Name", lastNameField, L_NAME_PROP);
         lastNameField.addActionListener(e -> {
             if (controller != null) {
-                var result = controller.validateLastName(lastNameField.getText());// TODO: for saving FName and LName,
-                                                                                  // first character upper case
+                var result = controller.validateLastName(lastNameField.getText());
                 if (result.isValid())
                     lastNamePanel.clearError();
                 else
@@ -232,7 +231,7 @@ public class UserProfileEditPanel extends JPanel {
                     controller.loadProfile();
                     controller.showMainPage();
                 }
-            } // TODO : change information user
+            }
 
             support.firePropertyChange(SAVE_PROP, null, null);
         });

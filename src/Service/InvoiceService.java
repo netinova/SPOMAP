@@ -100,7 +100,7 @@ public class InvoiceService {
             return null;
 
         currentInvoices.add(invoice);
-        writeAllInvoices(currentInvoices);// TODO: use def updateAfterNewInvoice for analytic
+        writeAllInvoices(currentInvoices);
         return invoice.getInvoiceId();
     }
 

@@ -97,7 +97,7 @@ public abstract class User {
     public void editProfile(String fName, String lName, String phoneNumber, String password){
         this.firstName=fName;
         this.lastName=lName;
-        this.phoneNumber=phoneNumber;//TODO: check num duplicate
+        this.phoneNumber=phoneNumber;
         this.password=(password.isEmpty())? this.password : hashingPassword(password);
     }
 
