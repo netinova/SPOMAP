@@ -92,6 +92,10 @@ public class MultiViewPanel extends JPanel {
             invoiceView.changeLayout();
         }
 
+        if (viewType == ViewType.PRODUCT) {
+            productView.resetSelectedQuantity();
+        }
+
         cardLayout.show(this, viewId);
     }
 }

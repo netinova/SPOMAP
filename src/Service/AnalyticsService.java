@@ -29,20 +29,15 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-/**
- * Service class for shop analytics.
- * Calculates profit, revenue, and other metrics from invoices.
- * Maintains a JSON file with analytics data for use in graphs and reporting.
- */
+
 public class AnalyticsService {
 
     private ObjectMapper mapper;
     private static final String ANALYTICS_FILE = "database/shop_analytics.json";
     private InvoiceService invoiceService;
 
-    // Default cost margin (can be adjusted based on actual product costs)
-    // This represents the percentage of revenue that goes to product costs
-    private double defaultCostMargin = 0.6; // 60% of revenue is cost
+    // Default cost margin 
+    private double defaultCostMargin = 0.6;
 
     public AnalyticsService(InvoiceService invoiceService) {
         this.mapper = new ObjectMapper();

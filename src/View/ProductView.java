@@ -50,6 +50,10 @@ public class ProductView extends JPanel implements PropertyChangeListener {
     private Product currentProduct;
     private int selectedQuantity = 1;
 
+    public void resetSelectedQuantity() {
+        selectedQuantity = 1;
+    }
+
     public ProductView(ProductController controller, ProductCatalog model) {
 
         model.addListener(this);
