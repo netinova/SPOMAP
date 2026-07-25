@@ -686,7 +686,7 @@ public class AddProductPanel extends JPanel {
 
     private void attachEvents() {
         nameField.addActionListener(e -> {
-            var result = controller.validationName(nameField.getText());
+            var result = controller.validationQuery(nameField.getText(),"Product name");
             if (!result.isValid())
                 namePanel.setError(result.getErrorMessage());
             else
