@@ -273,7 +273,7 @@ Contributions are welcome! Feel free to:
 
 ## 📞 Support & Contact
 
-- 📧 Email: [manibaghdadi484@gmail.com]
+- 📧 Emails: [manibaghdadi484@gmail.com , qelichkhaniparsa@gmail.com]
 - 🐛 Report Issues: [GitHub Issues]
 - 💬 Discussions: [GitHub Discussions]
 
