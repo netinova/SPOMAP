@@ -479,6 +479,13 @@ public class UserProfileController {
         view.setInfoDailyChart(date, revenue);
     }
 
+    public void defaultDailyChart(){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        String dateFrom = LocalDate.now().minusWeeks(2).format(formatter);
+        String dateTo = LocalDate.now().format(formatter);
+        handleDailyChart(dateFrom,dateTo);
+    }
+
     public void handleProductChart() {
         List<ShopAnalytics.ProductAnalytics> productAnalytics = analyticsService.getAnalytics().getProductAnalytics();
         Map<String, Integer> productSales = new HashMap<>();

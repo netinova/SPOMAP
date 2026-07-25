@@ -1,4 +1,3 @@
-// Components/EditProfilePanel.java
 package Components;
 
 import Controller.UserProfileController;

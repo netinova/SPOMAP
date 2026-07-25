@@ -561,6 +561,7 @@ public class LogShopPanel extends JPanel {
         List<Double> temp2 = new ArrayList<>();
         categoryChartDaily.updateCategorySeries("Revenue", temp, temp2, null);
         controller.handleMonthlyChart();
+        controller.defaultDailyChart();
     }
 
     public void setProfitForMonthly(List<Double> profitForMonthly) {
