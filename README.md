@@ -281,9 +281,8 @@ Contributions are welcome! Feel free to:
 
 ## Acknowledgments
 
-- Built with using Java Swing
+- Built with ❤️ using Java Swing
 - Thanks to all contributors
-- Icons designed with SVG
 
 ---
 
