@@ -2,7 +2,7 @@
 
 <img src="icons/logo_svg/SPOMAP_BGblack_LogoRedame.svg" alt="SPOMAP Logo" width="300"/>
 
-# 🛍️ SPOMAP - Smart Point of Sale & Marketplace
+# SPOMAP - Smart Point of Sale & Marketplace
 
 _A powerful, modern desktop application for managing your shop with ease_
 
@@ -14,21 +14,21 @@ _A powerful, modern desktop application for managing your shop with ease_
 
 ---
 
-## ✨ Features
+## Features
 
-- 🔐 **Multi-tier User System** - Admin, Prime, and Normal user roles with different permissions
-- 🛒 **Shopping Cart Management** - Easy-to-use cart with quantity controls
-- 📦 **Product Catalog** - Browse and search products with detailed technical specifications
-- 💳 **Invoice Management** - Complete billing and order tracking system
-- 👤 **User Profiles** - Manage user accounts and wallet charges
-- 🎨 **Theme Support** - Dark and light themes with customizable color schemes
-- 📊 **Shop Analytics** - Track sales and business metrics
-- 🔍 **Advanced Search** - Find products and invoices quickly
-- 💰 **Wallet System** - Charge and manage user wallets
+- **Multi-tier User System** - Admin, Prime, and Normal user roles with different permissions
+- **Shopping Cart Management** - Easy-to-use cart with quantity controls
+- **Product Catalog** - Browse and search products with detailed technical specifications
+- **Invoice Management** - Complete billing and order tracking system
+- **User Profiles** - Manage user accounts and wallet charges
+- **Theme Support** - Dark and light themes with customizable color schemes
+- **Shop Analytics** - Track sales and business metrics
+- **Advanced Search** - Find products and invoices quickly
+- **Wallet System** - Charge and manage user wallets
 
 ---
 
-## 📸 Screenshots
+## Screenshots
 
 <div align="center">
 
@@ -52,7 +52,7 @@ _A powerful, modern desktop application for managing your shop with ease_
 
 ---
 
-## 🚀 Running the Application
+## Running the Application
 
 ### System Requirements
 
@@ -72,7 +72,7 @@ cd SPOMAP
 
 ### 2. Choose Your Run Method
 
-#### 🥇 **Recommended: Use the provided scripts**
+#### **Recommended: Use the provided scripts**
 
 We've included two scripts that compile and launch the app with one command:
 
@@ -91,7 +91,7 @@ Then simply run it.
 
 ---
 
-#### 🥈 **Manual compilation (fallback)**
+#### **Manual compilation (fallback)**
 
 If you prefer to run step‑by‑step, use the following commands:
 
@@ -113,7 +113,7 @@ java -cp "bin:lib/*" Main
 
 ---
 
-#### 🥉 **Using an IDE**
+#### **Using an IDE**
 
 - **IntelliJ IDEA**: Open the folder → set JDK 17 → right‑click `src/Main.java` → Run.
 - **VS Code**: Install Extension Pack for Java → open folder → click Run on `Main.java`.
@@ -128,11 +128,11 @@ java -cp "bin:lib/*" Main
 | Prime  | 09123456789 | 1        |
 | Normal | 09123123122 | 1        |
 
-> ⚠️ Change these credentials before deploying to production!
+> Change these credentials before deploying to production!
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 SPOMAP/
@@ -162,7 +162,7 @@ SPOMAP/
 
 ---
 
-## 🎯 Key Components
+## Key Components
 
 ### User Management
 
@@ -192,7 +192,7 @@ SPOMAP/
 
 ---
 
-## 🎨 Architecture
+## Architecture
 
 ### Design Pattern
 
@@ -211,7 +211,7 @@ SPOMAP follows the **Model-View-Controller (MVC)** architecture:
 
 ---
 
-## 🔐 Security
+## Security
 
 - Role-based access control (Admin, Prime, Normal)
 - User authentication system
@@ -220,7 +220,7 @@ SPOMAP follows the **Model-View-Controller (MVC)** architecture:
 
 ---
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### "Java is not recognized"
 
@@ -241,7 +241,7 @@ SPOMAP follows the **Model-View-Controller (MVC)** architecture:
 
 ---
 
-## 📝 Development Guide
+## Development Guide
 
 ### Adding a New Feature
 
@@ -253,13 +253,13 @@ SPOMAP follows the **Model-View-Controller (MVC)** architecture:
 
 ---
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Feel free to:
 
@@ -271,17 +271,17 @@ Contributions are welcome! Feel free to:
 
 ---
 
-## 📞 Support & Contact
+## Support & Contact
 
-- 📧 Emails: [manibaghdadi484@gmail.com , qelichkhaniparsa@gmail.com]
-- 🐛 Report Issues: [GitHub Issues]
-- 💬 Discussions: [GitHub Discussions]
+- Emails: [manibaghdadi484@gmail.com , qelichkhaniparsa@gmail.com]
+- Report Issues: [GitHub Issues]
+- Discussions: [GitHub Discussions]
 
 ---
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
-- Built with ❤️ using Java Swing
+- Built with using Java Swing
 - Thanks to all contributors
 - Icons designed with SVG
 
@@ -291,6 +291,6 @@ Contributions are welcome! Feel free to:
 
 **Made by SPOMAP Team**
 
-⭐ If you found this helpful, please give us a star!
+If you found this helpful, please give us a star!
 
 </div>
